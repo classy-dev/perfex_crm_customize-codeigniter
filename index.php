@@ -1,3 +1,4 @@
+
 <?php
 if( ! ini_get('date.timezone') )
 {
