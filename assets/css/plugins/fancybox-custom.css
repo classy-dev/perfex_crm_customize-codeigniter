@@ -1,0 +1,58 @@
+/*****************************************************************
+ *	@file			fancybox-custom.css
+ *	@author 		Thomas Kakuschke
+ *	@date	 		16.02.2017
+ *	@lastmodified	16.07.2017
+ *****************************************************************/
+
+
+
+.fancybox-custom-layout { border: 0; background-color: #44B4E0; }
+.fancybox-custom-layout .fancybox-thumbs { display: none; }
+.fancybox-custom-layout .fancybox-bg { display: none; background-color: #2F3031; opacity: 1; }
+
+.fancybox-custom-layout .fancybox-slider-wrap { right: 0; background-color: #2F3031; }
+.fancybox-custom-layout .fancybox-slide { position: relative; text-align: left; padding: 0.75em; }
+.fancybox-custom-layout .fancybox-slide:before { content: "Leider ist Ihr Display zu klein, um das Webinar anzeigen zu können. Ggf. funktioniert es, wenn Sie das mobilen Endgerät quer halten oder auf dem Desktoprechner das Browserfenster vergrößern."; width: 100%; padding: 1.5em; text-align: center; line-height: 1.4; color: #fff; }
+.fancybox-custom-layout .fancybox-slide>* { padding: 0; margin: 0; background-color: #333; }
+
+.fancybox-custom-layout .fancybox-buttons { position: absolute; top: 0; right: 0; width: 44px; }
+
+.fancybox-custom-layout .fancybox-content,
+.fancybox-custom-layout .fancybox-caption-wrap,
+.fancybox-custom-layout .fancybox-toolbar { display: none; }
+.fancybox-custom-layout .fancybox-button--fullscreen { display: none !important; }
+
+.fancybox-custom-layout .fancybox-caption a { color: #44B4E0; }
+
+
+
+@media screen and (min-width: 640px) {
+    .fancybox-custom-layout .fancybox-slider-wrap { right: 44px; }
+    .fancybox-custom-layout .fancybox-content { display: block; margin: 0; padding: 0; border: 0; width: 100%; height: 100%; text-align: left; font-size: 1em; font-family: inherit; }
+    .fancybox-custom-layout .fancybox-iframe { width: 100%; height: 100%; padding: 0; margin: -39px 0 0 0; background-color: #2F3031; }
+    .fancybox-custom-layout .fancybox-caption-wrap { display: none; }
+    .fancybox-custom-layout .fancybox-slide:before { display: none; content: ""; }
+    .fancybox-custom-layout .fancybox-toolbar { display: block; top: 0; right: 0; bottom: 0; left: auto; width: 44px; background-color: #2F3031; }
+    .fancybox-custom-layout .fancybox-button { width: 44px; height: 44px; line-height: 44px; background-color: transparent; }
+    .fancybox-custom-layout .fancybox-button--fullscreen { display: inline-block !important; }
+}
+
+@media screen and (min-width: 1024px) {
+    .fancybox-custom-layout .fancybox-slider-wrap { right: calc(17em + 44px); }
+    .fancybox-custom-layout .fancybox-caption-wrap { display: block; z-index: 999995; top: 0; right: 44px; left: auto; width: 17em; height: 100%; padding: 0; background-image: none; background-color: #fff; pointer-events: auto; }
+    .fancybox-custom-layout .fancybox-caption { height: 100%; padding: 0; font-size: 1em; color: inherit; font-family: inherit; line-height: inherit; border-top: 0; }
+    .fancybox-custom-layout .fancybox-caption div[component="webinar/chat"] { height: 100%; }
+    .fancybox-custom-layout .fancybox-caption .chat-box-content { height: 100%; }
+    .fancybox-custom-layout .fancybox-caption .chat-box-content .chat-box-wrapper { height: 100%; }
+    .fancybox-custom-layout .fancybox-caption .chat-box-content .chat-body { height: calc(100% - 48px); }
+    .fancybox-custom-layout .fancybox-caption .chat-box-content .chat-body .chat-content { height: 100%; max-height: calc(100% - 87px); padding: 0.75em 0 0 0; }
+    .fancybox-custom-layout .fancybox-caption .chat-box-content .chat-body .chat-input { height: 72px;  border-top: 1px solid #F7F7F7; padding: 1em 0; margin: 0; }
+    .fancybox-custom-layout .fancybox-caption .chat-box-content .chat-body .chat-input .chat-input-send .chat-input-send-icon { margin: 0; }
+}
+
+
+
+/*****************************************************************
+ *	@note			END OF CSS - Have fun
+ *****************************************************************/

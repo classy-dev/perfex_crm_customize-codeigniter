@@ -1,0 +1,176 @@
+/*****************************************************************
+ *	@file			profino-forum.essentials.css
+ *	@author 		Thomas Kakuschke
+ *	@date	 		23.08.2017
+ *	@lastmodified	05.04.2018
+ *****************************************************************/
+
+
+
+/*****************************************************************
+ *	@section		Chat Globals
+ *	@note
+ *****************************************************************/
+.notifications-chat-list,
+.notifications-chat-box { background-color: #fff; }
+
+.no-touchevents .notifications-chat-list .notifications-list-element:hover,
+.no-touchevents .notifications-chat-list .notifications-list-element:focus,
+.notifications-chat-list .notifications-list-element:active { cursor: pointer }
+
+
+
+/*****************************************************************
+ *	@section		Chat List
+ *	@note
+ *****************************************************************/
+.notifications-chat-list { display: none; position: relative; height: 100%; overflow: hidden; }
+.notifications-chat-list.active { display: block; }
+.notifications-chat-list .notifications-list-element-text-chattime { font-size: 0.625em; line-height: 1.4; color: #95989A; }
+.notifications-chat-list .notifications-list-element-text-exhibition { font-size: 0.75em; }
+.notifications-chat-list .notifications-list-element-text-chatsnippet { margin-top: 0.75em; max-height:3.5em; }
+.notifications-chat-list .badge { display: none; right: 1.35em; top: 1.35em; }
+.notifications-chat-list .unread .badge  { display: block; }
+.notifications-chat-list li.notifications-list-element.unread { background-color: #f4fcff; } /*todo*/
+
+
+
+/*****************************************************************
+ *	@section		Chat Box
+ *	@note
+ *****************************************************************/
+.notifications-chat-box { display: none; height: 100%; }
+.notifications-chat-box.active { display: block; }
+
+.chat-box-content { height: 100%;
+    display:flex;
+    -webkit-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+    -webkit-align-items: stretch;
+            align-items: stretch;
+    -webkit-flex-direction: column;
+       -moz-flex-direction: column;
+            flex-direction: column; }
+
+/* Chat Header */
+.chat-header { -webkit-flex: 1 0 auto; flex: 1 0 auto; position: relative; padding: 0.75em 2.5em 0.75em 0.75em; background-color: #f9f9f9; }
+.chat-header .chat-title { line-height: 1.5; }
+.chat-header .chat-title-avatar { position: relative; float: left; width: 1.5em; height: 1.5em; margin-right: 0.5em; text-align: center; color: #fff; text-transform: uppercase; border-radius: 50%; }
+.chat-header .chat-title-description { font-size: 0.9em; line-height: calc(1.5 / 0.9); }
+.chat-header .chat-title-company,
+.chat-header .chat-title-exhibitor { background-color: #777; }
+.chat-header .chat-title-company,
+.chat-header .chat-title-exhibitor { display: inline-block; height: 1.5em; line-height: 1.5; padding: 0 0.5em; margin: 0.25em 0.25em 0 0; font-size: 0.75em; border-radius: 5px; color: #fff; }
+.chat-header .chat-title-company:empty { display: none; }
+.chat-header .chat-close { position: absolute; top: 0.75em; right: 0.75em; width: 1.5em; height: 1.5em; }
+
+/* Chat Body */
+.chat-body { position: relative; -webkit-flex: 1 1 100%; flex: 1 1 100%; width: 100%; overflow: hidden; }
+.chat-body.notifications-scroller { position: static; top: auto; bottom: auto; }
+.chat-body .chat-occupation-text { display: block; padding: calc(0.75em / 0.8); font-size: 0.8em; color: #fff; background-color: #44B4E0; }
+.chat-occupied .chat-body .chat-occupation-text { display:none; }
+.chat-body .chat-message { padding: 1em 0.75em; }
+.chat-body .chat-message:first-of-type { padding-top: 0.75em; }
+.chat-body .chat-message:last-of-type { padding-bottom: 0.75em; }
+.chat-body .chat-message[data-self="0"] + .chat-message[data-self="0"],
+.chat-body .chat-message[data-self="1"] + .chat-message[data-self="1"] { padding-top: 0; }
+/** Message Header **/
+.chat-body .chat-message .message-header { position: relative; }
+.chat-body .chat-message[data-showheader="false"] .message-header { display: none; }
+.chat-body .chat-message[data-showheader="false"]:first-of-type .message-header,
+.chat-body .chat-message[data-showheader="true"] .message-header { display: block; }
+/* problem with multiple users in chat */
+/*.chat-body .chat-message[data-self="0"] + .chat-message[data-self="0"] .message-header,*/
+/*.chat-body .chat-message[data-self="1"] + .chat-message[data-self="1"] .message-header { display: none; }*/
+.chat-body .chat-message .message-header .chat-user-avatar { position: absolute; top: 0; width: 1.5em; height: 1.5em; line-height: 1.5; border-radius: 50%; color: #fff; text-align: center; }
+.chat-body .chat-message[data-self="0"] .message-header .chat-user-avatar { right: 0; }
+.chat-body .chat-message[data-self="1"] .message-header .chat-user-avatar { left: 0; }
+.chat-body .chat-message .message-header .chat-user-text { font-weight: 700; }
+.chat-body .chat-message[data-self="0"] .message-header .chat-user-text { padding-right: 2em; text-align: right; }
+.chat-body .chat-message[data-self="1"] .message-header .chat-user-text { padding-left: 2em; text-align: left; }
+.chat-body .chat-message .message-header .chat-user-text .chat-user-name { display: inline-block; margin: 0 5px; font-size: 0.75em; vertical-align: top; }
+/** Message Body **/
+.chat-body .chat-message[data-self="0"] .message-body { padding-right: 2em; }
+.chat-body .chat-message[data-self="1"] .message-body { padding-left: 2em; }
+.chat-body .chat-message .message-body .message-text { font-size: 0.9em; padding: 0.25em 0.5em; border-radius: 5px; color: #737373; }
+.chat-body .chat-message[data-self="0"] .message-body .message-text { background-color: #f5f5f5; }
+.chat-body .chat-message[data-self="1"] .message-body .message-text { background-color: #e4f7fe; }
+.chat-body .chat-message[data-self="0"] .message-body .message-time { text-align: left; }
+.chat-body .chat-message[data-self="1"] .message-body .message-time { text-align: right; }
+.chat-body .chat-message .message-body .message-time .chat-timestamp { display: inline; padding: 0 0.5em; font-size: 0.6em; line-height: 1.5; background-color: #eee; color: #666; border-radius: 5px; }
+
+/* Chat Footer */
+.chat-footer { -webkit-flex: 0 0 auto; flex: 0 0 auto; background-color: #fff; }
+
+.chat-footer .chat-typing { display:none; }
+.chat-footer .chat-typing.typing { display:block; }
+.chat-footer .chat-typing .chat-user-typing { padding: 0.75em 1.25em; font-size: 0.6em; }
+.chat-footer .chat-typing .chat-user-typing span { float: left; }
+.chat-footer .chat-typing .chat-user-typing-name { display:none; padding: 0.125em 0.5em; margin: 0 0.25em 0.25em 0; border-radius: 5px; color: #666; background-color: #eee; }
+.chat-footer .chat-typing .chat-user-typing-name.typing { display:block; }
+.chat-footer .chat-typing .chat-user-typing-active { padding: 0.25em 0.125em; border-radius: 5px; background-color: #eee; }
+.chat-footer .chat-typing .chat-user-typing-active span { display: inline-block; width: 0.75em; height: 0.75em; margin: 0 0.125em; border-radius: 50%; background-color: #44B4E0; }
+
+.chat-footer .chat-input { position: relative; border-top: 1px solid #ddd; }
+.chat-footer .chat-input .chat-input-textarea textarea { overflow: hidden; zoom: 1; width: 100%; height: 5em; padding: 0.75em 2em 0.75em 0.75em; line-height: 1.4; border: 0; background-color: #fff; }
+.chat-footer .chat-input .chat-input-send { z-index: 1; position: absolute; width: 1.75em; height: 1.75em; right: 0.25em; top: 0.75em; background-color: #44B4E0; border-radius: 50%; border: 0.25em solid rgba(68, 180, 224, 0.75); }
+
+
+
+/*****************************************************************
+ *	@section		User Status
+ *	@note
+ *****************************************************************/
+.user-status,
+.chat-status { position: absolute; width: 9px; height: 9px; top: 0; right: 0; border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 50%; font-size: 10px; vertical-align: middle; }
+.chat-offline,
+.user-offline { color: #555; background-color: #555; }
+.user-online,
+.chat-online { color: #4CAF50; background-color: #4CAF50; }
+.user-away { color: #ff6d00; background-color: #ff6d00; }
+.user-dnd { color: #F44336; background-color: #F44336; }
+
+
+
+/*****************************************************************
+ *	@section		Effects
+ *	@note
+ *****************************************************************/
+.chat-user-typing-active span {
+    -webkit-animation: bouncedelay 1.4s infinite ease-in-out both;
+            animation: bouncedelay 1.4s infinite ease-in-out both;
+}
+.chat-user-typing-active span:nth-child(1) {
+    -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+}
+.chat-user-typing-active span:nth-child(2) {
+    -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+}
+
+@-webkit-keyframes bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+    }
+}
+
+@keyframes bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+                transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+                transform: scale(1);
+    }
+}
+
+
+
+/*****************************************************************
+ *	@note			END OF CSS - Have fun
+ *****************************************************************/

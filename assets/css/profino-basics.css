@@ -1,0 +1,149 @@
+/*****************************************************************
+ *	@file			profino-basics.css
+ *	@author 		Thomas Kakuschke
+ *	@date	 		20.11.2018
+ *	@lastmodified	20.11.2018
+ *	@note			Layout Basics
+ *****************************************************************/
+
+
+
+/*****************************************************************
+ *	@section    Resets
+ *	@note		Reset some selectors
+ *****************************************************************/
+*,
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box; }
+
+html {
+    height: 100%;
+    font-size: 18px;
+    line-height: 1;
+    scroll-behavior: smooth; }
+
+body {
+    overflow-x: hidden;
+    min-height: 100%;
+    min-width: 320px;
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    overflow-wrap: break-word;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent; }
+
+ul,
+ol {
+    list-style: none; }
+
+img,
+iframe {
+    border: 0;
+    outline: 0;
+    border-radius: 0; }
+svg {
+    fill: transparent;
+    background-color: transparent; }
+
+
+
+/*****************************************************************
+ *	@section		Helper
+ *	@note
+ *****************************************************************/
+.clearer:after,
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+
+
+/*****************************************************************
+ *	@section		Images, Iframes, Videos etc.
+ *	@note
+ *****************************************************************/
+.lazyload,
+.lazyloading {
+    opacity: 0;
+    -webkit-transition: opacity .25s ease;
+    transition: opacity .25s ease; }
+.lazyloaded {
+    opacity: 1; }
+.no-js .lazyload {
+    display:none !important; }
+
+img {
+    display:block;
+    width:auto;
+    max-width:100%;
+    height:auto;
+    margin:auto; }
+img[data-sizes="auto"] {
+    width: 100%; }
+figure {
+    position: relative; }
+
+.img_profile
+{
+    width: 180px;
+    height: 86px;
+}
+
+.img_pic
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/*@media screen and (min-width: 1024px) {
+    .img-bg_pic{
+        object-fit: contain;
+        width: 800px;
+    }
+    .img-title_pic{
+        width: 165px;height: 418px;
+        transform: rotate(-1.2deg);}
+    .img-logo_pic{
+        
+        height: 70px;
+        width: 100px;
+    }
+    .img-video_pic{
+        width: 190px;
+        height: 105px;
+    }
+
+}*/
+
+
+
+/*@media screen and (min-width: 1024px) {
+    .img-title_pic{
+        width: 165px;height: 418px;
+        transform: rotate(-1.2deg);}
+    .img-logo_pic{
+        
+        height: 70px;
+        width: 100px;
+    }
+    .img-video_pic{
+        width: 190px;
+        height: 105px;
+    }
+
+}*/
+
+
+/*****************************************************************
+ *	@note			END OF CSS - Have fun
+ ****************************************************************/

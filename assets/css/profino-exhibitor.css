@@ -1,0 +1,326 @@
+****************************************************************
+ *	@file			profino-exhibitor.css
+ *	@author 		Thomas Kakuschke
+ *	@date	 		15.10.2018
+ *	@lastmodified	16.10.2018
+ *	@note			Exhibitor Stage Special Content
+ *****************************************************************/
+
+
+
+/*****************************************************************
+ *	@section		Base Layout
+ *	@note
+ *****************************************************************/
+body.exhibitor {
+    background-color: #44B4E0; }
+
+
+
+/*****************************************************************
+ *	@section		Exhibitor Stage
+ *	@note
+ *****************************************************************/
+.stage-exhibitionhall {
+    height: 641px;
+    background-image: radial-gradient(ellipse at center, #44B4E0 10%, #054862 90%); }
+
+.stage-exhibitor,
+.stage-exhibitor .stage-image-sizer {
+    max-height: 568px; }
+.stage-exhibitor {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#44B4E0), color-stop(55.4%, #6DD1F9), color-stop(55.66%, #44B4E0), to(#054862));
+    background-image: linear-gradient(180deg, #44B4E0 0%, #6DD1F9 55.4%, #44B4E0 55.66%, #054862 100%); }
+
+.stage-exhibitor .stage-image-sizer {
+    background-size: contain; }
+.stage-exhibitor .stage-image-sizer-bg_pic {
+    background-size: contain; }
+.stage-exhibitor .stage-position-element-video {
+    opacity: 1;
+    width: 3.5em;
+    padding-bottom: 3.5em;
+    background-color: rgba(68, 180, 224, 0.5); }
+.stage-exhibitor .stage-position-element-video .stage-position-element-icon {
+    width: 2.5em;
+    height: 2.5em;
+    left: 0.5em;
+    top: 0.5em;
+    right: auto;
+    bottom: auto; }
+.stage-exhibitor .stage-position-element-video {
+    -webkit-transform:translateX(-200px);
+    transform:translateX(-200px); }
+.stage-exhibitor .stage-position-element-webinar {
+    -webkit-transform:translateX(-100px);
+    transform:translateX(-100px); }
+.stage-exhibitor .stage-position-element-chat {
+    -webkit-transform:translateX(0);
+    transform:translateX(0); }
+.stage-exhibitor .stage-position-element-product {
+    -webkit-transform:translateX(100px);
+    transform:translateX(100px); }
+
+@media screen and (min-width: 640px) {
+    .stage-exhibitor,
+    .stage-exhibitor .stage-image-sizer {
+        max-height: 768px;
+    }
+}
+
+/*@media screen and (min-width: 1024px) {
+    .stage-exhibitor,
+    .stage-exhibitor .stage-image-sizer {
+        height: 768px; }
+    .stage-exhibitor .stage-image-sizer {
+        background-size: cover; }
+    
+    .stage-exhibitor .stage-position-element-video {
+        opacity: 1;
+        -webkit-transform:translate(-227px, -325px);
+        transform:translate(0px, -350px); }
+    .stage-exhibitor .stage-position-element-webinar {
+        -webkit-transform:translate(-437px, -270px);
+        transform:translate(-437px, -270px); }
+    .stage-exhibitor .stage-position-element-chat {
+        -webkit-transform:translate(  100px, -150px);
+        transform:translate(  -15px, -458px); }
+    .stage-exhibitor .stage-position-element-product {
+        -webkit-transform:translate( -220px, -270px);
+        transform:translate( -440px, -265px); }
+
+     .stage-exhibitor .stage-position-element-profile_pic {
+        -webkit-transform:translate( -220px, -270px);
+        transform:translate( -67px, -211px); }
+
+
+     .stage-exhibitor .stage-position-element-title_pic {
+        -webkit-transform:translate( -220px, -270px);
+        transform:translate( 351px, -473px);
+        background-color: transparent;
+        width: 13em; }
+    
+    .stage-exhibitor .stage-position-element-logo_pic {
+        -webkit-transform:translate( -220px, -270px);
+        transform:translate( -16px, -205px);
+        background-color: transparent;
+        width: 6em; }
+    
+    .stage-exhibitor .stage-position-element-video_pic {
+        -webkit-transform:translate( -220px, -270px);
+        transform:translate( -72px, -348px);
+        background-color: transparent;
+        width: 15em; }
+    .stage-academy .stage-position-element-webinar {
+        -webkit-transform:translate(-400px, -300px);
+        transform:translate(-400px, -300px); }
+    .stage-academy .stage-position-element-video {
+        -webkit-transform:translate(  50px, -350px);
+        transform:translate(  50px, -350px); }
+    .stage-academy .stage-position-element-live {
+        -webkit-transform:translate( 400px, -300px);
+        transform:translate( 400px, -300px); }
+    .stage-lounge .stage-position-element-profile {
+        -webkit-transform:translate(-400px, -250px);
+        transform:translate(-400px, -250px); }
+    .stage-lounge .stage-position-element-forum {
+        -webkit-transform:translate(  70px, -400px);
+        transform:translate(  70px, -400px); }
+    .stage-lounge .stage-position-element-teaser {
+        -webkit-transform:translate( 400px, -250px);
+        transform:translate( 400px, -250px); }
+    
+
+}*/
+
+
+
+/*****************************************************************
+ *	@section		Exhibitor Lead Stage
+ *	@note
+ *****************************************************************/
+.stage-item-lead {
+    opacity: 0;
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    -webkit-transition: opacity .25s ease-in, z-index .25s ease-in;
+    transition: opacity .25s ease-in, z-index .25s ease-in; }
+.lead-open .stage-item-lead {
+    opacity: 1;
+    z-index: 0;
+    -webkit-transition: opacity .25s ease-in;
+    transition: opacity .25s ease-in; }
+.stage-item-lead .stage-image-sizer {
+    background-size: cover;}
+
+.stage-image-sizer.transition-ratio {
+    -o-object-fit: contain;
+       object-fit: contain;
+    width: 100%;
+}
+
+.stage-item-lead .stage-caption {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    padding-top: 7em;
+    background-color: rgba(83,83,83,.15);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,65,120,1)), to(rgba(83,83,83,.15)));
+    background-image: linear-gradient(180deg, rgba(0,65,120,1) 0%, rgba(83,83,83,.15) 100%); }
+.stage-item-lead .stage-caption-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+.stage-item-lead .stage-caption-innerwrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+.stage-item-lead .stage-caption-contentwrap {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    padding: .75em;
+    -webkit-transition: padding .25s ease-in;
+    transition: padding .25s ease-in; }
+@media screen and (min-width: 640px) {
+    .stage-item-lead .stage-caption-contentwrap {
+        padding: 1.5em; } }
+
+
+
+.stage-item-lead .stage-caption .stage-headline {
+    color: #fff; }
+.stage-item-lead .stage-caption .stage-headline-wrap {
+    font-size: 2em; }
+@media screen and (min-width: 640px) {
+    .stage-item-lead .stage-caption .stage-headline-wrap {
+        font-size: 3em; } }
+.stage-item-lead .stage-caption .stage-subline {
+    margin-top: 1em;
+    color: #eee; }
+.stage-item-lead .stage-caption .stage-subline-wrap {}
+.stage-item-lead .stage-caption .stage-subline p {
+    text-align: inherit; }
+
+.stage-item-lead .stage-caption .stage-cta {
+    margin-top: 1.5em; }
+.stage-item-lead .stage-caption .stage-cta-button {
+    line-height: 1.2;
+    display: inline-block;
+    padding: .75em 2.5em;
+    color: #fff;
+    border-radius: 4px;
+    background-color: #44b4e0; }
+
+.stage-lead-close,
+.stage-lead-open {
+    position: absolute;
+    cursor: pointer; }
+.stage-lead-close {
+    top: .75em;
+    right: .75em;
+    width: 2em;
+    height: 2em;
+    background-color: transparent; }
+.stage-lead-open {
+    top: 7.75em;
+    right: 0;
+    padding: .75em .5em .75em .5em;
+    -webkit-transition: padding .1s ease;
+    transition: padding .1s ease;
+    color: #eee;
+    text-align: center;
+    background-color: #44b4e0;
+    border-radius: 4px 0 0 4px;
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.85);
+            box-shadow: 0 0 2px rgba(0,0,0,.85); }
+.no-touchevents .stage-lead-open:hover {
+    padding-right: 1em; }
+
+.stage-lead-open,
+.stage-lead-open-text {
+    -webkit-writing-mode: vertical-lr;
+        -ms-writing-mode: tb-lr;
+            writing-mode: vertical-lr; }
+
+.stage-lead-open-text {
+    font-size: .9em; }
+@media screen and (min-width: 640px) {
+    .stage-lead-open {
+        top: 8.5em; }
+    .stage-lead-close {
+        top: 1.5em;
+        right: 1.5em;
+        width: 3em;
+        height: 3em; }
+    .no-touchevents .stage-lead-open:hover,
+    .stage-lead-open:focus,
+    .stage-lead-open:active {
+        color: #fff; } }
+
+.stage-lead-close,
+.lead-open .stage-lead-open {
+    display: none; }
+.lead-open .stage-lead-close,
+.stage-lead-open {
+    display: block; }
+
+/*background picture*/
+/*.stage-image-sizer-bg_pic.transition-ratio {
+    object-fit: contain;
+    width: 800px;
+}*/
+
+
+
+
+@media screen and (min-width: 640px) {
+    .stage-exhibitor,
+    .stage-exhibitor .stage-image-sizer-bg_pic {
+        max-height: 768px;
+    }
+    
+}
+
+@media screen and (min-width: 1190px)
+{
+
+   .stage-image-sizer-bg_pic.transition-ratio {
+    -o-object-fit: contain;
+       object-fit: contain;
+    width: 960px;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 1189px)
+{
+
+.stage-image-sizer-bg_pic.transition-ratio {
+    -o-object-fit: contain;
+       object-fit: contain;
+    max-width: 75%;
+    }
+}
+/*****************************************************************
+ *	@note			END OF CSS - Have fun
+ ****************************************************************/

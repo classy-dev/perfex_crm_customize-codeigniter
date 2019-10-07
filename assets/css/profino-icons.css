@@ -1,0 +1,371 @@
+/*****************************************************************
+ *	@file			profino-icon1s.css
+ *	@author 		Thomas Kakuschke
+ *	@date	 		06.92.2017
+ *	@lastmodified	07.06.2018
+ *	@note			icon1 Spriteset
+ *****************************************************************/
+
+
+
+.icon1 { display: block; width: 100%; height: 0; padding-bottom: 100%; background-image:url('http://localhost/my.dipay.de_late/assets/images/stage.svg'); background-size:2100%; background-repeat:no-repeat; background-color: transparent; background-position: center; }
+
+.icon1-facebook,
+.icon1-trigger,
+.icon1-teaser,
+.icon1-txt { background-position-x: 5%; }
+
+.icon1-twitter,
+.icon1-arrow1-l,
+.icon1-forum,
+.icon1-word { background-position-x: 10%; }
+
+.icon1-google,
+.icon1-arrow1-r,
+.icon1-profile,
+.icon1-xls { background-position-x: 15%; }
+
+.icon1-youtube,
+.icon1-arrow1-d,
+.icon1-product,
+.icon1-pdf { background-position-x: 20%; }
+
+.icon1-phone,
+.icon1-arrow1-t,
+.icon1-webinar,
+.icon1-img { background-position-x: 25%; }
+
+.icon1-mail,
+.icon1-close-s,
+.icon1-sach,
+.icon1-video { background-position-x: 30%; }
+
+.icon1-save,
+.icon1-close-b,
+.icon1-comment,
+.icon1-download { background-position-x: 35%; }
+
+.icon1-chat,
+.icon1-kranken,
+.icon1-upload { background-position-x: 40%; }
+
+.icon1-search,
+.icon1-live,
+.icon1-trash { background-position-x: 45%; }
+
+.icon1-like,
+.icon1-messestand,
+.icon1-pin { background-position-x: 50%; }
+
+.icon1-share,
+.icon1-gutberaten,
+.icon1-lock { background-position-x: 55%; }
+
+.icon1-globus,
+.icon1-settings,
+.icon1-edit { background-position-x: 60%; }
+
+.icon1-check,
+.icon1-info,
+.ico-flag { background-position-x: 65%; }
+
+.icon1-arrow2-d,
+.icon1-quiz,
+.icon1-pointer { background-position-x: 70%; }
+
+.icon1-arrow2-t,
+.icon1-list,
+.icon1-move { background-position-x: 75%; }
+
+.icon1-logo,
+.icon1-preview,
+.icon1-link { background-position-x: 80%; }
+
+.icon1-add-Link,
+.icon1-add,
+.icon1-schedule { background-position-x: 85%; }
+
+.icon1-add-Video,
+.icon1-add-Word-XLS,
+.icon1-add-PDF { background-position-x: 90%; }
+
+
+
+/* light */
+.icon1-facebook.light,
+.icon1-twitter.light,
+.icon1-google.light,
+.icon1-youtube.light,
+.icon1-phone.light,
+.icon1-mail.light,
+.icon1-save.light { background-position-y: 5%; }
+
+.icon1-trigger.light,
+.icon1-arrow1-l.light,
+.icon1-arrow1-r.light,
+.icon1-arrow1-d.light,
+.icon1-arrow1-t.light,
+.icon1-close-s.light,
+.icon1-close-b.light,
+.icon1-chat.light,
+.icon1-search.light,
+.icon1-like.light,
+.icon1-share.light,
+.icon1-globus.light,
+.icon1-check.light,
+.icon1-arrow2-d.light,
+.icon1-arrow2-t.light,
+.icon1-logo.light,
+.icon1-add-Link.light,
+.icon1-add-Video.light { background-position-y: 10%; }
+
+.icon1-teaser.light,
+.icon1-forum.light,
+.icon1-profile.light,
+.icon1-product.light,
+.icon1-webinar.light,
+.icon1-sach.light,
+.icon1-comment.light,
+.icon1-kranken.light,
+.icon1-live.light,
+.icon1-messestand.light,
+.icon1-gutberaten.light,
+.icon1-settings.light,
+.icon1-info.light,
+.icon1-quiz.light,
+.icon1-list.light,
+.icon1-preview.light,
+.icon1-add.light,
+.icon1-add-Word-XLS.light { background-position-y: 15%; }
+
+.icon1-txt.light,
+.icon1-word.light,
+.icon1-xls.light,
+.icon1-pdf.light,
+.icon1-img.light,
+.icon1-video.light,
+.icon1-download.light,
+.icon1-upload.light,
+.icon1-trash.light,
+.icon1-pin.light,
+.icon1-lock.light,
+.icon1-edit.light,
+.icon1-flag.light,
+.icon1-pointer.light,
+.icon1-move.light,
+.icon1-link.light,
+.icon1-schedule.light,
+.icon1-add-PDF.light { background-position-y: 20%; }
+
+
+
+/* grey light */
+.icon1-facebook.greylight,
+.icon1-twitter.greylight,
+.icon1-google.greylight,
+.icon1-youtube.greylight,
+.icon1-phone.greylight,
+.icon1-mail.greylight,
+.icon1-save.greylight { background-position-y: 30%; }
+
+.icon1-trigger.greylight,
+.icon1-arrow1-l.greylight,
+.icon1-arrow1-r.greylight,
+.icon1-arrow1-d.greylight,
+.icon1-arrow1-t.greylight,
+.icon1-close-s.greylight,
+.icon1-close-b.greylight,
+.icon1-chat.greylight,
+.icon1-search.greylight,
+.icon1-like.greylight,
+.icon1-share.greylight,
+.icon1-globus.greylight,
+.icon1-check.greylight,
+.icon1-arrow2-d.greylight,
+.icon1-arrow2-t.greylight,
+.icon1-logo.greylight,
+.icon1-add-Link.greylight,
+.icon1-add-Video.greylight { background-position-y: 35%; }
+
+.icon1-teaser.greylight,
+.icon1-forum.greylight,
+.icon1-profile.greylight,
+.icon1-product.greylight,
+.icon1-webinar.greylight,
+.icon1-sach.greylight,
+.icon1-comment.greylight,
+.icon1-kranken.greylight,
+.icon1-live.greylight,
+.icon1-messestand.greylight,
+.icon1-gutberaten.greylight,
+.icon1-settings.greylight,
+.icon1-info.greylight,
+.icon1-quiz.greylight,
+.icon1-list.greylight,
+.icon1-preview.greylight,
+.icon1-add.greylight,
+.icon1-add-Word-XLS.greylight { background-position-y: 40%; }
+
+.icon1-txt.greylight,
+.icon1-word.greylight,
+.icon1-xls.greylight,
+.icon1-pdf.greylight,
+.icon1-img.greylight,
+.icon1-video.greylight,
+.icon1-download.greylight,
+.icon1-upload.greylight,
+.icon1-trash.greylight,
+.icon1-pin.greylight,
+.icon1-lock.greylight,
+.icon1-edit.greylight,
+.icon1-flag.greylight,
+.icon1-pointer.greylight,
+.icon1-move.greylight,
+.icon1-link.greylight,
+.icon1-schedule.greylight,
+.icon1-add-PDF.greylight { background-position-y: 45%; }
+
+
+
+/* grey dark - is Standard */
+.icon1-facebook,
+.icon1-twitter,
+.icon1-google,
+.icon1-youtube,
+.icon1-phone,
+.icon1-mail,
+.icon1-save { background-position-y: 55%; }
+
+.icon1-trigger,
+.icon1-arrow1-l,
+.icon1-arrow1-r,
+.icon1-arrow1-d,
+.icon1-arrow1-t,
+.icon1-close-s,
+.icon1-close-b,
+.icon1-chat,
+.icon1-search,
+.icon1-like,
+.icon1-share,
+.icon1-globus,
+.icon1-check,
+.icon1-arrow2-d,
+.icon1-arrow2-t,
+.icon1-logo,
+.icon1-add-Link,
+.icon1-add-Video { background-position-y: 60%; }
+
+.icon1-teaser,
+.icon1-forum,
+.icon1-profile,
+.icon1-product,
+.icon1-webinar,
+.icon1-sach,
+.icon1-comment,
+.icon1-kranken,
+.icon1-live,
+.icon1-messestand,
+.icon1-gutberaten,
+.leer,
+.icon1-settings,
+.icon1-info,
+.icon1-quiz,
+.icon1-list,
+.icon1-preview,
+.icon1-add,
+.icon1-add-Word-XLS { background-position-y: 65%; }
+
+.icon1-txt,
+.icon1-word,
+.icon1-xls,
+.icon1-pdf,
+.icon1-img,
+.icon1-video,
+.icon1-download,
+.icon1-upload,
+.icon1-trash,
+.icon1-pin,
+.icon1-lock,
+.icon1-edit,
+.icon1-flag,
+.icon1-pointer,
+.icon1-move,
+.icon1-link,
+.icon1-schedule,
+.icon1-add-PDF { background-position-y: 70%; }
+
+
+
+/* Blue - is standard Hover */
+.no-touchevents a:not(.btn) > .icon1-facebook:hover, 	a:not(.btn) > .icon1-facebook:active,	    .icon1-facebook.active,
+.no-touchevents a:not(.btn) > .icon1-twitter:hover, 	    a:not(.btn) > .icon1-twitter:active,	        .icon1-twitter.active,
+.no-touchevents a:not(.btn) > .icon1-google:hover, 	    a:not(.btn) > .icon1-google:active,	        .icon1-google.active,
+.no-touchevents a:not(.btn) > .icon1-youtube:hover, 	    a:not(.btn) > .icon1-youtube:active,	        .icon1-youtube.active,
+.no-touchevents a:not(.btn) > .icon1-phone:hover, 	    a:not(.btn) > .icon1-phone:active,	        .icon1-phone.active,
+.no-touchevents a:not(.btn) > .icon1-mail:hover, 		a:not(.btn) > .icon1-mail:active,		    .icon1-mail.active,
+.no-touchevents a:not(.btn) > .icon1-save:hover, 		a:not(.btn) > .icon1-save:active,		    .icon1-save.active{ background-position-y: 80%; }
+
+.no-touchevents a:not(.btn) > .icon1-trigger:hover, 	    a:not(.btn) > .icon1-trigger:active,	        .icon1-trigger.active,
+.no-touchevents a:not(.btn) > .icon1-arrow1-l:hover, 	a:not(.btn) > .icon1-arrow1-l:active,	    .icon1-arrow1-l.active,
+.no-touchevents a:not(.btn) > .icon1-arrow1-r:hover, 	a:not(.btn) > .icon1-arrow1-r:active,	    .icon1-arrow1-r.active,
+.no-touchevents a:not(.btn) > .icon1-arrow1-d:hover, 	a:not(.btn) > .icon1-arrow1-d:active,	    .icon1-arrow1-d.active,
+.no-touchevents a:not(.btn) > .icon1-arrow1-t:hover, 	a:not(.btn) > .icon1-arrow1-t:active,	    .icon1-arrow1-t.active,
+.no-touchevents a:not(.btn) > .icon1-close-s:hover, 	    a:not(.btn) > .icon1-close-s:active,	        .icon1-close-s.active,
+.no-touchevents a:not(.btn) > .icon1-close-b:hover, 	    a:not(.btn) > .icon1-close-b:active,	        .icon1-close-b.active,
+.no-touchevents a:not(.btn) > .icon1-chat:hover, 		a:not(.btn) > .icon1-chat:active,		    .icon1-chat.active,
+.no-touchevents a:not(.btn) > .icon1-search:hover, 	    a:not(.btn) > .icon1-search:active,	        .icon1-search.active,
+.no-touchevents a:not(.btn) > .icon1-like:hover, 		a:not(.btn) > .icon1-like:active,		    .icon1-like.active,
+.no-touchevents a:not(.btn) > .icon1-share:hover, 	    a:not(.btn) > .icon1-share:active,	        .icon1-share.active,
+.no-touchevents a:not(.btn) > .icon1-globus:hover, 	    a:not(.btn) > .icon1-globus:active,	        .icon1-globus.active,
+.no-touchevents a:not(.btn) > .icon1-check:hover, 	    a:not(.btn) > .icon1-check:active,	        .icon1-check.active,
+.no-touchevents a:not(.btn) > .icon1-arrow2-d:hover,	    a:not(.btn) > .icon1-arrow2-d:active,	    .icon1-arrow2-d.active,
+.no-touchevents a:not(.btn) > .icon1-arrow2-t:hover, 	a:not(.btn) > .icon1-arrow2-t:active,	    .icon1-arrow2-t.active,
+.no-touchevents a:not(.btn) > .icon1-logo:hover,  	    a:not(.btn) > .icon1-logo:active,		    .icon1-logo.active,
+.no-touchevents a:not(.btn) > .icon1-add-Link:hover,   a:not(.btn) > .icon1-add-Link:active,	    .icon1-add-Link.active,
+.no-touchevents a:not(.btn) > .icon1-add-Video:hover,    a:not(.btn) > .icon1-add-Video:active,	    .icon1-add-Video.active { background-position-y: 85%; }
+
+.no-touchevents a:not(.btn) > .icon1-teaser:hover, 		a:not(.btn) > .icon1-teaser:active,		    .icon1-teaser.active,
+.no-touchevents a:not(.btn) > .icon1-forum:hover, 		a:not(.btn) > .icon1-forum:active,		    .icon1-forum.active,
+.no-touchevents a:not(.btn) > .icon1-profile:hover, 	    a:not(.btn) > .icon1-profile:active,	        .icon1-profile.active,
+.no-touchevents a:not(.btn) > .icon1-product:hover, 	    a:not(.btn) > .icon1-product:active,	        .icon1-product.active,
+.no-touchevents a:not(.btn) > .icon1-webinar:hover, 	    a:not(.btn) > .icon1-webinar:active,	        .icon1-webinar.active,
+.no-touchevents a:not(.btn) > .icon1-sach:hover, 		a:not(.btn) > .icon1-sach:active,		    .icon1-sach.active,
+.no-touchevents a:not(.btn) > .icon1-comment:hover, 	    a:not(.btn) > .icon1-comment:active,         .icon1-comment.active,
+.no-touchevents a:not(.btn) > .icon1-kranken:hover,      a:not(.btn) > .icon1-kranken:active,         .icon1-kranken.active,
+.no-touchevents a:not(.btn) > .icon1-live:hover, 		a:not(.btn) > .icon1-live:active,		    .icon1-live.active,
+.no-touchevents a:not(.btn) > .icon1-messestand:hover, 	a:not(.btn) > .icon1-messestand:active,	    .icon1-messestand.active,
+.no-touchevents a:not(.btn) > .icon1-gutberaten:hover, 	a:not(.btn) > .icon1-gutberaten:active,	    .icon1-gutberaten.active,
+.no-touchevents a:not(.btn) > .icon1-settings:hover, 	a:not(.btn) > .icon1-settings:active,	    .icon1-settings.active,
+.no-touchevents a:not(.btn) > .icon1-info:hover, 	    a:not(.btn) > .icon1-info:active,	        .icon1-info.active,
+.no-touchevents a:not(.btn) > .icon1-quiz:hover, 	    a:not(.btn) > .icon1-quiz:active,            .icon1-quiz.active,
+.no-touchevents a:not(.btn) > .icon1-list:hover,         a:not(.btn) > .icon1-list:active,            .icon1-list.active,
+.no-touchevents a:not(.btn) > .icon1-preview:hover, 	    a:not(.btn) > .icon1-preview:active,	        .icon1-preview.active,
+.no-touchevents a:not(.btn) > .icon1-add:hover, 	        a:not(.btn) > .icon1-add:active,	            .icon1-add.active,
+.no-touchevents a:not(.btn) > .icon1-add-Word-XLS:hover, a:not(.btn) > .icon1-add-Word-XLS:active,    .icon1-add-Word-XLS.active { background-position-y: 90%; }
+
+.no-touchevents a:not(.btn) > .icon1-txt:hover, 		    a:not(.btn) > .icon1-txt:active,		        .icon1-txt.active,
+.no-touchevents a:not(.btn) > .icon1-word:hover, 		a:not(.btn) > .icon1-word:active,		    .icon1-word.active,
+.no-touchevents a:not(.btn) > .icon1-xls:hover, 		    a:not(.btn) > .icon1-xls:active,		        .icon1-xls.active,
+.no-touchevents a:not(.btn) > .icon1-pdf:hover, 		    a:not(.btn) > .icon1-pdf:active,		        .icon1-pdf.active,
+.no-touchevents a:not(.btn) > .icon1-img:hover, 		    a:not(.btn) > .icon1-img:active,		        .icon1-img.active,
+.no-touchevents a:not(.btn) > .icon1-video:hover, 	    a:not(.btn) > .icon1-video:active,	        .icon1-video.active,
+.no-touchevents a:not(.btn) > .icon1-download:hover,     a:not(.btn) > .icon1-download:active,	    .icon1-download.active,
+.no-touchevents a:not(.btn) > .icon1-upload:hover, 	    a:not(.btn) > .icon1-upload:active,	        .icon1-upload.active,
+.no-touchevents a:not(.btn) > .icon1-trash:hover, 	    a:not(.btn) > .icon1-trash:active,	        .icon1-trash.active,
+.no-touchevents a:not(.btn) > .icon1-pin:hover, 	        a:not(.btn) > .icon1-pin:active,	            .icon1-pin.active,
+.no-touchevents a:not(.btn) > .icon1-lock:hover, 	    a:not(.btn) > .icon1-lock:active,	        .icon1-lock.active,
+.no-touchevents a:not(.btn) > .icon1-edit:hover, 	    a:not(.btn) > .icon1-edit:active,	        .icon1-edit.active,
+.no-touchevents a:not(.btn) > .icon1-flag:hover, 	    a:not(.btn) > .icon1-flag:active,	        .icon1-flag.active,
+.no-touchevents a:not(.btn) > .icon1-pointer:hover, 	    a:not(.btn) > .icon1-pointer:active,	        .icon1-pointer.active,
+.no-touchevents a:not(.btn) > .icon1-move:hover, 	    a:not(.btn) > .icon1-move:active,	        .icon1-move.active,
+.no-touchevents a:not(.btn) > .icon1-link:hover, 	    a:not(.btn) > .icon1-link:active,	        .icon1-link.active,
+.no-touchevents a:not(.btn) > .icon1-schedule:hover, 	a:not(.btn) > .icon1-schedule:active,	    .icon1-schedule.active,
+.no-touchevents a:not(.btn) > .icon1-add-PDF:hover, 	    a:not(.btn) > .icon1-add-PDF:active,	        .icon1-add-PDF.active { background-position-y: 95%; }
+
+.no-touchevents a > .icon1 { cursor: pointer; }
+
+
+
+/*****************************************************************
+ *	@note			END OF CSS - Have fun
+ *****************************************************************/
