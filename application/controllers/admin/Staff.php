@@ -22,8 +22,7 @@ class Staff extends AdminController
     /* Add new staff member or edit existing */
     public function member($id = '')
     {
-        // print_r($_POST);
-        // exit();
+        
         if (!has_permission('staff', '', 'view')) {
             access_denied('staff');
         }

@@ -50,6 +50,11 @@ class Clients_model extends App_Model
 
         return $this->db->get(db_prefix() . 'clients')->result_array();
     }
+    public function get_customer_with_country()
+    {
+        $query = $this->db->query("SELECT tblclients.*,tblcountries.`short_name`FROM tblclients LEFT JOIN tblcountries ON tblclients.`country`=tblcountries.`country_id`");
+        return $query->result_array();
+    }
 
     /**
      * Get customers contacts
@@ -88,6 +93,7 @@ class Clients_model extends App_Model
      */
     public function add($data, $client_or_lead_convert_request = false)
     {
+        
         $contact_data = [];
         foreach ($this->contact_columns as $field) {
             if (isset($data[$field])) {

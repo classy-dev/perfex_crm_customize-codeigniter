@@ -329,6 +329,11 @@ class Staff_model extends App_Model
         return $this->db->get(db_prefix() . 'staff')->result_array();
     }
 
+    public function get_staff_with_country($id){
+        $query = $this->db->query("SELECT tblstaff.*,tblcountries.`short_name`FROM tblstaff LEFT JOIN tblcountries ON tblstaff.`country`=tblcountries.`country_id` where `staffid`=$id");
+        return $query->result_array();
+    }
+
     /**
      * Get staff permissions
      * @param  mixed $id staff id
@@ -359,6 +364,7 @@ class Staff_model extends App_Model
      */
     public function add($data)
     {
+        // /print_r($data); exit();
 
         if (isset($data['fakeusernameremembered'])) {
             unset($data['fakeusernameremembered']);

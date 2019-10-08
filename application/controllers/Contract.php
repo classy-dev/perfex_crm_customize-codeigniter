@@ -6,9 +6,10 @@ class Contract extends ClientsController
 {
     public function index($id, $hash)
     {
+
         check_contract_restrictions($id, $hash);
         $contract = $this->contracts_model->get($id);
-
+        
         if (!$contract) {
             show_404();
         }
@@ -18,6 +19,7 @@ class Contract extends ClientsController
         }
 
         if ($this->input->post()) {
+
             $action = $this->input->post('action');
 
             switch ($action) {

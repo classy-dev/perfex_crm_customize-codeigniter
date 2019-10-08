@@ -9,6 +9,8 @@ class Contracts extends Admin_controller
         parent::__construct();
         $this->load->model('contracts_model');
         $this->load->model('subscriptions_model');
+        $this->load->model('clients_model');
+        $this->load->model('staff_model');
     }
 
     /* List all contracts */
@@ -81,6 +83,7 @@ class Contracts extends Admin_controller
     {
         if ($this->input->post()) {
             // print_r($_POST); exit();
+
             if ($id == '') {
                 if (!has_permission('contracts', '', 'create')) {
                     access_denied('contracts');
@@ -105,7 +108,7 @@ class Contracts extends Admin_controller
             $title = _l('add_new', _l('contract_lowercase'));
         } else {
             $data['contract']                 = $this->contracts_model->get($id, [], true);
-            // print_r($data['contract']); exit();
+
             $data['contract_renewal_history'] = $this->contracts_model->get_contract_renewal_history($id);
             $data['totalNotes']               = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
             if (!$data['contract'] || (!has_permission('contracts', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
@@ -127,8 +130,16 @@ class Contracts extends Admin_controller
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['types']         = $this->contracts_model->get_contract_types();
         $data['subscriptions'] = $this->subscriptions_model->get_subscriptions();
+        $data['blocks'] = $this->subscriptions_model->get_set_information();
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
+        $data['customer'] = $this->clients_model->get_customer_with_country();
+        // $data['customer'] = $this->clients_model->get();
+        $staffid = get_staff_user_id();
+        // $data['staff'] = $this->staff_model->get($staffid);
+        $data['staff'] = $this->staff_model->get_staff_with_country($staffid);
+        // print_r($staffid); exit();
+        // print_r($data['customer']);exit();
         $this->load->view('admin/contracts/contract', $data);
     }
 

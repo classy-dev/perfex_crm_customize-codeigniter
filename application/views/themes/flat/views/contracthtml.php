@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed');
+// print_r($contract); exit(); ?>
 <div class="mtop15 preview-top-wrapper">
    <div class="row">
       <div class="col-md-3">
@@ -64,7 +65,14 @@
          <div class="tab-content">
             <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab') || $this->input->get('tab') === 'summary'){echo ' active';} ?>" id="summary">
                <address class="contract-html-company-info">
-                  <?php echo format_organization_info(); ?>
+                  <?php //echo format_organization_info(); ?>
+                  <?php if(isset($contract)){?>
+                     <h3><?php echo $contract->staff_name; ?></h3>
+                     <div>
+                       <h5><?php echo $contract->staff_info; ?></h5> 
+                     </div>
+                     
+                  <?php }?>
                </address>
                <div class="row mtop20">
                   <?php if($contract->contract_value != 0){ ?>

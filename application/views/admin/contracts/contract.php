@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php
-  // print_r($contract); exit();
+  // print_r($customer); exit();
  init_head(); ?>
 <style>
    .form-group[app-field-wrapper=subject], #contractmergefields, #tasks, #renewals{
@@ -43,6 +43,7 @@
      cursor: pointer;
    }
 </style>
+
 <div id="wrapper">
    <div class="content">
       <div class="row">
@@ -50,6 +51,8 @@
             <div class="panel_s">
                <div class="panel-body">
                   <?php echo form_open($this->uri->uri_string(),array('id'=>'contract-form')); ?>
+                  
+
                   <div class="form-group">
                      <div class="checkbox checkbox-primary no-mtop checkbox-inline">
                         <input type="checkbox" id="trash" name="trash"<?php if(isset($contract)){if($contract->trash == 1){echo ' checked';}}; ?>>
@@ -60,6 +63,10 @@
                         <label for="not_visible_to_client"><?php echo _l('contract_not_visible_to_client'); ?></label>
                      </div>
                   </div>
+
+                  <input type="hidden" id="staf_name" name="staff_name" value="<?php if(isset($contract->staff_name)) echo $contract->staff_name; else echo "";?>">
+                  <input type="hidden" id="staf_info" name="staff_info" value="<?php if(isset($contract->staff_info)) echo $contract->staff_info; else echo "";?>">
+
                   <div class="form-group select-placeholder">
                      <label for="clientid" class="control-label"><span class="text-danger">* </span><?php echo _l('contract_client_string'); ?></label>
                      <select id="clientid" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -75,6 +82,9 @@
                         echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
                         } ?>
                      </select>
+                     <input type="hidden" id="cus_value" name="cus_value" value="<?php if(isset($contract->cus_value))  print_r($contract->cus_value); else echo "";?>">
+                     <input type="hidden" id="cus_addr_value" name="cus_addr_value" value="<?php if(isset($contract->cus_addr_value))  print_r($contract->cus_addr_value); else echo "";?>">
+
                   </div>
                   
                   <div class="row">
@@ -123,6 +133,7 @@
                            <?php echo $base_currency->symbol; ?>
                         </div>
                      </div>
+                     <input type="hidden" name="sub_arr" id="sub_arr" value="<?php if(isset($contract->sub_arr))  print_r($contract->sub_arr); else echo "";?>">
                   </div>
 
                   <?php
@@ -201,6 +212,7 @@
                </div>
             </div>
          </div>
+         <?php if(!isset($contract)) {?>
          <div class="col-md-7" style="display: none;" id="service-abo_type">
             <div class="panel_s">
                <div class="panel-body">
@@ -208,6 +220,7 @@
                </div>
             </div>
          </div>
+         <?php } ?>
          <?php if(isset($contract)) { ?>
          <div class="col-md-7 right-column">
             <div class="panel_s">
@@ -543,9 +556,8 @@
       </div>
    </div>
 </div>
-<?php $index = (isset($contract) ? 1 : 0); ?>
-
 <?php init_tail(); ?>
+<?php $index = (isset($contract) ? 1 : 0); ?>
 <?php if(isset($contract)){ ?>
 <!-- init table tasks -->
 <script>
@@ -866,12 +878,53 @@
 
 
    $(document).ready(function(){
+    // console.log($('#cus_value').val())
+      var staff0 = '<?php echo json_encode($staff)?>';
+      var staff = JSON.parse(staff0);
+      console.log(staff[0]);
+      $('#staff_name').empty();
+      $('#staff_name').append(staff[0].firstname+'&nbsp;'+staff[0].lastname);
+      $('#staf_name').val(staff[0].firstname+'&nbsp;'+staff[0].lastname);
+
+      $('#staff_info').empty();
+      $('#staff_info').append('Address: '+ staff[0].address+'</br>'+'City: '+ staff[0].city+'</br>'+'State: '+staff[0].state+'</br>'+'Zip Code: '+staff[0].zip+'</br>'+'Country: '+staff[0].short_name);
+      $('#staf_info').val('Address:&nbsp;'+ staff[0].address+'</br>'+'City:&nbsp;'+ staff[0].city+'</br>'+'State:&nbsp;'+staff[0].state+'</br>'+'Zip Code:&nbsp;'+staff[0].zip+'</br>'+'Country:&nbsp;'+staff[0].short_name);
+
       var subscription0 = '<?php echo json_encode($subscriptions) ?>';
       var subscription = JSON.parse(subscription0);
+
       var index = '<?php echo $index;?>';
-      var contracts_content_debit;
-      if (index == 1) {contracts_content_debit = '<?php if(isset($contractDetails)) echo json_encode($contractDetails);?>';}
+
+      var customer_array0 = '<?php echo json_encode($customer)?>';
+      var customer_array = JSON.parse(customer_array0);
+
+      var blocks_array0 = '<?php echo json_encode($blocks)?>';
+      var blocks_array = JSON.parse(blocks_array0);
       
+      var contracts_content_debit;
+      if(index == 1)
+        {
+          contracts_content_debit = '<?php if(isset($contractDetails)) echo json_encode($contractDetails);?>';
+        }
+      
+        $('#clientid').change(function(){
+          for (var i = 0; i < customer_array.length; i++)
+           {
+              if(customer_array[i].userid == $('#clientid option:selected').val()){
+                $('#customer').empty();
+                $('#customer').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].company + '</p>');
+                $('#cus_value').val(customer_array[i].company)
+                $('#customer_address').empty();
+                // $('#customer_address').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].address + '</p>');
+                // $('#cus_addr_value').val(customer_array[i].address);
+
+                $('#customer_address').append('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].short_name);
+                $('#cus_addr_value').val('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].short_name);
+              }
+
+           }
+        });
+
       $('#contract_type').change(function(){
          var create_test = $('#contract_type option:selected').val();
         if(create_test==2)
@@ -891,12 +944,26 @@
       });
 
       $('#subscription').change(function(){
+  
          var sub = $('#subscription option:selected').val();
          var contract_value;
          for (var i = 0; i < subscription.length; i++)
          {
             if(subscription[i].id == sub){
+
               contract_value = subscription[i].monthly_costs;
+             
+              $('#sub_arr').val(subscription[i].block_array.split(","));
+
+              $('#current_block').empty();
+              for (var j = 0; j<subscription[i].block_array.split(",").length; j++){
+                for(var k = 0; k<blocks_array.length;k++)
+                {
+                  if(blocks_array[k].id == subscription[i].block_array.split(",")[j] )
+                    $('#current_block').append('<p style="margin-left:5%">•&nbsp;'+blocks_array[k].content+'</p>');
+                }
+               
+              }
             }
 
          }
@@ -917,10 +984,62 @@
          // update
          else if (index == 1){
             if(is_debit != "Debit") $('.p_method').css("display", "none");
-            if(is_debit == "Debit") $('#mce_1').html(contracts_content_debit);
+            if(is_debit == "Debit") 
+              {
+                $('#mce_1').html(contracts_content_debit);
+
+                 $('#staff_name').empty();
+                $('#staff_name').append(staff[0].firstname+'&nbsp;'+staff[0].lastname);
+                // $('#staf_name').val(staff[0].firstname+'&nbsp;'+staff[0].lastname);
+
+                $('#staff_info').empty();
+                $('#staff_info').append('Address: '+ staff[0].address+'</br>'+'City: '+ staff[0].city+'</br>'+'State: '+staff[0].state+'</br>'+'Zip Code: '+staff[0].zip+'</br>'+'Country: '+staff[0].short_name);
+                // $('#staf_info').val('Address:&nbsp;'+ staff[0].address+'</br>'+'City:&nbsp;'+ staff[0].city+'</br>'+'State:&nbsp;'+staff[0].state+'</br>'+'Zip Code:&nbsp;'+staff[0].zip+'</br>'+'Country:&nbsp;'+staff[0].short_name);
+
+
+                 for (var i = 0; i < customer_array.length; i++)
+                 {
+                    if(customer_array[i].userid == $('#clientid option:selected').val()){
+                      $('#customer').empty();
+                      $('#customer').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].company + '</p>');
+                      // $('#cus_value').val(customer_array[i].company)
+                      $('#customer_address').empty();
+                      // $('#customer_address').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].address + '</p>');
+                      // $('#cus_addr_value').val(customer_array[i].address);
+
+                      $('#customer_address').append('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].short_name);
+                      // $('#cus_addr_value').val('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].country);
+                    }
+
+                 }
+
+                 var sub = $('#subscription option:selected').val();
+                 var contract_value;
+                 for (var i = 0; i < subscription.length; i++)
+                 {
+                    if(subscription[i].id == sub){
+
+                      contract_value = subscription[i].monthly_costs;
+                     
+                      $('#sub_arr').val(subscription[i].block_array.split(","));
+
+                      $('#current_block').empty();
+                      for (var j = 0; j<subscription[i].block_array.split(",").length; j++){
+                        for(var k = 0; k<blocks_array.length;k++)
+                        {
+                          if(blocks_array[k].id == subscription[i].block_array.split(",")[j] )
+                            $('#current_block').append('<p style="margin-left:5%">•&nbsp;'+blocks_array[k].content+'</p>');
+                        }
+                       
+                      }
+                    }
+
+                 }
+
+              }
+            // if(is_debit == "Debit") $('#mce_1').html(contracts_content_debit);
          }
             
-   
       });
 
    });
