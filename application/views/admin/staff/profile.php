@@ -49,6 +49,21 @@
                         <label for="email" class="control-label"><?php echo _l('staff_add_edit_email'); ?></label>
                         <input type="email"<?php if(has_permission('staff','','edit')){ ?> name="email"<?php } else { ?> disabled="true"<?php } ?> class="form-control" value="<?php echo $member->email; ?>" id="email">
                     </div>
+                    <!-- added inputs -->
+                    <?php $value=( isset($member) ? $member->address : ''); ?>
+                     <?php echo render_textarea( 'address', 'client_address',$value); ?>
+                     <?php $value=( isset($member) ? $member->city : ''); ?>
+                     <?php echo render_input( 'city', 'client_city',$value); ?>
+                     <?php $value=( isset($member) ? $member->state : ''); ?>
+                     <?php echo render_input( 'state', 'client_state',$value); ?>
+                     <?php $value=( isset($member) ? $member->zip : ''); ?>
+                     <?php echo render_input( 'zip', 'client_postal_code',$value); ?>
+                     <?php $countries= get_all_countries();
+                        $customer_default_country = get_option('customer_default_country');
+                        $selected =( isset($member) ? $member->country : $customer_default_country);
+                        echo render_select( 'country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
+                        ?>
+                        <!-- ///added inputs end -->
                     <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
                     <?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
                     <?php if(get_option('disable_language') == 0){ ?>
@@ -77,18 +92,7 @@
                           <option value="rtl" <?php if(isset($member) && $member->direction == 'rtl'){echo 'selected';} ?>>RTL</option>
                       </select>
                   </div>
-                  <div class="form-group">
-                    <label for="facebook" class="control-label"><i class="fa fa-facebook"></i> <?php echo _l('staff_add_edit_facebook'); ?></label>
-                    <input type="text" class="form-control" name="facebook" value="<?php if(isset($member)){echo $member->facebook;} ?>">
-                </div>
-                <div class="form-group">
-                    <label for="linkedin" class="control-label"><i class="fa fa-linkedin"></i> <?php echo _l('staff_add_edit_linkedin'); ?></label>
-                    <input type="text" class="form-control" name="linkedin" value="<?php if(isset($member)){echo $member->linkedin;} ?>">
-                </div>
-                <div class="form-group">
-                    <label for="skype" class="control-label"><i class="fa fa-skype"></i> <?php echo _l('staff_add_edit_skype'); ?></label>
-                    <input type="text" class="form-control" name="skype" value="<?php if(isset($member)){echo $member->skype;} ?>">
-                </div>
+                  
                 <i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('staff_email_signature_help'); ?>"></i>
                 <?php $value = (isset($member) ? $member->email_signature : ''); ?>
                 <?php echo render_textarea('email_signature','settings_email_signature',$value, ['data-entities-encode'=>'true']); ?>

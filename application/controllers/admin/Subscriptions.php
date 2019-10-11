@@ -84,6 +84,7 @@ class Subscriptions extends AdminController
 
     public function edit($id)
     {
+        // print_r($_POST); exit();
         if (!has_permission('subscriptions', '', 'view') && !has_permission('subscriptions', '', 'view_own')) {
             access_denied('Subscriptions View');
         }

@@ -64,7 +64,7 @@
          <div class="tab-content">
             <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab') || $this->input->get('tab') === 'summary'){echo ' active';} ?>" id="summary">
                <address class="contract-html-company-info">
-                  <?php //echo format_organization_info(); ?>
+                  <?php echo format_organization_info(); ?>
                </address>
                <div class="row mtop20">
                   <?php if($contract->contract_value != 0){ ?>

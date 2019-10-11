@@ -25,8 +25,7 @@ class Authentication extends App_Controller
 
     public function index()
     {   
-        $this->admin();
-        
+        $this->admin();    
     }
 
     public function admin()
@@ -45,8 +44,7 @@ class Authentication extends App_Controller
             $trial_date = $this->get_created_date();
             $role_status = $this->get_role_status();
             $today = date('Y-m-d');
-            if($today < $trial_date || $role_status['admin'] == 1 || $role_status['status'] == "paid")
-            {
+            
                 if ($this->form_validation->run() !== false) 
                 {
                     $email    = $this->input->post('email');
@@ -54,7 +52,7 @@ class Authentication extends App_Controller
                     $remember = $this->input->post('remember');
 
                     $data = $this->Authentication_model->login($email, $password, $remember, true);
-                   
+
                     if (is_array($data) && isset($data['memberinactive'])) {
                         set_alert('danger', _l('admin_auth_inactive_account'));
                         redirect(admin_url('authentication'));
@@ -79,26 +77,31 @@ class Authentication extends App_Controller
                     $this->announcements_model->set_announcements_as_read_except_last_one(get_staff_user_id(), true);
 
                     // is logged in
-                    
+                    if($today < $trial_date || $role_status['admin'] == 1 || $role_status['status'] == "paid")
+                    {
                         maybe_redirect_to_previous_url();
                         hooks()->do_action('after_staff_login');
-                        $staff_user_id = get_staff_user_id();
-                        // print_r($staff_user_id); exit();
                         redirect(admin_url());
 
-                }
+                    }
+
+                    else
+                    {
+                        
+                        $data_['email'] = $_POST['email'];
+
+                        $data_['password'] = $_POST['password'];
+                        $data_['warning'] = '<h4 style="text-align:center">You are out of date.</h4>
+                                            <p style="text-align:center">If you want to continue, you should pay to Administrator</p>';
+                        $data_['buy'] = '<button type="submit" class="btn btn-info" style="width:100%;">Buy</button>';
+                        $this->session->sess_destroy();
+                    }
             }
-            else{
-                $data['email'] = $_POST['email'];
-                $data['password'] = $_POST['password'];
-                $data['warning'] = '<h4 style="text-align:center">You are out of date.</h4>
-                                    <p style="text-align:center">If you want to continue, you should pay to Administrator</p>';
-                $data['buy'] = '<button type="submit" class="btn btn-info" style="width:100%;">Buy</button>';
-            }
+
         }
 
-        $data['title'] = _l('admin_auth_login_heading');
-        $this->load->view('authentication/login_admin', $data);
+        $data_['title'] = _l('admin_auth_login_heading');
+        $this->load->view('authentication/login_admin', $data_);
         
     }
 
@@ -297,25 +300,32 @@ class Authentication extends App_Controller
         $this->load->view('authentication/register');
     }
     public function get_created_date(){
-
-       $email = $_POST['email'];
-       $date = $this->load->Authentication_model->get_created_date_db($email);
-       $date1 = $date[0]['datecreated'];
-       $new_date = DateTime::createFromFormat("Y-m-d H:i:s",$date1)->format("Y-m-d");
-       $trial_date = date('Y-m-d', strtotime($new_date.' + 14 days'));
-       return $trial_date;
-        
+        if(isset($_POST['email']))
+            {
+               $email = $_POST['email'];
+               $date = $this->load->Authentication_model->get_created_date_db($email);
+               if ($date != null ){
+                   $date1 = $date[0]['datecreated'];
+                   $new_date = DateTime::createFromFormat("Y-m-d H:i:s",$date1)->format("Y-m-d");
+                   $trial_date = date('Y-m-d', strtotime($new_date.' + 14 days'));
+                   return $trial_date;
+               }
+               
+            }   
     }
     public function get_role_status()
     {
        $email = $_POST['email'];
        $data = $this->load->Authentication_model->get_role_status_db($email);
-    // print_r($data); exit();
-       $admin = $data[0]['admin'];
-       $status = $data[0]['pay_status'];
-       $data1['admin'] = $admin;
-       $data1['status'] = $status;
-       return $data1;
+        // print_r($data); exit();
+       if($data != null) {
+           $admin = $data[0]['admin'];
+           $status = $data[0]['pay_status'];
+           $data1['admin'] = $admin;
+           $data1['status'] = $status;
+           return $data1;
+       }
+       
     }
     public function trial_pay()
     {

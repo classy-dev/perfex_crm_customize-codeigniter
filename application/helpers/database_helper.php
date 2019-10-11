@@ -130,6 +130,7 @@ function total_rows($table, $where = [])
         $CI->db->where($where);
     }
 
+    // print_r($table); echo "<br/>";
     return $CI->db->count_all_results($table);
 }
 /**

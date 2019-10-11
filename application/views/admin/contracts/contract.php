@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php
-  // print_r($customer); exit();
+  // print_r($subscriptions); exit();
  init_head(); ?>
 <style>
    .form-group[app-field-wrapper=subject], #contractmergefields, #tasks, #renewals{
@@ -134,6 +134,7 @@
                         </div>
                      </div>
                      <input type="hidden" name="sub_arr" id="sub_arr" value="<?php if(isset($contract->sub_arr))  print_r($contract->sub_arr); else echo "";?>">
+                     <input type="hidden" name="sub_tax" id="sub_tax" value="<?php if(isset($contract->sub_tax))  print_r($contract->sub_tax); else echo "";?>">
                   </div>
 
                   <?php
@@ -881,7 +882,6 @@
     // console.log($('#cus_value').val())
       var staff0 = '<?php echo json_encode($staff)?>';
       var staff = JSON.parse(staff0);
-      console.log(staff[0]);
       $('#staff_name').empty();
       $('#staff_name').append(staff[0].firstname+'&nbsp;'+staff[0].lastname);
       $('#staf_name').val(staff[0].firstname+'&nbsp;'+staff[0].lastname);
@@ -950,7 +950,10 @@
          for (var i = 0; i < subscription.length; i++)
          {
             if(subscription[i].id == sub){
-
+              // console.log(subscription[i].taxrate);
+              $('#sub_tax').val(subscription[i].taxrate);
+              // var test = $('#sub_tax').val();
+              // console.log(test);
               contract_value = subscription[i].monthly_costs;
              
               $('#sub_arr').val(subscription[i].block_array.split(","));
@@ -961,6 +964,7 @@
                 {
                   if(blocks_array[k].id == subscription[i].block_array.split(",")[j] )
                     $('#current_block').append('<p style="margin-left:5%">•&nbsp;'+blocks_array[k].content+'</p>');
+
                 }
                
               }

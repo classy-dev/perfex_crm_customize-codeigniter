@@ -94,7 +94,7 @@ class Contracts_model extends App_Model
      */
     public function add($data)
     {  
-        // print_r($data); exit(); 
+         
         $data['client'] = $data['client'];
         $staff_name = $data['staff_name'];
         $staff_info = $data['staff_info'];
@@ -109,41 +109,48 @@ class Contracts_model extends App_Model
         $data['contract_type'] = $data['contract_type'];
         $data['service_p_m'] = $data['custom_fields']['contracts_ser'][12];
         $data['service_p_t'] = $data['custom_fields']['contracts_ser'][13];
-        $ser_id = $data['contract_type'];
-        $query = $this->db->query("select * from tblcontracts_types where id='$ser_id'");
-        $content = $query->result_array();
 
-        // content editing
-        
-        $data['content'] = preg_replace('#{agent}#',$staff_name,$content[0]['details']);
-        $data['content'] = preg_replace('#{agent_address}#',$staff_info,$data['content']);
-        if(isset($customer)){
-           $data['content'] = preg_replace('#{customer},#','<span style="margin-left:5%">• &nbsp;'.$customer.'</span>',$data['content']); 
-        }
-        if(isset($customer_addr)){
-            $data['content'] = preg_replace('#{customer_address}#',$customer_addr,$data['content']);
-         }
-        
-        
-        if(isset($sub_array))
+        if($data['contract_type']!=null)
         {
+            $ser_id = $data['contract_type'];
+            $query = $this->db->query("select * from tblcontracts_types where id='$ser_id'");
+            $content = $query->result_array();
 
-            for ($i=0; $i<count($sub_array);$i++){
-              $que = $this->db->query("select `content` from tblsubscriptions_settings where `id`='$sub_array[$i]'");
-              $sub_cont[] = $que->result_array();
-              // if(isset($sub_cont))
-              $sub_cont1[] =  '<p style="margin-left:5%">• &nbsp;'. $sub_cont[$i][0]['content'].'</p>';
-              // else $sub_cont1="";   
+            // content editing
+            
+            $data['content'] = preg_replace('#{agent}#',$staff_name,$content[0]['details']);
+            $data['content'] = preg_replace('#{agent_address}#',$staff_info,$data['content']);
+
+            if(isset($customer)){
+               $data['content'] = preg_replace('#{customer},#','<span style="margin-left:5%">• &nbsp;'.$customer.'</span>',$data['content']); 
             }
+            if(isset($customer_addr)){
+                $data['content'] = preg_replace('#{customer_address}#',$customer_addr,$data['content']);
+             }
+            
+            
+            if(isset($sub_array))
+            {
 
-            $sub_cont2 = implode("", $sub_cont1);
-            $data['content'] = preg_replace('#{PLACEHOLDER BLOCKS FROM SUBSCRIPTIONS}#',$sub_cont2,$data['content']);
+                for ($i=0; $i<count($sub_array);$i++){
+                  $que = $this->db->query("select `content` from tblsubscriptions_settings where `id`='$sub_array[$i]'");
+                  $sub_cont[] = $que->result_array();
+                  // if(isset($sub_cont))
+                  $sub_cont1[] =  '<p style="margin-left:5%">• &nbsp;'. $sub_cont[$i][0]['content'].'</p>';
+                  // else $sub_cont1="";   
+                }
+
+                $sub_cont2 = implode("", $sub_cont1);
+                $data['content'] = preg_replace('#{PLACEHOLDER BLOCKS FROM SUBSCRIPTIONS}#',$sub_cont2,$data['content']);
+            }
+            if($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ) {
+                $data['content'] = $data['content'] ; 
+            }
+            else if ($data['contract_type'] == 2 && $data['service_p_m'] !="Debit" )
+             $data['content'] = preg_replace('#(<li class="p_method" style="color:\#008dd2">)(?s).*[\n\r].*(</div>)#', '', $data['content']);
+         
         }
-        if($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ) {
-            $data['content'] = $data['content'] ; 
-        }
-        else if ($data['contract_type'] == 2 && $data['service_p_m'] !="Debit" )
-         $data['content'] = preg_replace('#(<li class="p_method" style="color:\#008dd2">)(?s).*[\n\r].*(</div>)#', '', $data['content']);
+        
         
 
         $data['datestart'] = to_sql_date($data['datestart']);
@@ -214,43 +221,47 @@ class Contracts_model extends App_Model
         $data['contract_type'] = $data['contract_type'];
         $data['service_p_m'] = $data['custom_fields']['contracts_ser'][12];
         $data['service_p_t'] = $data['custom_fields']['contracts_ser'][13];
-        $ser_id = $data['contract_type'];
-        $query = $this->db->query("select * from tblcontracts_types where id='$ser_id'");
-        $content = $query->result_array();
 
-        // content editing
-
-        // print_r($staff_name); exit();
-        $data['content'] = preg_replace('#{agent}#',$staff_name,$content[0]['details']);
-        $data['content'] = preg_replace('#{agent_address}#',$staff_info,$data['content']);
-        if(isset($customer)){
-           $data['content'] = preg_replace('#{customer},#','<span style="margin-left:5%">• &nbsp;'.$customer.'</span>',$data['content']); 
-        }
-        if(isset($customer_addr)){
-            $data['content'] = preg_replace('#{customer_address}#',$customer_addr,$data['content']);
-         }
-        
-        
-        if(isset($sub_array))
+        if($data['contract_type']!=null)
         {
 
-            for ($i=0; $i<count($sub_array);$i++){
-              $que = $this->db->query("select `content` from tblsubscriptions_settings where `id`='$sub_array[$i]'");
-              $sub_cont[] = $que->result_array();
-              // if(isset($sub_cont))
-              $sub_cont1[] =  '<p style="margin-left:5%">• &nbsp;'. $sub_cont[$i][0]['content'].'</p>';
-              // else $sub_cont1="";   
+            $ser_id = $data['contract_type'];
+            $query = $this->db->query("select * from tblcontracts_types where id='$ser_id'");
+            $content = $query->result_array();
+
+            // content editing
+
+            // print_r($staff_name); exit();
+            $data['content'] = preg_replace('#{agent}#',$staff_name,$content[0]['details']);
+            $data['content'] = preg_replace('#{agent_address}#',$staff_info,$data['content']);
+            if(isset($customer)){
+               $data['content'] = preg_replace('#{customer},#','<span style="margin-left:5%">• &nbsp;'.$customer.'</span>',$data['content']); 
             }
+            if(isset($customer_addr)){
+                $data['content'] = preg_replace('#{customer_address}#',$customer_addr,$data['content']);
+             }
+            
+            
+            if(isset($sub_array))
+            {
 
-            $sub_cont2 = implode("", $sub_cont1);
-            $data['content'] = preg_replace('#{PLACEHOLDER BLOCKS FROM SUBSCRIPTIONS}#',$sub_cont2,$data['content']);
-        }
-        if($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ) {
-            $data['content'] = $data['content'] ; 
-        }
-        else if ($data['contract_type'] == 2 && $data['service_p_m'] !="Debit" )
-         $data['content'] = preg_replace('#(<li class="p_method" style="color:\#008dd2">)(?s).*[\n\r].*(</div>)#', '', $data['content']);
+                for ($i=0; $i<count($sub_array);$i++){
+                  $que = $this->db->query("select `content` from tblsubscriptions_settings where `id`='$sub_array[$i]'");
+                  $sub_cont[] = $que->result_array();
+                  // if(isset($sub_cont))
+                  $sub_cont1[] =  '<p style="margin-left:5%">• &nbsp;'. $sub_cont[$i][0]['content'].'</p>';
+                  // else $sub_cont1="";   
+                }
 
+                $sub_cont2 = implode("", $sub_cont1);
+                $data['content'] = preg_replace('#{PLACEHOLDER BLOCKS FROM SUBSCRIPTIONS}#',$sub_cont2,$data['content']);
+            }
+            if($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ) {
+                $data['content'] = $data['content'] ; 
+            }
+            else if ($data['contract_type'] == 2 && $data['service_p_m'] !="Debit" )
+             $data['content'] = preg_replace('#(<li class="p_method" style="color:\#008dd2">)(?s).*[\n\r].*(</div>)#', '', $data['content']);
+        }
 
         $data['datestart'] = to_sql_date($data['datestart']);
         if ($data['dateend'] == '') {

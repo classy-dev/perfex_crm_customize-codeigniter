@@ -155,14 +155,14 @@ class Clients extends AdminController
 
         $group         = !$this->input->get('group') ? 'profile' : $this->input->get('group');
         $data['group'] = $group;
-
+        
         if ($group != 'contacts' && $contact_id = $this->input->get('contactid')) {
             redirect(admin_url('clients/client/' . $id . '?group=contacts&contactid=' . $contact_id));
         }
 
         // Customer groups
         $data['groups'] = $this->clients_model->get_groups();
-
+        // print_r($data); exit();
         if ($id == '') {
             $title = _l('add_new', _l('client_lowercase'));
         } else {

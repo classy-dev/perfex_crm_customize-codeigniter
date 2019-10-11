@@ -197,8 +197,6 @@ function is_client_logged_in()
  */
 function is_staff_logged_in()
 {
-    // $status = get_instance()->session->has_userdata('staff_logged_in');
-    // print_r($status); exit();
     return get_instance()->session->has_userdata('staff_logged_in');
 }
 /**

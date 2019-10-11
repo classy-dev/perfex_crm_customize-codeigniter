@@ -9,12 +9,20 @@ $table_data = array(
     'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-subscription-name')
   ),
   array(
-    'name'=>_l('monthly costs'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-monthly_costs')
+    'name'=>_l('client'),
+    'th_attrs'=>array('class'=>'toggleable'.(isset($client)? ' not_visible' : ''), 'id'=>'th-company')
+  ),
+  array(
+    'name'=>_l('project'),
+    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-project')
   ),
   array(
     'name'=>_l('subscription_status'),
     'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-status')
+  ),
+  array(
+    'name'=>_l('next_billing_cycle'),
+    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-next-billing-cycle')
   ),
   array(
     'name'=>_l('date_subscribed'),
@@ -39,8 +47,8 @@ hooks()->add_action('app_admin_footer', function(){
         SubscriptionsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
       });
       var url = $('#table-subscriptions').data('url');
-      // console.log(SubscriptionsServerParams);
-      initDataTable('.table-subscriptions', url, undefined, undefined, SubscriptionsServerParams, <?php //echo hooks()->apply_filters('subscriptions_table_default_order', json_encode(array(5,'desc'))); ?>);
+      console.log(SubscriptionsServerParams);
+      initDataTable('.table-subscriptions', url, undefined, undefined, SubscriptionsServerParams, <?php //echo hooks()->apply_filters('subscriptions_table_default_order', json_encode(array(6,'desc'))); ?>);
     });
   </script>
   <?php

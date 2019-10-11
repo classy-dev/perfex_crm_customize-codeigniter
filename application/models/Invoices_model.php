@@ -331,9 +331,16 @@ class Invoices_model extends App_Model
 
         $data  = $hook['data'];
         $items = $hook['items'];
+        // print_r($data); exit;
+        $dbRet = $this->db->insert(db_prefix() . 'invoices', $data);
 
-        $this->db->insert(db_prefix() . 'invoices', $data);
+        if( !$dbRet )
+        {
+           $errMess = $this->db->error();
+        }
+        // $this->db->insert(db_prefix() . 'invoices', $data);
         $insert_id = $this->db->insert_id();
+
         if ($insert_id) {
 
             // Update next invoice number in settings
@@ -819,7 +826,7 @@ class Invoices_model extends App_Model
         }
 
         unset($data['removed_items']);
-
+        
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'invoices', $data);
 

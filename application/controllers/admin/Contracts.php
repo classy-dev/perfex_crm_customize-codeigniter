@@ -11,6 +11,7 @@ class Contracts extends Admin_controller
         $this->load->model('subscriptions_model');
         $this->load->model('clients_model');
         $this->load->model('staff_model');
+        $this->load->model('invoices_model');
     }
 
     /* List all contracts */
@@ -60,8 +61,7 @@ class Contracts extends Admin_controller
             foreach ($staffid_arr as  $value) {
                 $res[] = $value['staffid'];
             }
-            // print_r($res); exit();
-            // $data['staff_arr'] = $res;
+            
             $this->app->get_table_data('contracts',[
             'clientid' => $clientid,
             'staff_arr' => $res
@@ -83,7 +83,7 @@ class Contracts extends Admin_controller
     {
         if ($this->input->post()) {
             // print_r($_POST); exit();
-
+            
             if ($id == '') {
                 if (!has_permission('contracts', '', 'create')) {
                     access_denied('contracts');
@@ -91,8 +91,76 @@ class Contracts extends Admin_controller
                 $id = $this->contracts_model->add($this->input->post());
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('contract')));
-                    redirect(admin_url('contracts/contract/' . $id));
+
+                     // redirect(admin_url('contracts/contract/' . $id));
+                    // automatic invoice creating
+                    $invoice_data = array(
+                        'clientid'=> $_POST['client'],
+                        'project_id' => 0,
+                        'billing_street'=> null,
+                        'billing_city' => null,
+                        'billing_state' => null,
+                        'billing_zip' => null,
+
+                        'show_shipping_on_invoice' => 1,
+                        'shipping_street' => null,
+                        'shipping_city' => null,
+                        'shipping_state' => null,
+                        'shipping_zip' => null,
+
+                        'number' => $id,
+                        'date' => $_POST['datestart'],
+                        'duedate' => $_POST['dateend'],
+
+                        'allowed_payment_modes' => array(
+                            5, 'stripe'
+                        ),
+                        'currency' => 2,
+                        // 'tags' => null,
+                        'sale_agent' => 0,
+                        // 'recurring' => null,
+                        // 'recurring' => 0,
+                        'discount_type' => null,
+                        'repeat_every_custom' => 1,
+                        'repeat_type_custom' => 'day',
+                        'adminnote' => null,
+                        // 'item_select' => null,
+                        // 'task_select' => null,
+                        'show_quantity_as' => 1,
+                        // 'description' => null,
+                        // 'long_description' => null,
+                        // 'quantity' => 1,
+                        // 'unit' => null,
+                        // 'rate' => null,
+                        // 'taxname' => 'Umsatzsteuer 19%|19.00',
+                        
+                        'subtotal' => $_POST['contract_value'],
+                        'discount_percent' => 0,
+                        'discount_total' => 0.00,
+                        'adjustment' => 0,
+                        'total' => $_POST['contract_value'] * ( 1 + $_POST['sub_tax']/100),
+                        // 'task_id' => null,
+                        // 'expense_id' => null,
+                        'clientnote' => null,
+                        'terms' => null
+
+                    );
+                    
+                    $invoice_id = $this->invoices_model->add($invoice_data);
+                    if ($invoice_id) {
+                        // set_alert('success', _l('added_successfully', _l('invoice')));
+
+                        set_alert('success', _l('added_successfully', _l('contract and invoice')));
+                        
+                        if (isset($invoice_data['save_and_record_payment'])) {
+                            $this->session->set_userdata('record_payment', true);
+                        }
+
+                        redirect(admin_url('contracts/contract/' . $id));
+                    }
                 }
+                
+
             } else {
                 if (!has_permission('contracts', '', 'edit')) {
                     access_denied('contracts');
