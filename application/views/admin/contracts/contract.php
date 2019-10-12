@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php
-  // print_r($subscriptions); exit();
+  // print_r($contract); exit();
  init_head(); ?>
 <style>
    .form-group[app-field-wrapper=subject], #contractmergefields, #tasks, #renewals{
@@ -879,7 +879,6 @@
 
 
    $(document).ready(function(){
-    // console.log($('#cus_value').val())
       var staff0 = '<?php echo json_encode($staff)?>';
       var staff = JSON.parse(staff0);
       $('#staff_name').empty();
@@ -887,8 +886,8 @@
       $('#staf_name').val(staff[0].firstname+'&nbsp;'+staff[0].lastname);
 
       $('#staff_info').empty();
-      $('#staff_info').append('Address: '+ staff[0].address+'</br>'+'City: '+ staff[0].city+'</br>'+'State: '+staff[0].state+'</br>'+'Zip Code: '+staff[0].zip+'</br>'+'Country: '+staff[0].short_name);
-      $('#staf_info').val('Address:&nbsp;'+ staff[0].address+'</br>'+'City:&nbsp;'+ staff[0].city+'</br>'+'State:&nbsp;'+staff[0].state+'</br>'+'Zip Code:&nbsp;'+staff[0].zip+'</br>'+'Country:&nbsp;'+staff[0].short_name);
+      $('#staff_info').append(staff[0].address+'</br>'+staff[0].city+'</br>'+staff[0].state+'</br>'+staff[0].zip+'</br>'+staff[0].short_name);
+      $('#staf_info').val(staff[0].address+'</br>'+staff[0].city+'</br>'+staff[0].state+'</br>'+staff[0].zip+'</br>'+staff[0].short_name);
 
       var subscription0 = '<?php echo json_encode($subscriptions) ?>';
       var subscription = JSON.parse(subscription0);
@@ -907,23 +906,47 @@
           contracts_content_debit = '<?php if(isset($contractDetails)) echo json_encode($contractDetails);?>';
         }
       
-        $('#clientid').change(function(){
-          for (var i = 0; i < customer_array.length; i++)
-           {
-              if(customer_array[i].userid == $('#clientid option:selected').val()){
-                $('#customer').empty();
-                $('#customer').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].company + '</p>');
-                $('#cus_value').val(customer_array[i].company)
-                $('#customer_address').empty();
-                // $('#customer_address').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].address + '</p>');
-                // $('#cus_addr_value').val(customer_array[i].address);
+      var current_customer_id = $('#clientid').val();
 
-                $('#customer_address').append('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].short_name);
-                $('#cus_addr_value').val('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].short_name);
+      if (current_customer_id != ''){
+        // console.log("fixed customer")
+        for (var p = 0; p < customer_array.length; p++)
+        {
+          if (customer_array[p].userid == current_customer_id)
+          {
+            // console.log(customer_array[p].company)
+            $('#customer').empty();
+            $('#customer').append(customer_array[p].company);
+            $('#cus_value').val(customer_array[p].company);
+            console.log($('#cus_value').val())
+            $('#customer_address').empty();
+            $('#customer_address').append(customer_array[p].address + '</br>'+ customer_array[p].city + '</br>'+customer_array[p].state + '</br>'+customer_array[p].zip + '</br>'+customer_array[p].short_name);
+            $('#cus_addr_value').val(customer_array[p].address + '</br>'+ customer_array[p].city + '</br>'+customer_array[p].state + '</br>'+customer_array[p].zip + '</br>'+customer_array[p].short_name);
+            console.log($('#cus_addr_value').val())
+          }
+          
+        }
+        
+      }
+
+
+      $('#clientid').change(function(){
+        console.log("change customer")
+        for (var i = 0; i < customer_array.length; i++)
+         {
+            if(customer_array[i].userid == $('#clientid option:selected').val()){
+              console.log(customer_array[i].company)
+              $('#customer').empty();
+              $('#customer').append(customer_array[i].company);
+              $('#cus_value').val(customer_array[i].company);
+
+              $('#customer_address').empty();
+              $('#customer_address').append(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
+              $('#cus_addr_value').val(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
               }
 
-           }
-        });
+         }
+      });
 
       $('#contract_type').change(function(){
          var create_test = $('#contract_type option:selected').val();
@@ -950,10 +973,7 @@
          for (var i = 0; i < subscription.length; i++)
          {
             if(subscription[i].id == sub){
-              // console.log(subscription[i].taxrate);
               $('#sub_tax').val(subscription[i].taxrate);
-              // var test = $('#sub_tax').val();
-              // console.log(test);
               contract_value = subscription[i].monthly_costs;
              
               $('#sub_arr').val(subscription[i].block_array.split(","));
@@ -993,25 +1013,23 @@
                 $('#mce_1').html(contracts_content_debit);
 
                  $('#staff_name').empty();
-                $('#staff_name').append(staff[0].firstname+'&nbsp;'+staff[0].lastname);
-                // $('#staf_name').val(staff[0].firstname+'&nbsp;'+staff[0].lastname);
-
-                $('#staff_info').empty();
-                $('#staff_info').append('Address: '+ staff[0].address+'</br>'+'City: '+ staff[0].city+'</br>'+'State: '+staff[0].state+'</br>'+'Zip Code: '+staff[0].zip+'</br>'+'Country: '+staff[0].short_name);
-                // $('#staf_info').val('Address:&nbsp;'+ staff[0].address+'</br>'+'City:&nbsp;'+ staff[0].city+'</br>'+'State:&nbsp;'+staff[0].state+'</br>'+'Zip Code:&nbsp;'+staff[0].zip+'</br>'+'Country:&nbsp;'+staff[0].short_name);
+                 $('#staff_name').append(staff[0].firstname+'&nbsp;'+staff[0].lastname);
+                
+                 $('#staff_info').empty();
+                 $('#staff_info').append(staff[0].address+'</br>'+staff[0].city+'</br>'+staff[0].state+'</br>'+staff[0].zip+'</br>'+staff[0].short_name);
 
 
                  for (var i = 0; i < customer_array.length; i++)
                  {
                     if(customer_array[i].userid == $('#clientid option:selected').val()){
                       $('#customer').empty();
-                      $('#customer').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].company + '</p>');
+                      $('#customer').append(customer_array[i].company);
                       // $('#cus_value').val(customer_array[i].company)
                       $('#customer_address').empty();
                       // $('#customer_address').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].address + '</p>');
                       // $('#cus_addr_value').val(customer_array[i].address);
 
-                      $('#customer_address').append('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].short_name);
+                      $('#customer_address').append(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
                       // $('#cus_addr_value').val('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].country);
                     }
 
