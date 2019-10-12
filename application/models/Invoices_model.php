@@ -261,6 +261,8 @@ class Invoices_model extends App_Model
      */
     public function add($data, $expense = false)
     {
+        // print_r($data); exit();
+
         $data['prefix'] = get_option('invoice_prefix');
 
         $data['number_format'] = get_option('invoice_number_format');
@@ -323,15 +325,23 @@ class Invoices_model extends App_Model
 
         $data['billing_street'] = trim($data['billing_street']);
         $data['billing_street'] = nl2br($data['billing_street']);
+        if(isset($data['sub_tax'])) {
+
+            $data['total_tax'] = $data['sub_tax']*$data['subtotal']/100;
+            unset($data['sub_tax']); 
+            // print_r($data['total_tax']); exit();
+        }
 
         $hook = hooks()->apply_filters('before_invoice_added', [
             'data'  => $data,
             'items' => $items,
         ]);
 
+
+
         $data  = $hook['data'];
         $items = $hook['items'];
-        // print_r($data); exit;
+        // print_r($data); exit();
         $dbRet = $this->db->insert(db_prefix() . 'invoices', $data);
 
         if( !$dbRet )
@@ -443,9 +453,9 @@ class Invoices_model extends App_Model
                         ]);
                 }
             }
-
+            
             update_invoice_status($insert_id);
-
+            
             foreach ($items as $key => $item) {
                 if ($itemid = add_new_sales_item_post($item, $insert_id, 'invoice')) {
                     if (isset($billed_tasks[$key])) {
@@ -468,9 +478,8 @@ class Invoices_model extends App_Model
                     _maybe_insert_post_item_tax($itemid, $item, $insert_id, 'invoice');
                 }
             }
-
+            if(!isset($data['total_tax']))
             update_sales_total_tax_column($insert_id, 'invoice', db_prefix() . 'invoices');
-
             if (!DEFINED('CRON') && $expense == false) {
                 $lang_key = 'invoice_activity_created';
             } elseif (!DEFINED('CRON') && $expense == true) {

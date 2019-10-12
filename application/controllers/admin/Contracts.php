@@ -139,6 +139,7 @@ class Contracts extends Admin_controller
                         'discount_total' => 0.00,
                         'adjustment' => 0,
                         'total' => $_POST['contract_value'] * ( 1 + $_POST['sub_tax']/100),
+                        'sub_tax' => $_POST['sub_tax'],
                         // 'task_id' => null,
                         // 'expense_id' => null,
                         'clientnote' => null,

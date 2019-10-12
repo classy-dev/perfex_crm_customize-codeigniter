@@ -575,6 +575,7 @@ function get_items_by_type($type, $id)
 */
 function update_sales_total_tax_column($id, $type, $table)
 {
+
     $CI = &get_instance();
     $CI->db->select('discount_percent, discount_type, discount_total, subtotal');
     $CI->db->from($table);
@@ -589,7 +590,6 @@ function update_sales_total_tax_column($id, $type, $table)
     $_calculated_taxes = [];
 
     $func_taxes = 'get_' . $type . '_item_taxes';
-
     foreach ($items as $item) {
         $item_taxes = call_user_func($func_taxes, $item['id']);
         if (count($item_taxes) > 0) {
