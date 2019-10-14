@@ -17,12 +17,16 @@ class Dashboard extends AdminController
         close_setup_menu();
         $this->load->model('departments_model');
         $this->load->model('todo_model');
-
+        
         ///get logged in id
         $staff_id = get_staff_user_id();
         $pre_data= $this->dashboard_model->get_role($staff_id);
         $data['start_role'] = $pre_data[0]['role'];
-        
+        // get stripe
+        $this->load->model('staff_model');
+        $stripe = $this->staff_model->get_stripe($staff_id);
+        $data['stripe'] = $stripe;
+
         $data['departments'] = $this->departments_model->get();
         $data['todos'] = $this->todo_model->get_todo_items(0);
         // Only show last 5 finished todo items

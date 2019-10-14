@@ -58,17 +58,18 @@
                      <?php echo render_input( 'state', 'client_state',$value); ?>
                      <?php $value=( isset($member) ? $member->zip : ''); ?>
                      <?php echo render_input( 'zip', 'client_postal_code',$value); ?>
+
                      <?php $countries= get_all_countries();
                         $customer_default_country = get_option('customer_default_country');
                         $selected =( isset($member) ? $member->country : $customer_default_country);
-                        echo render_select( 'country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
+                        echo render_select('country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
                         ?>
                         <!-- ///added inputs end -->
                     <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
                     <?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
                     <?php if(get_option('disable_language') == 0){ ?>
-                    <div class="form-group select-placeholder">
-                        <label for="default_language" class="control-label"><?php echo _l('localization_default_language'); ?></label>
+                    <div class="form-group">
+                        <label for="country" class="control-label"><?php echo _l('localization_default_language'); ?></label>
                         <select name="default_language" data-live-search="true" id="default_language" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                             <option value=""><?php echo _l('system_default_string'); ?></option>
                             <?php foreach($this->app->get_available_languages() as $availableLanguage){
@@ -152,6 +153,27 @@
     <?php } ?>
 </div>
 </div>
+<div class="col-md-5">
+    <div class="panel_s">
+        <div class="panel-body">
+            <img src="<?php echo site_url('assets/images/stripe.png')?>">
+            <!-- <form method="post" action="<?php echo admin_url('staff/stripe_info')?>"> -->
+            <?php echo form_open('admin/staff/stripe_info',array('id'=>'stripe_info')); ?>
+              <div class="form-group">
+                <label for="stripe_email" class="control-label"><?php //echo _l('staff_add_edit_email'); ?> Email</label>
+                <input type="email" name="stripe_email" id="stripe_email"  class="form-control" value="<?php if(isset($member->stripe_email)) echo $member->stripe_email; else echo NULL ?>" required >
+              </div>
+
+              <div class="form-group">
+                <label for="stripe_pasword" class="control-label"><?php //echo _l('staff_add_edit_email'); ?>Password</label>
+                <input type="password" name="stripe_password"  class="form-control" value="<?php //if(isset($member->stripe_password)) echo $member->stripe_password; 
+                      //else echo NULL ?>" id="stripe_password" required>
+              </div>
+              <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
+          <?php echo form_close(); ?>   
+        </div>
+    </div>
+</div>
 </div>
 </div>
 </div>
@@ -164,3 +186,17 @@
 </script>
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var stripe0 = '<?php echo json_encode($stripe)?>';
+        var stripe = JSON.parse(stripe0);
+
+        console.log(stripe[0].stripe_email);
+        // console.log("dashboard")
+        if(stripe[0].stripe_email == null || stripe[0].stripe_password == null ) {
+            $('#wrapper').css("margin-left","0");
+        }
+        
+    });
+</script>

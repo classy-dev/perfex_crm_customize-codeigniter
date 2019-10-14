@@ -53,6 +53,7 @@ class Authentication extends App_Controller
 
                     $data = $this->Authentication_model->login($email, $password, $remember, true);
 
+
                     if (is_array($data) && isset($data['memberinactive'])) {
                         set_alert('danger', _l('admin_auth_inactive_account'));
                         redirect(admin_url('authentication'));

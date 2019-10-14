@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php $this->load->view('authentication/includes/head.php'); ?>
+
 <body class="authentication register" style="background-image: url(<?php echo site_url('/assets/images/1.png') ?>); background-repeat: no-repeat; background-size: 100%,100%;">
   <div class="container">
    <div class="row" style="display: flex;">
@@ -28,18 +29,41 @@
                 <input type="email" id="email" name="email" class="form-control" autocomplete="off" value="" required>
               </div>
 
+              <div class="form-group" app-field-wrapper="address">
+                <label for="address" class="control-label">Address</label>
+                <textarea id="address" name="address" class="form-control" rows="4" value="" required ></textarea>
+              </div>
+
+              <div class="form-group" app-field-wrapper="city">
+                <label for="city" class="control-label">City</label>
+                <input type="text" id="city" name="city" class="form-control" value="" required>
+              </div>
+
+              <div class="form-group" app-field-wrapper="state">
+                <label for="state" class="control-label">State</label>
+                <input type="text" id="state" name="state" class="form-control" value="" required>
+              </div>
+
+              <div class="form-group" app-field-wrapper="zip">
+                <label for="zip" class="control-label">Zip Code</label>
+                <input type="text" id="zip" name="zip" class="form-control" value="" required>
+              </div>
+
+              <div class="form-group" app-field-wrapper="country">
+                <label for="country" class="control-label">Country</label>
+                <select name="country" data-live-search="true" id="country" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+          
+                    <?php foreach(get_all_countries() as $country){?>
+                      <option value="<?php echo $country['country_id']; ?>" ><?php echo $country['short_name']; ?></option>
+                      <?php }?>
+                  </select>
+              </div>
+
               <div class="form-group">
                 <label for="password" class="control-label"><?php echo _l('admin_auth_login_password'); ?></label>
                 <input type="password" id="password" name="password" class="form-control" value="<?php if (isset($password)) echo $password;?>" required>
               </div>
-            <!--  <?php if(isset($member)){ ?>
-             <p class="text-muted"><?php echo _l('staff_add_edit_password_note'); ?></p>
-             <?php if($member->last_password_change != NULL){ ?>
-             <?php echo _l('staff_add_edit_password_last_changed'); ?>:
-             <span class="text-has-action" data-toggle="tooltip" data-title="<?php echo _dt($member->last_password_change); ?>">
-                <?php echo time_ago($member->last_password_change); ?>
-             </span>
-             <?php } } ?> -->
+            
              
              <div class="btn-bottom-toolbar text-right btn-toolbar-container-out" style="margin-top: 15px">
              <button type="submit" class="btn btn-info" style="margin-right: 8px;"><?php echo _l('submit'); ?></button>

@@ -590,6 +590,16 @@ class Staff_model extends App_Model
         
         return false;
     }
+
+    public function add_stripe($dat,$staff_id)
+    {
+        $data['stripe_email'] = $dat['stripe_email'];
+        $data['stripe_password'] = app_hash_password($dat['stripe_password']);
+
+        $this->db->where('staffid', $staff_id);
+        $this->db->update(db_prefix() . 'staff', $data);
+
+    }
     /**
      * Update staff member info
      * @param  array $data staff data
@@ -981,7 +991,11 @@ class Staff_model extends App_Model
         $query = $this->db->query("select role, role_type from tblstaff where `staffid` = $id");
         return $query->result_array();
     }
+    public function get_stripe($id){
 
+        $query = $this->db->query("select `stripe_email`,`stripe_password` from tblstaff where `staffid` = $id");
+        return $query->result_array();
+    }
     ////get staffid for customer
     public function get_customer_with_role($role_type,$role){
         // $query = $this->db->query("select staffid from tblstaff where `role_type` = $role_type and `role` in (5,6)");

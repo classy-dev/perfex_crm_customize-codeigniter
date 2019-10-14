@@ -182,6 +182,10 @@ class Staff extends AdminController
             unset($data['view_all']);
         }
 
+        $staff_id = get_staff_user_id();
+        $stripe = $this->staff_model->get_stripe($staff_id);
+        $data['stripe'] = $stripe;
+
         $data['logged_time'] = $this->staff_model->get_logged_time_data(get_staff_user_id());
         $data['title']       = '';
         $this->load->view('admin/staff/timesheets', $data);
@@ -221,6 +225,12 @@ class Staff extends AdminController
         $data['member']            = $member;
         $data['departments']       = $this->departments_model->get();
         $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
+        //get stripe
+        $staff_id = get_staff_user_id();
+        $this->load->model('staff_model');
+        $stripe = $this->staff_model->get_stripe($staff_id);
+        $data['stripe'] = $stripe;
+
         $data['title']             = $member->firstname . ' ' . $member->lastname;
         $this->load->view('admin/staff/profile', $data);
     }
@@ -292,6 +302,12 @@ class Staff extends AdminController
             'touserid' => get_staff_user_id(),
         ]);
         $data['total_pages'] = ceil($total_notifications / $this->misc_model->get_notifications_limit());
+         //get stripe
+        $staff_id = get_staff_user_id();
+        $this->load->model('staff_model');
+        $stripe = $this->staff_model->get_stripe($staff_id);
+        $data['stripe'] = $stripe;
+        
         $this->load->view('admin/staff/myprofile', $data);
     }
 
@@ -359,7 +375,17 @@ class Staff extends AdminController
             die;
         }
     }
-    // public function table_get_rtype(){
-    //     echo "attatched";
-    // }
+    public function stripe_info()
+    {
+        // print_r($_POST); exit();
+        if(isset($_POST)){
+            $data['stripe_email'] = $_POST['stripe_email'];
+            $data['stripe_password'] = $_POST['stripe_password'];
+            $staff_id = get_staff_user_id();
+             
+                $this->staff_model->add_stripe($data, $staff_id);
+                    set_alert('success', _l('added_successfully', _l('stripe')));
+                    redirect(admin_url('staff/edit_profile'));
+        }
+    }
 }
