@@ -608,7 +608,7 @@ class Cron_model extends App_Model
             if ($invoice['custom_recurring'] == 0) {
                 $invoice['recurring_type'] = 'MONTH';
             }
-
+            
             $re_create_at = date('Y-m-d', strtotime('+' . $invoice['recurring'] . ' ' . strtoupper($invoice['recurring_type']), strtotime($last_recurring_date)));
 
             if (date('Y-m-d') >= $re_create_at) {
@@ -1639,7 +1639,7 @@ class Cron_model extends App_Model
         $invoices_create_invoice_from_recurring_only_on_paid_invoices = get_option('invoices_create_invoice_from_recurring_only_on_paid_invoices');
 
         $this->load->model('invoices_model');
-        $this->db->select('id,recurring,date,last_recurring_date,number,duedate,recurring_type,custom_recurring,addedfrom,sale_agent,clientid');
+        $this->db->select('id,recurring,date,last_recurring_date,number,duedate,recurring_type,custom_recurring,addedfrom,sale_agent,clientid,accordingContract');
         $this->db->from(db_prefix() . 'invoices');
         $this->db->where('recurring !=', 0);
         $this->db->where('(cycles != total_cycles OR cycles=0)');
@@ -1668,8 +1668,13 @@ class Cron_model extends App_Model
             }
 
             $re_create_at = date('Y-m-d', strtotime('+' . $invoice['recurring'] . ' ' . strtoupper($invoice['recurring_type']), strtotime($last_recurring_date)));
-            
-            if (date('Y-m-d') <= $re_create_at) {
+            $this->db->select('dateend');
+            $this->db->from(db_prefix() . 'contracts');
+            $this->db->where('id=',$invoice['accordingContract']);
+            $end_contract_date = $this->db->get()->row();
+            // print_r($end_contract_date->dateend);
+            // print_r(date('Y-m-d')); exit();
+            if (date('Y-m-d') <= $re_create_at && $re_create_at <= $end_contract_date->dateend) {
 
                 // Recurring invoice date is okey lets convert it to new invoice
                 $_invoice                     = $this->invoices_model->get($invoice['id']);
@@ -1731,6 +1736,7 @@ class Cron_model extends App_Model
                 $new_invoice_data['is_recurring_from']     = $_invoice->id;
                 $new_invoice_data['subscription_id'] = $_invoice->subscription_id;
                 $new_invoice_data['total_tax'] = $_invoice->total_tax;
+                $new_invoice_data['accordingContract'] = $_invoice->accordingContract;
                 // $new_invoice_data['newitems']              = [];
                 // $key                                       = 1;
                 // $custom_fields_items                       = get_custom_fields('items');

@@ -156,6 +156,7 @@ class Contracts extends Admin_controller
                     $invoice_data['clientnote'] = null;
                     $invoice_data['terms'] = null;
                     $invoice_data['subscription_id'] = $_POST['subscription'];
+                    $invoice_data['accordingContract'] = $id;
 
                     /*
                     $invoice_data = array(

@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-// print_r($contract); exit(); ?>
+print_r($contract); exit(); ?>
 <div class="mtop15 preview-top-wrapper">
    <div class="row">
       <div class="col-md-3">

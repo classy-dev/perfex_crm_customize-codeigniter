@@ -9,10 +9,9 @@ class Invoice extends ClientsController
         check_invoice_restrictions($id, $hash);
         $invoice = $this->invoices_model->get($id);
         $invoice = hooks()->apply_filters('before_client_view_invoice', $invoice);
-        $contract = $this->contracts_model->get_staff_client($invoice->clientid);
+        $contract = $this->contracts_model->get_staff_client($invoice->clientid,$invoice->addedfrom);
         $this->load->model('taxes_model');
         $tax = $this->taxes_model->get_tax_by_subscription($invoice->subscription_id);
-        // print_r($tax); exit();
         if (!is_client_logged_in()) {
             load_client_language($invoice->clientid);
         }

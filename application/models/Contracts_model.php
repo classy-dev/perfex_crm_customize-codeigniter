@@ -89,8 +89,8 @@ class Contracts_model extends App_Model
 
     // get staff and client name and address
 
-    public function get_staff_client($clientid){
-        $query = $this->db->query("select `description`,`staff_name`, `staff_info`, `cus_value`,`cus_addr_value` from tblcontracts where `client`=$clientid");
+    public function get_staff_client($clientid, $staffid){
+        $query = $this->db->query("select `description`,`staff_name`, `staff_info`, `cus_value`,`cus_addr_value` from tblcontracts where `client`=$clientid && `addedfrom`=$staffid");
         return $query->result_array();
     }
 
