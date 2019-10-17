@@ -87,6 +87,13 @@ class Contracts_model extends App_Model
         return $this->db->get(db_prefix() . 'files')->result_array();
     }
 
+    // get staff and client name and address
+
+    public function get_staff_client($clientid){
+        $query = $this->db->query("select `description`,`staff_name`, `staff_info`, `cus_value`,`cus_addr_value` from tblcontracts where `client`=$clientid");
+        return $query->result_array();
+    }
+
     /**
      * @param   array $_POST data
      * @return  integer Insert ID
@@ -94,7 +101,7 @@ class Contracts_model extends App_Model
      */
     public function add($data)
     {  
-         
+        
         $data['client'] = $data['client'];
         $staff_name = $data['staff_name'];
         $staff_info = $data['staff_info'];
@@ -105,6 +112,7 @@ class Contracts_model extends App_Model
         $data['description'] = $data['description'];
         $data['subscription'] = $data['subscription'];
         $sub_array = explode(",", $data['sub_arr']) ;
+
         $data['contract_value'] = $data['contract_value'];
         $data['contract_type'] = $data['contract_type'];
         $data['service_p_m'] = $data['custom_fields']['contracts_ser'][12];
@@ -122,7 +130,7 @@ class Contracts_model extends App_Model
             $data['content'] = preg_replace('#{agent_address}#',$staff_info,$data['content']);
 
             if(isset($customer)){
-               $data['content'] = preg_replace('#{customer},#','<span style="margin-left:5%">• &nbsp;'.$customer.'</span>',$data['content']); 
+               $data['content'] = preg_replace('#{customer},#',$customer,$data['content']); 
             }
             if(isset($customer_addr)){
                 $data['content'] = preg_replace('#{customer_address}#',$customer_addr,$data['content']);
@@ -131,17 +139,22 @@ class Contracts_model extends App_Model
             
             if(isset($sub_array))
             {
-
+                
                 for ($i=0; $i<count($sub_array);$i++){
-                  $que = $this->db->query("select `content` from tblsubscriptions_settings where `id`='$sub_array[$i]'");
-                  $sub_cont[] = $que->result_array();
-                  // if(isset($sub_cont))
-                  $sub_cont1[] =  '<p style="margin-left:5%">• &nbsp;'. $sub_cont[$i][0]['content'].'</p>';
-                  // else $sub_cont1="";   
+                    
+                      $que = $this->db->query("select `content` from tblsubscriptions_settings where `id`='$sub_array[$i]'");
+                      $sub_cont[] = $que->result_array();
+                      if(count($sub_cont[$i])!=0)
+                      $sub_cont1[] = '<p style="margin-left:5%">• &nbsp;'. $sub_cont[$i][0]['content'];
+                    
+                  
                 }
-
-                $sub_cont2 = implode("", $sub_cont1);
-                $data['content'] = preg_replace('#{PLACEHOLDER BLOCKS FROM SUBSCRIPTIONS}#',$sub_cont2,$data['content']);
+                
+                if (isset($sub_cont1)){
+                    $sub_cont2 = implode("", $sub_cont1);
+                    $data['content'] = preg_replace('#{PLACEHOLDER BLOCKS FROM SUBSCRIPTIONS}#',$sub_cont2,$data['content']);
+                }
+                
             }
             if($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ) {
                 $data['content'] = $data['content'] ; 
@@ -235,7 +248,7 @@ class Contracts_model extends App_Model
             $data['content'] = preg_replace('#{agent}#',$staff_name,$content[0]['details']);
             $data['content'] = preg_replace('#{agent_address}#',$staff_info,$data['content']);
             if(isset($customer)){
-               $data['content'] = preg_replace('#{customer},#','<span style="margin-left:5%">• &nbsp;'.$customer.'</span>',$data['content']); 
+               $data['content'] = preg_replace('#{customer},#',$customer,$data['content']); 
             }
             if(isset($customer_addr)){
                 $data['content'] = preg_replace('#{customer_address}#',$customer_addr,$data['content']);

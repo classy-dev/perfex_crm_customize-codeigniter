@@ -147,19 +147,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 row">
+                <!-- <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
-                            <span><?php echo _l('estimate'); ?></span>
+                            <span><?php //echo _l('estimate'); ?></span>
                         </div>
                         <div class="col-md-6 mtop10">
                             <div class="onoffswitch">
-                                <input type="checkbox" id="estimate_emails" data-perm-id="2" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->estimate_emails == '1'){echo 'checked';} ?>  value="estimate_emails" name="estimate_emails">
+                                <input type="checkbox" id="estimate_emails" data-perm-id="2" class="onoffswitch-checkbox" <?php //if(isset($contact) && $contact->estimate_emails == '1'){echo 'checked';} ?>  value="estimate_emails" name="estimate_emails">
                                 <label class="onoffswitch-label" for="estimate_emails"></label>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
@@ -187,6 +187,21 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-6 row">
+                    <div class="row">
+                        <div class="col-md-6 mtop10 border-right">
+                            <span><?php echo _l('contract'); ?></span>
+                        </div>
+                        <div class="col-md-6 mtop10">
+                            <div class="onoffswitch">
+                                <input type="checkbox" id="contract_emails" data-perm-id="3" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->contract_emails == '1'){echo 'checked';} ?>  value="contract_emails" name="contract_emails">
+                                <label class="onoffswitch-label" for="contract_emails"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="col-md-6 row">
                     <div class="row">
                         <div class="col-md-6 mtop10 border-right">
@@ -210,19 +225,7 @@
 
                     </div>
                 </div>
-                 <div class="col-md-6 row">
-                    <div class="row">
-                        <div class="col-md-6 mtop10 border-right">
-                            <span><?php echo _l('contract'); ?></span>
-                        </div>
-                        <div class="col-md-6 mtop10">
-                            <div class="onoffswitch">
-                                <input type="checkbox" id="contract_emails" data-perm-id="3" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->contract_emails == '1'){echo 'checked';} ?>  value="contract_emails" name="contract_emails">
-                                <label class="onoffswitch-label" for="contract_emails"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                 
                 </div>
             </div>
         </div>

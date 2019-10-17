@@ -8,9 +8,11 @@ class Invoice extends ClientsController
     {
         check_invoice_restrictions($id, $hash);
         $invoice = $this->invoices_model->get($id);
-
         $invoice = hooks()->apply_filters('before_client_view_invoice', $invoice);
-
+        $contract = $this->contracts_model->get_staff_client($invoice->clientid);
+        $this->load->model('taxes_model');
+        $tax = $this->taxes_model->get_tax_by_subscription($invoice->subscription_id);
+        // print_r($tax); exit();
         if (!is_client_logged_in()) {
             load_client_language($invoice->clientid);
         }
@@ -65,6 +67,8 @@ class Invoice extends ClientsController
         $data['hash']          = $hash;
         $data['invoice']       = hooks()->apply_filters('invoice_html_pdf_data', $invoice);
         $data['bodyclass']     = 'viewinvoice';
+        $data['contract'] = $contract;
+        $data['tax'] = $tax;
         $this->data($data);
         $this->view('invoicehtml');
         add_views_tracking('invoice', $id);

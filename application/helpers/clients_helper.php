@@ -735,28 +735,28 @@ function get_contact_permissions()
             'name'       => _l('customer_permission_invoice'),
             'short_name' => 'invoices',
         ],
+        // [
+        //     'id'         => 2,
+        //     'name'       => _l('customer_permission_estimate'),
+        //     'short_name' => 'estimates',
+        // ],
         [
             'id'         => 2,
-            'name'       => _l('customer_permission_estimate'),
-            'short_name' => 'estimates',
-        ],
-        [
-            'id'         => 3,
             'name'       => _l('customer_permission_contract'),
             'short_name' => 'contracts',
         ],
+        // [
+        //     'id'         => 4,
+        //     'name'       => _l('customer_permission_proposal'),
+        //     'short_name' => 'proposals',
+        // ],
         [
-            'id'         => 4,
-            'name'       => _l('customer_permission_proposal'),
-            'short_name' => 'proposals',
-        ],
-        [
-            'id'         => 5,
+            'id'         => 3,
             'name'       => _l('customer_permission_support'),
             'short_name' => 'support',
         ],
         [
-            'id'         => 6,
+            'id'         => 4,
             'name'       => _l('customer_permission_projects'),
             'short_name' => 'projects',
         ],

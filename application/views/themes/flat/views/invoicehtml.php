@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php //print_r($contract) ?>
 <div class="mtop15 preview-top-wrapper">
    <div class="row">
       <div class="col-md-3">
@@ -58,13 +59,25 @@
             <div class="col-md-6 col-sm-6 transaction-html-info-col-left">
                <h4 class="bold invoice-html-number"><?php echo format_invoice_number($invoice->id); ?></h4>
                <address class="invoice-html-company-info">
-                  <?php echo format_organization_info(); ?>
+                  <?php //echo format_organization_info(); ?>
+                  <?php if(isset($contract) && $contract != null){?>
+                     <h3><?php echo $contract[0]['staff_name']; ?></h3>
+                     <div>
+                       <h4><?php echo $contract[0]['staff_info']; ?></h> 
+                     </div>
+                  <?php }?>
                </address>
             </div>
             <div class="col-sm-6 text-right transaction-html-info-col-right">
                <span class="bold invoice-html-bill-to"><?php echo _l('invoice_bill_to'); ?>:</span>
                <address class="invoice-html-customer-billing-info">
-                  <?php echo format_customer_info($invoice, 'invoice', 'billing'); ?>
+                  <?php //echo format_customer_info($invoice, 'invoice', 'billing'); ?>
+                   <?php if(isset($contract) && $contract != null){?>
+                     <h4><?php echo $contract[0]['cus_value']; ?></h4>
+                     <div>
+                       <h5><?php echo $contract[0]['cus_addr_value']; ?></h5> 
+                     </div>
+                  <?php }?>
                </address>
                <!-- shipping details -->
                <?php if($invoice->include_shipping == 1 && $invoice->show_shipping_on_invoice == 1){ ?>
@@ -79,12 +92,12 @@
                   </span>
                   <?php echo _d($invoice->date); ?>
                </p>
-               <?php if(!empty($invoice->duedate)){ ?>
-               <p class="no-mbot invoice-html-duedate">
-                  <span class="bold"><?php echo _l('invoice_data_duedate'); ?></span>
-                  <?php echo _d($invoice->duedate); ?>
-               </p>
-               <?php } ?>
+               <?php //if(!empty($invoice->duedate)){ ?>
+               <!-- <p class="no-mbot invoice-html-duedate">
+                  <span class="bold"><?php //echo _l('invoice_data_duedate'); ?></span>
+                  <?php //echo _d($invoice->duedate); ?>
+               </p> -->
+               <?php //} ?>
                <?php if($invoice->sale_agent != 0 && get_option('show_sale_agent_on_invoices') == 1){ ?>
                <p class="no-mbot invoice-html-sale-agent">
                   <span class="bold"><?php echo _l('sale_agent_string'); ?>:</span>
@@ -113,15 +126,71 @@
                <div class="table-responsive">
                   <?php
                      $items = get_items_table_data($invoice, 'invoice');
-                     echo $items->table();
+                     // print_r($items);exit();
+                     // echo $items->table();
                      ?>
+                  <table class="table items items-preview invoice-items-preview" data-type="invoice">
+                     <thead>
+                        <tr>
+                           <th align="center" style="padding-top: 6px;">
+                              <font style="vertical-align: inherit;">
+                                 <font style="vertical-align: inherit;">#</font>
+                              </font>
+                           </th>
+                           <th class="description" width="50%" align="center">
+                              <font style="vertical-align: inherit;">
+                                 <font style="vertical-align: inherit;">Contracts</font>
+                              </font>
+                           </th>
+                           <th align="right">
+                              <font style="vertical-align: inherit;">
+                                 <font style="vertical-align: inherit;">tax
+                                 </font>
+                              </font>
+                           </th>
+                           <th align="right">
+                              <font style="vertical-align: inherit;">
+                                 <font style="vertical-align: inherit;">total</font>
+                              </font>
+                           </th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr nobr="true">
+                           <td align="center">
+                              <font style="vertical-align: inherit;">
+                                 <font style="vertical-align: inherit;"><?php
+                                 if(isset($invoice) && $invoice != null) echo $invoice->id;  ?></font>
+                              </font>
+                           </td>
+                           <td align="center">
+                              <font style="vertical-align: inherit;">
+                                 <font style="vertical-align: inherit;"><?php if(isset($contract) && $contract != null) echo $contract[0]['description'];  ?></font>
+                              </font>
+                           </td>
+                           <td align="right">
+                              <font style="vertical-align: inherit;">
+                                 <font style="vertical-align: inherit;"><?php 
+                                 // print_r($tax); exit();
+                                 if(isset($tax) && $tax[0]['id'] != null) echo $tax[0]['name'].' | '.$tax[0]['taxrate'].'%';  ?></font>
+                              </font>
+                           </td>
+                           <td align="right">
+                              <font style="vertical-align: inherit;">
+                                 <font style="vertical-align: inherit;"><?php
+                                 if(isset($invoice) && $invoice != null) echo $invoice->subtotal;  ?></font>
+                              </font>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
                </div>
             </div>
             <div class="col-md-6 col-md-offset-6">
                <table class="table text-right">
                   <tbody>
                      <tr id="subtotal">
-                        <td><span class="bold"><?php echo _l('invoice_subtotal'); ?></span>
+                        <td><span class="bold"><?php //echo _l('invoice_subtotal'); ?> Amount Without Tax</span>
                         </td>
                         <td class="subtotal">
                            <?php echo app_format_money($invoice->subtotal, $invoice->currency_name); ?>
@@ -180,7 +249,7 @@
                      <?php } ?>
                      <?php if(get_option('show_amount_due_on_invoice') == 1 && $invoice->status != Invoices_model::STATUS_CANCELLED) { ?>
                      <tr>
-                        <td><span class="<?php if($invoice->total_left_to_pay > 0){echo 'text-danger ';} ?>bold"><?php echo _l('invoice_amount_due'); ?></span></td>
+                        <td><span class="<?php if($invoice->total_left_to_pay > 0){echo 'text-danger ';} ?>bold"><?php //echo _l('invoice_amount_due'); ?>Amount To Pay</span></td>
                         <td>
                            <span class="<?php if($invoice->total_left_to_pay > 0){echo 'text-danger';} ?>">
                            <?php echo app_format_money($invoice->total_left_to_pay, $invoice->currency_name); ?>

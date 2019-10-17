@@ -117,4 +117,9 @@ class Taxes_model extends App_Model
 
         return false;
     }
+    public function get_tax_by_subscription($subcription_id){
+        
+        $query = $this->db->query("SELECT tbltaxes.*FROM tbltaxes RIGHT JOIN tblsubscriptions ON tbltaxes.`id` = tblsubscriptions.`tax_id` WHERE tblsubscriptions.`id`=$subcription_id");
+        return $query->result_array();
+    }
 }

@@ -76,7 +76,6 @@ class Clients extends AdminController
             foreach ($staffid_arr as  $value) {
                 $res[] = $value['staffid'];
             }
-            // print_r($res); exit();
             $data['staff_arr'] = $res;
             $this->app->get_table_data('clients',$data); 
         }

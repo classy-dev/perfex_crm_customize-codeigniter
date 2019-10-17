@@ -64,6 +64,7 @@
          </ul>
          <div class="tab-content">
             <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab') || $this->input->get('tab') === 'summary'){echo ' active';} ?>" id="summary">
+               <!-- Staff infor displaying -->
                <address class="contract-html-company-info">
                   <?php //echo format_organization_info(); ?>
                   <?php if(isset($contract)){?>

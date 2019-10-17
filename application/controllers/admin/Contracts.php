@@ -36,8 +36,6 @@ class Contracts extends Admin_controller
             if (has_permission('contracts', '', 'view_own')) {
                 $role = $this->staff_model->get_role(get_staff_user_id());
                 $staffid_arr = $this->staff_model->get_customer_with_role($role[0]['role_type'],$role[0]['role']);
-                // print_r($staffid_arr); exit();
-                // $res = [];
                 foreach ($staffid_arr as  $value) {
                     $res[] = $value['staffid'];
                 }
@@ -82,18 +80,84 @@ class Contracts extends Admin_controller
     public function contract($id = '')
     {
         if ($this->input->post()) {
-            // print_r($_POST); exit();
-            
             if ($id == '') {
                 if (!has_permission('contracts', '', 'create')) {
                     access_denied('contracts');
                 }
                 $id = $this->contracts_model->add($this->input->post());
-                if ($id) {
-                    set_alert('success', _l('added_successfully', _l('contract')));
-
-                     // redirect(admin_url('contracts/contract/' . $id));
+                $invoice_number = $this->invoices_model->get_last_invoice_num();
+                 if ($id) {
+                    // set_alert('success', _l('added_successfully', _l('contract')));
+                    // redirect(admin_url('contracts/contract/' . $id));
                     // automatic invoice creating
+                    $invoice_data = [];
+                    $invoice_data['clientid'] = $_POST['client'];
+                    $invoice_data['project_id'] = null;
+                    $invoice_data['billing_street'] = null;
+                    $invoice_data['billing_city'] = null;
+                    $invoice_data['billing_state'] = null;
+                    $invoice_data['billing_zip'] = null;
+                    $invoice_data['show_shipping_on_invoice'] = 1;
+                    $invoice_data['shipping_street'] = null;
+                    $invoice_data['shipping_city'] = null;
+                    $invoice_data['shipping_state'] = null;
+                    $invoice_data['shipping_zip'] = null;
+                    $invoice_data['number'] = $invoice_number->number + 1;
+                    $invoice_data['date'] = $_POST['datestart'];
+                    $invoice_data['duedate'] = null;
+                    $invoice_data['allowed_payment_modes'] = array(
+                            5, 'stripe'
+                        );
+
+                    $invoice_data['currency'] = 2;
+                    $invoice_data['sale_agent'] = 0;
+
+                    if($_POST['custom_fields']['contracts_ser'][13] == 'Daily')
+                    {
+                        $invoice_data['recurring'] = 'custom';
+                        $invoice_data['repeat_every_custom'] = 1;
+                        $invoice_data['repeat_type_custom'] = 'day';
+                    }
+
+                    if($_POST['custom_fields']['contracts_ser'][13] == 'Quaterly')
+                    {
+                        $invoice_data['recurring'] = 'custom';
+                        $invoice_data['repeat_every_custom'] = 15;
+                        $invoice_data['repeat_type_custom'] = 'day';
+                    }
+                    elseif ($_POST['custom_fields']['contracts_ser'][13] == 'Monthly') {
+                        $invoice_data['recurring'] = 'custom';
+                        $invoice_data['repeat_every_custom'] = 1;
+                        $invoice_data['repeat_type_custom'] = 'month';
+                    }
+                    elseif ($_POST['custom_fields']['contracts_ser'][13] == 'Half-Yearly') {
+                        $invoice_data['recurring'] = 'custom';
+                        $invoice_data['repeat_every_custom'] = 6;
+                        $invoice_data['repeat_type_custom'] = 'month';
+                    }
+                    elseif ($_POST['custom_fields']['contracts_ser'][13] == 'Annually') {
+                        $invoice_data['recurring'] = 'custom';
+                        $invoice_data['repeat_every_custom'] = 1;
+                        $invoice_data['repeat_type_custom'] = 'year';
+                    }
+                    $invoice_data['discount_type'] = null;
+                    
+                    $invoice_data['adminnote'] = null;
+                    $invoice_data['show_quantity_as'] = 1;
+
+                    $invoice_data['quantity'] = 1;
+
+                    $invoice_data['subtotal'] = $_POST['contract_value'];
+                    $invoice_data['discount_percent'] = 0;
+                    $invoice_data['discount_total'] = 0.00;
+                    $invoice_data['adjustment'] = 0;
+                    $invoice_data['total'] = $_POST['contract_value'] * ( 1 + $_POST['sub_tax']/100);
+                    $invoice_data['sub_tax'] = $_POST['sub_tax'];
+                    $invoice_data['clientnote'] = null;
+                    $invoice_data['terms'] = null;
+                    $invoice_data['subscription_id'] = $_POST['subscription'];
+
+                    /*
                     $invoice_data = array(
                         'clientid'=> $_POST['client'],
                         'project_id' => 0,
@@ -117,9 +181,9 @@ class Contracts extends Admin_controller
                         ),
                         'currency' => 2,
                         // 'tags' => null,
-                        'sale_agent' => 0,
+                        'sale_agent' => null,
                         // 'recurring' => null,
-                        // 'recurring' => 0,
+                        'recurring' => 15,
                         'discount_type' => null,
                         'repeat_every_custom' => 1,
                         'repeat_type_custom' => 'day',
@@ -143,20 +207,17 @@ class Contracts extends Admin_controller
                         // 'task_id' => null,
                         // 'expense_id' => null,
                         'clientnote' => null,
-                        'terms' => null
+                        'terms' => null,
+                        'subscription_id' => $_POST['subscription']
 
                     );
-                    
+                    */
                     $invoice_id = $this->invoices_model->add($invoice_data);
                     if ($invoice_id) {
-                        // set_alert('success', _l('added_successfully', _l('invoice')));
-
                         set_alert('success', _l('added_successfully', _l('contract and invoice')));
-                        
                         if (isset($invoice_data['save_and_record_payment'])) {
                             $this->session->set_userdata('record_payment', true);
                         }
-
                         redirect(admin_url('contracts/contract/' . $id));
                     }
                 }
@@ -205,10 +266,7 @@ class Contracts extends Admin_controller
         $data['customer'] = $this->clients_model->get_customer_with_country();
         // $data['customer'] = $this->clients_model->get();
         $staffid = get_staff_user_id();
-        // $data['staff'] = $this->staff_model->get($staffid);
         $data['staff'] = $this->staff_model->get_staff_with_country($staffid);
-        // print_r($staffid); exit();
-        // print_r($data['customer']);exit();
         $this->load->view('admin/contracts/contract', $data);
     }
 
@@ -532,4 +590,7 @@ class Contracts extends Admin_controller
             ]);
         }
     }
+    // public function recurring_test(){
+    //     $this->invoices_model->recurring_invoices();
+    // }
 }
