@@ -479,7 +479,6 @@ class Staff_model extends App_Model
 
     public function add_staff($data)
     {
-
         if (isset($data['fakeusernameremembered'])) {
             unset($data['fakeusernameremembered']);
         }
@@ -487,11 +486,11 @@ class Staff_model extends App_Model
             unset($data['fakepasswordremembered']);
         }
         // First check for all cases if the email exists.
-        // $this->db->where('email', $data['email']);
-        // $email = $this->db->get(db_prefix() . 'staff')->row();
-        // if ($email) {
-        //     die('Email already exists');
-        // }
+        $this->db->where('email', $data['email']);
+        $email = $this->db->get(db_prefix() . 'staff')->row();
+        if ($email) {
+            die('Email already exists');
+        }
         $data['admin'] = 0;
         if (is_admin()) {
             if (isset($data['administrator'])) {
@@ -565,25 +564,25 @@ class Staff_model extends App_Model
                 }
             }
             // print_r($permissions) ; exit;
-            // // Delete all staff permission if is admin we dont need permissions stored in database (in case admin check some permissions)
-            // $this->update_permissions($data['admin'] == 1 ? [] : $permissions, $staffid);
+            // Delete all staff permission if is admin we dont need permissions stored in database (in case admin check some permissions)
+            $this->update_permissions($data['admin'] == 1 ? [] : $permissions, $staffid);
 
-            // log_activity('New Staff Member Added [ID: ' . $staffid . ', ' . $data['firstname'] . ' ' . $data['lastname'] . ']');
+            log_activity('New Staff Member Added [ID: ' . $staffid . ', ' . $data['firstname'] . ' ' . $data['lastname'] . ']');
             
-            // // Get all announcements and set it to read.
-            // $this->db->select('announcementid');
-            // $this->db->from(db_prefix() . 'announcements');
-            // $this->db->where('showtostaff', 1);
+            // Get all announcements and set it to read.
+            $this->db->select('announcementid');
+            $this->db->from(db_prefix() . 'announcements');
+            $this->db->where('showtostaff', 1);
 
-            // $announcements = $this->db->get()->result_array();
-            // foreach ($announcements as $announcement) {
-            //     $this->db->insert(db_prefix() . 'dismissed_announcements', [
-            //         'announcementid' => $announcement['announcementid'],
-            //         'staff'          => 1,
-            //         'userid'         => $staffid,
-            //     ]);
-            // }
-            // hooks()->do_action('staff_member_created', $staffid);
+            $announcements = $this->db->get()->result_array();
+            foreach ($announcements as $announcement) {
+                $this->db->insert(db_prefix() . 'dismissed_announcements', [
+                    'announcementid' => $announcement['announcementid'],
+                    'staff'          => 1,
+                    'userid'         => $staffid,
+                ]);
+            }
+            hooks()->do_action('staff_member_created', $staffid);
             
             return $staffid;
         }

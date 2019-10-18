@@ -81,6 +81,12 @@
    $(function(){
      appValidateForm($('form'),{name:'required'});
    });
+
+   $(document).ready(function(){
+      $('#contracts_edit').attr("checked",false);
+      $('#contracts_edit').attr("disabled",true);
+      // $('lable[for=contracts_edit]').remove();
+   });
 </script>
 </body>
 </html>

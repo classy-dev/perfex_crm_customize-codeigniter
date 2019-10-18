@@ -25,7 +25,6 @@ class Roles extends AdminController
         }
 
         if ($this->input->post()) {
-            // print_r($_POST); exit();
             if(1 === preg_match('~[0-9]~', $_POST['name'])){
                 preg_match("/([a-zA-Z]+)(\\d+)/", $_POST['name'] , $matches);
                 $data['common_letter'] = $matches[1];
@@ -38,6 +37,7 @@ class Roles extends AdminController
 
             $data['name'] = $_POST['name'];
             $data['permissions'] = $_POST['permissions'];
+            $data['update_staff_permissions'] = $_POST['update_staff_permissions'];
             
             if ($id == '') {
                 if (!has_permission('roles', '', 'create')) {
@@ -53,9 +53,7 @@ class Roles extends AdminController
                     access_denied('roles');
                 }
 
-                // print_r($this->input->post()); exit();
                 $success = $this->roles_model->update($data, $id);
-                // print_r($success); exit();
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('role')));
                 }

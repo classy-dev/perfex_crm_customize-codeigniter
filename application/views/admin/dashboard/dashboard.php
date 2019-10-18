@@ -3,7 +3,9 @@
 // print_r($stripe); exit();
 ?>
 <?php init_head(); ?>
-<div id="wrapper">
+<?php if ($stripe[0]['stripe_email'] == null) echo '<div id="wrapper" style="margin-left:0">' ?>
+<?php if ($stripe[0]['stripe_email'] != null) echo '<div id="wrapper">' ?>
+<!-- <div id="wrapper"> -->
     <!-- <div class="screen-options-area"></div>
     <div class="screen-options-btn">
         <?php //echo _l('dashboard_options'); ?>
@@ -108,7 +110,7 @@
         console.log(stripe[0].stripe_email);
         // console.log("dashboard")
         if(stripe[0].stripe_email == null || stripe[0].stripe_password == null ) {
-            $('#wrapper').css("margin-left","0");
+            // $('#wrapper').css("margin-left","0");
             $('#myModal').modal('show');
         }
         

@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<div id="wrapper">
+<?php if ($stripe[0]['stripe_email'] == null) echo '<div id="wrapper" style="margin-left:0">' ?>
+<?php if ($stripe[0]['stripe_email'] != null) echo '<div id="wrapper">' ?>
+<!-- <div id="wrapper"> -->
 	<div class="content">
 		<div class="row">
 			<div class="col-md-12">
@@ -133,17 +135,4 @@
 </script>
 </body>
 </html>
-<script type="text/javascript">
-    $(document).ready(function(){
 
-        var stripe0 = '<?php echo json_encode($stripe)?>';
-        var stripe = JSON.parse(stripe0);
-
-        console.log(stripe[0].stripe_email);
-        // console.log("dashboard")
-        if(stripe[0].stripe_email == null || stripe[0].stripe_password == null ) {
-            $('#wrapper').css("margin-left","0");
-        }
-        
-    });
-</script>

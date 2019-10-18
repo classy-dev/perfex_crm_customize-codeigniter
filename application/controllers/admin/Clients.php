@@ -105,11 +105,12 @@ class Clients extends AdminController
     /* Edit client or add new client*/
     public function client($id = '')
     {
-        if (!has_permission('customers', '', 'view')) {
-            if ($id != '' && !is_customer_admin($id)) {
-                access_denied('customers');
-            }
-        }
+        // if (!has_permission('customers', '', 'view')) {
+        //     // if ($id != '' && !is_customer_admin($id)) {
+        //     if ($id != '') {
+        //         access_denied('customers');
+        //     }
+        // }
 
         if ($this->input->post() && !$this->input->is_ajax_request()) {
             if ($id == '') {

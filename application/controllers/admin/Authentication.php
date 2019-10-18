@@ -260,13 +260,14 @@ class Authentication extends App_Controller
             $data['email_signature'] = html_entity_decode($data['email_signature']);
 
             $data['password'] = $this->input->post('password', false);
+            //default role && role_type
             $data['role'] = 1;
-            
+            $data['role_type'] = 2;
 
             if ($id == '') {
             
                 $id = $this->staff_model->add_staff($data);
-               
+               //Setting default role at the register moment
                 $role_permission = [
                     "marketplace" => ["view", "edit"],
                     "bulk_pdf_exporter" => ["view"],
