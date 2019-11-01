@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php
- if (isset($contract0))  print_r($contract0['session']); //exit();
- init_head(); ?>
+<?php 
+// print_r($contract0['session']['staff_info']);
+init_head(); ?>
 <style>
    .form-group[app-field-wrapper=subject], #contractmergefields, #tasks, #renewals{
       /*display:none!important;*/
@@ -63,8 +63,8 @@
                      </div>
                   </div>
 
-                  <input type="hidden" id="staf_name" name="staff_name" value="<?php if(isset($contract->staff_name)) echo $contract->staff_name; else echo "";?>">
-                  <input type="hidden" id="staf_info" name="staff_info" value="<?php if(isset($contract->staff_info)) echo $contract->staff_info; else echo "";?>">
+                  <input type="hidden" id="staf_name" name="staff_name" value="<?php if(isset($contract0['session']['staff_name'])) echo $contract0['session']['staff_name']; else echo "";?>">
+                  <input type="hidden" id="staf_info" name="staff_info" value="<?php if(isset($contract0['session']['staff_info'])) echo $contract0['session']['staff_info']; else echo "";?>">
 
                   <!-- subject -->
                    <?php $value = (isset($contract0['session']['subject']) ? $contract0['session']['subject'] : ''); ?>
@@ -161,8 +161,8 @@
                            <?php echo $base_currency->symbol; ?>
                         </div>
                      </div>
-                     <input type="hidden" name="sub_arr" id="sub_arr" value="<?php if(isset($contract->sub_arr))  print_r($contract->sub_arr); else echo "";?>">
-                     <input type="hidden" name="sub_tax" id="sub_tax" value="<?php if(isset($contract->sub_tax))  print_r($contract->sub_tax); else echo "";?>">
+                     <input type="hidden" name="sub_arr" id="sub_arr" value="<?php if(isset($contract0['session']['sub_arr']))  print_r($contract0['session']['sub_arr']); else echo "";?>">
+                     <input type="hidden" name="sub_tax" id="sub_tax" value="<?php if(isset($contract0['session']['sub_tax']))  print_r($contract0['session']['sub_tax']); else echo "";?>">
                   </div>
                   <!-- Date -->
                   <div class="row">

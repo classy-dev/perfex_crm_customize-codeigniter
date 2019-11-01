@@ -82,7 +82,6 @@ class Contracts extends Admin_controller
     {
         // $this->session->sess_destroy(); 
         if($_POST && ($_POST['btn_type'] == "save")){
-            // print_r($_POST); exit();
             if ($this->input->get('customer_id')) {
                 $data['customer_id'] = $this->input->get('customer_id');
             }
@@ -97,7 +96,7 @@ class Contracts extends Admin_controller
             $staffid = get_staff_user_id();
             $data['staff'] = $this->staff_model->get_staff_with_country($staffid);
             $data['btn_type'] = $_POST['btn_type'];
-            // print_r($data);exit();
+
             //session data for back button
             $session_data = [];
             $session_data['session'] = $_POST;
