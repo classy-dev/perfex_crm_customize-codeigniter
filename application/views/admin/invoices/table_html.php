@@ -13,8 +13,8 @@ $table_data = array(
     'name'=>_l('invoice_dt_table_heading_client'),
     'th_attrs'=>array('class'=>(isset($client) ? 'not_visible' : ''))
   ),
-  _l('project'),
-  _l('tags'),
+  _l('contract_on_invoice'),
+  _l('date_of_signing_on_invoice'),
   _l('invoice_dt_table_heading_duedate'),
   _l('invoice_dt_table_heading_status'));
 $custom_fields = get_custom_fields('invoice',array('show_on_table'=>1));

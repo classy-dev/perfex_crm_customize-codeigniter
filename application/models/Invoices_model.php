@@ -1559,4 +1559,10 @@ class Invoices_model extends App_Model
        $res = $query->row();
        return $res;
     }
+
+    public function get_contract_for_invoice($id){
+        $query = $this->db->query("SELECT `id`,`hash`,`subject`,`acceptance_date` FROM tblcontracts WHERE `id`=$id");
+        $res = $query->row();
+        return $res;
+    }
 }

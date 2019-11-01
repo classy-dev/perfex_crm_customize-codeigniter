@@ -375,6 +375,7 @@ class Staff extends AdminController
             die;
         }
     }
+    // for stripe info in edit staff profile
     public function stripe_info()
     {
         // print_r($_POST); exit();
@@ -387,5 +388,10 @@ class Staff extends AdminController
                     set_alert('success', _l('added_successfully', _l('stripe')));
                     redirect(admin_url('staff/edit_profile'));
         }
+    }
+    // for role_name in staff table
+    public function get_staff_role_name()
+    {
+        return "attacthed";
     }
 }

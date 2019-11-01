@@ -12,7 +12,7 @@ $aColumns = [
     'firstname',
     'email',
     db_prefix().'roles.name',
-    // db_prefix().'role_type.role_type_name',
+    'role_type',
     'last_login',
     'active',
     ];
@@ -47,15 +47,21 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-// foreach ($rResult as $key => $value) {
-//  if($value['role_type']) {
-//     // echo admin_url('staff/table_get_rtype');
-//     // print_r($value['role_type']);
-//     }
-// }
 
-// exit();
 foreach ($rResult as $aRow) {
+
+    // $staff_role_name = $this->ci->staff_model->get_staff_role_name($aRow['role_type']);
+    // $aRow['role_type'] = $staff_role_name;
+
+    if ($aRow['role_type'] == 0 || $aRow['role_type'] == null){
+        $aRow['role_type'] = '';
+    }
+    else
+    {
+        $staff_role_name = $this->ci->staff_model->get_staff_role_name($aRow['role_type']);
+        $aRow['role_type'] = $staff_role_name->role_type_name;
+    }
+    
     $row = [];
     for ($i = 0; $i < count($aColumns); $i++) {
         if (strpos($aColumns[$i], 'as') !== false && !isset($aRow[$aColumns[$i]])) {
@@ -106,7 +112,7 @@ foreach ($rResult as $aRow) {
             }
         }
         $row[] = $_data;
-        // print_r($_data); exit();
+        // print_r($row); exit();
     }
     $row['DT_RowClass'] = 'has-row-options';
     $output['aaData'][] = $row;

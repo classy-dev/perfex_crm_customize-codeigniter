@@ -130,7 +130,7 @@ foreach ($rResult as $aRow) {
     $subjectOutput .= '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>';
 
     // if (has_permission('contracts', '', 'edit')) {
-    //     $subjectOutput .= ' | <a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+        // $subjectOutput .= ' | <a href="' . admin_url('contracts/contract/' . $aRow['id']) . '" class="sign">' . _l('sign') . '</a>';
     // }
 
     if (has_permission('contracts', '', 'delete')) {

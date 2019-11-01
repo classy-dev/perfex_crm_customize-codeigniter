@@ -3,14 +3,14 @@
    <div class="panel_s mbot10">
       <div class="panel-body _buttons">
          <?php $this->load->view('admin/invoices/invoices_top_stats'); ?>
-         <?php if(has_permission('invoices','','create')){ ?>
-            <a href="<?php echo admin_url('invoices/invoice'); ?>" class="btn btn-info pull-left new new-invoice-list mright5"><?php echo _l('create_new_invoice'); ?></a>
-         <?php } ?>
-         <?php if(!isset($project)){ ?>
-               <a href="<?php echo admin_url('invoices/recurring'); ?>" class="btn btn-info pull-left">
-                  <?php echo _l('invoices_list_recurring'); ?>
-               </a>
-         <?php } ?>
+         <?php //if(has_permission('invoices','','create')){ ?>
+            <!-- <a href="<?php //echo admin_url('invoices/invoice'); ?>" class="btn btn-info pull-left new new-invoice-list mright5"><?php //echo _l('create_new_invoice'); ?></a> -->
+         <?php //} ?>
+         <?php //if(!isset($project)){ ?>
+               <!-- <a href="<?php //echo admin_url('invoices/recurring'); ?>" class="btn btn-info pull-left"> -->
+                  <?php //echo _l('invoices_list_recurring'); ?>
+               <!-- </a> -->
+         <?php //} ?>
          <div class="display-block text-right">
             <div class="btn-group pull-right mleft4 invoice-view-buttons btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">
                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -84,7 +84,8 @@
         <h3 class="modal-title" style="text-align: center;">Welcome to dipay</h3>
       </div>
       <div class="modal-body" style="background: red">
-        <h4 style="color: white;text-align: center;">You logged in the first time. Please make sure that you complete your profile, that everything work fine on this site!</h4>
+        <h4 style="color: white;text-align: center;">You logged in the first time.</br> 
+            Please make sure that you <a href="<?php echo admin_url('staff/edit_profile')?>">Complete your Profile</a>, that everything work fine on this site!</h4>
         <h4 style="color: white;text-align: center;">Dont forget to fill the payment requirements on stripe in the Editing Profile Page!</h4>
       </div>
     </div>

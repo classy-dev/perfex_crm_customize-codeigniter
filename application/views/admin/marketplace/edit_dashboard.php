@@ -203,7 +203,7 @@
                     </div>
                     <!-- Title URL -->
                     <div class="col-md-12" style="padding-left: 0px;">
-                      <div class="col-md-7">
+                      <div class="col-md-7" style="overflow: auto;">
                         <h4>Video URL(https://www.youtube.com/embed/)</h4>
                       </div>
                       <div class="col-md-4">
@@ -429,7 +429,7 @@ $(document).ready(function(){
           $.ajax({
               url:'<?php echo admin_url('marketplace/products_single_remove') ?>',
               method:'POST',
-              data:{<?php  echo $this->security->get_csrf_token_name(); ?> : "<?php echo $this->security->get_csrf_hash(); ?>", products_id:products_id},
+              data:{<?php  echo $this->security->get_csrf_token_name(); ?> : "<?php echo $this->security->get_csrf_hash(); ?>"},
               success:function(data)
               {
                 alert(data);

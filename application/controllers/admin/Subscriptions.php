@@ -84,7 +84,7 @@ class Subscriptions extends AdminController
 
     public function edit($id)
     {
-        // print_r($_POST); exit();
+        
         if (!has_permission('subscriptions', '', 'view') && !has_permission('subscriptions', '', 'view_own')) {
             access_denied('Subscriptions View');
         }
@@ -102,13 +102,13 @@ class Subscriptions extends AdminController
             if (!has_permission('subscriptions', '', 'edit')) {
                 access_denied('Subscriptions Edit');
             }
-            
             $update = [
                 'block_array'         => $this->input->post('block_array'),
                 'name'                => $this->input->post('name'),
                 'description'         => nl2br($this->input->post('description')),
                 'description_in_item' => $this->input->post('description_in_item') ? 1 : 0,
-                'stripe_plan_id'      => $this->input->post('stripe_plan_id'),
+                // 'stripe_plan_id'      => $this->input->post('stripe_plan_id'),
+                'monthly_costs'       => $this->input->post('costs'),
                 'tax_id'              => $this->input->post('tax_id') ? $this->input->post('tax_id') : 0,
              ];
             

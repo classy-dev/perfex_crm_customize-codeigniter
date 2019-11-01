@@ -101,7 +101,8 @@ class Contracts_model extends App_Model
      */
     public function add($data)
     {  
-        
+        // print_r($data); exit();
+        unset($data['btn_type']);
         $data['client'] = $data['client'];
         $staff_name = $data['staff_name'];
         $staff_info = $data['staff_info'];
@@ -156,16 +157,25 @@ class Contracts_model extends App_Model
                 }
                 
             }
-            if($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ) {
-                $data['content'] = $data['content'] ; 
+            if($data['contract_type'] == 2 && $data['service_p_m'] =="Bank Transfer" ) {
+                // $data['content'] = preg_replace('#<div id="debit" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
+                // total 2 removing 
+                $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
+
             }
-            else if ($data['contract_type'] == 2 && $data['service_p_m'] !="Debit" )
-             $data['content'] = preg_replace('#(<li class="p_method" style="color:\#008dd2">)(?s).*[\n\r].*(</div>)#', '', $data['content']);
+            else if ($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ){
+                $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
+                // $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
+            }
+            else if ($data['contract_type'] == 2 && $data['service_p_m'] =="Immediate Transfer" ){
+                $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].* </div>#', "", $data['content']) ;
+                $data['content'] = preg_replace('#<div id="debit" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
+            }   
+
+             // $data['content'] = preg_replace('#(<li class="p_method" style="color:\#008dd2">)(?s).*[\n\r].*(</div>)#', '', $data['content']);
          
         }
         
-        
-
         $data['datestart'] = to_sql_date($data['datestart']);
         unset($data['attachment']);
         if ($data['dateend'] == '') {
@@ -537,11 +547,14 @@ class Contracts_model extends App_Model
      */
     public function delete($id)
     {
+
         hooks()->do_action('before_contract_deleted', $id);
         $this->clear_signature($id);
         $contract = $this->get($id);
         $this->db->where('id', $id);
         $this->db->delete(db_prefix() . 'contracts');
+        $this->db->where('accordingContract',$id);
+        $this->db->delete(db_prefix() . 'invoices');
         if ($this->db->affected_rows() > 0) {
             $this->db->where('contract_id', $id);
             $this->db->delete(db_prefix() . 'contract_comments');
@@ -844,4 +857,5 @@ class Contracts_model extends App_Model
     {
         return $this->contract_types_model->get_values_chart_data();
     }
+
 }

@@ -64,25 +64,6 @@ function app_init_admin_sidebar_menu_items()
             'icon'     => 'fa fa-balance-scale',
         ]);
 
-    // if ((has_permission('proposals', '', 'view') || has_permission('proposals', '', 'view_own'))
-    //     || (staff_has_assigned_proposals() && get_option('allow_staff_view_proposals_assigned') == 1)) {
-    //     $CI->app_menu->add_sidebar_children_item('sales', [
-    //             'slug'     => 'proposals',
-    //             'name'     => _l('proposals'),
-    //             'href'     => admin_url('proposals'),
-    //             'position' => 5,
-    //     ]);
-    // }
-
-    // if ((has_permission('estimates', '', 'view') || has_permission('estimates', '', 'view_own'))
-    //     || (staff_has_assigned_estimates() && get_option('allow_staff_view_estimates_assigned') == 1)) {
-    //     $CI->app_menu->add_sidebar_children_item('sales', [
-    //             'slug'     => 'estimates',
-    //             'name'     => _l('estimates'),
-    //             'href'     => admin_url('estimates'),
-    //             'position' => 10,
-    //     ]);
-    // }
 
     if ((has_permission('invoices', '', 'view') || has_permission('invoices', '', 'view_own'))
          || (staff_has_assigned_invoices() && get_option('allow_staff_view_invoices_assigned') == 1)) {
@@ -104,25 +85,6 @@ function app_init_admin_sidebar_menu_items()
         ]);
     }
 
-    if (has_permission('credit_notes', '', 'view') || has_permission('credit_notes', '', 'view_own')) {
-        $CI->app_menu->add_sidebar_children_item('sales', [
-                'slug'     => 'credit_notes',
-                'name'     => _l('credit_notes'),
-                'href'     => admin_url('credit_notes'),
-                'position' => 25,
-        ]);
-    }
-
-    if (has_permission('items', '', 'view')) {
-        $CI->app_menu->add_sidebar_children_item('sales', [
-                'slug'     => 'items',
-                'name'     => _l('items'),
-                'href'     => admin_url('invoice_items'),
-                'position' => 30,
-        ]);
-
-
-    }
 
     if (has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own')) {
         $CI->app_menu->add_sidebar_menu_item('subscriptions', [

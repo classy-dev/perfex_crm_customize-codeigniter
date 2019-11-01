@@ -1026,4 +1026,13 @@ class Staff_model extends App_Model
         return $staff_res->result_array();
         // print_r($staff_res); exit();
     }
+
+     // for role_name in staff table
+    public function get_staff_role_name($id)
+    {
+
+        $query = $this->db->query("SELECT `role_type_name` FROM tblrole_type WHERE `id`=$id");
+        return $query->row();
+
+    }
 }

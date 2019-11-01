@@ -20,7 +20,7 @@
 							_l('staff_dt_name'),
 							_l('staff_dt_email'),
 							_l('role'),
-							// _l('role_type'),
+							_l('role_type'),
 							_l('staff_dt_last_Login'),
 							_l('staff_dt_active'),
 							);

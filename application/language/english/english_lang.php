@@ -230,7 +230,7 @@ $lang['invoice_send_to_client_modal_heading']    = 'Send invoice to client';
 $lang['invoice_send_to_client_attach_pdf']       = 'Attach Invoice PDF';
 $lang['invoice_send_to_client_preview_template'] = 'Preview Email Template';
 $lang['invoice_dt_table_heading_number']         = 'Invoice #';
-$lang['invoice_dt_table_heading_date']           = 'Date';
+$lang['invoice_dt_table_heading_date']           = 'Invoice Date';
 $lang['invoice_dt_table_heading_client']         = 'Customer';
 $lang['invoice_dt_table_heading_duedate']        = 'Due Date';
 $lang['invoice_dt_table_heading_amount']         = 'Amount';
@@ -3620,3 +3620,8 @@ $lang['Product'] = 'Product';
 $lang['als_blocks'] = 'Blocks';
 $lang['als_sub_settings'] = 'Settings';
 
+$lang['contract_on_invoice'] = 'Contract';
+$lang['date_of_signing_on_invoice'] = 'Date of Signing';
+
+$lang['back'] = 'Back';
+$lang['contract and its invoice'] = 'Contract and its Invoice';

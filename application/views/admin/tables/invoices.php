@@ -120,14 +120,15 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     db_prefix() . 'invoices.id',
     db_prefix() . 'invoices.clientid',
     db_prefix(). 'currencies.name as currency_name',
-    'project_id',
+    'accordingContract',
+    // 'project_id',
     'hash',
     'recurring',
     'deleted_customer_name',
     ]);
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
+// print_r($result); exit();
 foreach ($rResult as $aRow) {
     $row = [];
 
@@ -147,9 +148,9 @@ foreach ($rResult as $aRow) {
     $numberOutput .= '<div class="row-options">';
 
     $numberOutput .= '<a href="' . site_url('invoice/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>';
-    if (has_permission('invoices', '', 'edit')) {
-        $numberOutput .= ' | <a href="' . admin_url('invoices/invoice/' . $aRow['id']) . '">' . _l('edit') . '</a>';
-    }
+    // if (has_permission('invoices', '', 'edit')) {
+    //      $numberOutput .= ' | <a href="' . admin_url('invoices/invoice/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    // }
     $numberOutput .= '</div>';
 
     $row[] = $numberOutput;
@@ -168,10 +169,26 @@ foreach ($rResult as $aRow) {
         $row[] = $aRow['deleted_customer_name'];
     }
 
-    $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
-    ;
+    // $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
 
-    $row[] = render_tags($aRow['tags']);
+    // $row[] = render_tags($aRow['tags']);
+    $contract = $this->ci->invoices_model->get_contract_for_invoice($aRow['accordingContract']);
+    
+    if($contract){
+        $aRow['contract_id'] = $contract->id;
+        $aRow['contract_hash'] = $contract->hash;
+        $aRow['contract_subject'] = $contract->subject;
+        $aRow['contract_sign'] = $contract->acceptance_date;
+    }
+    else{
+        $aRow['contract_id'] = '';
+        $aRow['contract_hash'] = '';
+        $aRow['contract_subject'] = '';
+        $aRow['contract_sign'] = '';
+    }
+
+    $row[] = '<a href="' . site_url('contract/' . $aRow['contract_id'] . '/' . $aRow['contract_hash']) . '" target="_blank">' . $aRow['contract_subject'] . '</a>';
+    $row[] = _d($aRow['contract_sign']);
 
     $row[] = _d($aRow['duedate']);
 

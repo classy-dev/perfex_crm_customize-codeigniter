@@ -187,51 +187,55 @@ init_head(); ?>
     <?php $this->load->view('admin/subscriptions/send_to_client'); ?>
     <?php } ?>
     <?php init_tail(); ?>
-    <script>
-     $(function(){
-        // Project ajax search
-        init_ajax_project_search_by_customer_id();
-          appValidateForm('#subscriptionForm',{
-           name:'required',
-           clientid:'required',
-           stripe_plan_id:'required',
-           currency:'required',
-           quantity: {
-             required:true,
-             min:1,
-           }
-         });
 
-        <?php if(!isset($subscription) || (isset($subscription) && empty($subscription->stripe_subscription_id))) { ?>
+<script>
+    $(function(){
+      // Project ajax search
+      init_ajax_project_search_by_customer_id();
+        appValidateForm('#subscriptionForm',{
+         name:'required',
+         clientid:'required',
+         stripe_plan_id:'required',
+         currency:'required',
+         quantity: {
+           required:true,
+           min:1,
+         }
+       });
 
-            checkFirstBillingDate($('#stripe_plan_id').selectpicker('val'));
+      <?php if(!isset($subscription) || (isset($subscription) && empty($subscription->stripe_subscription_id))) { ?>
 
-            $('#stripe_plan_id').on('change', function () {
-                var selectedPlan = $(this).val();
-                checkFirstBillingDate(selectedPlan);
-                var selectedOption = $('#stripe_plan_id').find('option[value="'+selectedPlan+'"]');
-                var interval = selectedOption.data('interval');
-                var $firstBillingDate = $('#date');
-                var firstBillingDate = $firstBillingDate.val();
-                if(interval == 'month') {
-                    var currentDate = moment().add(1, 'day').format('YYYY-MM-DD');
-                    var futureMonth = moment(currentDate).add(selectedOption.data('interval-count'), 'M');
-                    $firstBillingDate.attr('data-date-end-date', futureMonth.format('YYYY-MM-DD'));
-                    $firstBillingDate.datetimepicker('destroy');
-                    init_datepicker($firstBillingDate);
-                }
-            });
-        <?php } ?>
+          checkFirstBillingDate($('#stripe_plan_id').selectpicker('val'));
 
-        $('#subscriptionForm').on('dirty.areYouSure', function() {
-          $('#prorateWrapper').removeClass('hide');
-        });
+          $('#stripe_plan_id').on('change', function () {
+              var selectedPlan = $(this).val();
+              checkFirstBillingDate(selectedPlan);
+              var selectedOption = $('#stripe_plan_id').find('option[value="'+selectedPlan+'"]');
+              var interval = selectedOption.data('interval');
+              var $firstBillingDate = $('#date');
+              var firstBillingDate = $firstBillingDate.val();
+              if(interval == 'month') {
+                  var currentDate = moment().add(1, 'day').format('YYYY-MM-DD');
+                  var futureMonth = moment(currentDate).add(selectedOption.data('interval-count'), 'M');
+                  $firstBillingDate.attr('data-date-end-date', futureMonth.format('YYYY-MM-DD'));
+                  $firstBillingDate.datetimepicker('destroy');
+                  init_datepicker($firstBillingDate);
+              }
+          });
+      <?php } ?>
 
-        $('#subscriptionForm').on('clean.areYouSure', function() {
-          $('#prorateWrapper').addClass('hide');
-        });
-
+      $('#subscriptionForm').on('dirty.areYouSure', function() {
+        $('#prorateWrapper').removeClass('hide');
       });
+
+      $('#subscriptionForm').on('clean.areYouSure', function() {
+        $('#prorateWrapper').addClass('hide');
+      });
+
+    });
+
+
+
      function checkFirstBillingDate(selectedPlan) {
         if(selectedPlan == '') {
           return;
@@ -244,27 +248,24 @@ init_head(); ?>
           $('#first_billing_date_wrapper').removeClass('hide');
         }
     }
-  //   $('#add').click(function(){
-  //    var test = $('#test').val();
-  //    alert(test);
-  // });
+
+
+
     var price_num = Number($('#costs').val());
-    if ($('#block_array').val())
-    var blocks_id_array = ($('#block_array').val()).split(",");
-    else
-      var blocks_id_array = [];
+    console.log(price_num);
 
-    // console.log(blocks_id_array);
-
+    if ($('#block_array').val()) var blocks_id_array = ($('#block_array').val()).split(",");
+    else var blocks_id_array = [];
+    
     for (var i = 0; i < blocks_id_array.length; i++)
-    {
-      var checked_id = blocks_id_array[i];
-      var content_checked_id = 'content' + checked_id;
-      var content_checked = $('#'+ content_checked_id).html();
-      $('#block_contain').append('<div id="virtual'+ checked_id +'" style="margin-top:5px">' +  '• &nbsp;' + content_checked + '</div>');
-      $('#'+ checked_id).attr('checked', true);
+      {
+        var checked_id = blocks_id_array[i];
+        var content_checked_id = 'content' + checked_id;
+        var content_checked = $('#'+ content_checked_id).html();
+        $('#block_contain').append('<div id="virtual'+ checked_id +'" style="margin-top:5px">' +  '• &nbsp;' + content_checked + '</div>');
+        $('#'+ checked_id).attr('checked', true);
 
-    }
+      }
 
     $('.block').change(function(){
         var checked_id = $(this).attr("id");
@@ -278,28 +279,30 @@ init_head(); ?>
         var unchecked_price =  $('#'+ price_unchecked_id).val();
         
 
-      if(this.checked){
-        blocks_id_array.push(checked_id);
-        price_num = price_num + Number(checked_price.split(",")[0]);
-        $('#block_contain').append('<div id="virtual'+ checked_id +'" style="margin-top:5px">' +  '• &nbsp;' + content_checked + '</div>');
-        $('#costs').val(price_num);
-        // console.log('checked', price_num);
-      }
-      if(!this.checked)
-      {
-        for ( var i = 0; i < blocks_id_array.length; i++)
+      if(this.checked)
         {
-          if (blocks_id_array[i] == unchecked_id )
-            blocks_id_array.splice(i,1);
+          blocks_id_array.push(checked_id);
+          price_num = price_num + Number(checked_price.split(",")[0]);
+          $('#block_contain').append('<div id="virtual'+ checked_id +'" style="margin-top:5px">' +  '• &nbsp;' + content_checked + '</div>');
+          $('#costs').val(price_num);
+          // console.log('checked', price_num);
         }
 
-        price_num = price_num - Number(unchecked_price.split(",")[0]);
-        // console.log('unchecked',price_num);
-        $('#virtual' + unchecked_id).remove();
-        $('#costs').val(price_num);
+      if(!this.checked)
+        {
+          for ( var i = 0; i < blocks_id_array.length; i++)
+          {
+            if (blocks_id_array[i] == unchecked_id ) blocks_id_array.splice(i,1);  
+          }
 
-      }
-      console.log(blocks_id_array);
+          price_num = price_num - Number(unchecked_price.split(",")[0]);
+          // console.log('unchecked',price_num);
+          $('#virtual' + unchecked_id).remove();
+          $('#costs').val(price_num);
+
+        }
+
       $('#block_array').val(blocks_id_array);
+      console.log($('#costs').val())
     });
-    </script>
+</script>

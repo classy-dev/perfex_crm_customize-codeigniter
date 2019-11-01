@@ -11,7 +11,7 @@
         <!--  start product table -->
            <div class="col-md-12">
             <div class="container box" style="margin-top: 40px; width: 100% !important;">
-              <h2 style="text-align: center;" align="center">Subscription Settings</h2>
+              <h2 style="text-align: center;">Subscription Settings</h2>
               <div class="table-responsive">
                 <button type="button" data-toggle="modal" data-target="#Blocks_Modal" id="add" class="btn btn-info btn-xs" style="margin-bottom:10px;">Add</button>
                 <table id="products" class="table table-bordered table-scriped" style="width: 100% !important">

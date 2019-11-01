@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php
-  // print_r($contract); exit();
+ if (isset($contract0))  print_r($contract0['session']); //exit();
  init_head(); ?>
 <style>
    .form-group[app-field-wrapper=subject], #contractmergefields, #tasks, #renewals{
@@ -47,19 +47,18 @@
 <div id="wrapper">
    <div class="content">
       <div class="row">
-         <div class="col-md-5 left-column">
+          <?php if (!isset($contract->id)){?>
+         <div class="col-md-5 left-column" id="left-column">
             <div class="panel_s">
                <div class="panel-body">
                   <?php echo form_open($this->uri->uri_string(),array('id'=>'contract-form')); ?>
-                  
-
                   <div class="form-group">
                      <div class="checkbox checkbox-primary no-mtop checkbox-inline">
-                        <input type="checkbox" id="trash" name="trash"<?php if(isset($contract)){if($contract->trash == 1){echo ' checked';}}; ?>>
+                        <input type="checkbox" id="trash" name="trash"<?php if(isset($contract0['session']['trash'])){if($contract0['session']['trash'] == 'on'){echo ' checked';}}; ?>>
                         <label for="trash"><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="left" title="<?php echo _l('contract_trash_tooltip'); ?>" ></i> <?php echo _l('contract_trash'); ?></label>
                      </div>
                      <div class="checkbox checkbox-primary checkbox-inline">
-                        <input type="checkbox" name="not_visible_to_client" id="not_visible_to_client" <?php if(isset($contract)){if($contract->not_visible_to_client == 1){echo 'checked';}}; ?>>
+                        <input type="checkbox" name="not_visible_to_client" id="not_visible_to_client" <?php if(isset($contract0['session']['not_visible_to_client'])){if($contract0['session']['not_visible_to_client'] == 'on'){echo 'checked';}}; ?>>
                         <label for="not_visible_to_client"><?php echo _l('contract_not_visible_to_client'); ?></label>
                      </div>
                   </div>
@@ -67,10 +66,22 @@
                   <input type="hidden" id="staf_name" name="staff_name" value="<?php if(isset($contract->staff_name)) echo $contract->staff_name; else echo "";?>">
                   <input type="hidden" id="staf_info" name="staff_info" value="<?php if(isset($contract->staff_info)) echo $contract->staff_info; else echo "";?>">
 
+                  <!-- subject -->
+                   <?php $value = (isset($contract0['session']['subject']) ? $contract0['session']['subject'] : ''); ?>
+                  <i class="fa fa-question-circle pull-left" data-toggle="tooltip" title="<?php echo _l('contract_subject_tooltip'); ?>"></i>
+                  
+                  <?php //echo render_input('subject','contract_subject',$value); ?>
+                  <div class="form-group" app-field-wrapper="subject">
+                    <label for="subject" class="control-label"><?php echo _l('contract_subject')?></label>
+                    <input type="text" id="subject" name="subject" class="form-control" value="<?php echo $value?>" required>
+                  </div>
+
+                  <!-- customer -->
                   <div class="form-group select-placeholder">
                      <label for="clientid" class="control-label"><span class="text-danger">* </span><?php echo _l('contract_client_string'); ?></label>
                      <select id="clientid" name="client" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                     <?php $selected = (isset($contract) ? $contract->client : '');
+                     <?php $selected = (isset($contract0['session']['client']) ? $contract0['session']['client'] : '');
+                
                         if($selected == ''){
 
                          $selected = (isset($customer_id) ? $customer_id: '');
@@ -82,53 +93,70 @@
                         echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
                         } ?>
                      </select>
-                     <input type="hidden" id="cus_value" name="cus_value" value="<?php if(isset($contract->cus_value))  print_r($contract->cus_value); else echo "";?>">
-                     <input type="hidden" id="cus_addr_value" name="cus_addr_value" value="<?php if(isset($contract->cus_addr_value))  print_r($contract->cus_addr_value); else echo "";?>">
-
+                     <input type="hidden" id="cus_value" name="cus_value" value="<?php if(isset($contract0['session']['cus_value']))  print_r($contract0['session']['cus_value']); else echo "";?>">
+                     <input type="hidden" id="cus_addr_value" name="cus_addr_value" value="<?php if(isset($contract0['session']['cus_addr_value']))  print_r($contract0['session']['cus_addr_value']); else echo "";?>">
                   </div>
-                  
-                  <div class="row">
-                     <div class="col-md-6">
-                        <?php $value = (isset($contract) ? _d($contract->datestart) : _d(date('Y-m-d'))); ?>
-                        <?php echo render_date_input('datestart','contract_start_date',$value); ?>
-                     </div>
-                     <div class="col-md-6">
-                        <?php $value = (isset($contract) ? _d($contract->dateend) : ''); ?>
-                        <?php echo render_date_input('dateend','contract_end_date',$value); ?>
-                     </div>
-                  </div>
-                  <?php $value = (isset($contract) ? $contract->description : ''); ?>
-                  <?php echo render_textarea('description','Notice for the agent',$value,array('rows'=>10)); ?>
+                  <!-- contract type -->
+                  <?php
+      
+                     $selected = (isset($contract0['session']['contract_type']) ? $contract0['session']['contract_type'] : '');
+                     if(isset($selected) && !empty($selected)){
+                        $contractDetails = $this->db->select('details')->where('id', $selected)->get('tblcontracts_types')->row('details');
+                        if(isset($contract0['session']['client']))
+                          $clientDetails = $this->db->select('company, address')->where('userid', $contract0['session']['client'])->get('tblclients')->row_array();
+                        if (isset($contract0['session']['addedfrom']))
+                          $agentDetails = $this->db->select('firstname, lastname')->where('staffid', $contract0['session']['addedfrom'])->get('tblstaff')->row_array();
+                        // if(isset($contract->agentDetails))
+                        // {
+                        //     $placeholders = array('customer' => $clientDetails['company'], 'customer_address' => $clientDetails['address'], 'agent' => $agentDetails['firstname'].' '.$agentDetails['lastname'], 'agent_address' => '', 'contract_value' => $contract->contract_value );
 
-
-                  <div id="contract" style="display: none;">
-                     <?php $rel_id = (isset($contract) ? $contract->id : false); ?>
-                     <?php echo render_custom_fields('contracts',$rel_id); ?>
-                  </div>
-
-                   <!-- Subscription selection  -->
-                   <?php
-                   $selected = (isset($contract) ? $contract->subscription : '');
-
-                  if(is_admin() || get_option('staff_members_create_inline_subscriptions') == '1'){
-                     // print_r($types); exit();
-                      echo render_select_with_input_group('subscription',$subscriptions,array('id','name'),'Subscription',$selected,'<a href="'.admin_url('subscriptions/create').'"><i class="fa fa-plus"></i></a>');
-                     } else {
-
-                     echo render_select('subscription',$subscriptions,array('id','name'),'Subscription',$selected);
+                        //     foreach($placeholders as $key => $value){
+                        //        $contractDetails = str_replace('{'.$key.'}', $value, $contractDetails);
+                        //     }
+                        // }
+                        
                      }
+                     if(isset($types)){
+                        if(is_admin() || get_option('staff_members_create_inline_contract_types') == '1'){
+                        echo render_select_with_input_group('contract_type',$types,array('id','name'),'contract_type',$selected,'<a href="#" onclick="new_type();return false;"><i class="fa fa-plus"></i></a>');
+                       } else {
+                       echo render_select('contract_type',$types,array('id','name'),'contract_type',$selected);
+                       }
+                     }
+                     
                   ?>
+                  <!-- Subscription selection  -->
+                  <?php
+                    $selected = (isset($contract0['session']['subscription']) ? $contract0['session']['subscription'] : '');
+                    
+                    if(is_admin() || get_option('staff_members_create_inline_subscriptions') == '1'){
+                        if(!isset($contract0['session']['subscription'])) echo '<div id="subscrip" style="display:none">';
+                        if(isset($contract0['session']['subscription'])) echo '<div id="subscrip">';
+                            echo render_select_with_input_group('subscription',$subscriptions,array('id','name'),'Subscription',$selected,'<a href="'.admin_url('subscriptions/create').'"><i class="fa fa-plus"></i></a>');
+                            echo "</div>";
+                        
+                      } 
+                    else {
+                        if(!isset($contract0['session']['subscription'])) echo '<div id="subscrip" style="display:none">';
+                        if(isset($contract0['session']['subscription'])) echo '<div id="subscrip">';
+                        echo render_select('subscription',$subscriptions,array('id','name'),'Subscription',$selected);
+                        echo "</div>";
+                       }
+                  ?>
+                  <!-- payment method and timeframe -->
+                  <?php if(!isset($contract0['session'])) { ?> <div id="contract_ser" style="display: none;"><?php } ?>
+                  <?php if(isset($contract0['session'])) { ?><div id="contract_ser"><?php } ?>
+                   <?php $rel_id = (isset($contract->id) ? $contract->id : false); ?>
+                   <?php  //print_r($rel_id); exit();
+                   echo render_custom_fields('contracts_ser',$rel_id); ?>
 
+
+                  </div>
                   <!-- contract value -->
-                  <?php $value = (isset($contract) ? $contract->subject : ''); ?>
-                  <i class="fa fa-question-circle pull-left" data-toggle="tooltip" title="<?php echo _l('contract_subject_tooltip'); ?>"></i>
-                  
-                  <?php echo render_input('subject','contract_subject',$value); ?>
-                  <!-- <input type="hidden" id="total_sub" value="<?php //echo $subscriptions;?>"> -->
                   <div class="form-group">
                      <label for="contract_value"><?php echo _l('contract_value'); ?></label>
                      <div class="input-group" data-toggle="tooltip" title="<?php echo _l('contract_value_tooltip'); ?>">
-                        <input type="number" class="form-control" name="contract_value" id="contract_value" value="<?php if(isset($contract)){echo $contract->contract_value; }?>">
+                        <input type="number" class="form-control" name="contract_value" id="contract_value" value="<?php if(isset($contract0['session'])){echo $contract0['session']['contract_value']; }?>">
                         <div class="input-group-addon">
                            <?php echo $base_currency->symbol; ?>
                         </div>
@@ -136,85 +164,50 @@
                      <input type="hidden" name="sub_arr" id="sub_arr" value="<?php if(isset($contract->sub_arr))  print_r($contract->sub_arr); else echo "";?>">
                      <input type="hidden" name="sub_tax" id="sub_tax" value="<?php if(isset($contract->sub_tax))  print_r($contract->sub_tax); else echo "";?>">
                   </div>
+                  <!-- Date -->
+                  <div class="row">
+                     <div class="col-md-6">
+                        <?php $value = (isset($contract0['session']) ? _d($contract0['session']['datestart']) : _d(date('Y-m-d'))); ?>
+                        <?php echo render_date_input('datestart','contract_start_date',$value); ?>
+                     </div>
+                     <div class="col-md-6">
+                        <?php $value = (isset($contract0['session']) ? _d($contract0['session']['dateend']) : ''); ?>
+                        <?php echo render_date_input('dateend','contract_end_date',$value); ?>
+                     </div>
+                  </div>
+                  <!-- description -->
+                  <?php $value = (isset($contract0['session']) ? $contract0['session']['description'] : ''); ?>
+                  <?php echo render_textarea('description','Notice for the agent',$value,array('rows'=>10)); ?>
+                  <!-- other field -->
+                  <div id="contract" style="display: none;">
+                     <?php $rel_id = (isset($contract) ? $contract->id : false); ?>
+                     <?php echo render_custom_fields('contracts',$rel_id); ?>
+                  </div>
 
-                  <?php
-
-                     /*foreach($types as $oneType){
-                        if($oneType['details'] == 1){
-                           $selected = $oneType['id'];
-                        }
-                     }*/
-                     $selected = (isset($contract) ? $contract->contract_type : '');
-
-                     if(isset($selected) && !empty($selected)){
-                        $contractDetails = $this->db->select('details')->where('id', $selected)->get('tblcontracts_types')->row('details');
-
-                        $clientDetails = $this->db->select('company, address')->where('userid', $contract->client)->get('tblclients')->row_array();
-                        $agentDetails = $this->db->select('firstname, lastname')->where('staffid', $contract->addedfrom)->get('tblstaff')->row_array();
-
-                        $placeholders = array('customer' => $clientDetails['company'], 'customer_address' => $clientDetails['address'], 'agent' => $agentDetails['firstname'].' '.$agentDetails['lastname'], 'agent_address' => '', 'contract_value' => $contract->contract_value );
-
-                        foreach($placeholders as $key => $value){
-                           $contractDetails = str_replace('{'.$key.'}', $value, $contractDetails);
-                        }
-                     }
-
-                     
-                     if(is_admin() || get_option('staff_members_create_inline_contract_types') == '1'){
-                      echo render_select_with_input_group('contract_type',$types,array('id','name'),'contract_type',$selected,'<a href="#" onclick="new_type();return false;"><i class="fa fa-plus"></i></a>');
-                     } else {
-                     echo render_select('contract_type',$types,array('id','name'),'contract_type',$selected);
-                     }
-                     ?>
-                  <!--  -->
                   <div id="contract_opt" style="display: none;">
                      <?php $rel_id = (isset($contract) ? $contract->id : false); ?>
-                     <?php echo render_custom_fields('contracts_opt',$rel_id); ?>   
-                     
-                  </div>
-                  <?php if(!isset($contract)) { ?>
-                  <div id="contract_ser" style="display: none;">
-                  <?php } ?>
-
-                  <?php if(isset($contract)) { ?>
-                  <div id="contract_ser">
-                  <?php } ?>
-
-                     <?php $rel_id = (isset($contract) ? $contract->id : false); ?>
-                     <?php echo render_custom_fields('contracts_ser',$rel_id); ?>
-
-                     
-                     <!-- <div class="col-md-6">
-                          <label>Payment Method</label>
-                          <select class="form-control" id="payment_method" name="payment_method">
-                            <option value=""></option>
-                            <option value="1">Bank Transfer</option>
-                            <option value="2">Immediate Transfer</option>
-                            <option value="3">Debit</option>
-                          </select>
-                     </div>
-                     <div class="col-md-6"> 
-                          <label>Payment Timeframe</label>
-                          <select class="form-control" id="payment_timeframe" name="payment_timeframe">
-                            <option value=""></option>
-                            <option value="1">Monthly</option>
-                            <option value="2">Quaterly</option>
-                            <option value="3">Half-Yearly</option>
-                            <option value="3">Annually</option>
-                          </select>
-                     </div> -->
-                     
+                     <?php echo render_custom_fields('contracts_opt',$rel_id); ?>      
                   </div>
                   <!-- bottom -->
-                  <div class="btn-bottom-toolbar text-right">
-                     <button type="submit" class="btn btn-info"><?php echo _l('submit'); ?></button>
+                  <?php if(!isset($contract->id)){?>
+                  <div class="btn-bottom-toolbar text-right" >
+                     <input type="hidden" name="btn_type" id="btn_type" value="">
+                     <?php if(!isset($btn_type)){?>
+                        <button type="submit" class="btn btn-info" id="save"><?php echo _l('save');?></button>
+                     <?php }?>
+                     <?php if(isset($btn_type)){?>
+                        <button type="button" class="btn btn-info" id="back"><?php echo _l('back');?></button>
+                        <button type="submit" class="btn btn-info" id="create_contract"><?php echo _l('Create contract'); ?></button>
+                     <?php }?>
                   </div>
+                  <?php }?>
                   <?php echo form_close(); ?>
                </div>
             </div>
          </div>
-         <?php if(!isset($contract)) {?>
-         <div class="col-md-7" style="display: none;" id="service-abo_type">
+         <?php }?>
+         <?php if(isset($btn_type)&&($btn_type == "save")) {?>
+         <div class="col-md-7" id="service-abo_type">
             <div class="panel_s">
                <div class="panel-body">
                   <?php echo $types[1]['details']?>
@@ -222,7 +215,7 @@
             </div>
          </div>
          <?php } ?>
-         <?php if(isset($contract)) { ?>
+         <?php if(isset($contract->id)) { ?>
          <div class="col-md-7 right-column">
             <div class="panel_s">
                <div class="panel-body">
@@ -552,14 +545,13 @@
                </div>
             </div>
          </div>
-
          <?php } ?>
       </div>
    </div>
 </div>
 <?php init_tail(); ?>
 <?php $index = (isset($contract) ? 1 : 0); ?>
-<?php if(isset($contract)){ ?>
+<?php if(isset($contract->id)){ ?>
 <!-- init table tasks -->
 <script>
    var contract_id = '<?php echo $contract->id; ?>';
@@ -568,8 +560,8 @@
 <?php $this->load->view('admin/contracts/renew_contract'); ?>
 <?php } ?>
 <?php $this->load->view('admin/contracts/contract_type'); ?>
-<script>
 
+<script>
    Dropzone.autoDiscover = false;
    $(function () {
 
@@ -611,10 +603,10 @@
 
 
     // In case user expect the submit btn to save the contract content
-    $('#contract-form').on('submit', function () {
+   $('#contract-form').on('submit', function () {
        $('#inline-editor-save-btn').click();
        return true;
-    });
+   });
 
     if (typeof (Dropbox) != 'undefined' && $('#dropbox-chooser').length > 0) {
        document.getElementById("dropbox-chooser").appendChild(Dropbox.createChooseButton({
@@ -877,192 +869,211 @@
    }
 
 
-
    $(document).ready(function(){
-      var staff0 = '<?php echo json_encode($staff)?>';
-      var staff = JSON.parse(staff0);
-      $('#staff_name').empty();
-      $('#staff_name').append(staff[0].firstname+'&nbsp;'+staff[0].lastname);
-      $('#staf_name').val(staff[0].firstname+'&nbsp;'+staff[0].lastname);
+        // form validation
+          $('#contract_type').attr("required",true);
+          $('#subscription').attr("required",true);
+          $('#contract_value').attr('required',true);
+          $('#custom_fields_contracts_ser__12_').attr("required",true);
+          $('#custom_fields_contracts_ser__13_').attr("required",true);
+          $('#dateend').attr("required",true);
+          $('#description').attr("required",true);
+        /////////
+        // Customer:
+          var customer_array0 = '<?php echo json_encode($customer)?>';
+          var customer_array = JSON.parse(customer_array0);
+          $('#clientid').change(function(){
+            for (var i = 0; i < customer_array.length; i++)
+             {
+                if(customer_array[i].userid == $('#clientid option:selected').val()){
+                  $('#customer').empty();
+                  $('#customer').append(customer_array[i].company);
+                  console.log("customer",$('#customer').val())
+                  $('#cus_value').val(customer_array[i].company);
 
-      $('#staff_info').empty();
-      $('#staff_info').append(staff[0].address+'</br>'+staff[0].city+'</br>'+staff[0].state+'</br>'+staff[0].zip+'</br>'+staff[0].short_name);
-      $('#staf_info').val(staff[0].address+'</br>'+staff[0].city+'</br>'+staff[0].state+'</br>'+staff[0].zip+'</br>'+staff[0].short_name);
+                  $('#customer_address').empty();
+                  $('#customer_address').append(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
+                  $('#cus_addr_value').val(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
+                  }
 
-      var subscription0 = '<?php echo json_encode($subscriptions) ?>';
-      var subscription = JSON.parse(subscription0);
-
-      var index = '<?php echo $index;?>';
-
-      var customer_array0 = '<?php echo json_encode($customer)?>';
-      var customer_array = JSON.parse(customer_array0);
-
-      var blocks_array0 = '<?php echo json_encode($blocks)?>';
-      var blocks_array = JSON.parse(blocks_array0);
-      
-      var contracts_content_debit;
-      if(index == 1)
-        {
-          contracts_content_debit = '<?php if(isset($contractDetails)) echo json_encode($contractDetails);?>';
-        }
-      
-      var current_customer_id = $('#clientid').val();
-
-      if (current_customer_id != ''){
-        // console.log("fixed customer")
-        for (var p = 0; p < customer_array.length; p++)
-        {
-          if (customer_array[p].userid == current_customer_id)
-          {
-            // console.log(customer_array[p].company)
-            $('#customer').empty();
-            $('#customer').append(customer_array[p].company);
-            $('#cus_value').val(customer_array[p].company);
-            console.log($('#cus_value').val())
-            $('#customer_address').empty();
-            $('#customer_address').append(customer_array[p].address + '</br>'+ customer_array[p].city + '</br>'+customer_array[p].state + '</br>'+customer_array[p].zip + '</br>'+customer_array[p].short_name);
-            $('#cus_addr_value').val(customer_array[p].address + '</br>'+ customer_array[p].city + '</br>'+customer_array[p].state + '</br>'+customer_array[p].zip + '</br>'+customer_array[p].short_name);
-            console.log($('#cus_addr_value').val())
-          }
-          
-        }
-        
-      }
-
-
-      $('#clientid').change(function(){
-        console.log("change customer")
-        for (var i = 0; i < customer_array.length; i++)
-         {
-            if(customer_array[i].userid == $('#clientid option:selected').val()){
-              console.log(customer_array[i].company)
-              $('#customer').empty();
-              $('#customer').append(customer_array[i].company);
-              $('#cus_value').val(customer_array[i].company);
-
-              $('#customer_address').empty();
-              $('#customer_address').append(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
-              $('#cus_addr_value').val(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
-              }
-
-         }
-      });
-
-      $('#contract_type').change(function(){
-         var create_test = $('#contract_type option:selected').val();
-        if(create_test==2)
-        {
-         $('#service-abo_type').css("display", "block");
-         $('.p_method').css("display", "none");   
-         $('#contract').css("display","none");
-         $('#contract_opt').css("display","none");
-         $('#contract_ser').css("display","block");
-        }
-        else
-        {
-         $('#contract').css("display","block");
-         $('#contract_opt').css("display","block");
-         $('#contract_ser').css("display","none");
-        }
-      });
-
-      $('#subscription').change(function(){
-  
-         var sub = $('#subscription option:selected').val();
-         var contract_value;
-         for (var i = 0; i < subscription.length; i++)
-         {
-            if(subscription[i].id == sub){
-              $('#sub_tax').val(subscription[i].taxrate);
-              contract_value = subscription[i].monthly_costs;
-             
-              $('#sub_arr').val(subscription[i].block_array.split(","));
-
-              $('#current_block').empty();
-              for (var j = 0; j<subscription[i].block_array.split(",").length; j++){
-                for(var k = 0; k<blocks_array.length;k++)
-                {
-                  if(blocks_array[k].id == subscription[i].block_array.split(",")[j] )
-                    $('#current_block').append('<p style="margin-left:5%">•&nbsp;'+blocks_array[k].content+'</p>');
-
-                }
-               
-              }
-            }
-
-         }
-         $('#contract_value').val(contract_value);
-         
-      });
-
-
-      $(document).on('change','#custom_fields_contracts_ser__12_', function(){
-
-         var is_debit = $('#custom_fields_contracts_ser__12_ option:selected').val();
-         var content = $('.p_method').html();
-         // create
-         if(index == 0){
-            if(is_debit == "Debit") $('.p_method').css("display", "block");
-            else $('.p_method').css("display", "none");
-         }
-         // update
-         else if (index == 1){
-            if(is_debit != "Debit") $('.p_method').css("display", "none");
-            if(is_debit == "Debit") 
+             }
+          });
+          //fixed customer
+          var current_customer_id = $('#clientid').val();
+          if (current_customer_id != ''){
+            // console.log("fixed customer")
+            for (var p = 0; p < customer_array.length; p++)
+            {
+              if (customer_array[p].userid == current_customer_id)
               {
-                $('#mce_1').html(contracts_content_debit);
+                // console.log(customer_array[p].company)
+                $('#customer').empty();
+                $('#customer').append(customer_array[p].company);
+                $('#cus_value').val(customer_array[p].company);
+                $('#customer_address').empty();
+                $('#customer_address').append(customer_array[p].address + '</br>'+ customer_array[p].city + '</br>'+customer_array[p].state + '</br>'+customer_array[p].zip + '</br>'+customer_array[p].short_name);
+                $('#cus_addr_value').val(customer_array[p].address + '</br>'+ customer_array[p].city + '</br>'+customer_array[p].state + '</br>'+customer_array[p].zip + '</br>'+customer_array[p].short_name);
+              }
+              
+            }
+            
+          }
+        // 
+        // Contract type:(#contract_type->contract_type select, #contract&&#contract_ser->other field, #subscrip->subscription div, #contract_ser->payment)
+          $('#contract_type').change(function(){
+              var create_test = $('#contract_type option:selected').val();
+              if(create_test==2) {
+                 $('#contract').css("display","none");
+                 $('#subscrip').css("display","block");
+                 $('#contract_opt').css("display","none");
+                 $('#contract_ser').css("display","block");
+                }
+              else {
+                 $('#contract').css("display","block");
+                 $('#contract_opt').css("display","block");
+                 $('#contract_ser').css("display","none");
+                }
+            });
 
-                 $('#staff_name').empty();
-                 $('#staff_name').append(staff[0].firstname+'&nbsp;'+staff[0].lastname);
-                
-                 $('#staff_info').empty();
-                 $('#staff_info').append(staff[0].address+'</br>'+staff[0].city+'</br>'+staff[0].state+'</br>'+staff[0].zip+'</br>'+staff[0].short_name);
-
-
-                 for (var i = 0; i < customer_array.length; i++)
-                 {
-                    if(customer_array[i].userid == $('#clientid option:selected').val()){
-                      $('#customer').empty();
-                      $('#customer').append(customer_array[i].company);
-                      // $('#cus_value').val(customer_array[i].company)
-                      $('#customer_address').empty();
-                      // $('#customer_address').append('<p style="margin-left:5%">•&nbsp;'+ customer_array[i].address + '</p>');
-                      // $('#cus_addr_value').val(customer_array[i].address);
-
-                      $('#customer_address').append(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
-                      // $('#cus_addr_value').val('•Address:&nbsp;'+ customer_array[i].address + '</br>'+ '•City:&nbsp;'+ customer_array[i].city + '</br>'+'•State:&nbsp;'+ customer_array[i].state + '</br>'+'•Zip Code:&nbsp;'+ customer_array[i].zip + '</br>'+'•Country:&nbsp;'+ customer_array[i].country);
-                    }
-
-                 }
-
-                 var sub = $('#subscription option:selected').val();
-                 var contract_value;
-                 for (var i = 0; i < subscription.length; i++)
-                 {
-                    if(subscription[i].id == sub){
-
-                      contract_value = subscription[i].monthly_costs;
-                     
-                      $('#sub_arr').val(subscription[i].block_array.split(","));
-
-                      $('#current_block').empty();
-                      for (var j = 0; j<subscription[i].block_array.split(",").length; j++){
-                        for(var k = 0; k<blocks_array.length;k++)
-                        {
-                          if(blocks_array[k].id == subscription[i].block_array.split(",")[j] )
-                            $('#current_block').append('<p style="margin-left:5%">•&nbsp;'+blocks_array[k].content+'</p>');
+          var selected_contract_type = $('#contract_type option:selected').val();
+          if (selected_contract_type == 2)
+            {
+                 $('#contract').css("display","none");
+                 $('#subscrip').css("display","block");
+                 $('#contract_opt').css("display","none");
+                 $('#contract_ser').css("display","block");
+            }
+        ////////////
+        // Subscription: (#subscription->only subscription select, #subtax->hidden subscription tax value, #sub_arr->hidden subscription array value)
+           var subscription0 = '<?php echo json_encode($subscriptions) ?>';
+           var subscription = JSON.parse(subscription0);
+           var blocks_array0 = '<?php echo json_encode($blocks)?>';
+           var blocks_array = JSON.parse(blocks_array0);
+           //fixed subscription
+           var fixed_subscription = $('#subscription option:selected').val();
+           if(fixed_subscription != ''){
+              for (var i = 0; i < subscription.length; i++)
+               {
+                  if(subscription[i].id == fixed_subscription){
+                    $('#current_block').empty();
+                    for (var j = 0; j<subscription[i].block_array.split(",").length; j++){
+                      for(var k = 0; k<blocks_array.length;k++)
+                      {
+                        if(blocks_array[k].id == subscription[i].block_array.split(",")[j] ){
+                          $('#current_block').append('<p style="margin-left:5%">•&nbsp;'+blocks_array[k].content+'</p>');
+                          
                         }
-                       
+                          
                       }
                     }
+                  }
+               }
+           }
+           //
+          $('#subscription').change(function(){
+               var sub = $('#subscription option:selected').val();
+               var contract_value;
+               for (var i = 0; i < subscription.length; i++)
+               {
+                  if(subscription[i].id == sub){
+                    contract_value = subscription[i].monthly_costs;
+                    $('#sub_tax').val(subscription[i].taxrate);
+                    $('#sub_arr').val(subscription[i].block_array.split(","));
+                    $('#current_block').empty();
 
-                 }
-
-              }
-            // if(is_debit == "Debit") $('#mce_1').html(contracts_content_debit);
-         }
+                    for (var j = 0; j<subscription[i].block_array.split(",").length; j++){
+                      for(var k = 0; k<blocks_array.length;k++)
+                      {
+                        if(blocks_array[k].id == subscription[i].block_array.split(",")[j] ){
+                          $('#current_block').append('<p style="margin-left:5%">•&nbsp;'+blocks_array[k].content+'</p>');
+                          
+                        }
+                          
+                      }
+                    }
+                  }
+               }
+               $('#contract_value').val(contract_value); 
+            });
+          
+          if($('#save').css('display')=='none') $('#btn_type').val("create_contract"); 
+          else $('#btn_type').val("save");
             
-      });
+          // Contract PreView
+          var staff0 = '<?php echo json_encode($staff)?>';
+          var staff = JSON.parse(staff0);
+          $('#staff_name').empty();
+          $('#staff_name').append(staff[0].firstname+'&nbsp;'+staff[0].lastname);
+          $('#staf_name').val(staff[0].firstname+'&nbsp;'+staff[0].lastname);
+          $('#staff_info').empty();
+          $('#staff_info').append(staff[0].address+'</br>'+staff[0].city+'</br>'+staff[0].state+'</br>'+staff[0].zip+'</br>'+staff[0].short_name);
+          $('#staf_info').val(staff[0].address+'</br>'+staff[0].city+'</br>'+staff[0].state+'</br>'+staff[0].zip+'</br>'+staff[0].short_name);
+
+          var payment_m = $('#custom_fields_contracts_ser__12_ option:selected').val();
+          if (payment_m == "Bank Transfer") 
+            {
+              $('#bank').css("display","block");
+              $('#immediate').css("display","none");
+              $('#debit').css("display","none");
+            }
+          else if(payment_m == "Immediate Transfer")  
+            {
+              $('#bank').css("display","none");
+              $('#immediate').css("display","block");
+              $('#debit').css("display","none");
+            }
+          else if(payment_m == "Debit")
+            {
+              $('#bank').css("display","none");
+              $('#immediate').css("display","none");
+              $('#debit').css("display","block");
+            } 
+          // console.log(payment_m);
+
+          // Button Change
+          var btn = '<?php if(isset($btn_type)) echo ($btn_type) ?>';
+          if(btn == "save")
+          {
+            var value = "create_contract";
+            $('#btn_type').val(value);
+          }
+          if(btn){
+            $('#trash').prop('disabled',true);
+            $('#not_visible_to_client').prop('disabled',true);
+            $('#subject').prop('readonly',true);
+            $('#clientid').prop('disabled',true);
+            $('#contract_type').prop('disabled',true);
+            $('#subscription').prop('disabled',true);
+            $('#custom_fields_contracts_ser__12_').prop('disabled',true);
+            $('#custom_fields_contracts_ser__13_').prop('disabled',true);
+            $('#contract_value').prop('readonly',true);
+            $('#datestart').prop('disabled',true);
+            $('#dateend').prop('disabled',true);
+            $('#description').prop('readonly',true);
+          }
+          $('#contract-form').submit(function(){
+            $('#trash').removeAttr('disabled');
+            $('#not_visible_to_client').removeAttr('disabled');
+            $('#clientid').removeAttr('disabled');
+            $('#contract_type').removeAttr('disabled');
+            $('#subscription').removeAttr('disabled');
+            $('#custom_fields_contracts_ser__12_').removeAttr('disabled');
+            $('#custom_fields_contracts_ser__13_').removeAttr('disabled');
+            $('#datestart').removeAttr('disabled');
+            $('#dateend').removeAttr('disabled');
+            // console.log(btn);
+          });
+
+          // Back button Action
+          $('#back').click(function(){
+            var oldURL = document.referrer;
+            location.href = oldURL;
+            // var contract_back_data = '<?php if(isset($contract_back))
+            // echo json_encode($contract_back)?>';
+            // console.log(contract_back_data)
+          });
+          $('#btn_type').val();
+
 
    });
    
