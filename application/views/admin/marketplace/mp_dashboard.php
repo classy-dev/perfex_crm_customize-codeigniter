@@ -40,6 +40,7 @@ init_head();
         <link rel="stylesheet" type="text/css" href="<?php echo site_url('/assets/load/skin_modern_silver.css') ?>"/>
         <link rel="stylesheet" type="text/css" href="<?php echo site_url('/assets/load/html_content.css')?>"/>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+        <!-- <link rel="stylesheet" type="text/css" href="<?php echo site_url('/assets/load/marketplace.css')?>"/> -->
         <script type="text/javascript" src="<?php echo site_url('/assets/java/unminified.js')?>"></script>
         
         <script type="text/javascript">
@@ -296,36 +297,37 @@ init_head();
                       </ul>
                 </nav>
                    
-                <div  class="container text-center" style="width: 100%;">
-                    <div class="row" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                        
-                            <?php if($placeholder_data){ 
-                                // print_r($placeholder_data);
-                                ?> 
-                                <?php foreach ($placeholder_data as $res) { ?>
-                                   <?php if (!$res['showroom']) continue;?>
-                                    <div class="card"  style="width:300px;height: 400px; position: relative;">
-                                        <a href="<?php echo admin_url('marketplace/home/'.$res['staffid']) ?>">
-                                            <img src="<?php echo site_url($res['logo_url'])?>"  style="width:80%;height: 45%;margin-top: 10%">
-                                            <div class="col-md-12" style="overflow-wrap: break-word;">
-                                               <h1 style="text-align:center" class="open_sans">
-                                                <?php echo $res['placeholder_name'];?>
-                                                <br>
-                                            </h1> 
-                                            </div>
-                                        </a>
-                                        <div class="col-md-12" style="padding:0;position: absolute; bottom: 0;">
-                                           <img src="<?php echo site_url("/assets/images/color-pattern.png")?>" style="width: 101%">
-                                        </div>                             
-                                    </div>
-                                
-                                <?php } ?>
-                            <?php } ?>    
-                    </div>   
+            <div  class="container text-center" style="width: 100%;">
+                <div class="row" style="display: flex; justify-content: center; flex-wrap: wrap;">
+                    
+                        <?php if($placeholder_data){ 
+                            // print_r($placeholder_data);
+                            ?> 
+                            <?php foreach ($placeholder_data as $res) { ?>
+                               <?php if (!$res['showroom']) continue;?>
+                                <div class="card"  style="width:300px;height: 400px; position: relative;">
+                                    <a href="<?php echo admin_url('marketplace/home/'.$res['staffid']) ?>">
+                                        <img src="<?php echo site_url($res['logo_url'])?>"  style="width:80%;height: 45%;margin-top: 10%">
+                                        <div class="col-md-12" style="overflow-wrap: break-word;">
+                                           <h1 style="text-align:center" class="open_sans">
+                                            <?php echo $res['placeholder_name'];?>
+                                            <br>
+                                        </h1> 
+                                        </div>
+                                    </a>
+                                    <div class="col-md-12" style="padding:0;position: absolute; bottom: 0;">
+                                       <img src="<?php echo site_url("/assets/images/color-pattern.png")?>" style="width: 101%">
+                                    </div>                             
+                                </div>
+                            
+                            <?php } ?>
+                        <?php } ?>    
                 </div>
+                
             </div>
         </div>
     </div>
+</div>
 <?php init_tail(); ?>
 </body>
 </html>

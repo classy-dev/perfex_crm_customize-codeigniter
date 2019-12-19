@@ -37,7 +37,7 @@
                             } ?>
                         </select>
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <div class="checkbox checkbox-success">
                             <input type="checkbox" <?php if((isset($project) && $project->progress_from_tasks == 1) || !isset($project)){echo 'checked';} ?> name="progress_from_tasks" id="progress_from_tasks">
                             <label for="progress_from_tasks"><?php echo _l('calculate_progress_through_tasks'); ?></label>
@@ -54,7 +54,7 @@
                     ?>
                     <label for=""><?php echo _l('project_progress'); ?> <span class="label_progress"><?php echo $value; ?>%</span></label>
                     <?php echo form_hidden('progress',$value); ?>
-                    <div class="project_progress_slider project_progress_slider_horizontal mbot15"></div> -->
+                    <div class="project_progress_slider project_progress_slider_horizontal mbot15"></div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group select-placeholder">
@@ -148,7 +148,7 @@
                         <div class="col-md-6">
                             <?php echo render_input('estimated_hours','estimated_hours',isset($project) ? $project->estimated_hours : '','number'); ?>
                         </div>
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                          <?php
                          $selected = array();
                          if(isset($project_members)){
@@ -160,7 +160,7 @@
                         }
                         echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                         ?>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -175,10 +175,10 @@
                 <?php if(isset($project) && $project->date_finished != null && $project->status == 4) { ?>
                     <?php echo render_datetime_input('date_finished','project_completed_date',_dt($project->date_finished)); ?>
                 <?php } ?>
-                <!-- <div class="form-group">
+                <div class="form-group">
                     <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
                     <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($project) ? prep_tags_input(get_tags_in($project->id,'project')) : ''); ?>" data-role="tagsinput">
-                </div> -->
+                </div>
                 <?php $rel_id_custom_field = (isset($project) ? $project->id : false); ?>
                 <?php echo render_custom_fields('projects',$rel_id_custom_field); ?>
                 <p class="bold"><?php echo _l('project_description'); ?></p>

@@ -1648,7 +1648,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function insert($table = '', $set = NULL, $escape = NULL)
 	{
-		// print_r("insert"); exit();
 		if ($set !== NULL)
 		{
 			$this->set($set, '', $escape);

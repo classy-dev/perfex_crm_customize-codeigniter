@@ -1,0 +1,1 @@
+register_payment_gateway('stripeconnect_gateway', '[stripe-connect]');

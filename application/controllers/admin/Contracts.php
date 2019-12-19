@@ -189,7 +189,7 @@ class Contracts extends Admin_controller
                         $invoice_data['accordingContract'] = $id;
                         $invoice_id = $this->invoices_model->add($invoice_data);
                         if ($invoice_id) {
-                            set_alert('success', _l('added_successfully', _l('contract and invoice')));
+                            set_alert('success', _l('added_successfully', _l('contract_and_invoice')));
                             $this->session->unset_userdata('session');
                             if (isset($invoice_data['save_and_record_payment'])) {
                                 $this->session->set_userdata('record_payment', true);

@@ -1,0 +1,53 @@
+ 
+
+
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+.header-user-profile a{
+  font-size: 14px;
+}
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 10px;
+}
+
+
+
+.header-right {
+  float: right;
+}
+
+.sub-horizon {
+  margin-left: 200px;
+  }
+
+.btn-style {
+  width: 20%; 
+  font-size: 10px;
+}
+.sub-sub-ho {
+  margin-left: 40px;
+}

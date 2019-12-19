@@ -6,7 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <title><?php echo $form->name; ?></title>
-  <?php print_r($form); exit();?>
   <?php app_external_form_header($form); ?>
   <?php hooks()->do_action('app_web_to_lead_form_head'); ?>
 </head>

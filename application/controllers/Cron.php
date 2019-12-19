@@ -22,8 +22,12 @@ class Cron extends App_Controller
         }
     }
     public function cron_test(){
-        // print_r("expression"); exit();
         $this->load->model('cron_model');
         $this->cron_model->recurring_inv();
+
+    }
+    public function cron_time_test(){
+        $this->load->model('cron_model');
+        $this->cron_model->test();
     }
 }

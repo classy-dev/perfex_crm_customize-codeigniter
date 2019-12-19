@@ -53,7 +53,7 @@ init_head(); ?>
           <div class="col-md-7">
             <div class="panel_s">
               <div class="panel-body">
-                <h4>Block Contents</h4>
+                <h4><?php echo _l('block_content'); ?></h4>
                 <div class="form-group">
                   <?php if(isset($blocks)) { ?>
                   <?php foreach ($blocks as $key => $value) { ?>

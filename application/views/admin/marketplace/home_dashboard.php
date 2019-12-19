@@ -89,12 +89,11 @@ init_head();
         padding: 0;
     }
     .img_cus{
-        /*width: 75%; 
-        height: 75%;*/ 
-        margin-left: 10%;
+       /* width: 75%; 
+        height: 75%; */
+        /*margin-left: 17%;*/
         margin-top: 15%;
         margin-bottom: 15%;
-        height: 130px;
     }
     .col-md-4_cus{
         width: 45%;
@@ -259,14 +258,15 @@ init_head();
                                                 <td style="border:2px solid #bfcbd9; text-align: center; ">
                                                    <div class="col-md-1 ">
                                                        <a  class="a" target="_blank" href="<?php echo site_url($key['products_url']); ?>">
-                                                          <i class="fa fa-file-pdf-o fa-2x" aria-hidden="true" style="color: #44B4E0"></i>
-                                                       </a>
+                                                        <i class="fa fa-file-pdf-o fa-2x" aria-hidden="true" style="color: #44B4E0"></i>
+                                                        </a>
                                                    </div>
                                                         
                                                    <div class="col-md-11">
-                                                      <a class="a" target="_blank" href="<?php echo site_url($key['products_url']); ?>">
-                                                          <div class="open_sans"><?php echo $key['products_name']; ?></div>
-                                                      </a>     
+                                                    <a class="a" target="_blank" href="<?php echo site_url($key['products_url']); ?>">
+                                                        <div class="open_sans"><?php echo $key['products_name']; ?></div>
+                                                        </a> 
+                                                        </a>    
                                                    </div>
                                                          
                                                     
@@ -291,10 +291,10 @@ init_head();
                                     <div class="card_cus">
                                         <div class="row" style="display: flex;">
                                             <div style="width: 50%; padding: 7%">
-                                               <img src="<?php echo site_url($key['contact_pic']);?>" class="img_cus" > 
+                                               <img src="<?php echo site_url($key['contact_pic']);?>" class="img_cus" style="height:130px;" > 
                                             </div>
                                             <div style="width: 50%;">
-                                                <div class="card-body open_sans" style="margin-top: 30%;padding-right: 15%">
+                                                <div class="card-body open_sans" style="margin-top: 30%; padding-right: 15%">
                                                     <h2 class="card-text"><?php echo $key['contact_name'];?></h2>
                                                     <h4 class="card-text"><?php echo $key['contact_phone'];?></h4>
                                                     <a href="<?php echo 'mailto:'.$key['contact_email'];?>">
@@ -349,24 +349,36 @@ init_head();
     $(document).ready(function() {
 
         // Gets the video src from the data-src on each button
+
         var $videoSrc;  
         $('.video-btn').click(function() {
             $videoSrc = $(this).data( "src" );
         });
         console.log($videoSrc);
+
+          
+          
         // when the modal is opened autoplay it  
         $('#myModal').on('shown.bs.modal', function (e) {
-
+            
         // set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
         $("#video").attr('src',$videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0" ); 
         })
+          
+
 
         // stop playing the youtube video when I close the modal
         $('#myModal').on('hide.bs.modal', function (e) {
             // a poor man's stop video
             $("#video").attr('src',$videoSrc); 
         }) 
+            
+            
 
+
+          
+          
+        // document ready  
     });
 
 

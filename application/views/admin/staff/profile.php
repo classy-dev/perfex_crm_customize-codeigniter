@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<?php if ($stripe[0]['stripe_email'] == null) echo '<div id="wrapper" style="margin-left:0">' ?>
-<?php if ($stripe[0]['stripe_email'] != null) echo '<div id="wrapper">' ?>
+<?php if ($stripe[0]['stripe_email'] == '' or $stripe[0]['stripe_email'] == null ) echo '<div id="wrapper" style="margin-left:0">' ?>
+<?php if ($stripe[0]['stripe_email'] != '' or $stripe[0]['stripe_email'] != null) echo '<div id="wrapper">' ?>
 <!-- <div id="wrapper"> -->
     <div class="content">
         <div class="row">
@@ -162,12 +162,12 @@
             <!-- <form method="post" action="<?php echo admin_url('staff/stripe_info')?>"> -->
             <?php echo form_open('admin/staff/stripe_info',array('id'=>'stripe_info')); ?>
               <div class="form-group">
-                <label for="stripe_email" class="control-label"><?php //echo _l('staff_add_edit_email'); ?> Email</label>
+                <label for="stripe_email" class="control-label"><?php echo _l('stripe_email'); ?></label>
                 <input type="email" name="stripe_email" id="stripe_email"  class="form-control" value="<?php if(isset($member->stripe_email)) echo $member->stripe_email; else echo NULL ?>" required >
               </div>
 
               <div class="form-group">
-                <label for="stripe_pasword" class="control-label"><?php //echo _l('staff_add_edit_email'); ?>Password</label>
+                <label for="stripe_pasword" class="control-label"><?php echo _l('stripe_password'); ?></label>
                 <input type="password" name="stripe_password"  class="form-control" value="<?php //if(isset($member->stripe_password)) echo $member->stripe_password; 
                       //else echo NULL ?>" id="stripe_password" required>
               </div>

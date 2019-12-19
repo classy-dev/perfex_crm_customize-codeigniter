@@ -1673,8 +1673,8 @@ class Cron_model extends App_Model
             $this->db->where('id=',$invoice['accordingContract']);
             $end_contract_date = $this->db->get()->row();
             // print_r($end_contract_date->dateend);
-            // print_r(date('Y-m-d')); exit();
-            if (date('Y-m-d') <= $re_create_at) {
+            // print_r($re_create_at); exit();
+            if (date('Y-m-d') >= $re_create_at && date('Y-m-d') <= $end_contract_date->dateend) {
 
                 // Recurring invoice date is okey lets convert it to new invoice
                 $_invoice                     = $this->invoices_model->get($invoice['id']);
@@ -1683,7 +1683,7 @@ class Cron_model extends App_Model
                 $new_invoice_data['number']   = get_option('next_invoice_number');
                 $new_invoice_data['date']     = _d($re_create_at);
                 $new_invoice_data['duedate']  = null;
-                
+
                 if ($_invoice->duedate) {
                     // Now we need to get duedate from the old invoice and calculate the time difference and set new duedate
                     // Ex. if the first invoice had duedate 20 days from now we will add the same duedate date but starting from now
@@ -1694,8 +1694,6 @@ class Cron_model extends App_Model
                 } else {
                     if (get_option('invoice_due_after') != 0) {
                         $new_invoice_data['duedate'] = _d(date('Y-m-d', strtotime('+' . get_option('invoice_due_after') . ' DAY', strtotime($re_create_at))));
-                        print_r($new_invoice_data['duedate']); exit();
-                        // print_r(get_option('invoice_due_after')); exit();
                     }
                 }
 

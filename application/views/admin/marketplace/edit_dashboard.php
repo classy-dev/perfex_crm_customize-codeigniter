@@ -107,12 +107,12 @@
                 <!--  begin  profile content -->
                 <!-- Showroom -->
                 <div class="col-md-6">
-                  <h2 style="margin-left: 30px">Placeholder Profile</h2>
+                  <h2 style="margin-left: 30px"><?php echo _l('placeholder_profile')?></h2>
                   <hr class="hr_1">
                   <div class="col-md-12">
                     <div class="col-md-12">
                     <div class="col-md-6">
-                      <h4>Showrooom active</h4> 
+                      <h4><?php echo _l('showroom_active')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <?php if($placeholder['showroom']==1) {?>
@@ -133,7 +133,7 @@
                   <!-- Headline -->
                   <div class="col-md-12" style="margin-top: 20px;">
                     <div class="col-md-4">
-                      <h4>Headline</h4> 
+                      <h4><?php echo _l('headline')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="headline" id="headline" value="<?php echo $placeholder['title'];?>" class="edit_input">
@@ -143,7 +143,7 @@
                   <!-- Name -->
                   <div class="col-md-12" style="margin-top: 20px;">
                     <div class="col-md-4">
-                      <h4>Name</h4> 
+                      <h4><?php echo _l('placeholder_name')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="name" id="name" value="<?php echo $placeholder['placeholder_name'];?>" class="edit_input">
@@ -153,7 +153,7 @@
                   <!-- Subtitle -->
                   <div class="col-md-12" style="margin-top: 20px;">
                     <div class="col-md-4">
-                      <h4>Subtitle</h4> 
+                      <h4><?php echo _l('placeholder_subtitle')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="subtitle" id="subtitle" value="<?php echo $placeholder['sub_title'];?>" class="edit_input">
@@ -164,7 +164,7 @@
                   <!-- Email -->
                   <div class="col-md-12" style="margin-top: 20px;">
                     <div class="col-md-4">
-                      <h4>My Email</h4> 
+                      <h4><?php echo _l('placeholder_email')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="email" id="email" value="<?php echo $placeholder['email'];?>" class="edit_input">
@@ -176,13 +176,13 @@
                   <div class="col-md-12">
                     <hr class="hr_1">
                     <div class="col-md-6">
-                      <h4>Logo Image</h4> 
+                      <h4><?php echo _l('placeholder_logo')?></h4> 
                     </div>
                     <div class="col-md-3">
                       <img id="logo_preview" src="<?php echo site_url($placeholder['logo_url']);?>" class="edit_img"/><br/>
                       <br>
                       <input type="file" id="logo_image" name="logo" class="input-image-file" style="display: none;"/>
-                      <button type="button" class="btn btn-primary " onclick="changeImage('#logo_image')">Select a Image</button>
+                      <button type="button" class="btn btn-primary " onclick="changeImage('#logo_image')"><?php echo _l('placeholder_select_image')?></button>
                     </div>
                   </div>
                   <br>
@@ -192,19 +192,19 @@
                     <!-- Title Picture -->
                     <div class="col-md-12" style="margin-bottom: 10px;">
                       <div class="col-md-6" style="padding-left: 0px;">
-                        <h4>Video BG-Picture</h4> 
+                        <h4><?php echo _l('placeholder_video_bg')?></h4> 
                       </div>
                       <div class="col-md-3" >
                       <img id="video_preview" src="<?php echo site_url($placeholder['video_pic']);?>" class="edit_img"/><br/>
                       <br>
                        <input type="file" id="video_image" name="video" class="input-image-file" style="display: none;"/>
-                       <button type="button" class="btn btn-primary" onclick="changeImage('#video_image')">Select a Image</button>
+                       <button type="button" class="btn btn-primary" onclick="changeImage('#video_image')"><?php echo _l('placeholder_select_image')?></button>
                       </div>
                     </div>
                     <!-- Title URL -->
                     <div class="col-md-12" style="padding-left: 0px;">
                       <div class="col-md-7" style="overflow: auto;">
-                        <h4>Video URL(https://www.youtube.com/embed/)</h4>
+                        <h4><?php echo _l('placeholder_video_url')?></h4>
                       </div>
                       <div class="col-md-4">
                         <input type="text" name="title_video" id="title_video" value="<?php echo $placeholder['video_url'];?>" class="edit_input">
@@ -216,13 +216,13 @@
                   <div class="col-md-12">
                     <hr class="hr_1">
                     <div class="col-md-6">
-                      <h4>Title Image</h4> 
+                      <h4><?php echo _l('placeholder_title_img')?></h4> 
                     </div>
                     <div class="col-md-3">
                       <img id="title_preview" src="<?php echo site_url($placeholder['title_pic']);?>" class="edit_img"/><br/>
                       <br>
                          <input type="file" id="title_image" name="title" class="input-image-file" style="display: none;" />
-                         <button type="button" class="btn btn-primary" onclick="changeImage('#title_image')" >Select a Image</button>      
+                         <button type="button" class="btn btn-primary" onclick="changeImage('#title_image')" ><?php echo _l('placeholder_select_image')?></button>      
                     </div>
                   </div>
                 </div>
@@ -230,7 +230,7 @@
                <!--  end  profile content --> 
                <!--  begin blog content -->
                 <div class="col-md-6" id="Blogs">
-                   <h2 style="margin-left: 30px">Placeholder Blogs</h2> 
+                   <h2 style="margin-left: 30px"><?php echo _l('placeholder_blogs')?></h2> 
                    <hr class="hr_1">
                   <div class="col-md-12" id="blog_content">
 
@@ -249,17 +249,17 @@
                <!--  start product table -->
                <div class="col-md-12">
                 <div class="container box" style="margin-top: 40px; width: 100% !important;">
-                  <h2 style="text-align: center;" align="center">Placeholder Products</h2>
+                  <h2 style="text-align: center;" align="center"><?php echo _l('placeholder_products')?></h2>
                   <div class="table-responsive">
-                    <button type="button" data-toggle="modal" data-target="#products_Modal" class="btn btn-info btn-xs" style="margin-bottom:10px;">Add</button>
+                    <button type="button" data-toggle="modal" data-target="#products_Modal" class="btn btn-info btn-xs" style="margin-bottom:10px;"><?php echo _l('placeholder_product_add')?></button>
                     <table id="products" class="table table-bordered table-scriped" style="width: 100% !important">
                       <thead>
                         <tr>
                           <!-- <th >Id</th> -->
-                          <th style="width:30%;">Prouducts Name</th>
+                          <th style="width:30%;"><?php echo _l('placeholder_product_name')?></th>
                           <!-- <th style="width:50%;" >Products URL</th>
                           <th style="width:10%;">Edit</th> -->
-                          <th style="width:10%;">Delete</th>
+                          <th style="width:10%;"><?php echo _l('placeholder_product_delete')?></th>
                         </tr>
                       </thead>
                     </table>
@@ -271,7 +271,7 @@
                 <!-- start contact -->
                 <div class="col-md-12" style="display: flex;justify-content: center;margin-top: 40px">
                   <div class="col-md-8" id="contacts">
-                    <h2 style="text-align: center;">Placeholder Contacts</h2> 
+                    <h2 style="text-align: center;"><?php echo _l('placeholder_contacts')?></h2> 
                     <hr class="hr_1">
                     <div class="col-md-12" id="contact_content">
 
@@ -306,16 +306,15 @@
           <button type="button" class="close" data-dismiss="modal">
             &times;
           </button>
-          <h4 class="modal-title">Add Products</h4>
+          <h4 class="modal-title"><?php echo _l('add_product')?></h4>
         </div>
         <div class="modal-body">
-          <label>Choose Products PDFs
-          </label>
+          <label><?php echo _l('chooose_PDF')?></label>
           <input type="file" name="pdf" id="pdf" />
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-success" name="action" id="action" value="add"/>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-success" name="action" id="action" value="<?php echo _l('placeholder_product_add')?>"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close')?></button>
         </div>
       </div>
     </form>

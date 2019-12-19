@@ -3598,17 +3598,49 @@ $lang['attach_statement']            = 'Attach Customer Statement';
 
 
 
+// Trial Expire
+$lang['trial_expired_1']		   = 'Your Trial is Expired';
+$lang['trial_expired_2']		   = 'If you want to continue, you should pay to Administrator';
+$lang['trial_buy']		   = 'Buy';
 
+// showroom
 $lang['als_marketplace']		   = 'Showroom';
 $lang['als_view_overview']		   = 'View Overview';
 $lang['als_edit_my_showroom_profile']	   = 'Edit Placeholder';
-$lang['time_tracking'] = 'Time Tracking';
-$lang['new_role_type'] = 'New Role Type';
-$lang['role_type_lowercase'] = 'role type';
-$lang['role_type_add_edit_name'] = 'Role type Name';
-$lang['role_type_dt_name']      = 'Role type Name';
-$lang['role_type'] = 'Role Type';
-$lang['staff_add_edit_role_type'] = 'Role type';
+
+$lang['placeholder_profile']	   = 'Profile';
+$lang['headline']	   = 'Headline';
+$lang['showroom_active']	   = 'Showroom Active';
+$lang['placeholder_name']	   = 'Name';
+$lang['placeholder_subtitle']	   = 'Subtitle';
+$lang['placeholder_email']	   = 'Email';
+$lang['placeholder_logo']	   = 'Logo Image';
+$lang['placeholder_select_image']	   = 'Select Image';
+$lang['placeholder_video_bg']	   = 'Video BG-Picture';
+$lang['placeholder_video_url']	   = 'Video URL(https://www.youtube.com/embed/)';
+$lang['placeholder_title_img']	   = 'Title Image';
+
+$lang['placeholder_blogs']	   = 'Blogs';
+$lang['blog_pic']	   = 'Picture';
+$lang['blog_headline']	   = 'Headline';
+$lang['blog_text']	   = 'Text';
+$lang['blog_url']	   = 'URL';
+
+
+$lang['placeholder_products']	   = 'Products';
+$lang['placeholder_product_add']	   = 'ADD';
+$lang['placeholder_product_name']	   = 'Name';
+$lang['placeholder_product_delete']	   = 'Delete';
+
+$lang['placeholder_contacts']	   = 'Contacts';
+$lang['contact_pic']	   = 'Picture';
+$lang['contact_name']	   = 'Name';
+$lang['contact_phone']	   = 'Phone';
+$lang['contact_email']	   = 'Email';
+
+
+$lang['add_product']	   = 'Add Product';
+$lang['chooose_PDF']	   = 'Choose PDF';
 
 $lang['welcome to'] = 'Welcome to';
 $lang['To the MarketplaceHome'] = 'To the MarketplaceHome';
@@ -3617,11 +3649,67 @@ $lang['Contact'] = 'Contact';
 $lang['List of Sellers'] = 'List of Sellers';
 
 $lang['Product'] = 'Product';
-$lang['als_blocks'] = 'Blocks';
-$lang['als_sub_settings'] = 'Settings';
 
 $lang['contract_on_invoice'] = 'Contract';
 $lang['date_of_signing_on_invoice'] = 'Date of Signing';
 
 $lang['back'] = 'Back';
 $lang['contract and its invoice'] = 'Contract and its Invoice';
+
+
+// Dashboard page
+$lang['welcome_to_dipay'] = 'Welcome To DIPAY';
+$lang['first_login'] = 'You logged in the first time.';
+$lang['please'] = 'Please';
+$lang['complete_profile'] = 'Complete your Profile, ';
+$lang['after_complete_profile'] = 'that everything work fine on this site!';
+$lang['stripe_complete_editing_profile'] = 'Dont forget to fill the payment requirements on stripe in the Editing Profile Page!';
+
+// contract
+$lang['back'] = 'Back';
+$lang['create_contract'] = 'Create Contract';
+$lang['contract_and_invoice'] = 'Contract and Invoice';
+
+// subscription
+$lang['als_blocks'] = 'Blocks';
+$lang['als_sub_settings'] = 'Settings';
+$lang['monthly_costs'] = 'Monthly Costs';
+
+$lang['monthly_subscription_costs'] = 'Monthly Subscription Costs';
+$lang['block_contents'] = 'Block Content';
+
+$lang['subscription_settings'] = 'Subscription Settings';
+$lang['add_new_subscription'] = 'Add';
+$lang['block_content'] = 'Block Content';
+$lang['price'] = 'Price';
+$lang['currency'] = 'Currency';
+$lang['add_new_block'] = 'Add New Block';
+$lang['child'] = 'Child';
+$lang['close'] = 'Close';
+$lang['index'] = 'Index';
+
+
+// Invoices
+$lang['contract_on_invoice'] = 'Contract';
+$lang['date_of_signing_on_invoice'] = 'Date of Signing';
+
+// time tracking
+$lang['time_tracking'] = 'Time Tracking';
+
+// role
+$lang['new_role_type'] = 'New Role Type';
+$lang['role_type_lowercase'] = 'role type';
+$lang['role_type_add_edit_name'] = 'Role type Name';
+$lang['role_type_dt_name']      = 'Role type Name';
+$lang['role_type'] = 'Role Type';
+$lang['staff_add_edit_role_type'] = 'Role type';
+
+
+$lang['stripe_email'] = 'Email';
+$lang['stripe_password'] = 'Password';
+
+
+$lang['total'] = 'total';
+$lang['amount_without_tax'] = 'Amount Without Tax';
+$lang['amount_to_pay'] = 'Amount To Pay';
+

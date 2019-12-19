@@ -1,5 +1,4 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-
 <?php if(isset($client)){ ?>
 <h4 class="customer-profile-group-heading"><?php echo _l('subscriptions'); ?></h4>
 <?php if(has_permission('subscriptions','','create')){ ?>

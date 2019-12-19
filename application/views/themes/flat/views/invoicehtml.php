@@ -138,18 +138,18 @@
                            </th>
                            <th class="description" width="50%" align="center">
                               <font style="vertical-align: inherit;">
-                                 <font style="vertical-align: inherit;">Contracts</font>
+                                 <font style="vertical-align: inherit;"><?php echo _l('contracts'); ?></font>
                               </font>
                            </th>
                            <th align="right">
                               <font style="vertical-align: inherit;">
-                                 <font style="vertical-align: inherit;">tax
+                                 <font style="vertical-align: inherit;"><?php echo _l('tax'); ?>
                                  </font>
                               </font>
                            </th>
                            <th align="right">
                               <font style="vertical-align: inherit;">
-                                 <font style="vertical-align: inherit;">total</font>
+                                 <font style="vertical-align: inherit;"><?php echo _l('total'); ?></font>
                               </font>
                            </th>
                         </tr>
@@ -189,7 +189,7 @@
                <table class="table text-right">
                   <tbody>
                      <tr id="subtotal">
-                        <td><span class="bold"><?php //echo _l('invoice_subtotal'); ?> Amount Without Tax</span>
+                        <td><span class="bold"><?php //echo _l('invoice_subtotal'); ?><?php echo _l('amount_without_tax'); ?></span>
                         </td>
                         <td class="subtotal">
                            <?php echo app_format_money($invoice->subtotal, $invoice->currency_name); ?>
@@ -248,7 +248,7 @@
                      <?php } ?>
                      <?php if(get_option('show_amount_due_on_invoice') == 1 && $invoice->status != Invoices_model::STATUS_CANCELLED) { ?>
                      <tr>
-                        <td><span class="<?php if($invoice->total_left_to_pay > 0){echo 'text-danger ';} ?>bold"><?php //echo _l('invoice_amount_due'); ?>Amount To Pay</span></td>
+                        <td><span class="<?php if($invoice->total_left_to_pay > 0){echo 'text-danger ';} ?>bold"><?php //echo _l('invoice_amount_due'); ?><?php echo _l('amount_to_pay'); ?></span></td>
                         <td>
                            <span class="<?php if($invoice->total_left_to_pay > 0){echo 'text-danger';} ?>">
                            <?php echo app_format_money($invoice->total_left_to_pay, $invoice->currency_name); ?>

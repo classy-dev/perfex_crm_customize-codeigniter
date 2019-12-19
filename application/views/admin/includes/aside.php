@@ -62,9 +62,7 @@
          if(isset($item['collapse']) && count($item['children']) === 0) {
            continue;
          }
-
          ?>
-
       <li class="menu-item-<?php echo $item['slug']; ?>">
          <a href="<?php echo count($item['children']) > 0 ? '#' : $item['href']; ?>" aria-expanded="false" >
              <i class="<?php echo $item['icon']; ?> menu-icon"></i>
@@ -120,4 +118,3 @@
       <?php $this->load->view('admin/projects/pinned'); ?>
    </ul>
 </aside>
-

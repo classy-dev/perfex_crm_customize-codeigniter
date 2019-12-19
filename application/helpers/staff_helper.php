@@ -36,7 +36,7 @@ function get_available_staff_permissions($data = [])
     $corePermissions = [
         
         'marketplace' => [
-            'name'         => _l('marketplace'),
+            'name'         => _l('als_marketplace'),
             'capabilities' => $MarketplacePermissonsArray,
         ],
         'bulk_pdf_exporter' => [

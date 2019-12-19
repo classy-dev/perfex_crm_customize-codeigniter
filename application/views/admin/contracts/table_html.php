@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
+
 $table_data = array(
  _l('the_number_sign'),
  _l('contract_list_subject'),
@@ -26,4 +27,3 @@ render_datatable($table_data, (isset($class) ? $class : 'contracts'),[],[
 ]);
 
 ?>
-

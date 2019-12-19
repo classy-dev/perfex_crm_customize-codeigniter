@@ -18,7 +18,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 *
 */
 // define('APP_BASE_URL', 'https://my.dipay.de/');
-define('APP_BASE_URL', 'http://localhost/my.dipay.de');
+define('APP_BASE_URL', 'https://localhost/my.dipay.de/');
 
 /*
 * --------------------------------------------------------------------------
@@ -51,7 +51,7 @@ define('APP_DB_PASSWORD', '');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'crm');
+define('APP_DB_NAME', 'dipay');
 
 /**
  * @since  2.3.0

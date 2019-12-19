@@ -28,7 +28,7 @@
         </div>
        </div>
       <div class="form-group" app-field-wrapper="costs">
-        <label for="costs" class="control-label">Monthly Subscription Costs</label> 
+        <label for="costs" class="control-label"><?php echo _l('monthly_subscription_costs'); ?></label> 
         <input type="text" id="costs" name="costs" class="form-control" value="<?php if(isset($subscription)) echo $subscription->monthly_costs;?>">
       </div>
         

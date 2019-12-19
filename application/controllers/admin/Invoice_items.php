@@ -37,7 +37,6 @@ class Invoice_items extends AdminController
         if (!has_permission('items', '', 'view')) {
             ajax_access_denied();
         }
-        // print_r("expression"); exit();
         $this->app->get_table_data('invoice_items');
     }
 

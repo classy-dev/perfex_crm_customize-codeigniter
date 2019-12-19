@@ -81,12 +81,12 @@
     <div class="modal-content">
       <div class="modal-header" style="background: linear-gradient(to left, #86e259, #0dbddc, #0099ff)">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title" style="text-align: center;">Welcome to dipay</h3>
+        <h3 class="modal-title" style="text-align: center;"><?php echo _l('welcome_to_dipay'); ?></h3>
       </div>
       <div class="modal-body" style="background: red">
-        <h4 style="color: white;text-align: center;">You logged in the first time.</br> 
-            Please make sure that you <a href="<?php echo admin_url('staff/edit_profile')?>">Complete your Profile</a>, that everything work fine on this site!</h4>
-        <h4 style="color: white;text-align: center;">Dont forget to fill the payment requirements on stripe in the Editing Profile Page!</h4>
+        <h4 style="color: white;text-align: center;"><?php echo _l('first_login'); ?></br> 
+            <?php echo _l('please'); ?> <a href="<?php echo admin_url('staff/edit_profile')?>"><?php echo _l('complete_profile'); ?></a><?php echo _l('after_complete_profile'); ?></h4>
+        <h4 style="color: white;text-align: center;"><?php echo _l('stripe_complete_editing_profile'); ?></h4>
       </div>
     </div>
 
@@ -110,7 +110,7 @@
 
         console.log(stripe[0].stripe_email);
         // console.log("dashboard")
-        if(stripe[0].stripe_email == null || stripe[0].stripe_password == null ) {
+        if(stripe[0].stripe_email == null || stripe[0].stripe_email == '' ) {
             // $('#wrapper').css("margin-left","0");
             $('#myModal').modal('show');
         }

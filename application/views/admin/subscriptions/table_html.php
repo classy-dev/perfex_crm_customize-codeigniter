@@ -9,7 +9,7 @@ $table_data = array(
     'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-subscription-name')
   ),
   array(
-    'name'=>_l('monthly costs'),
+    'name'=>_l('monthly_costs'),
     'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-monthly_costs')
   ),
   array(

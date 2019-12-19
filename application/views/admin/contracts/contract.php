@@ -197,7 +197,7 @@ init_head(); ?>
                      <?php }?>
                      <?php if(isset($btn_type)){?>
                         <button type="button" class="btn btn-info" id="back"><?php echo _l('back');?></button>
-                        <button type="submit" class="btn btn-info" id="create_contract"><?php echo _l('Create contract'); ?></button>
+                        <button type="submit" class="btn btn-info" id="create_contract"><?php echo _l('create_contract'); ?></button>
                      <?php }?>
                   </div>
                   <?php }?>

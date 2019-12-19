@@ -704,7 +704,7 @@ $lang['clients_contracts_dt_end_date']                                        = 
 $lang['clients_quick_invoice_info']                                           = 'Schnelle Rechnungsinformationen';
 $lang['clients_home_currency_select_tooltip']                                 = 'Es muss eine Währung gewählt werden, da Rechnungen mit verschiedenen Währungen existieren.';
 # Invoices
-$lang['clients_invoice_html_btn_download']                                    = 'Download';
+$lang['clients_invoice_html_btn_download']                                    = 'Herunterladen';
 $lang['clients_my_invoices']                                                  = 'Meine Rechnungen';
 $lang['clients_invoice_dt_number']                                            = 'Rechnung #';
 $lang['clients_invoice_dt_date']                                              = 'Datum';
@@ -1090,7 +1090,7 @@ $lang['admin_auth_login_email']                                               = 
 $lang['admin_auth_login_password']                                            = 'Passwort';
 $lang['admin_auth_login_remember_me']                                         = 'Angemeldet bleiben';
 $lang['admin_auth_login_button']                                              = 'Anmelden';
-$lang['admin_auth_register_button']                                              = 'Register';
+$lang['admin_auth_register_button']                                           = 'Registrieren';
 $lang['admin_auth_login_fp']                                                  = 'Passwort vergessen?';
 $lang['admin_auth_reset_password_heading']                                    = 'Passwort zurücksetzen';
 $lang['admin_auth_reset_password']                                            = 'Passwort';
@@ -3414,7 +3414,7 @@ $lang['module_upgrade_database']    = 'Upgrade Database';
 $lang['module_settings']            = 'Settings';
 $lang['module_version']             = 'Version %s';
 $lang['module_by']                  = 'By %s';
-$lang['staff_which_are_using_role'] = 'Staff members which are using this role';
+$lang['staff_which_are_using_role'] = 'Vermittler, die dieser Rolle zugeordnet sind';
 $lang['copy']                       = 'Copy';
 $lang['read_more']                  = 'Read More';
 $lang['show_less']                  = 'Show Less';
@@ -3442,7 +3442,15 @@ $lang['payment_sent_failed']                       = 'Failed to send payment rec
 $lang['tags_update_replace_warning'] = 'Some tags are not updated because the name of the tag already exist';
 $lang['attach_statement']            = 'Attach Customer Statement';
 
-$lang['als_marketplace']		   = 'Showroom';
+
+
+// Trial Expire
+$lang['trial_expired_1']		   = 'Ihr kostenfreier Testzeitraum ist beendet.';
+$lang['trial_expired_2']		   = 'Um fortzufahren, müssen Sie den Manager bezahlen.';
+$lang['trial_buy']		   = 'Jetzt Zugang kaufen.';
+
+
+$lang['als_marketplace']		   = 'Marktplatz';
 $lang['als_view_overview']		   = 'Anzeigen';
 $lang['als_edit_my_showroom_profile']	   = 'Administrationsber';
 
@@ -3450,6 +3458,93 @@ $lang['welcome to'] = 'Willkommen bei';
 $lang['To the MarketplaceHome'] = 'Zurück zum Showroom';
 $lang['Products and Other features'] = 'Produkte und andere Dokumente';
 $lang['Contact'] = 'Kontakt';
-$lang['List of Sellers'] = 'Liste der Verkäufer';
-
+$lang['List of Sellers'] = 'Überblick Aussteller';
 $lang['Product'] = 'Produkte';
+
+$lang['placeholder_profile']	   = 'Profil';
+$lang['headline']	   = 'Überschrift';
+$lang['showroom_active']	   = 'Anzeige aktivieren';
+$lang['placeholder_name']	   = 'Name';
+$lang['placeholder_subtitle']	   = 'Untertitel';
+$lang['placeholder_email']	   = 'eMail Adresse';
+$lang['placeholder_logo']	   = 'Logobild';
+$lang['placeholder_select_image']	   = 'Bild hochladen';
+$lang['placeholder_video_bg']	   = 'Video-Hintergrund bild';
+$lang['placeholder_video_url']	   = 'URL des Videos(https://www.youtube.com/embed/)';
+$lang['placeholder_title_img']	   = 'Titel bild';
+
+
+$lang['placeholder_blogs']	   = 'Blogeinträge';
+$lang['blog_pic']	   = 'Beitragsbild';
+$lang['blog_headline']	   = 'Überschrift';
+$lang['blog_text']	   = 'Inhalt';
+$lang['blog_url']	   = 'Verlinkte URL';
+
+$lang['placeholder_products']	   = 'PDF Info Upload';
+$lang['placeholder_product_add']	   = 'Hinzufügen';
+$lang['placeholder_product_name']	   = 'Name des PDFs';
+$lang['placeholder_product_delete']	   = 'Löschen';
+
+$lang['placeholder_contacts']	   = 'Ansprechpartner';
+$lang['contact_pic']	   = 'Bild';
+$lang['contact_name']	   = 'Name';
+$lang['contact_phone']	   = 'Telefon';
+$lang['contact_email']	   = 'eMail';
+
+$lang['add_product']	   = 'PDF hinzufügen';
+$lang['chooose_PDF']	   = 'PDF hochladen';
+
+// Dashboard
+
+$lang['welcome_to_dipay'] = 'Willkommen bei DIPAY';
+$lang['first_login'] = 'Sie haben sich das erste Mal eingeloggt.';
+$lang['please'] = 'Bitte';
+$lang['complete_profile'] = 'Vervollständigen Sie ihr Profil, ';
+$lang['after_complete_profile'] = 'sodass sie DIPAY in vollem Umfang nutzen können.';
+$lang['stripe_complete_editing_profile'] = 'Wichtig! Vergessen Sie nicht ihre Zahlungsinformationen zu hinterlegen!';
+
+// contract
+$lang['back'] = 'Zurück';
+$lang['create_contract'] = 'Vertrag erstellen';
+$lang['contract_and_invoice'] = 'Vertrag und Abrechnung';
+
+// subscription
+$lang['als_blocks'] = 'Service-Blöcke';
+$lang['als_sub_settings'] = 'Einstellungen';
+$lang['monthly_costs'] = 'Monatliche Kosten';
+
+$lang['monthly_subscription_costs'] = 'Monatliche Kosten - Service-Abo';
+$lang['block_contents'] = 'Inhalt des Blocks';
+
+$lang['subscription_settings'] = 'Service-Abo Einstellungen';
+$lang['add_new_subscription'] = 'Hinzufügen';
+$lang['block_content'] = 'Block-Inhalt';
+$lang['price'] = 'Preis';
+$lang['currency'] = 'Währung';
+$lang['add_new_block'] = 'Neuen Block erstellen';
+$lang['child'] = 'Unter';
+$lang['close'] = 'Schliessen';
+$lang['index'] = 'Index';
+
+// invoices
+$lang['contract_on_invoice'] = 'Vertrag';
+$lang['date_of_signing_on_invoice'] = 'Datum der Unterschrift';
+
+// time tracking
+$lang['time_tracking'] = 'Zeiterfassungstool';
+
+// role
+$lang['new_role_type'] = 'Neuen Rollentyp erstellen';
+$lang['role_type_lowercase'] = 'rollentyp';
+$lang['role_type_add_edit_name'] = 'Name des Rollentyps';
+$lang['role_type_dt_name']      = 'Name des Rollentyps';
+$lang['role_type'] = 'Rollentyp';
+$lang['staff_add_edit_role_type'] = 'Rollentyp';
+
+$lang['stripe_email'] = 'eMail';
+$lang['stripe_password'] = 'Passwort';
+
+$lang['total'] = 'Gesamt';
+$lang['amount_without_tax'] = 'Betrag exkl. Ust.';
+$lang['amount_to_pay'] = 'Betrag zu zahlen';
+

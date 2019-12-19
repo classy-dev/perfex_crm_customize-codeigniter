@@ -92,9 +92,9 @@ class Authentication extends App_Controller
                         $data_['email'] = $_POST['email'];
 
                         $data_['password'] = $_POST['password'];
-                        $data_['warning'] = '<h4 style="text-align:center">You are out of date.</h4>
-                                            <p style="text-align:center">If you want to continue, you should pay to Administrator</p>';
-                        $data_['buy'] = '<button type="submit" class="btn btn-info" style="width:100%;">Buy</button>';
+                        $data_['warning'] = '<h4 style="text-align:center">'._l('trial_expired_1').'</h4>
+                                            <p style="text-align:center">'._l('trial_expired_2').'</p>';
+                        $data_['buy'] = '<button type="submit" class="btn btn-info" style="width:100%;">'._l('trial_buy').'</button>';
                         $this->session->sess_destroy();
                     }
             }
@@ -262,7 +262,7 @@ class Authentication extends App_Controller
             $data['password'] = $this->input->post('password', false);
             //default role && role_type
             $data['role'] = 1;
-            $data['role_type'] = 2;
+            $data['role_type'] = 7;
 
             if ($id == '') {
             

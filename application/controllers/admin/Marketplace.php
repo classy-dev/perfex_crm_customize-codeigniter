@@ -122,20 +122,20 @@ class Marketplace extends AdminController
                     <input type="hidden" name="b_id[]" value="'.$rows['id'].'">
                     <div class="col-md-12" >
                         <div class="col-md-6">
-                            <h4>Blog Picture</h4>
+                            <h4>'._l('blog_pic') .'</h4>
                         </div>
                         <div class="col-md-3" style="margin-bottom:10px">
                             <img id="blog_preview'.$i.'" src="'. site_url($rows['blog_pic']).'" class="edit_img "/>
                             <br/>
                             <br>
                             <input type="file" id="blog_image'.$i.'" name="blog_image[]" class="input-image-file" style="display: none;"/>
-                            <button type="button" class="btn btn-primary" onclick="changeImage('.'\'#blog_image'.$i.'\')">Select a Image</button>
+                            <button type="button" class="btn btn-primary" onclick="changeImage('.'\'#blog_image'.$i.'\')">'._l('placeholder_select_image') .'</button>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="col-md-4">
-                            <h4>Blog Headline</h4>
+                            <h4>'._l('blog_headline') .'</h4>
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="blog_h[]" value="'.$rows['blog_headline'].'" class="edit_input">
@@ -144,7 +144,7 @@ class Marketplace extends AdminController
 
                     <div class="col-md-12">
                         <div class="col-md-4">
-                            <h4>Blog Text</h4>
+                            <h4>'._l('blog_text') .'</h4>
                         </div>
                         <div class="col-md-6" style="overflow:auto; margin-left:32px">
                              <textarea rows="4" cols="48" name="blog_t[]" >'.$rows['blog_txt'].'</textarea>
@@ -153,7 +153,7 @@ class Marketplace extends AdminController
 
                     <div class="col-md-12">
                         <div class="col-md-4">
-                            <h4>Blog URL</h4>
+                            <h4>'._l('blog_url') .'</h4>
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="blog_u[]" value="'.$rows['link_url'].'" class="edit_input">
@@ -187,20 +187,20 @@ class Marketplace extends AdminController
                     <input type="hidden" name="c_id[]" value="'.$rows['id'].'">
                     <div class="col-md-12" >
                         <div class="col-md-6">
-                            <h4>Contact Picture</h4>
+                            <h4>'._l('contact_pic') .'</h4>
                         </div>
                         <div class="col-md-3" style="margin-bottom:10px">
                             <img id="contact_preview'.$j.'" src="'. site_url($rows['contact_pic']).'" class="edit_img "/>
                             <br/>
                             <br>
                             <input type="file" id="contact_image'.$j.'" name="contact_image[]" class="input-image-file" style="display: none;"/>
-                            <button type="button" class="btn btn-primary" onclick="changeImage('.'\'#contact_image'.$j.'\')">Select a Image</button>
+                            <button type="button" class="btn btn-primary" onclick="changeImage('.'\'#contact_image'.$j.'\')">'._l('placeholder_select_image') .'</button>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="col-md-4">
-                            <h4>Contact Name</h4>
+                            <h4>'._l('contact_name') .'</h4>
                         </div>
                         <div class="col-md-6">
                             <input type="text" name="contact_n[]" value="'.$rows['contact_name'].'" class="edit_input">
@@ -209,7 +209,7 @@ class Marketplace extends AdminController
 
                     <div class="col-md-12">
                         <div class="col-md-4">
-                            <h4>Contact Phone</h4>
+                            <h4>'._l('contact_phone') .'</h4>
                         </div>
                         <div class="col-md-6">
                              
@@ -219,7 +219,7 @@ class Marketplace extends AdminController
 
                     <div class="col-md-12">
                         <div class="col-md-4">
-                            <h4>Contact Email</h4>
+                            <h4>'._l('contact_email') .'</h4>
                         </div>
                         <div class="col-md-6">
                             <input type="email" name="contact_e[]" value="'.$rows['contact_email'].'" class="edit_input">
@@ -276,7 +276,6 @@ class Marketplace extends AdminController
             $new_files = $this->reArrayFiles($_FILES['blog_new_image']);
            
         }
-
         if(isset($_FILES['blog_image'])){
             $old_files = $this->reArrayFiles($_FILES['blog_image']);
             
@@ -731,9 +730,7 @@ class Marketplace extends AdminController
 
         else
         {
-            
            $fetch_data = $this->Marketplace_model->products_make_datatables($_POST['total_id']);
-           // print_r($fetch_data); exit();
             $data =  array();
             foreach ($fetch_data as $rows) {
                 $sub_data = array();

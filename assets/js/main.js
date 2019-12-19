@@ -2585,10 +2585,6 @@ function initDataTableInline(dt_table) {
 
 // General function for all datatables serverside
 function initDataTable(selector, url, notsearchable, notsortable, fnserverparams, defaultorder) {
-    // console.log("selector", selector);
-    // console.log("notsortable", notsortable);
-    // console.log("fnserverparams",fnserverparams);
-    // console.log("defaultorder", defaultorder);
     var table = typeof(selector) == 'string' ? $("body").find('table' + selector) : selector;
 
     if (table.length === 0) {

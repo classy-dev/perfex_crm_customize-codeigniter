@@ -11,18 +11,18 @@
         <!--  start product table -->
            <div class="col-md-12">
             <div class="container box" style="margin-top: 40px; width: 100% !important;">
-              <h2 style="text-align: center;">Subscription Settings</h2>
+              <h2 style="text-align: center;"><?php echo _l('subscription_settings'); ?></h2>
               <div class="table-responsive">
-                <button type="button" data-toggle="modal" data-target="#Blocks_Modal" id="add" class="btn btn-info btn-xs" style="margin-bottom:10px;">Add</button>
+                <button type="button" data-toggle="modal" data-target="#Blocks_Modal" id="add" class="btn btn-info btn-xs" style="margin-bottom:10px;"><?php echo _l('add_new_subscription'); ?></button>
                 <table id="products" class="table table-bordered table-scriped" style="width: 100% !important">
                   <thead>
                     <tr>
                       <!-- <th >Id</th> -->
-                      <th style="width:60%;">Blocks Content</th>
-                      <th style="width:10%;" >Price</th>
-                      <th style="width:10%;" >Currency</th>
-                      <th style="width:10%;">Edit</th>
-                      <th style="width:10%;">Delete</th>
+                      <th style="width:60%;"><?php echo _l('block_content'); ?></th>
+                      <th style="width:10%;" ><?php echo _l('price'); ?></th>
+                      <th style="width:10%;" ><?php echo _l('currency'); ?></th>
+                      <th style="width:10%;"><?php echo _l('edit'); ?></th>
+                      <th style="width:10%;"><?php echo _l('delete'); ?></th>
                     </tr>
                   </thead>
                 </table>
@@ -43,20 +43,20 @@
           <button type="button" class="close" data-dismiss="modal">
             &times;
           </button>
-          <h4 class="modal-title">Add New Block</h4>
+          <h4><?php echo _l('add_new_block'); ?></h4>
         </div>
         <div class="modal-body">
-          <label>Block Content</label>
+          <label><?php echo _l('block_content'); ?></label>
           <input type="text" name="content" id="content" class="form-control" />
           <br>
           <div style="display: flex;">
             <div>
-              <label>Price</label>
+              <label><?php echo _l('price'); ?></label>
               <input type="text" name="price" id="price" class="form-control"  />
             </div>
             
             <div style="margin:auto;">
-              <label>Currency</label>
+              <label><?php echo _l('currency'); ?></label>
               <select class="form-control" id="currency" name="currency">
                 <option value=""></option>
                 <option value="EUR">EUR</option>
@@ -65,11 +65,11 @@
             </div>
 
             <div style="margin:auto;">
-              <label>Index</label>
+              <label><?php echo _l('index'); ?></label>
               <select class="form-control" id="index" name="index">
                 <option value=""></option>
                 <!-- <option value="Parent">Parent</option> -->
-                <option value="Child">Child</option>
+                <option value="Child"><?php echo _l('child'); ?></option>
               </select>
             </div>
             
@@ -78,8 +78,8 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" name="block_id" id="block_id">
-          <input type="submit" class="btn btn-success" name="action" id="action" value="add"/>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-success" name="action" id="action1" value="<?php echo _l('add_new_subscription'); ?>"/>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _l('close'); ?></button>
         </div>
       </div>
     </form>
@@ -95,7 +95,7 @@
     $('#content').val('');
     $('#price').val('');
     $('#currency').val('');
-    $('#action').val('add');
+    $('#action1').val('add');
   });
   
   $(document).ready(function(){
@@ -135,7 +135,7 @@
         var price = $('#price').val();
         var currency = $('#currency option:selected').val();
         var index = $('#index option:selected').val();
-        var action = $('#action').val();
+        var action = $('#action1').val();
         var block_id =$('#block_id').val();
         // console.log(action);
         // console.log(this);
@@ -205,7 +205,7 @@
           $('#price').val(data.price);
           $('#currency').val(data.currency);
           $('#index').val(data.index);
-          $('#action').val('edit');
+          $('#action1').val('edit');
         }
 
       });

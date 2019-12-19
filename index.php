@@ -1,4 +1,3 @@
-
 <?php
 if( ! ini_get('date.timezone') )
 {
@@ -58,7 +57,7 @@ if( ! ini_get('date.timezone') )
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', 'production');
+	define('ENVIRONMENT', 'development');
 
 /*
  *---------------------------------------------------------------
@@ -70,8 +69,8 @@ if( ! ini_get('date.timezone') )
  */
 switch (ENVIRONMENT)
 {
-	case 'production':
-		error_reporting(-1);
+	case 'development':
+		error_reporting(1);
 		ini_set('display_errors', 1);
 	break;
 
