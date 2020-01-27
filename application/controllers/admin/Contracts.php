@@ -201,7 +201,7 @@ class Contracts extends Admin_controller
 
     //         }
 
-    //         elseif ($_POST['contract_type'] == 6) {
+    //         elseif ($_POST['contract_type'] == 3) {
                 
     //             $session_data['session']['consulting_client_point'] = $_POST['consulting_client_point'];
     //             $session_data['session']['hourly_rate'] = $data['staff'][0]['hourly_rate'];
@@ -210,7 +210,7 @@ class Contracts extends Admin_controller
 
     //         }
 
-    //         elseif ($_POST['contract_type'] == 7) {
+    //         elseif ($_POST['contract_type'] == 1) {
                 
     //             $session_data['session']['consulting_client_point'] = $_POST['consulting_client_point'];
 
@@ -272,11 +272,11 @@ class Contracts extends Admin_controller
     //         //     $session_data['session']['custom_fields']['contracts_beratung'] = array_fill(12, 13, null);
     //         //     $session_data['session']['custom_fields']['contracts_produkt'] = array_fill(12, 14, null);
 
-    //         // } else if ($_POST['contract_type'] == 6){
+    //         // } else if ($_POST['contract_type'] == 3){
     //         //     $session_data['session']['custom_fields']['contracts_ser'] = array_fill(12, 13, null);
     //         //     $session_data['session']['custom_fields']['contracts_produkt'] = array_fill(12, 14, null);
 
-    //         // } else if ($_POST['contract_type'] == 7){
+    //         // } else if ($_POST['contract_type'] == 1){
     //         //     $session_data['session']['custom_fields']['contracts_ser'] = array_fill(12, 13, null);
     //         //     $session_data['session']['custom_fields']['contracts_beratung'] = array_fill(12, 13, null);
     //         // }
@@ -371,10 +371,10 @@ class Contracts extends Admin_controller
     //                     if($_POST['contract_type'] == 2)
     //                         $invoice_data['total'] = $_POST['contract_value'] * ( 1 + $_POST['sub_tax']/100);
 
-    //                     else if($_POST['contract_type'] == 6)
+    //                     else if($_POST['contract_type'] == 3)
     //                         $invoice_data['total'] = 0;
 
-    //                     else if($_POST['contract_type'] == 7)
+    //                     else if($_POST['contract_type'] == 1)
     //                         $invoice_data['total'] = $_POST['agent_remuneration_price_value'];
 
     //                     $invoice_data['sub_tax'] = $_POST['sub_tax'];

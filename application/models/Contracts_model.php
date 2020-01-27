@@ -189,7 +189,7 @@ class Contracts_model extends App_Model
             }   
 
 
-            if ($data['contract_type'] == 6){
+            if ($data['contract_type'] == 3){
                 
                 $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['consulting_client_point'], $data['content']);
 
@@ -218,7 +218,7 @@ class Contracts_model extends App_Model
                 }
 
             }
-            if ($data['contract_type'] == 7){
+            if ($data['contract_type'] == 1){
                 
                 $data['content'] = preg_replace('#<span id="consulting_produkt">(?s).*?</span>#', $data['consulting_client_point'], $data['content']);
 
@@ -443,7 +443,7 @@ class Contracts_model extends App_Model
             }   
 
 
-            if ($data['contract_type'] == 6){
+            if ($data['contract_type'] == 3){
                 
                 $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['consulting_client_point'], $data['content']);
 
@@ -472,7 +472,7 @@ class Contracts_model extends App_Model
                 }
 
             }
-            if ($data['contract_type'] == 7){
+            if ($data['contract_type'] == 1){
                 
                 $data['content'] = preg_replace('#<span id="consulting_produkt">(?s).*?</span>#', $data['consulting_client_point'], $data['content']);
 

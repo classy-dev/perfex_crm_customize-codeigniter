@@ -215,8 +215,8 @@ init_head(); ?>
                   ?>
 
                   <!-- Consulting  -->
-                  <?php if(!isset($contract->contract_type)||($contract->contract_type!=6&&$contract->contract_type!=7)) { ?> <div id="consulting" style="display: none"><?php } ?>
-                  <?php if(isset($contract->contract_type)&&($contract->contract_type==6||$contract->contract_type==7)) { ?><div id="consulting"><?php } ?>
+                  <?php if(!isset($contract->contract_type)||($contract->contract_type!=3&&$contract->contract_type!=1)) { ?> <div id="consulting" style="display: none"><?php } ?>
+                  <?php if(isset($contract->contract_type)&&($contract->contract_type==3||$contract->contract_type==1)) { ?><div id="consulting"><?php } ?>
                     <?php $value = (isset($contract->consulting_client_point) ? $contract->consulting_client_point : ''); ?>
                     <!-- <?php //echo render_textarea('consulting_client_point',_l('consulting_client_point'),$value,array('rows'=>10)); ?> -->
                     <div class="row custom-fields-form-row">
@@ -272,8 +272,8 @@ init_head(); ?>
                   </div>
 
                   <!-- Vergütungsvereinbarung Beratung Payment -->
-                  <?php if(!isset($contract->contract_type)||$contract->contract_type!=6) { ?> <div id="contracts_beratung" style="display: none;"><?php } ?>
-                  <?php if(isset($contract->contract_type)&&$contract->contract_type==6) { ?><div id="contracts_beratung"><?php } ?>
+                  <?php if(!isset($contract->contract_type)||$contract->contract_type!=3) { ?> <div id="contracts_beratung" style="display: none;"><?php } ?>
+                  <?php if(isset($contract->contract_type)&&$contract->contract_type==3) { ?><div id="contracts_beratung"><?php } ?>
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6">
                         <div class="form-group"><label for="custom_fields[contracts_beratung][13]" class="control-label" style="margin-bottom:9px;"><?php echo _l('remuneration');?></label>
@@ -303,8 +303,8 @@ init_head(); ?>
                   </div>
 
                   <!-- Nettoprodukt -->
-                  <?php if(!isset($contract->contract_type)||$contract->contract_type!=7) { ?> <div id="contracts_produkt" style="display: none;"><?php } ?>
-                  <?php if(isset($contract->contract_type)&&$contract->contract_type==7) { ?><div id="contracts_produkt"><?php } ?>
+                  <?php if(!isset($contract->contract_type)||$contract->contract_type!=1) { ?> <div id="contracts_produkt" style="display: none;"><?php } ?>
+                  <?php if(isset($contract->contract_type)&&$contract->contract_type==1) { ?><div id="contracts_produkt"><?php } ?>
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6" id="remuneration">
                         <div class="form-group"><label for="custom_fields[contracts_produkt][13]" class="control-label" style="margin-bottom:9px;"><?php echo _l('remuneration');?></label>
@@ -1212,7 +1212,7 @@ init_head(); ?>
                   $('#dateend').attr("required",true);
                   $('#description').attr("required",true);
                 }
-              else if (create_test == 6){
+              else if (create_test == 3){
                   $('#contract').css("display","none");
                   $('#subscrip').css("display","none");
                   $('#consulting').css("display","block");
@@ -1228,7 +1228,7 @@ init_head(); ?>
                   $('#custom_fields_contracts_beratung__13_').attr("required",true);
                   $('#description').removeAttr('required');
               }
-              else if (create_test == 7){
+              else if (create_test == 1){
                   $('#contract').css("display","none");
                   $('#subscrip').css("display","none");
                   $('#consulting').css("display","block");
@@ -1382,7 +1382,7 @@ init_head(); ?>
 
             }
 
-            if(contract_type_value == 6)
+            if(contract_type_value == 3)
             {
               $('#consulting_client_point').prop('disabled',true);
               $('#custom_fields_contracts_beratung__12_').prop('disabled',true);
@@ -1392,7 +1392,7 @@ init_head(); ?>
               $('#description').prop('readonly',true);
             }
 
-            if(contract_type_value == 7)
+            if(contract_type_value == 1)
             {
               $('#consulting_client_point').prop('disabled',true);
               $('#custom_fields_contracts_produkt__12_').prop('disabled',true);
@@ -1754,14 +1754,14 @@ init_head(); ?>
               $('#custom_fields_contracts_ser__12_').removeAttr('disabled');
               $('#custom_fields_contracts_ser__13_').removeAttr('disabled');
 
-            } else if ($('#contract_type option:selected').val() == 6) {
+            } else if ($('#contract_type option:selected').val() == 3) {
 
               $('#consulting_client_point').removeAttr('disabled');
               $('#custom_fields_contracts_beratung__12_').removeAttr('disabled');
               $('#custom_fields_contracts_beratung__13_').removeAttr('disabled');
 
 
-            } else if($('#contract_type option:selected').val() == 7) {
+            } else if($('#contract_type option:selected').val() == 1) {
 
               $('#consulting_client_point').removeAttr('disabled');
               $('#custom_fields_contracts_produkt__12_').removeAttr('disabled');
