@@ -11,6 +11,7 @@
    }
    }
    ?>
+<?php //print_r($sidebar_menu); ?>
 <aside id="menu" class="sidebar">
    <ul class="nav metis-menu" id="side-menu">
       <li class="dashboard_user<?php if($totalQuickActionsRemoved == count($quickActions)){echo ' dashboard-user-no-qa';}?>">

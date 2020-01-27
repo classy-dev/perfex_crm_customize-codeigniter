@@ -66,6 +66,7 @@
 <?php init_tail(); ?>
 <script>
 	$(function(){
+		console.log(window.location.href);
 		initDataTable('.table-staff', window.location.href);
 	});
 	function delete_staff_member(id){

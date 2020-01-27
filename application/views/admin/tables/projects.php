@@ -113,28 +113,28 @@ foreach ($rResult as $aRow) {
 
     $row[] = _d($aRow['deadline']);
 
-    $membersOutput = '';
+    // $membersOutput = '';
 
-    $members       = explode(',', $aRow['members']);
-    $exportMembers = '';
-    foreach ($members as $key => $member) {
-        if ($member != '') {
-            $members_ids = explode(',', $aRow['members_ids']);
-            $member_id   = $members_ids[$key];
-            $membersOutput .= '<a href="' . admin_url('profile/' . $member_id) . '">' .
-            staff_profile_image($member_id, [
-                'staff-profile-image-small mright5',
-                ], 'small', [
-                'data-toggle' => 'tooltip',
-                'data-title'  => $member,
-                ]) . '</a>';
-            // For exporting
-            $exportMembers .= $member . ', ';
-        }
-    }
+    // $members       = explode(',', $aRow['members']);
+    // $exportMembers = '';
+    // foreach ($members as $key => $member) {
+    //     if ($member != '') {
+    //         $members_ids = explode(',', $aRow['members_ids']);
+    //         $member_id   = $members_ids[$key];
+    //         $membersOutput .= '<a href="' . admin_url('profile/' . $member_id) . '">' .
+    //         staff_profile_image($member_id, [
+    //             'staff-profile-image-small mright5',
+    //             ], 'small', [
+    //             'data-toggle' => 'tooltip',
+    //             'data-title'  => $member,
+    //             ]) . '</a>';
+    //         // For exporting
+    //         $exportMembers .= $member . ', ';
+    //     }
+    // }
 
-    $membersOutput .= '<span class="hide">' . trim($exportMembers, ', ') . '</span>';
-    $row[] = $membersOutput;
+    // $membersOutput .= '<span class="hide">' . trim($exportMembers, ', ') . '</span>';
+    // $row[] = $membersOutput;
 
     $status = get_project_status_by_id($aRow['status']);
     $row[]  = '<span class="label label inline-block project-status-' . $aRow['status'] . '" style="color:' . $status['color'] . ';border:1px solid ' . $status['color'] . '">' . $status['name'] . '</span>';

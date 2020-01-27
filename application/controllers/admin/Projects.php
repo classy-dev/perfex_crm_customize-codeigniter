@@ -90,14 +90,14 @@ class Projects extends AdminController
             }
         }
         if ($id == '') {
-            $title                            = _l('add_new', _l('project_lowercase'));
+            $title                            = _l('add_new', _l('time_tracking_lowercase'));
             $data['auto_select_billing_type'] = $this->projects_model->get_most_used_billing_type();
         } else {
             $data['project']                               = $this->projects_model->get($id);
             $data['project']->settings->available_features = unserialize($data['project']->settings->available_features);
 
             $data['project_members'] = $this->projects_model->get_project_members($id);
-            $title                   = _l('edit', _l('project_lowercase'));
+            $title                   = _l('edit', _l('time_tracking_lowercase'));
         }
 
         if ($this->input->get('customer_id')) {

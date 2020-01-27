@@ -38,7 +38,7 @@ function app_init_project_tabs()
     $CI = &get_instance();
 
     $CI->app_tabs->add_project_tab('project_overview', [
-        'name'     => _l('project_overview'),
+        'name'     => _l('time_tracking_overview'),
         'icon'     => 'fa fa-th',
         'view'     => 'admin/projects/project_overview',
         'position' => 5,
@@ -60,13 +60,13 @@ function app_init_project_tabs()
         'linked_to_customer_option' => ['view_timesheets'],
     ]);
 
-    $CI->app_tabs->add_project_tab('project_milestones', [
-        'name'                      => _l('project_milestones'),
-        'icon'                      => 'fa fa-rocket',
-        'view'                      => 'admin/projects/project_milestones',
-        'position'                  => 20,
-        'linked_to_customer_option' => ['view_milestones'],
-    ]);
+    // $CI->app_tabs->add_project_tab('project_milestones', [
+    //     'name'                      => _l('project_milestones'),
+    //     'icon'                      => 'fa fa-rocket',
+    //     'view'                      => 'admin/projects/project_milestones',
+    //     'position'                  => 20,
+    //     'linked_to_customer_option' => ['view_milestones'],
+    // ]);
 
     $CI->app_tabs->add_project_tab('project_files', [
         'name'                      => _l('project_files'),
@@ -84,13 +84,13 @@ function app_init_project_tabs()
         'linked_to_customer_option' => ['open_discussions'],
     ]);
 
-    $CI->app_tabs->add_project_tab('project_gantt', [
-        'name'                      => _l('project_gant'),
-        'icon'                      => 'fa fa-align-left',
-        'view'                      => 'admin/projects/project_gantt',
-        'position'                  => 35,
-        'linked_to_customer_option' => ['view_gantt'],
-    ]);
+    // $CI->app_tabs->add_project_tab('project_gantt', [
+    //     'name'                      => _l('project_gant'),
+    //     'icon'                      => 'fa fa-align-left',
+    //     'view'                      => 'admin/projects/project_gantt',
+    //     'position'                  => 35,
+    //     'linked_to_customer_option' => ['view_gantt'],
+    // ]);
 
     $CI->app_tabs->add_project_tab('project_tickets', [
         'name'     => _l('project_tickets'),

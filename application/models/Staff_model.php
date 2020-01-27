@@ -1035,4 +1035,5 @@ class Staff_model extends App_Model
         return $query->row();
 
     }
+
 }

@@ -205,7 +205,7 @@ if (!class_exists('Hooks')){
       } while ( next($this->filters[$tag]) !== false );
 
       array_pop( $this->current_filter );
-
+      // print_r($value); exit();
       return $value;
     }
     /**

@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
+<?php init_head(); 
+// print_r("expression");exit(); ?>
 <div id="wrapper">
    <?php echo form_hidden('project_id',$project->id) ?>
    <div class="content">

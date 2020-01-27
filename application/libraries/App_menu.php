@@ -151,7 +151,6 @@ class App_menu
         foreach ($items as $parent => $item) {
             $items[$parent]['children'] = $this->get_child($parent, $group);
         }
-
         $items = hooks()->apply_filters("{$group}_menu_items", $items);
 
         return app_sort_by_position($items);

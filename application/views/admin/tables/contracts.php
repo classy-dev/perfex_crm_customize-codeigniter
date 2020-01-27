@@ -112,14 +112,14 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
+// print_r($rResult); exit();
 foreach ($rResult as $aRow) {
     $row = [];
 
     $row[] = $aRow['id'];
 
-    // $subjectOutput = '<a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
-    $subjectOutput = '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) .'" target="_blank">' . $aRow['subject'] . '</a>';
+    $subjectOutput = '<a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
+    // $subjectOutput = '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) .'" target="_blank">' . $aRow['subject'] . '</a>';
 
     if ($aRow['trash'] == 1) {
         $subjectOutput .= '<span class="label label-danger pull-right">' . _l('contract_trash') . '</span>';
@@ -129,9 +129,10 @@ foreach ($rResult as $aRow) {
 
     $subjectOutput .= '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) . '" target="_blank">' . _l('view') . '</a>';
 
-    // if (has_permission('contracts', '', 'edit')) {
+    if (has_permission('contracts', '', 'edit')) {
         // $subjectOutput .= ' | <a href="' . admin_url('contracts/contract/' . $aRow['id']) . '" class="sign">' . _l('sign') . '</a>';
-    // }
+        $subjectOutput .= ' | <a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+    }
 
     if (has_permission('contracts', '', 'delete')) {
         $subjectOutput .= ' | <a href="' . admin_url('contracts/delete/' . $aRow['id']) . '" class="text-danger _delete">' . _l('delete') . '</a>';

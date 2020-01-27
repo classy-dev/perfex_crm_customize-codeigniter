@@ -3508,7 +3508,23 @@ $lang['back'] = 'Zurück';
 $lang['create_contract'] = 'Vertrag erstellen';
 $lang['contract_and_invoice'] = 'Vertrag und Abrechnung';
 
+$lang['payment_method'] = 'Zahlungsmethode';
+$lang['bank_transfer'] = 'Banküberweisung';
+$lang['immediate_transfer'] = 'Sofortüberweisung';
+$lang['debit'] = 'Lastschrift';
+
+$lang['payment_timeframe'] = 'Zahlungsintervall';
+$lang['daily'] = 'Täglich';
+$lang['quaterly'] = 'Vierteljährlich';
+$lang['monthly'] = 'Monatlich';
+$lang['half_yearly'] = 'Halbjährlich';
+$lang['annually'] = 'Jährlich';
+
+$lang['notice_for_agent'] = 'Information zum Vertrag';
+
+
 // subscription
+$lang['contract_subscription'] = 'Service-Abo';
 $lang['als_blocks'] = 'Service-Blöcke';
 $lang['als_sub_settings'] = 'Einstellungen';
 $lang['monthly_costs'] = 'Monatliche Kosten';

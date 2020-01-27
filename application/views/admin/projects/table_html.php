@@ -2,7 +2,7 @@
 
 $table_data = [
    _l('the_number_sign'),
-   _l('project_name'),
+   _l('time_tracking_name'),
     [
          'name'     => _l('project_customer'),
          'th_attrs' => ['class' => isset($client) ? 'not_visible' : ''],
@@ -10,7 +10,7 @@ $table_data = [
    _l('tags'),
    _l('project_start_date'),
    _l('project_deadline'),
-   _l('project_members'),
+   // _l('project_members'),
    _l('project_status'),
 ];
 

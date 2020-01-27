@@ -58,34 +58,7 @@
                       </a>
                   </td>
               </tr>
-               <?php if(has_permission('projects','','create') || has_permission('projects','','edit')){ ?>
-               <tr class="project-overview-billing">
-                  <td class="bold"><?php echo _l('project_billing_type'); ?></td>
-                  <td>
-                     <?php
-                     if($project->billing_type == 1){
-                       $type_name = 'project_billing_type_fixed_cost';
-                    } else if($project->billing_type == 2){
-                       $type_name = 'project_billing_type_project_hours';
-                    } else {
-                       $type_name = 'project_billing_type_project_task_hours';
-                    }
-                    echo _l($type_name);
-                    ?>
-                 </td>
-                 <?php if($project->billing_type == 1 || $project->billing_type == 2){
-                  echo '<tr>';
-                  if($project->billing_type == 1){
-                    echo '<td class="bold">'._l('project_total_cost').'</td>';
-                    echo '<td>'.app_format_money($project->project_cost, $currency).'</td>';
-                 } else {
-                    echo '<td class="bold">'._l('project_rate_per_hour').'</td>';
-                    echo '<td>'.app_format_money($project->project_rate_per_hour, $currency).'</td>';
-                 }
-                 echo '<tr>';
-              }
-           }
-           ?>
+               <!--  -->
            <tr class="project-overview-status">
             <td class="bold"><?php echo _l('project_status'); ?></td>
             <td><?php echo $project_status['name']; ?></td>
@@ -137,7 +110,7 @@
    </table>
 </div>
 <div class="col-md-5 text-center project-percent-col mtop10">
-   <p class="bold"><?php echo _l('project_progress_text'); ?></p>
+   <p class="bold"><?php echo _l('time_tracking_progress_text'); ?></p>
    <div class="project-progress relative mtop15" data-value="<?php echo $percent_circle; ?>" data-size="150" data-thickness="22" data-reverse="true">
       <strong class="project-percent"></strong>
    </div>
@@ -160,41 +133,6 @@
       echo '<p class="text-muted no-mbot mtop15">' . _l('no_description_project') . '</p>';
    }
    echo check_for_links($project->description); ?>
-</div>
-<div class="team-members project-overview-team-members">
-   <hr class="hr-panel-heading project-area-separation" />
-   <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
-   <div class="inline-block pull-right mright10 project-member-settings" data-toggle="tooltip" data-title="<?php echo _l('add_edit_members'); ?>">
-      <a href="#" data-toggle="modal" class="pull-right" data-target="#add-edit-members"><i class="fa fa-cog"></i></a>
-   </div>
-   <?php } ?>
-   <p class="bold font-size-14 project-info">
-      <?php echo _l('project_members'); ?>
-   </p>
-   <div class="clearfix"></div>
-   <?php
-   if(count($members) == 0){
-      echo '<p class="text-muted mtop10 no-mbot">'._l('no_project_members').'</p>';
-   }
-   foreach($members as $member){ ?>
-   <div class="media">
-      <div class="media-left">
-         <a href="<?php echo admin_url('profile/'.$member["staff_id"]); ?>">
-            <?php echo staff_profile_image($member['staff_id'],array('staff-profile-image-small','media-object')); ?>
-         </a>
-      </div>
-      <div class="media-body">
-         <?php if(has_permission('projects','','edit') || has_permission('projects','','create')){ ?>
-         <a href="<?php echo admin_url('projects/remove_team_member/'.$project->id.'/'.$member['staff_id']); ?>" class="pull-right text-danger _delete"><i class="fa fa fa-times"></i></a>
-         <?php } ?>
-         <h5 class="media-heading mtop5"><a href="<?php echo admin_url('profile/'.$member["staff_id"]); ?>"><?php echo get_staff_full_name($member['staff_id']); ?></a>
-            <?php if(has_permission('projects','','create') || $member['staff_id'] == get_staff_user_id()){ ?>
-            <br /><small class="text-muted"><?php echo _l('total_logged_hours_by_staff') .': '.seconds_to_time_format($member['total_logged_time']); ?></small>
-            <?php } ?>
-         </h5>
-      </div>
-   </div>
-   <?php } ?>
 </div>
 </div>
 <div class="col-md-6 project-overview-right">

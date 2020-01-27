@@ -88,6 +88,7 @@ class AdminController extends App_Controller
          * @var array
          */
         $vars = hooks()->apply_filters('admin_area_auto_loaded_vars', $vars);
+        // print_r($vars); exit();
         $this->load->vars($vars);
     }
 

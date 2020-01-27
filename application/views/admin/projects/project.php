@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
+<?php init_head();
+// print_r("expression"); exit(); ?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -22,7 +23,7 @@
                         }
                         ?>
                         <?php $value = (isset($project) ? $project->name : ''); ?>
-                        <?php echo render_input('name','project_name',$value); ?>
+                        <?php echo render_input('name','time_tracking_name',$value); ?>
                         <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
                             <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -58,13 +59,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group select-placeholder">
-                                <label for="billing_type"><?php echo _l('project_billing_type'); ?></label>
+                                <label for="billing_type"><?php echo _l('time_tracking_billing_type'); ?></label>
                                 <div class="clearfix"></div>
                                 <select name="billing_type" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                    <option value=""></option>
-                                    <option value="1" <?php if(isset($project) && $project->billing_type == 1 || !isset($project) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 1){echo 'selected'; } ?>><?php echo _l('project_billing_type_fixed_cost'); ?></option>
+                                    <!-- <option value=""></option> -->
+                                    <!-- <option value="1" <?php if(isset($project) && $project->billing_type == 1 || !isset($project) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 1){echo 'selected'; } ?>><?php echo _l('project_billing_type_fixed_cost'); ?></option> -->
                                     <option value="2" <?php if(isset($project) && $project->billing_type == 2 || !isset($project) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 2){echo 'selected'; } ?>><?php echo _l('project_billing_type_project_hours'); ?></option>
-                                    <option value="3" data-subtext="<?php echo _l('project_billing_type_project_task_hours_hourly_rate'); ?>" <?php if(isset($project) && $project->billing_type == 3 || !isset($project) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 3){echo 'selected'; } ?>><?php echo _l('project_billing_type_project_task_hours'); ?></option>
+                                    <!-- <option value="3" data-subtext="<?php echo _l('project_billing_type_project_task_hours_hourly_rate'); ?>" <?php if(isset($project) && $project->billing_type == 3 || !isset($project) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 3){echo 'selected'; } ?>><?php echo _l('project_billing_type_project_task_hours'); ?></option> -->
                                 </select>
                                 <?php if($disable_type_edit != ''){
                                     echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
@@ -158,7 +159,7 @@
                         } else {
                             array_push($selected,get_staff_user_id());
                         }
-                        echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                        // echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
                         ?>
                     </div>
                 </div>
@@ -200,7 +201,7 @@
     <div class="panel_s">
         <div class="panel-body" id="project-settings-area">
            <h4 class="no-margin">
-               <?php echo _l('project_settings'); ?>
+               <?php echo _l('time_tracking_settings'); ?>
            </h4>
            <hr class="hr-panel-heading" />
            <?php foreach($settings as $setting){
@@ -235,64 +236,8 @@
                     </label>
                 </div>
             <?php } else { ?>
-                <div class="form-group mtop15 select-placeholder project-available-features">
-                    <label for="available_features"><?php echo _l('visible_tabs'); ?></label>
-                    <select name="settings[<?php echo $setting; ?>][]" id="<?php echo $setting; ?>" multiple="true" class="selectpicker" id="available_features" data-width="100%" data-actions-box="true" data-hide-disabled="true">
-                        <?php foreach(get_project_tabs_admin() as $tab) {
-                            $selected = '';
-                            if(isset($tab['collapse'])){ ?>
-                                <optgroup label="<?php echo $tab['name']; ?>">
-                                    <?php foreach($tab['children'] as $tab_dropdown) {
-                                        $selected = '';
-                                        if(isset($project) && (
-                                            (isset($project->settings->available_features[$tab_dropdown['slug']])
-                                                && $project->settings->available_features[$tab_dropdown['slug']] == 1)
-                                            || !isset($project->settings->available_features[$tab_dropdown['slug']]))) {
-                                            $selected = ' selected';
-                                    } else if(!isset($project) && count($last_project_settings) > 0) {
-                                        foreach($last_project_settings as $last_project_setting) {
-                                            if($last_project_setting['name'] == $setting) {
-                                                if(isset($last_project_setting['value'][$tab_dropdown['slug']])
-                                                    && $last_project_setting['value'][$tab_dropdown['slug']] == 1) {
-                                                    $selected = ' selected';
-                                            }
-                                        }
-                                    }
-                                } else if(!isset($project)) {
-                                    $selected = ' selected';
-                                }
-                                ?>
-                                <option value="<?php echo $tab_dropdown['slug']; ?>"<?php echo $selected; ?><?php if(isset($tab_dropdown['linked_to_customer_option']) && is_array($tab_dropdown['linked_to_customer_option']) && count($tab_dropdown['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab_dropdown['linked_to_customer_option']); ?>"<?php } ?>><?php echo $tab_dropdown['name']; ?></option>
-                            <?php } ?>
-                        </optgroup>
-                    <?php } else {
-                        if(isset($project) && (
-                            (isset($project->settings->available_features[$tab['slug']])
-                             && $project->settings->available_features[$tab['slug']] == 1)
-                            || !isset($project->settings->available_features[$tab['slug']]))) {
-                            $selected = ' selected';
-                    } else if(!isset($project) && count($last_project_settings) > 0) {
-                        foreach($last_project_settings as $last_project_setting) {
-                            if($last_project_setting['name'] == $setting) {
-                                if(isset($last_project_setting['value'][$tab['slug']])
-                                    && $last_project_setting['value'][$tab['slug']] == 1) {
-                                    $selected = ' selected';
-                            }
-                        }
-                    }
-                } else if(!isset($project)) {
-                    $selected = ' selected';
-                }
-                ?>
-                <option value="<?php echo $tab['slug']; ?>"<?php if($tab['slug'] =='project_overview'){echo ' disabled selected';} ?>
-                <?php echo $selected; ?>
-                <?php if(isset($tab['linked_to_customer_option']) && is_array($tab['linked_to_customer_option']) && count($tab['linked_to_customer_option']) > 0){ ?> data-linked-customer-option="<?php echo implode(',',$tab['linked_to_customer_option']); ?>"<?php } ?>>
-                <?php echo $tab['name']; ?>
-            </option>
-        <?php } ?>
-    <?php } ?>
-</select>
-</div>
+                
+
 <?php } ?>
 <hr class="no-margin" />
 <?php } ?>

@@ -69,6 +69,17 @@
                         <!-- ///added inputs end -->
                     <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
                     <?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
+
+                    <div class="form-group">
+                        <label for="hourly_rate"><?php echo _l('staff_hourly_rate'); ?></label>
+                        <div class="input-group">
+                           <input type="number" name="hourly_rate" value="<?php if(isset($member)){echo $member->hourly_rate;} else {echo 0;} ?>" id="hourly_rate" class="form-control">
+                           <span class="input-group-addon">
+                           <?php echo $base_currency->symbol; ?>
+                           </span>
+                        </div>
+                     </div>
+                     
                     <?php if(get_option('disable_language') == 0){ ?>
                     <div class="form-group">
                         <label for="country" class="control-label"><?php echo _l('localization_default_language'); ?></label>

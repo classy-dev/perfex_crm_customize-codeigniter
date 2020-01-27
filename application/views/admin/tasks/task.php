@@ -121,17 +121,7 @@
                   <?php $value = (isset($task) ? $task->hourly_rate : 0); ?>
                   <?php echo render_input('hourly_rate','task_hourly_rate',$value); ?>
                </div>
-               <div class="project-details<?php if($rel_type != 'project'){echo ' hide';} ?>">
-                  <div class="form-group">
-                     <label for="milestone"><?php echo _l('task_milestone'); ?></label>
-                     <select name="milestone" id="milestone" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                        <option value=""></option>
-                        <?php foreach($milestones as $milestone){ ?>
-                        <option value="<?php echo $milestone['id']; ?>" <?php if(isset($task) && $task->milestone == $milestone['id']){echo 'selected'; } ?>><?php echo $milestone['name']; ?></option>
-                        <?php } ?>
-                     </select>
-                  </div>
-               </div>
+               
                <div class="row">
                   <div class="col-md-6">
                      <?php if(isset($task)){
@@ -167,7 +157,7 @@
                      <div class="form-group">
                         <label for="repeat_every" class="control-label"><?php echo _l('task_repeat_every'); ?></label>
                         <select name="repeat_every" id="repeat_every" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                           <option value=""></option>
+                           <option value="no-repeat" <?php if(isset($task) && $task->repeat_every == 0 && $task->recurring_type == 'day'){echo 'selected';} ?>><?php echo _l('task_no_repeat'); ?></option>
                            <option value="1-week" <?php if(isset($task) && $task->repeat_every == 1 && $task->recurring_type == 'week'){echo 'selected';} ?>><?php echo _l('week'); ?></option>
                            <option value="2-week" <?php if(isset($task) && $task->repeat_every == 2 && $task->recurring_type == 'week'){echo 'selected';} ?>>2 <?php echo _l('weeks'); ?></option>
                            <option value="1-month" <?php if(isset($task) && $task->repeat_every == 1 && $task->recurring_type == 'month'){echo 'selected';} ?>>1 <?php echo _l('month'); ?></option>
@@ -224,30 +214,12 @@
                            <option value=""></option>
                            <option value="project"
                               <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('project'); ?></option>
-                           <option value="invoice" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'invoice'){echo 'selected';}} ?>>
-                              <?php echo _l('invoice'); ?>
-                           </option>
                            <option value="customer"
                               <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
                               <?php echo _l('client'); ?>
                            </option>
-                           <option value="estimate" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'estimate'){echo 'selected';}} ?>>
-                              <?php echo _l('estimate'); ?>
-                           </option>
                            <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'contract'){echo 'selected';}} ?>>
                               <?php echo _l('contract'); ?>
-                           </option>
-                           <option value="ticket" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'ticket'){echo 'selected';}} ?>>
-                              <?php echo _l('ticket'); ?>
-                           </option>
-                           <option value="expense" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'expense'){echo 'selected';}} ?>>
-                              <?php echo _l('expense'); ?>
-                           </option>
-                           <option value="lead" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'lead'){echo 'selected';}} ?>>
-                              <?php echo _l('lead'); ?>
-                           </option>
-                           <option value="proposal" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'proposal'){echo 'selected';}} ?>>
-                              <?php echo _l('proposal'); ?>
                            </option>
                         </select>
                      </div>

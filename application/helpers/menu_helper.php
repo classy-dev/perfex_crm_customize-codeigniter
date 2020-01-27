@@ -114,6 +114,7 @@ function app_init_admin_sidebar_menu_items()
 
     if (has_permission('expenses', '', 'view') || has_permission('expenses', '', 'view_own')) {
         $CI->app_menu->add_sidebar_menu_item('expenses', [
+
                 'name'     => _l('expenses'),
                 'href'     => admin_url('expenses'),
                 'icon'     => 'fa fa-file-text-o',
@@ -137,20 +138,40 @@ function app_init_admin_sidebar_menu_items()
     //             'icon'     => 'fa fa-bars',
     //             'position' => 30,
     //     ]);
+    
 
     $CI->app_menu->add_sidebar_menu_item('time_tracking', [
+                'collapse' => true,
                 'name'     => _l('time_tracking'),
-                'href'     => admin_url('projects'),
-                'icon'     => 'fa fa-bars',
+                // 'href'     => admin_url('projects'),
+                'icon'     => 'fa fa-hourglass-1',
                 'position' => 30,
         ]);
 
-    $CI->app_menu->add_sidebar_menu_item('tasks', [
+    if (has_permission('projects', '', 'view') && has_permission('projects', '', 'edit')) {
+
+       $CI->app_menu->add_sidebar_children_item('time_tracking', [
+                'slug'     => 'tracking',
+                'name'     => _l('time_tracking'),
+                'href'     => admin_url('projects'),
+                'position' => 5,
+        ]);
+       $CI->app_menu->add_sidebar_children_item('time_tracking', [
+                'slug'     => 'task',
                 'name'     => _l('als_tasks'),
                 'href'     => admin_url('tasks'),
-                'icon'     => 'fa fa-tasks',
-                'position' => 35,
+                'position' => 10,
         ]);
+    }
+
+
+    // $CI->app_menu->add_sidebar_menu_item('tasks', [
+    //             'name'     => _l('als_tasks'),
+    //             'href'     => admin_url('tasks'),
+    //             'icon'     => 'fa fa-tasks',
+    //             'position' => 35,
+    //     ]);
+    
 
     if ((!is_staff_member() && get_option('access_tickets_to_none_staff_members') == 1) || is_staff_member()) {
         $CI->app_menu->add_sidebar_menu_item('support', [

@@ -11,10 +11,10 @@ class Projects_model extends App_Model
         parent::__construct();
 
         $project_settings = [
-            'available_features',
+            // 'available_features',
             'view_tasks',
             'create_tasks',
-            'edit_tasks',
+            // 'edit_tasks',
             'comment_on_tasks',
             'view_task_comments',
             'view_task_attachments',
@@ -24,8 +24,8 @@ class Projects_model extends App_Model
             'view_finance_overview',
             'upload_files',
             'open_discussions',
-            'view_milestones',
-            'view_gantt',
+            // 'view_milestones',
+            // 'view_gantt',
             'view_timesheets',
             'view_activity_log',
             'view_team_members',

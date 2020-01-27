@@ -2019,7 +2019,10 @@ $lang['timers_started_confirm_logout'] = 'Started tasks timers found!<br />Are y
 $lang['confirm_logout']                = 'Logout';
 $lang['timer_top_started']             = 'Started at %s';
 
-# Projects
+# Projects (Time Tracking)
+
+
+
 $lang['cant_change_billing_type_billed_tasks_found']         = 'You cant change billing type. Billed tasks already found for this project.';
 $lang['project_customer_permission_warning']                 = 'The system indicated that the primary contact do not have permission for projects. The primary contact won\'t be able to see the project. Consider add permission in the contact profile.';
 $lang['project_invoice_timesheet_start_time']                = 'Start time: %s';
@@ -2051,7 +2054,7 @@ $lang['projects']                                            = 'Projects';
 $lang['projects_lowercase']                                  = 'projects';
 $lang['project_settings']                                    = 'Project settings';
 $lang['project_invoiced_successfully']                       = 'Project Invoiced Successfully';
-$lang['new_project']                                         = 'New Project';
+
 $lang['project_files']                                       = 'Files';
 $lang['project_activity']                                    = 'Activity';
 $lang['project_name']                                        = 'Project Name';
@@ -2123,7 +2126,7 @@ $lang['project_setting_view_task_comments']                  = 'view task commen
 $lang['project_setting_upload_on_tasks']                     = 'upload attachments on tasks';
 $lang['project_setting_view_task_total_logged_time']         = 'view task total logged time';
 $lang['project_setting_open_discussions']                    = 'open discussions';
-$lang['project_setting_comment_on_tasks']                    = 'comment on project tasks';
+
 $lang['project_setting_view_tasks']                          = 'view tasks';
 $lang['project_setting_view_milestones']                     = 'view milestones';
 $lang['project_setting_view_gantt']                          = 'view Gantt';
@@ -2490,7 +2493,7 @@ $lang['default_contact_permissions']            = 'Default contact permissions';
 $lang['invoice_activity_marked_as_cancelled']   = 'marked invoice as cancelled';
 $lang['invoice_activity_unmarked_as_cancelled'] = 'unmarked invoice as cancelled';
 $lang['wait_text']                              = 'Please wait...';
-$lang['projects_summary']                       = 'Projects Summary';
+
 $lang['dept_imap_host']                         = 'IMAP Host';
 $lang['dept_encryption']                        = 'Encryption';
 $lang['dept_email_password']                    = 'Password';
@@ -3669,8 +3672,24 @@ $lang['stripe_complete_editing_profile'] = 'Dont forget to fill the payment requ
 $lang['back'] = 'Back';
 $lang['create_contract'] = 'Create Contract';
 $lang['contract_and_invoice'] = 'Contract and Invoice';
+$lang['payment_method'] = 'Payment Method';
+$lang['bank_transfer'] = 'Bank Transfer';
+$lang['immediate_transfer'] = 'Immediate Transfer';
+$lang['debit'] = 'Debit';
+
+$lang['payment_timeframe'] = 'Payment Timeframe';
+$lang['daily'] = 'Daily';
+$lang['quaterly'] = 'Quaterly';
+$lang['monthly'] = 'Monthly';
+$lang['half_yearly'] = 'Half-Yearly';
+$lang['annually'] = 'Annually';
+
+$lang['notice_for_agent'] = 'Notice for agent';
+
+
 
 // subscription
+$lang['contract_subscription'] = 'Subscription';
 $lang['als_blocks'] = 'Blocks';
 $lang['als_sub_settings'] = 'Settings';
 $lang['monthly_costs'] = 'Monthly Costs';
@@ -3713,3 +3732,36 @@ $lang['total'] = 'total';
 $lang['amount_without_tax'] = 'Amount Without Tax';
 $lang['amount_to_pay'] = 'Amount To Pay';
 
+
+
+//contract other type
+$lang['consulting_client_point'] = 'Product';
+$lang['remuneration'] = 'Remuneration Calculation';
+$lang['one_time_payment'] = 'One Time Payment';
+$lang['payment_according_to_time_spent'] = 'Payment According To Time Spent';
+
+$lang['partial_payment'] = 'Partial Payment';
+$lang['partial_payment_with_increased_starting_payment'] = 'Partial Payment With Increased Starting Payment';
+
+$lang['one_time_payment_value'] = 'One Time Payment';
+$lang['opening_payment_value'] = 'Opening Payment';
+$lang['savings_amount_per_month_value'] = 'Savings Amount Per Month';
+$lang['term_value'] = 'Term In Years';
+$lang['dynamic_percentage_per_year_value'] = 'Dynamic Percentage Per Year';
+$lang['payment_amount_value'] = 'Total Amount';
+
+
+// Time Tracking
+$lang['timetrakings_summary']                   = 'Time Tracking Summary';
+$lang['new_time_tracking']                      = 'New Time Tracking';
+$lang['time_tracking_name']                     = 'Time Tracking Name';
+$lang['time_tracking_lowercase']                = 'time tracking';
+$lang['time_tracking_billing_type']             = 'Always Time Tracking';
+$lang['time_tracking_settings']            	    = 'Always Time Tracking';
+
+$lang['project_setting_comment_on_tasks']                    = 'comment on time tracking tasks';
+$lang['time_tracking_overview']                    = 'Time Tracking Overview';
+$lang['time_tracking_progress_text']                    = 'Time Tracking Progress';
+
+//Task
+ $lang['task_no_repeat']                    = 'No Repeat';
