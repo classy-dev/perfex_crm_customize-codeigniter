@@ -3740,6 +3740,12 @@ $lang['remuneration'] = 'Remuneration Calculation';
 $lang['one_time_payment'] = 'One Time Payment';
 $lang['payment_according_to_time_spent'] = 'Payment According To Time Spent';
 
+$lang['partial_payment_of_total_payment'] = 'Partial Payment Of Total Amount';
+$lang['amount_value'] = 'Amount Value';
+$lang['total_amount_value'] = 'Total Amount Value';
+$lang['agent_remuneration_percent_value'] = 'Agent Remuneration Percent Value';
+$lang['agent_remuneration_price_value'] = 'Agent Remuneration Price Value';
+
 $lang['partial_payment'] = 'Partial Payment';
 $lang['partial_payment_with_increased_starting_payment'] = 'Partial Payment With Increased Starting Payment';
 

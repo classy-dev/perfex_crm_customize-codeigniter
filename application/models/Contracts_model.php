@@ -370,22 +370,94 @@ class Contracts_model extends App_Model
         $data['hourly_rate'] = $this->get_staff_hourly_rate($data['addedfrom'])[0]['hourly_rate'];
         // print_r($data['hourly_rate']); exit();
         $data['description'] = $data['description'];
-        $data['subscription'] = $data['subscription'];
-        $sub_array = explode(",", $data['sub_arr']) ;
-
-        $data['contract_value'] = $data['contract_value'];
         $data['contract_type'] = $data['contract_type'];
-        $data['service_p_m'] = $data['custom_fields']['contracts_ser'][12];
-        $data['service_p_t'] = $data['custom_fields']['contracts_ser'][13];
 
-        $data['beratung_p'] = $data['custom_fields']['contracts_beratung'][13];
-        $data['beratung_p_m'] = $data['custom_fields']['contracts_beratung'][12];
+        if ($data['contract_type'] == 2) {
 
-        $data['produkt_remuneration'] = $data['custom_fields']['contracts_produkt'][13];
-        $data['produkt_p'] = $data['custom_fields']['contracts_produkt'][14];
-        $data['produkt_p_m'] = $data['custom_fields']['contracts_produkt'][12];
+            // $data['subscription'] = $data['subscription'];
+            $sub_array = explode(",", $data['sub_arr']) ;
+            // $data['contract_value'] = $data['contract_value'];
+            $data['service_p_m'] = $data['custom_fields']['contracts_ser'][12];
+            $data['service_p_t'] = $data['custom_fields']['contracts_ser'][13];
+            // $data['sub_tax'] = $data['sub_tax'];
 
+            $data['consulting_client_point'] = null;
+            $data['beratung_p'] = null;
+            $data['beratung_p_m'] = null;
 
+            $data['produkt_remuneration'] = null;
+            $data['produkt_p'] = null;
+            $data['produkt_p_m'] = null;
+            $data['one_time_payment_value'] = null;
+            $data['savings_amount_per_month_value'] = null;
+            $data['term_value'] = null;
+            $data['amount_value'] = null;
+            $data['opening_payment_value'] = null;
+            $data['dynamic_percentage_per_year_value'] = null;
+            $data['total_amount_value'] = null;
+            $data['agent_remuneration_percent_value'] = null;
+            $data['agent_remuneration_price_value'] = null;
+
+        }
+        else if ($data['contract_type'] == 3){
+
+            $data['subscription'] = null;
+            $data['sub_arr'] = null;
+            $data['contract_value'] = null;
+            $data['service_p_m'] = null;
+            $data['service_p_t'] = null;
+            $data['sub_tax'] = null;
+
+            // $data['consulting_client_point'] = $data['consulting_client_point'];
+            $data['beratung_p'] = $data['custom_fields']['contracts_beratung'][13];
+            $data['beratung_p_m'] = $data['custom_fields']['contracts_beratung'][12];
+
+            $data['produkt_remuneration'] = null;
+            $data['produkt_p'] = null;
+            $data['produkt_p_m'] = null;
+            $data['one_time_payment_value'] = null;
+            $data['savings_amount_per_month_value'] = null;
+            $data['term_value'] = null;
+            $data['amount_value'] = null;
+            $data['opening_payment_value'] = null;
+            $data['dynamic_percentage_per_year_value'] = null;
+            $data['total_amount_value'] = null;
+            $data['agent_remuneration_percent_value'] = null;
+            $data['agent_remuneration_price_value'] = null;
+
+        }
+        else if ($data['contract_type'] == 1){
+            $data['subscription'] = null;
+            $data['sub_arr'] = null;
+            $data['contract_value'] = null;
+            $data['service_p_m'] = null;
+            $data['service_p_t'] = null;
+            $data['sub_tax'] = null;
+
+            // $data['consulting_client_point'] = null;
+            $data['beratung_p'] = null;
+            $data['beratung_p_m'] = null;
+
+            $data['produkt_remuneration'] = $data['custom_fields']['contracts_produkt'][13];
+            $data['produkt_p'] = $data['custom_fields']['contracts_produkt'][14];
+            $data['produkt_p_m'] = $data['custom_fields']['contracts_produkt'][12];
+
+            if ($data['produkt_remuneration'] == 'One Time Payment'){
+
+                $data['savings_amount_per_month_value'] = null;
+                $data['term_value'] = null;
+                $data['amount_value'] = null;
+                $data['opening_payment_value'] = null;
+                $data['dynamic_percentage_per_year_value'] = null;
+                $data['total_amount_value'] = null;
+                $data['agent_remuneration_percent_value'] = null;
+                $data['agent_remuneration_price_value'] = null;
+            }
+            else if ($data['produkt_remuneration'] == 'Partial Payment Of Total Amount'){
+                $data['one_time_payment_value'] = null;
+            }
+        }
+    
 
         if($data['contract_type']!=null)
         {
@@ -587,7 +659,7 @@ class Contracts_model extends App_Model
             }
             unset($data['custom_fields']);
         }
-        
+        // print_r($data); exit();
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'contracts', $data);
 
