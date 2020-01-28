@@ -1146,9 +1146,20 @@ init_head(); ?>
 
 
    $(document).ready(function(){
+        // form validation
+          $('#contract_type').attr("required",true);
+          // Contract PreView
+          var staff0 = '<?php echo json_encode($staff)?>';
+          var staff = JSON.parse(staff0);
+          // console.log(staff)
+          // $('#staff_name').empty();
+          // $('#staff_name').append('-'+staff[0].firstname+'&nbsp;'+staff[0].lastname);
+          $('#staf_name').val('-'+staff[0].firstname+'&nbsp;'+staff[0].lastname);
 
-        $('#contract_type').attr("required",true);
-
+          // $('#staff_info').empty();
+          // $('#staff_info').append('-'+staff[0].address+'</br>'+staff[0].zip+', '+staff[0].city+'</br>'+staff[0].state+', '+staff[0].short_name);
+          $('#staf_info').val(staff[0].address+'</br>'+staff[0].zip+', '+staff[0].city+'</br>'+staff[0].state+', '+staff[0].short_name);
+        /////////
         // Customer:
           var customer_array0 = '<?php echo json_encode($customer)?>';
           var customer_array = JSON.parse(customer_array0);
@@ -1156,33 +1167,34 @@ init_head(); ?>
             for (var i = 0; i < customer_array.length; i++)
              {
                 if(customer_array[i].userid == $('#clientid option:selected').val()){
-                  $('#customer').empty();
-                  $('#customer').append(customer_array[i].company);
+                  // $('#customer').empty();
+                  // $('#customer').append('-'+customer_array[i].company);
                   // console.log("customer",$('#customer').val())
                   $('#cus_value').val(customer_array[i].company);
 
-                  $('#customer_address').empty();
-                  $('#customer_address').append(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
-                  $('#cus_addr_value').val(customer_array[i].address + '</br>'+ customer_array[i].city + '</br>'+customer_array[i].state + '</br>'+customer_array[i].zip + '</br>'+customer_array[i].short_name);
+                  // $('#customer_address').empty();
+                  // $('#customer_address').append(customer_array[i].address + '</br>'+ customer_array[i].zip + ', '+customer_array[i].city + '</br>'+customer_array[i].state + ', '+customer_array[i].short_name);
+                  $('#cus_addr_value').val(customer_array[i].address + '</br>'+ customer_array[i].zip + ', '+customer_array[i].city + '</br>'+customer_array[i].state + ', '+customer_array[i].short_name);
                   }
 
              }
           });
-
           //fixed customer
           var current_customer_id = $('#clientid').val();
           if (current_customer_id != ''){
+            // console.log("fixed customer")
             for (var p = 0; p < customer_array.length; p++)
             {
               if (customer_array[p].userid == current_customer_id)
               {
                 // console.log(customer_array[p])
-                $('#customer').empty();
-                $('#customer').append(customer_array[p].company);
-                $('#cus_value').val(customer_array[p].company);
-                $('#customer_address').empty();
-                $('#customer_address').append(customer_array[p].address + '</br>'+ customer_array[p].zip + ', '+customer_array[p].city + '</br>'+customer_array[p].state + ', '+customer_array[p].short_name);
-                $('#cus_addr_value').val(customer_array[p].address + '</br>'+ customer_array[p].city + '</br>'+customer_array[p].state + '</br>'+customer_array[p].zip + '</br>'+customer_array[p].short_name);
+                // $('#customer').empty();
+                // $('#customer').append(customer_array[p].company);
+                $('#cus_value').val('-'+customer_array[p].company);
+
+                // $('#customer_address').empty();
+                // $('#customer_address').append(customer_array[p].address + '</br>'+ customer_array[p].zip + ', '+customer_array[p].city + '</br>'+customer_array[p].state + ', '+customer_array[p].short_name);
+                $('#cus_addr_value').val(customer_array[p].address + '</br>'+ customer_array[p].zip + ', '+customer_array[p].city + '</br>'+customer_array[p].state + ', '+customer_array[p].short_name);
               }
               
             }
@@ -1247,11 +1259,24 @@ init_head(); ?>
                   $('#savings_amount_per_month').attr('required', true);
                   $('#description').removeAttr('required');
               }
-              
+              else {
+                  $('#contract').css("display","block");
+                  $('#contract_opt').css("display","block");
+                  $('#contract_ser').css("display","none");
+                  $('#consulting').css("display","none");
+                }
             });
 
-          
-
+          // var selected_contract_type = $('#contract_type option:selected').val();
+          // if (selected_contract_type == 2)
+          //   {
+          //        $('#contract').css("display","none");
+          //        $('#subscrip').css("display","block");
+          //        $('#contract_opt').css("display","none");
+          //        $('#contract_ser').css("display","block");
+          //   }
+        ////////////
+        // Subscription: (#subscription->only subscription select, #subtax->hidden subscription tax value, #sub_arr->hidden subscription array value)
            var subscription0 = '<?php echo json_encode($subscriptions) ?>';
            var subscription = JSON.parse(subscription0);
            var blocks_array0 = '<?php echo json_encode($blocks)?>';
@@ -1302,8 +1327,148 @@ init_head(); ?>
                }
                $('#contract_value').val(contract_value); 
             });
+          
+          if($('#save').css('display')=='none') $('#btn_type').val("create_contract"); 
+          else $('#btn_type').val("save");
+            
+          
 
-          // scroll bar 
+          var payment_m = $('#custom_fields_contracts_ser__12_ option:selected').val();
+          if (payment_m == "Bank Transfer") 
+            {
+              $('#bank').css("display","block");
+              $('#immediate').css("display","none");
+              $('#debit').css("display","none");
+            }
+          else if(payment_m == "Immediate Transfer")  
+            {
+              $('#bank').css("display","none");
+              $('#immediate').css("display","block");
+              $('#debit').css("display","none");
+            }
+          else if(payment_m == "Debit")
+            {
+              $('#bank').css("display","none");
+              $('#immediate').css("display","none");
+              $('#debit').css("display","block");
+            } 
+          // console.log(payment_m);
+
+          // Button Change
+          var btn = '<?php if( isset($btn_type)) echo ($btn_type) ?>';
+          var contract_type_value = '<?php if(isset($contract0['session']['contract_type'])) echo $contract0['session']['contract_type']  ?>';
+
+          if(btn == "save")
+          {
+            var value = "create_contract";
+            $('#btn_type').val(value);
+          }
+          if(btn){
+            $('#trash').prop('disabled',true);
+            $('#not_visible_to_client').prop('disabled',true);
+            $('#subject').prop('readonly',true);
+            $('#clientid').prop('disabled',true);
+            $('#contract_type').prop('disabled',true);
+
+            if(contract_type_value == 2)
+            {
+              $('#subscription').prop('disabled',true);
+              $('#custom_fields_contracts_ser__12_').prop('disabled',true);
+              $('#custom_fields_contracts_ser__13_').prop('disabled',true);
+              $('#contract_value').prop('readonly',true);
+              $('#datestart').prop('disabled',true);
+              $('#dateend').prop('disabled',true);
+              $('#description').prop('readonly',true);
+
+            }
+
+            if(contract_type_value == 3)
+            {
+              $('#consulting_client_point').prop('disabled',true);
+              $('#custom_fields_contracts_beratung__12_').prop('disabled',true);
+              $('#custom_fields_contracts_beratung__13_').prop('disabled',true);
+              $('#datestart').prop('disabled',true);
+              $('#dateend').prop('disabled',true);
+              $('#description').prop('readonly',true);
+            }
+
+            if(contract_type_value == 1)
+            {
+              $('#consulting_client_point').prop('disabled',true);
+              $('#custom_fields_contracts_produkt__12_').prop('disabled',true);
+              $('#custom_fields_contracts_produkt__13_').prop('disabled',true);
+              $('#custom_fields_contracts_produkt__14_').prop('disabled',true);
+              $('#one_time_payment_value').prop('readonly',true);
+              $('#savings_amount_per_month_value').prop('readonly',true);
+              $('#term_value').prop('readonly',true);
+              $('#amount_value').prop('readonly',true);
+              $('#opening_payment_value').prop('readonly',true);
+              $('#dynamic_percentage_per_year_value').prop('readonly',true);
+              $('#total_amount_value').prop('readonly',true);
+              $('#agent_remuneration_percent_value').prop('readonly',true);
+              $('#agent_remuneration_price_value').prop('readonly',true);
+              $('#datestart').prop('disabled',true);
+              $('#dateend').prop('disabled',true);
+              $('#description').prop('readonly',true);
+
+            }
+            
+          }
+          
+
+          // Back button Action
+          $('#back').click(function(){
+            var oldURL = document.referrer;
+            location.href = oldURL;
+            // var contract_back_data = '<?php //if(isset($contract_back))
+            // echo json_encode($contract_back)?>';
+            // console.log(contract_back_data)
+          });
+          $('#btn_type').val();
+
+          // 
+          // produkt left side change
+          $('#custom_fields_contracts_produkt__13_').change(function(){
+
+            var selected_payment_agent = $('#custom_fields_contracts_produkt__13_ option:selected').val();
+            if(selected_payment_agent == 'One Time Payment'){
+
+              $('#one_time_payment').css('display','block');
+              
+
+              // $('#custom_fields_contracts_produkt__14_').children('[value="One Time Payment"]').attr('selected', true);
+              $('#custom_fields_contracts_produkt__14_').val('One Time Payment');
+              // $('#payment').prop('disabled',true);
+              
+              $('#savings_amount_per_month').css('display','none');
+              $('#term').css('display','none');
+              $('#amount').css('display','none');
+              $('#opening_payment').css('display','none');
+              $('#dynamic_percentage_per_year').css('display','none');
+              $('#total_amount').css('display','none');
+              $('#agent_remuneration_percent').css('display','none');
+              $('#agent_remuneration_price').css('display','none');
+
+            }
+            else if (selected_payment_agent == 'Partial Payment Of Total Amount'){
+
+              $('#one_time_payment').css('display','none');
+              $('#payment').removeAttr('disabled');
+
+              $('#savings_amount_per_month').css('display','block');
+              $('#term').css('display','block');
+              $('#amount').css('display','block');
+              $('#opening_payment').css('display','block');
+              $('#dynamic_percentage_per_year').css('display','block');
+              $('#total_amount').css('display','block');
+              $('#agent_remuneration_percent').css('display','block');
+              $('#agent_remuneration_price').css('display','block');
+
+            }
+            
+          });
+
+
           $('input[type="range"]').on('input', function() {
 
             var control = $(this),
@@ -1326,13 +1491,21 @@ init_head(); ?>
 
           // term calculate in produkt
           $('.datepicker').change(function(){
-
+              // var day1 = $('#datestart').val().substring(0,2);
               var month1 = $('#datestart').val().substring(3,5);
               var year1 = $('#datestart').val().substring(6);
 
+              // var day2 = $('#dateend').val().substring(0,2);
               var month2 = $('#dateend').val().substring(3,5);
               var year2 = $('#dateend').val().substring(6);
               
+              // var date1 = new Date(month1+'/'+day1+'/'+year1);
+              // var date2 = new Date(month2+'/'+day2+'/'+year2);
+              
+              // var time_diff = date2.getTime() - date1.getTime();
+              // var day_diff = time_diff/(1000*3600*24);
+              // console.log(day_diff);
+
               $('#term_value').val(12*(year2-year1)+parseInt(month2)-parseInt(month1) + 1);
               $('#term_value').prop('readonly',true);
 
@@ -1343,16 +1516,20 @@ init_head(); ?>
               var amount = parseInt(saving)*parseInt(term)*12;
               var totalAmount = amount+amount*parseInt(dynamicPercent)*0.01+parseInt(open);
               var remunerationPercent = $('#agent_remuneration_percent_value').val();
+              console.log(remunerationPercent)
 
               $('#amount_value').val(amount);
+              $('#amount_value').prop("readonly",true);
               $('#total_amount_value').val(totalAmount);
+              $('#total_amount_value').prop("readonly",true);
               $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent/100);
+              $('#agent_remuneration_price_value').prop("readonly",true);
             });
           
 
-          // amount value calculate
+
           $('.calc').change(function(){
-            
+            // console.log("ddddd");
               var open = $('#opening_payment_value').val();
               var saving = $('#savings_amount_per_month_value').val();
               var term = $('#term_value').val();
@@ -1362,11 +1539,240 @@ init_head(); ?>
               var remunerationPercent = $('#agent_remuneration_percent_value').val();
 
               $('#amount_value').val(amount);
+              $('#amount_value').prop("readonly",true);
               $('#total_amount_value').val(totalAmount);
+              $('#total_amount_value').prop("readonly",true);
               $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent*0.01);
               $('#agent_remuneration_price_value').prop("readonly",true);
 
           });
+
+
+          /* Vergütungsvereinbarung Beratung Content Part*/
+          // Consulting Point reflect
+          var inputed_consulting_point = '<?php if (isset($contract0['session']['consulting_client_point'])) echo $contract0['session']['consulting_client_point'] ?>';
+          if(inputed_consulting_point){
+
+            $('#consulting_beratung').empty();
+            $('#consulting_beratung').append('[' + inputed_consulting_point + ']');
+
+            $('#consulting_produkt').empty();
+            $('#consulting_produkt').append('[' + inputed_consulting_point + ']');
+          }
+          // payment for agent
+          var selected_payment_agent_beratung = $('#custom_fields_contracts_beratung__13_ option:selected').val();
+          var hourlyRate = '<?php if (isset($contract0['session']['hourly_rate'])) echo $contract0['session']['hourly_rate']?>';
+
+          if (selected_payment_agent_beratung == 'One Time Payment'){
+
+            $('#one_time_payment_beratung').css('display','block');
+            $('#payment_time_spent_beratung').css('display','none');
+            $('#one_time_payment_value_beratung').empty();
+            $('#one_time_payment_value_beratung').append(hourlyRate);
+
+
+          } else if (selected_payment_agent_beratung == 'Payment According To Time Spent'){
+
+            $('#one_time_payment_beratung').css('display','none');
+            $('#payment_time_spent_beratung').css('display','block');
+            $('#payment_time_spent_value_beratung').empty();
+            $('#payment_time_spent_value_beratung').append(hourlyRate);
+
+          }
+          //payment method
+          var seleted_payment_method_beratung = $('#custom_fields_contracts_beratung__12_ option:selected').val();
+          if (seleted_payment_method_beratung == 'Bank Transfer'){
+
+            $('#bank_beratung').css("display","block");
+            $('#immediate_beratung').css("display","none");
+            $('#debit_beratung').css("display","none");
+
+          } else if (seleted_payment_method_beratung == 'Immediate Transfer'){
+
+             $('#bank_beratung').css("display","none");
+             $('#immediate_beratung').css("display","block");
+             $('#debit_beratung').css("display","none");
+
+          } else if (seleted_payment_method_beratung == 'Debit'){
+
+             $('#bank_beratung').css("display","none");
+             $('#immediate_beratung').css("display","none");
+             $('#debit_beratung').css("display","block");
+
+          }
+
+
+          /* Vergütungsvereinbarung Nettoprodukt Content Part*/
+          var open_calc = $('#opening_payment_value').val();
+          var saving_calc = $('#savings_amount_per_month_value').val();
+          var term_calc = $('#term_value').val();
+          var day1 = $('#datestart').val().substring(0,2);
+          var day2 = $('#dateend').val().substring(0,2);
+
+          if ($('#custom_fields_contracts_produkt__13_ option:selected').val() == 'One Time Payment'){
+
+            $('#one_time_produkt').css("display","block");
+            $('#partial_time_produkt').css("display","none");
+            // $('#payment').css("display","none");
+
+            $('#one_time_payment_produkt').css("display","block");
+            $('#partial_payment_produkt').css("display","none");
+            $('#partial_payment_with_increased_starting_produkt').css("display","none");
+            
+            $('#one_time_payment_produkt_content_value').empty();
+            $('#one_time_payment_produkt_content_value').append($('#one_time_payment_value').val());
+
+          } else if($('#custom_fields_contracts_produkt__13_ option:selected').val() == 'Partial Payment Of Total Amount'){
+
+            $('#one_time_produkt').css("display","none");
+            $('#partial_time_produkt').css("display","block");
+            // $('#payment').css("display","block");
+
+            // console.log("first remuneration");
+            $('#dynamic_percentage_produkt_content_value0').empty();
+            $('#dynamic_percentage_produkt_content_value0').append($('#agent_remuneration_percent_value').val());
+
+            
+            $('#subtotal_without_percentage_produkt_content_value').empty();
+            $('#subtotal_without_percentage_produkt_content_value').append(parseInt(saving_calc)*parseInt(term_calc)*12);
+
+            $('#opening_payment_produkt_content_value0').empty();
+            $('#opening_payment_produkt_content_value0').append($('#opening_payment_value').val());
+
+            $('#dynamic_percentage_produkt_content_value1').empty();
+            $('#dynamic_percentage_produkt_content_value1').append($('#dynamic_percentage_per_year_value').val()); 
+
+            $('#total_without_percentage_produkt_content_value').empty();
+            $('#total_without_percentage_produkt_content_value').append($('#total_amount_value').val());
+
+            $('#dynamic_percentage_produkt_content_value2').empty();
+            $('#dynamic_percentage_produkt_content_value2').append($('#agent_remuneration_percent_value').val());
+
+          } 
+
+
+          if ($('#custom_fields_contracts_produkt__14_ option:selected').val() == 'One Time Payment')
+          {
+
+            $('#one_time_payment_produkt').css("display","block");
+            $('#partial_payment_produkt').css("display","none");
+            $('#partial_payment_with_increased_starting_produkt').css("display","none");
+
+          } else if($('#custom_fields_contracts_produkt__14_ option:selected').val() == 'Partial Payment') {
+
+            $('#one_time_payment_produkt').css("display","none");
+            $('#partial_payment_produkt').css("display","block");
+            $('#partial_payment_with_increased_starting_produkt').css("display","none");
+
+            $('#day_diff_in_month0').empty();
+            $('#day_diff_in_month0').append(term_calc*12);
+            $('#day_diff').val(term_calc*12);
+
+            $('#saving_produkt_content_value0').empty();
+            $('#saving_produkt_content_value0').append($('#savings_amount_per_month_value').val());
+
+            $('#start_date0').empty();
+            $('#start_date0').append($('#datestart').val());
+
+
+          } else if($('#custom_fields_contracts_produkt__14_ option:selected').val() == 'Partial Payment With Increased Starting Payment'){
+
+            $('#one_time_payment_produkt').css("display","none");
+            $('#partial_payment_produkt').css("display","none");
+            $('#partial_payment_with_increased_starting_produkt').css("display","block");
+
+            // $('#dynamic_percentage_produkt_content_value0').empty();
+            // $('#dynamic_percentage_produkt_content_value0').append($('#agent_remuneration_percent_value').val());
+
+            // $('#subtotal_without_percentage_produkt_content_value').empty();
+            // $('#subtotal_without_percentage_produkt_content_value').append(parseInt(saving_calc)*parseInt(term_calc)*12);
+
+            // $('#opening_payment_produkt_content_value0').empty();
+            // $('#opening_payment_produkt_content_value0').append($('#opening_payment_value').val());
+
+            // $('#dynamic_percentage_produkt_content_value1').empty();
+            // $('#dynamic_percentage_produkt_content_value1').append($('#dynamic_percentage_per_year_value').val()); 
+
+            // $('#total_without_percentage_produkt_content_value').empty();
+            // $('#total_without_percentage_produkt_content_value').append($('#total_amount_value').val());
+
+            // $('#dynamic_percentage_produkt_content_value2').empty();
+            // $('#dynamic_percentage_produkt_content_value2').append($('#agent_remuneration_percent_value').val());
+
+            // $('#opening_payment_produkt_content_value1').empty();
+            // $('#opening_payment_produkt_content_value1').append($('#opening_payment_value').val());
+
+            // var percent = $('#dynamic_percentage_per_year_value').val();
+            // var total = $('#total_amount_value').val();
+            // $('#percentage_payment_produkt_content_value').empty();
+            // $('#percentage_payment_produkt_content_value').append("XXX");
+
+            $('#day_diff_in_month1').empty();
+            $('#day_diff_in_month1').append(term_calc*12);
+
+            $('#day_diff').val(term_calc*12);
+
+            $('#saving_produkt_content_value1').empty();
+            $('#saving_produkt_content_value1').append(saving_calc);
+
+            $('#start_date1').empty();
+            $('#start_date1').append($('#datestart').val());
+            
+          } 
+
+
+          if ($('#custom_fields_contracts_produkt__12_ option:selected').val() == 'Bank Transfer'){
+
+            $('#bank_produkt').css("display","block");
+            $('#immediate_produkt').css("display","none");
+            $('#debit_produkt').css("display","none");
+
+          } else if ($('#custom_fields_contracts_produkt__12_ option:selected').val() == 'Immediate Transfer'){
+
+             $('#bank_produkt').css("display","none");
+             $('#immediate_produkt').css("display","block");
+             $('#debit_produkt').css("display","none");
+
+          } else if ($('#custom_fields_contracts_produkt__12_ option:selected').val() == 'Debit'){
+
+             $('#bank_produkt').css("display","none");
+             $('#immediate_produkt').css("display","none");
+             $('#debit_produkt').css("display","block");
+
+          }
+
+
+          // $('#contract-form').submit(function(){
+
+          //   $('#trash').removeAttr('disabled');
+          //   $('#not_visible_to_client').removeAttr('disabled');
+          //   $('#clientid').removeAttr('disabled');
+          //   $('#contract_type').removeAttr('disabled');
+          //   if ($('#contract_type option:selected').val() == 2) {
+
+          //     $('#subscription').removeAttr('disabled');
+          //     $('#custom_fields_contracts_ser__12_').removeAttr('disabled');
+          //     $('#custom_fields_contracts_ser__13_').removeAttr('disabled');
+
+          //   } else if ($('#contract_type option:selected').val() == 3) {
+
+          //     $('#consulting_client_point').removeAttr('disabled');
+          //     $('#custom_fields_contracts_beratung__12_').removeAttr('disabled');
+          //     $('#custom_fields_contracts_beratung__13_').removeAttr('disabled');
+
+
+          //   } else if($('#contract_type option:selected').val() == 1) {
+
+          //     $('#consulting_client_point').removeAttr('disabled');
+          //     $('#custom_fields_contracts_produkt__12_').removeAttr('disabled');
+          //     $('#custom_fields_contracts_produkt__13_').removeAttr('disabled');
+          //     $('#custom_fields_contracts_produkt__14_').removeAttr('disabled');
+
+          //   }
+          //   $('#datestart').removeAttr('disabled');
+          //   $('#dateend').removeAttr('disabled');
+
+          // });
           
    });
    

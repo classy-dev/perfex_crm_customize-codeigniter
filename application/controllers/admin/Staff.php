@@ -222,9 +222,11 @@ class Staff extends AdminController
         }
         $member = $this->staff_model->get(get_staff_user_id());
         $this->load->model('departments_model');
+        $this->load->model('currencies_model');
         $data['member']            = $member;
         $data['departments']       = $this->departments_model->get();
         $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
+        $data['base_currency'] = $this->currencies_model->get_base_currency();
         //get stripe
         $staff_id = get_staff_user_id();
         $this->load->model('staff_model');
@@ -232,6 +234,7 @@ class Staff extends AdminController
         $data['stripe'] = $stripe;
 
         $data['title']             = $member->firstname . ' ' . $member->lastname;
+        // print_r($data); exit();
         $this->load->view('admin/staff/profile', $data);
     }
 

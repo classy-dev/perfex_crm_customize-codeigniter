@@ -161,33 +161,36 @@ class Contracts_model extends App_Model
                       $que = $this->db->query("select `content` from tblsubscriptions_settings where `id`='$sub_array[$i]'");
                       $sub_cont[] = $que->result_array();
                       if(count($sub_cont[$i])!=0)
-                      $sub_cont1[] = '<p style="margin-left:5%">• &nbsp;'. $sub_cont[$i][0]['content'];
+                      $sub_cont1[] = '<p>• &nbsp;'. $sub_cont[$i][0]['content'];
                     
                   
                 }
                 
                 if (isset($sub_cont1)){
                     $sub_cont2 = implode("", $sub_cont1);
-                    $data['content'] = preg_replace('#{PLACEHOLDER BLOCKS FROM SUBSCRIPTIONS}#',$sub_cont2,$data['content']);
+                    // print_r($sub_cont2); exit();
+                    $data['content'] = preg_replace('#<div id="current_block">(?s).*?</div>#',$sub_cont2,$data['content']);
                 }
                 
             }
+
+            if ($data['contract_type'] == 2) {
+
+                if($data['service_p_m'] =="Bank Transfer" ) {
+                
+                    $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*?</div>#', "", $data['content']) ;
+
+                }
+                else if ($data['service_p_m'] =="Debit" ){
+                    $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
+                    // $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
+                }
+                else if ($data['service_p_m'] =="Immediate Transfer" ){
+                    $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].* </div>#', "", $data['content']) ;
+                    $data['content'] = preg_replace('#<div id="debit" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
+                }   
+            }
             
-            if($data['contract_type'] == 2 && $data['service_p_m'] =="Bank Transfer" ) {
-                // $data['content'] = preg_replace('#<div id="debit" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
-                // total 2 removing 
-                $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
-
-            }
-            else if ($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ){
-                $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
-                // $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
-            }
-            else if ($data['contract_type'] == 2 && $data['service_p_m'] =="Immediate Transfer" ){
-                $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].* </div>#', "", $data['content']) ;
-                $data['content'] = preg_replace('#<div id="debit" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
-            }   
-
 
             if ($data['contract_type'] == 3){
                 
@@ -390,7 +393,7 @@ class Contracts_model extends App_Model
             $data['produkt_p_m'] = null;
             $data['one_time_payment_value'] = null;
             $data['savings_amount_per_month_value'] = null;
-            $data['term_value'] = null;
+            // $data['term_value'] = null;
             $data['amount_value'] = null;
             $data['opening_payment_value'] = null;
             $data['dynamic_percentage_per_year_value'] = null;
@@ -417,7 +420,7 @@ class Contracts_model extends App_Model
             $data['produkt_p_m'] = null;
             $data['one_time_payment_value'] = null;
             $data['savings_amount_per_month_value'] = null;
-            $data['term_value'] = null;
+            // $data['term_value'] = null;
             $data['amount_value'] = null;
             $data['opening_payment_value'] = null;
             $data['dynamic_percentage_per_year_value'] = null;
@@ -487,33 +490,34 @@ class Contracts_model extends App_Model
                       $que = $this->db->query("select `content` from tblsubscriptions_settings where `id`='$sub_array[$i]'");
                       $sub_cont[] = $que->result_array();
                       if(count($sub_cont[$i])!=0)
-                      $sub_cont1[] = '<p style="margin-left:5%">• &nbsp;'. $sub_cont[$i][0]['content'];
+                      $sub_cont1[] = '<p style="margin-left:5%" >• &nbsp;'. $sub_cont[$i][0]['content'];
                     
                   
                 }
                 
                 if (isset($sub_cont1)){
                     $sub_cont2 = implode("", $sub_cont1);
-                    $data['content'] = preg_replace('#{PLACEHOLDER BLOCKS FROM SUBSCRIPTIONS}#',$sub_cont2,$data['content']);
-                }
+                    $data['content'] = preg_replace('#<div id="current_block">(?s).*?</div>#',$sub_cont2,$data['content']);                }
                 
             }
-            
-            if($data['contract_type'] == 2 && $data['service_p_m'] =="Bank Transfer" ) {
+            if ($data['contract_type'] == 2) {
+                if($data['service_p_m'] =="Bank Transfer" ) {
                 // $data['content'] = preg_replace('#<div id="debit" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
                 // total 2 removing 
-                $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
+                    $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
+
+                }
+                else if ($data['service_p_m'] =="Debit" ){
+                    $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
+                    // $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
+                }
+                else if ($data['service_p_m'] =="Immediate Transfer" ){
+                    $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].* </div>#', "", $data['content']) ;
+                    $data['content'] = preg_replace('#<div id="debit" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
+                }   
 
             }
-            else if ($data['contract_type'] == 2 && $data['service_p_m'] =="Debit" ){
-                $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
-                // $data['content'] = preg_replace('#<div id="immediate" xss="removed">(?s).*[\n\r].*</div> #', "", $data['content']) ;
-            }
-            else if ($data['contract_type'] == 2 && $data['service_p_m'] =="Immediate Transfer" ){
-                $data['content'] = preg_replace('#<div id="bank" xss="removed">(?s).*[\n\r].* </div>#', "", $data['content']) ;
-                $data['content'] = preg_replace('#<div id="debit" xss="removed">(?s).*[\n\r].*</div>#', "", $data['content']) ;
-            }   
-
+            
 
             if ($data['contract_type'] == 3){
                 
