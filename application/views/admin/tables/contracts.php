@@ -108,7 +108,7 @@ if (count($custom_fields) > 4) {
     @$this->ci->db->query('SET SQL_BIG_SELECTS=1');
 }
 
-$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'contracts.id', 'trash', 'client', 'hash']);
+$result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db_prefix() . 'contracts.id', 'trash', 'client', 'hash','invoice_created']);
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
@@ -152,7 +152,11 @@ foreach ($rResult as $aRow) {
     $row[] = _d($aRow['dateend']);
 
     if (!empty($aRow['signature'])) {
-        $row[] = '<span class="text-success">' . _l('is_signed') . '</span>';
+        if($aRow['invoice_created'] == 0)
+            $row[] = '<span class="text-success">' . _l('is_signed') .' / ' . '<a href="'.admin_url('invoices/add_invoice_from_contract/'.$aRow['id']).'">' ._l('create_invoice').'</a>'.'</span>';
+        else if($aRow['invoice_created'] == 1)
+            $row[] = '<span class="text-success">' . _l('is_signed') .' (' ._l('invoice_created').' )'.'</span>';
+
     } else {
         $row[] = '<span class="text-muted">' . _l('is_not_signed') . '</span>';
     }

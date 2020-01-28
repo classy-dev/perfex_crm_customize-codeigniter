@@ -85,6 +85,7 @@ class Contracts extends Admin_controller
                     access_denied('contracts');
                 }
                 $id = $this->contracts_model->add($this->input->post());
+
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('contract')));
                     redirect(admin_url('contracts/contract/' . $id));

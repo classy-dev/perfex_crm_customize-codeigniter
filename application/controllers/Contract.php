@@ -36,32 +36,32 @@ class Contract extends ClientsController
                     // Notify contract creator that customer signed the contract
                     send_contract_signed_notification_to_staff($id);
 					
-                    $contract = $this->db->select('*')->where('id', $id)->get('tblcontracts')->row_array();
+                    // $contract = $this->db->select('*')->where('id', $id)->get('tblcontracts')->row_array();
 
-                    // Create an invoice
-                    $invoiceId = $this->db->select('id')->order_by('id', 'desc')->get('tblinvoices')->row('id');
-                    $invoiceData['clientid'] = $contract['client'];
-                    $invoiceData['number'] = $invoiceId + 1;
-                    $invoiceData['prefix'] = 'INV-';
-                    $invoiceData['number_format'] = 1;
-                    $invoiceData['datecreated'] = date('Y-m-d H:i:s');
-                    $invoiceData['date'] = date('Y-m-d');
-                    $invoiceData['duedate'] = date('Y-m-d');
-                    $invoiceData['currency'] = 1;
-                    $invoiceData['subtotal'] = $contract['contract_value'];
-                    $invoiceData['total'] = $contract['contract_value'];
-                    $invoiceData['status'] = 1;
-                    $invoiceData['allowed_payment_modes'] = 'a:1:{i:2;s:6:"stripe";}';
+                    // // Create an invoice
+                    // $invoiceId = $this->db->select('id')->order_by('id', 'desc')->get('tblinvoices')->row('id');
+                    // $invoiceData['clientid'] = $contract['client'];
+                    // $invoiceData['number'] = $invoiceId + 1;
+                    // $invoiceData['prefix'] = 'INV-';
+                    // $invoiceData['number_format'] = 1;
+                    // $invoiceData['datecreated'] = date('Y-m-d H:i:s');
+                    // $invoiceData['date'] = date('Y-m-d');
+                    // $invoiceData['duedate'] = date('Y-m-d');
+                    // $invoiceData['currency'] = 1;
+                    // $invoiceData['subtotal'] = $contract['contract_value'];
+                    // $invoiceData['total'] = $contract['contract_value'];
+                    // $invoiceData['status'] = 1;
+                    // $invoiceData['allowed_payment_modes'] = 'a:1:{i:2;s:6:"stripe";}';
 
-                    $this->db->insert('tblinvoices', $invoiceData);
-                    $invoiceId = $this->db->insert_id();
+                    // $this->db->insert('tblinvoices', $invoiceData);
+                    // $invoiceId = $this->db->insert_id();
 
-                    $paymentData['amount'] = $contract['contract_value'];
-                    $paymentData['paymentmode'] = 'Online Transfer';
-                    $paymentData['paymentmethod'] = 'stripe';
-                    $paymentData['date'] = date("Y-m-d");
-                    $paymentData['daterecorded'] = date("Y-m-d H:i:s");
-                    $paymentData['invoiceid'] = $invoiceId;
+                    // $paymentData['amount'] = $contract['contract_value'];
+                    // $paymentData['paymentmode'] = 'Online Transfer';
+                    // $paymentData['paymentmethod'] = 'stripe';
+                    // $paymentData['date'] = date("Y-m-d");
+                    // $paymentData['daterecorded'] = date("Y-m-d H:i:s");
+                    // $paymentData['invoiceid'] = $invoiceId;
 
 					
                     set_alert('success', _l('document_signed_successfully'));

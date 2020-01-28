@@ -290,6 +290,7 @@ class Invoices extends AdminController
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {
+        // print_r("invoice"); exit();
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
             if ($id == '') {
@@ -698,5 +699,80 @@ class Invoices extends AdminController
                 echo $duedate;
             }
         }
+    }
+
+    public function add_invoice_from_contract($contractid){
+
+        $contract = $this->db->select('*')->where('id', $contractid)->get('tblcontracts')->row_array();
+        $invoice_data = [];
+        $invoice_data['clientid'] = $contract['client'];
+        $invoice_number = $this->invoices_model->get_last_invoice_num();
+        $invoice_data['number'] = $invoice_number->number + 1;
+        $invoice_data['show_shipping_on_invoice'] = 1;
+        $invoice_data['date'] = date("d-m-Y",strtotime($contract['datestart']));
+        $invoice_data['allowed_payment_modes'] = array(5, 'stripe');
+        $invoice_data['currency'] = 2;
+        $invoice_data['accordingContract'] = $contractid;
+
+        if($contract['contract_type'] == 2){
+
+            $invoice_data['subtotal'] = $contract['contract_value'];
+            $invoice_data['total'] = $contract['contract_value'] * ( 1 + $contract['sub_tax']/100);
+            $invoice_data['sub_tax'] = $contract['sub_tax'];
+            $invoice_data['subscription_id'] = $contract['subscription'];
+
+            if($contract['service_p_t'] == 'Quaterly'){
+                $invoice_data['recurring'] = 'custom';
+                $invoice_data['repeat_every_custom'] = 15;
+                $invoice_data['repeat_type_custom'] = 'day';
+            }
+            elseif ($contract['service_p_t'] == 'Monthly') {
+                $invoice_data['recurring'] = 'custom';
+                $invoice_data['repeat_every_custom'] = 1;
+                $invoice_data['repeat_type_custom'] = 'month';
+            }
+            elseif ($contract['service_p_t'] == 'Half-Yearly') {
+                $invoice_data['recurring'] = 'custom';
+                $invoice_data['repeat_every_custom'] = 6;
+                $invoice_data['repeat_type_custom'] = 'month';
+            }
+            elseif ($contract['service_p_t'] == 'Annually') {
+                $invoice_data['recurring'] = 'custom';
+                $invoice_data['repeat_every_custom'] = 1;
+                $invoice_data['repeat_type_custom'] = 'year';
+            }
+
+        }
+
+        else if ($contract['contract_type'] == 3){
+            $invoice_data['total'] = 0;
+        }
+
+        else if($contract['contract_type'] == 1)
+            $invoice_data['total'] = $contract['agent_remuneration_price_value'];
+
+        $invoice_id = $this->invoices_model->add($invoice_data);
+        if ($invoice_id) {
+            set_alert('success', _l('added_successfully', _l('contract_and_invoice')));
+            $this->session->unset_userdata('session');
+            if (isset($invoice_data['save_and_record_payment'])) {
+                $this->session->set_userdata('record_payment', true);
+            }
+            $this->db->where('id', $contractid);
+            $this->db->update(db_prefix().'contracts', [
+                'invoice_created' => 1,
+            ]);
+            redirect(admin_url('invoices/'));
+
+        }
+
+        // $paymentData['amount'] = $contract['contract_value'];
+        // $paymentData['paymentmode'] = 'Online Transfer';
+        // $paymentData['paymentmethod'] = 'stripe';
+        // $paymentData['date'] = date("Y-m-d");
+        // $paymentData['daterecorded'] = date("Y-m-d H:i:s");
+        // $paymentData['invoiceid'] = $invoiceId;
+
+
     }
 }

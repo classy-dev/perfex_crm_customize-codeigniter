@@ -3685,6 +3685,9 @@ $lang['half_yearly'] = 'Half-Yearly';
 $lang['annually'] = 'Annually';
 
 $lang['notice_for_agent'] = 'Notice for agent';
+$lang['create_invoice'] = 'Create Invoice';
+$lang['invoice_created'] = 'Invoice Already Created';
+
 
 
 
