@@ -3515,7 +3515,7 @@ $lang['debit'] = 'Lastschrift';
 
 $lang['payment_timeframe'] = 'Zahlungsintervall';
 $lang['daily'] = 'Täglich';
-$lang['quaterly'] = 'Vierteljährlich';
+$lang['Quarterly'] = 'Vierteljährlich';
 $lang['monthly'] = 'Monatlich';
 $lang['half_yearly'] = 'Halbjährlich';
 $lang['annually'] = 'Jährlich';

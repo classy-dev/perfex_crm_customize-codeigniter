@@ -118,8 +118,8 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['id'];
 
-    $subjectOutput = '<a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
-    // $subjectOutput = '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) .'" target="_blank">' . $aRow['subject'] . '</a>';
+    // $subjectOutput = '<a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
+    $subjectOutput = '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) .'" target="_blank">' . $aRow['subject'] . '</a>';
 
     if ($aRow['trash'] == 1) {
         $subjectOutput .= '<span class="label label-danger pull-right">' . _l('contract_trash') . '</span>';
@@ -131,7 +131,8 @@ foreach ($rResult as $aRow) {
 
     if (has_permission('contracts', '', 'edit')) {
         // $subjectOutput .= ' | <a href="' . admin_url('contracts/contract/' . $aRow['id']) . '" class="sign">' . _l('sign') . '</a>';
-        $subjectOutput .= ' | <a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . _l('edit') . '</a>';
+        if (empty($aRow['signature']))
+          $subjectOutput .= ' | <a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . _l('edit') . '</a>';
     }
 
     if (has_permission('contracts', '', 'delete')) {
@@ -152,7 +153,7 @@ foreach ($rResult as $aRow) {
     $row[] = _d($aRow['dateend']);
 
     if (!empty($aRow['signature'])) {
-        if($aRow['invoice_created'] == 0)
+        if($aRow['invoice_created'] != 1)
             $row[] = '<span class="text-success">' . _l('is_signed') .' / ' . '<a href="'.admin_url('invoices/add_invoice_from_contract/'.$aRow['id']).'">' ._l('create_invoice').'</a>'.'</span>';
         else if($aRow['invoice_created'] == 1)
             $row[] = '<span class="text-success">' . _l('is_signed') .' (' ._l('invoice_created').' )'.'</span>';

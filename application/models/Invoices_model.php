@@ -262,7 +262,7 @@ class Invoices_model extends App_Model
     public function add($data, $expense = false)
     {
         
-        // print_r($data); exit();
+        
         $data['prefix'] = get_option('invoice_prefix');
 
         $data['number_format'] = get_option('invoice_number_format');
@@ -286,6 +286,8 @@ class Invoices_model extends App_Model
         $cancel_merged_invoices = isset($data['cancel_merged_invoices']);
 
         $tags = isset($data['tags']) ? $data['tags'] : '';
+
+        
 
         if (isset($data['save_as_draft'])) {
             $data['status'] = self::STATUS_DRAFT;
@@ -337,11 +339,8 @@ class Invoices_model extends App_Model
             'items' => $items,
         ]);
 
-
-
         $data  = $hook['data'];
         $items = $hook['items'];
-        // print_r($data); exit();
         $dbRet = $this->db->insert(db_prefix() . 'invoices', $data);
 
         if( !$dbRet )

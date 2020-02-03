@@ -109,11 +109,11 @@ init_head(); ?>
                   <?php echo form_open($this->uri->uri_string(),array('id'=>'contract-form')); ?>
                   <div class="form-group">
                      <div class="checkbox checkbox-primary no-mtop checkbox-inline">
-                        <input type="checkbox" id="trash" name="trash"<?php if(isset($contract->trash)){if($contract->trash == 'on'){echo ' checked';}}; ?>>
+                        <input type="checkbox" id="trash" name="trash"<?php if(isset($contract->trash)){if($contract->trash == 1){echo ' checked';}}; ?>>
                         <label for="trash"><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="left" title="<?php echo _l('contract_trash_tooltip'); ?>" ></i> <?php echo _l('contract_trash'); ?></label>
                      </div>
                      <div class="checkbox checkbox-primary checkbox-inline">
-                        <input type="checkbox" name="not_visible_to_client" id="not_visible_to_client" <?php if(isset($contract->not_visible_to_client)){if($contract->not_visible_to_client == 'on'){echo 'checked';}}; ?>>
+                        <input type="checkbox" name="not_visible_to_client" id="not_visible_to_client" <?php if(isset($contract->not_visible_to_client)){if($contract->not_visible_to_client == 1){echo 'checked';}}; ?>>
                         <label for="not_visible_to_client"><?php echo _l('contract_not_visible_to_client'); ?></label>
                      </div>
                   </div>
@@ -192,7 +192,6 @@ init_head(); ?>
                         <?php $value = (isset($contract->dateend) ? _d($contract->dateend) : ''); ?>
                         <?php echo render_date_input('dateend','contract_end_date',$value); ?>
                      </div>
-                     <input type="hidden" name="day_diff" id="day_diff" value="<?php if(isset($contract->day_diff)) echo $contract->day_diff; else echo 0;?>">
                   </div>
 
                   <?php
@@ -242,9 +241,9 @@ init_head(); ?>
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="custom_fields[contracts_ser][12]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
+                          <label for="custom_fields[contracts_ser][method]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                            <select data-fieldto="contracts_ser" data-fieldid="12" name="custom_fields[contracts_ser][12]" id="custom_fields_contracts_ser__12_" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                            <select data-fieldto="contracts_ser" data-fieldid="method" name="custom_fields[contracts_ser][method]" id="custom_fields_contracts_ser_method" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               <option value=""></option>
                               <option <?php if($contract->service_p_m == 'Bank Transfer') echo 'selected';?> value="Bank Transfer"><?php echo _l('bank_transfer');?></option>
                               <option <?php if($contract->service_p_m == 'Immediate Transfer') echo 'selected';?> value="Immediate Transfer"><?php echo _l('immediate_transfer');?></option>
@@ -254,13 +253,14 @@ init_head(); ?>
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <div class="form-group"><label for="custom_fields[contracts_ser][13]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_timeframe');?></label>
+                        <div class="form-group"><label for="custom_fields[contracts_ser][timeframe]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_timeframe');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                            <select data-fieldto="contracts_ser" data-fieldid="13" name="custom_fields[contracts_ser][13]" id="custom_fields_contracts_ser__13_" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                            <select data-fieldto="contracts_ser" data-fieldid="timeframe" name="custom_fields[contracts_ser][timeframe]" id="custom_fields_contracts_ser_timeframe" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               <option value=""></option>
                               <!-- <option <?php //if($contract0['session']['custom_fields']['contracts_ser']['13'] == 'Daily') echo 'selected';?> value="Daily"><?php //echo _l('daily');?></option> -->
-                              <option <?php if($contract->service_p_t == 'Quaterly') echo 'selected';?> value="Quaterly"><?php echo _l('quaterly');?></option>
+                              
                               <option <?php if($contract->service_p_t == 'Monthly') echo 'selected';?> value="Monthly"><?php echo _l('monthly');?></option>
+                              <option <?php if($contract->service_p_t == 'Quarterly') echo 'selected';?> value="Quarterly"><?php echo _l('Quarterly');?></option>
                               <option <?php if($contract->service_p_t == 'Half-Yearly') echo 'selected';?> value="Half-Yearly"><?php echo _l('half_yearly');?></option>
                               <option <?php if($contract->service_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('annually');?></option>
                             </select>
@@ -273,23 +273,78 @@ init_head(); ?>
                   <!-- Vergütungsvereinbarung Beratung Payment -->
                   <?php if(!isset($contract->contract_type)||$contract->contract_type!=3) { ?> <div id="contracts_beratung" style="display: none;"><?php } ?>
                   <?php if(isset($contract->contract_type)&&$contract->contract_type==3) { ?><div id="contracts_beratung"><?php } ?>
+                    <!-- Remuneration -->
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6">
-                        <div class="form-group"><label for="custom_fields[contracts_beratung][13]" class="control-label" style="margin-bottom:9px;"><?php echo _l('remuneration');?></label>
+                        <div class="form-group"><label for="custom_fields[contracts_beratung][remuneration]" class="control-label" style="margin-bottom:9px;"><?php echo _l('remuneration');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                            <select data-fieldto="contracts_beratung" data-fieldid="13" name="custom_fields[contracts_beratung][13]" id="custom_fields_contracts_beratung__13_" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                            <select data-fieldto="contracts_beratung" data-fieldid="remuneration" name="custom_fields[contracts_beratung][remuneration]" id="custom_fields_contracts_beratung_remuneration" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               <option value=""></option>
-                              <option <?php if($contract->beratung_p == 'One Time Payment') echo 'selected';?> value="One Time Payment"><?php echo _l('one_time_payment');?></option>
-                              <option <?php if($contract->beratung_p == 'Payment According To Time Spent') echo 'selected';?> value="Payment According To Time Spent"><?php echo _l('payment_according_to_time_spent');?></option>
+                              <option <?php if($contract->beratung_remuneration == 'One Time Payment') echo 'selected';?> value="One Time Payment"><?php echo _l('one_time_payment');?></option>
+                              <option <?php if($contract->beratung_remuneration == 'Payment According To Time Spent') echo 'selected';?> value="Payment According To Time Spent"><?php echo _l('payment_according_to_time_spent');?></option>
                             </select>
                           </div>
                         </div>
                       </div>
+                    </div>
+
+                    <!-- Calculation Value -->
+
+                   <!--  <?php if (!isset($contract->beratung_remuneration)||$contract->beratung_remuneration == 'Payment According To Time Spent'){?>
+                    <div class="row custom-fields-form-row" id="beratung_remuneration" style="display: none;"><?php }?>
+                    <?php if (isset($contract->beratung_remuneration)&&($contract->beratung_remuneration == 'One Time Payment')){?>
+                    <div class="row custom-fields-form-row" id="beratung_remuneration"><?php }?> -->
+                    
+                    <div class="row custom-fields-form-row" id="beratung_remuneration">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="custom_fields[contracts_beratung][12]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
+                          <label for="beratung_one_time_payment_value"><?php echo _l('beratung_one_time_payment_value'); ?></label>
+                          <div class="input-group" data-toggle="tooltip" title="<?php echo _l('beratung_one_time_payment_value'); ?>">
+                            <input type="number" class="form-control beratung_calc_values_one" name="beratung_one_time_payment_value" id="beratung_one_time_payment_value" value="<?php if(isset($contract->beratung_one_time_payment_value)){echo $contract->beratung_one_time_payment_value; }?>">
+
+                            <div class="input-group-addon">
+                               <?php echo $base_currency->symbol; ?>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="beratung_opening_payment_value"><?php echo _l('beratung_opening_payment_value'); ?></label>
+                          <div class="input-group" data-toggle="tooltip" title="<?php echo _l('beratung_opening_payment_value'); ?>">
+                            <input type="number" class="form-control beratung_calc_values_one" name="beratung_opening_payment_value" id="beratung_opening_payment_value" value="<?php if(isset($contract->beratung_opening_payment_value)){echo $contract->beratung_opening_payment_value; }?>">
+
+                            <div class="input-group-addon">
+                               <?php echo $base_currency->symbol; ?>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Timeframe and Method -->
+                    <div class="row custom-fields-form-row">
+
+                      <div class="col-md-6">
+                        <div class="form-group"><label for="custom_fields[contracts_beratung][timeframe]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_timeframe');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                            <select data-fieldto="contracts_beratung" data-fieldid="12" name="custom_fields[contracts_beratung][12]" id="custom_fields_contracts_beratung__12_" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                            <select data-fieldto="contracts_ser" data-fieldid="13" name="custom_fields[contracts_beratung][timeframe]" id="custom_fields_contracts_beratung_timeframe" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                              <option value=""></option>
+                              <option <?php if($contract->beratung_p_t == 'Monthly') echo 'selected';?> value="Monthly"><?php echo _l('monthly');?></option>
+                              <option <?php if($contract->beratung_p_t == 'Quarterly') echo 'selected';?> value="Quarterly"><?php echo _l('Quarterly');?></option>
+                              <option <?php if($contract->beratung_p_t == 'Half-Yearly') echo 'selected';?> value="Half-Yearly"><?php echo _l('half_yearly');?></option>
+                              <option <?php if($contract->beratung_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('annually');?></option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="custom_fields[contracts_beratung][method]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
+                          <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
+                            <select data-fieldto="contracts_beratung" data-fieldid="method" name="custom_fields[contracts_beratung][method]" id="custom_fields_contracts_beratung_method" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               <option value=""></option>
                               <option <?php if($contract->beratung_p_m == 'Bank Transfer') echo 'selected';?> value="Bank Transfer"><?php echo _l('bank_transfer');?></option>
                               <option <?php if($contract->beratung_p_m == 'Immediate Transfer') echo 'selected';?> value="Immediate Transfer"><?php echo _l('immediate_transfer');?></option>
@@ -299,6 +354,7 @@ init_head(); ?>
                         </div>
                       </div>
                     </div>
+
                   </div>
 
                   <!-- Nettoprodukt -->
@@ -306,9 +362,9 @@ init_head(); ?>
                   <?php if(isset($contract->contract_type)&&$contract->contract_type==1) { ?><div id="contracts_produkt"><?php } ?>
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6" id="remuneration">
-                        <div class="form-group"><label for="custom_fields[contracts_produkt][13]" class="control-label" style="margin-bottom:9px;"><?php echo _l('remuneration');?></label>
+                        <div class="form-group"><label for="custom_fields[contracts_produkt][remuneration]" class="control-label" style="margin-bottom:9px;"><?php echo _l('remuneration');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                            <select data-fieldto="contracts_produkt" data-fieldid="13" name="custom_fields[contracts_produkt][13]" id="custom_fields_contracts_produkt__13_" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                            <select data-fieldto="contracts_produkt" data-fieldid="remuneration" name="custom_fields[contracts_produkt][remuneration]" id="custom_fields_contracts_produkt_remuneration" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               <option value=""></option>
                               <option <?php if($contract->produkt_remuneration == 'One Time Payment') echo 'selected';?> value="One Time Payment"><?php echo _l('one_time_payment');?></option>
                               <option <?php if($contract->produkt_remuneration == 'Partial Payment Of Total Amount') echo 'selected';?> value="Partial Payment Of Total Amount"><?php echo _l('partial_payment_of_total_payment');?></option>
@@ -323,9 +379,9 @@ init_head(); ?>
                       <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration!='One Time Payment')) { ?> <div class="col-md-6" id="one_time_payment" style="display: none;"><?php } ?>
                       <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration =='One Time Payment')) { ?><div class="col-md-6" id="one_time_payment" ><?php } ?>
                         <div class="form-group">
-                          <label for="one_time_payment_value"><?php echo _l('one_time_payment_value'); ?></label>
-                          <div class="input-group" data-toggle="tooltip" title="<?php echo _l('one_time_payment_value'); ?>">
-                            <input type="number" class="form-control" name="one_time_payment_value" id="one_time_payment_value" value="<?php if(isset($contract->one_time_payment_value)){echo $contract->one_time_payment_value; }?>">
+                          <label for="produkt_one_time_payment_value"><?php echo _l('produkt_one_time_payment_value'); ?></label>
+                          <div class="input-group" data-toggle="tooltip" title="<?php echo _l('produkt_one_time_payment_value'); ?>">
+                            <input type="number" class="form-control" name="produkt_one_time_payment_value" id="produkt_one_time_payment_value" value="<?php if(isset($contract->produkt_one_time_payment_value)){echo $contract->produkt_one_time_payment_value; }?>">
 
                             <div class="input-group-addon">
                                <?php echo $base_currency->symbol; ?>
@@ -334,12 +390,12 @@ init_head(); ?>
                         </div>
                       </div>
 
-                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment')) { ?> <div class="col-md-6" id="savings_amount_per_month" style="display: none;"><?php } ?>
-                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment')) { ?><div class="col-md-6" id="savings_amount_per_month"><?php } ?>
+                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment'||$contract->produkt_remuneration =='')) { ?> <div class="col-md-6" id="savings_amount_per_month" style="display: none;"><?php } ?>
+                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment'&&$contract->produkt_remuneration !='')) { ?><div class="col-md-6" id="savings_amount_per_month"><?php } ?>
                         <div class="form-group">
                           <label for="savings_amount_per_month_value"><?php echo _l('savings_amount_per_month_value'); ?></label>
                           <div class="input-group" data-toggle="tooltip" title="<?php echo _l('savings_amount_per_month_value'); ?>">
-                            <input type="number" class="form-control calc" name="savings_amount_per_month_value" id="savings_amount_per_month_value" value="<?php if(isset($contract->savings_amount_per_month_value)){echo $contract->savings_amount_per_month_value; }?>">
+                            <input type="number" class="form-control produkt_calc_values" name="savings_amount_per_month_value" id="savings_amount_per_month_value" value="<?php if(isset($contract->savings_amount_per_month_value)){echo $contract->savings_amount_per_month_value; }?>">
                             <div class="input-group-addon">
                                <?php echo $base_currency->symbol; ?>
                             </div>
@@ -347,20 +403,20 @@ init_head(); ?>
                         </div>
                       </div>
 
-                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment')) { ?> <div class="col-md-6" id="term" style="display: none;"><?php } ?>
-                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment')) { ?><div class="col-md-6" id="term"><?php } ?>
+                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment'||$contract->produkt_remuneration =='')) { ?> <div class="col-md-6" id="term" style="display: none;"><?php } ?>
+                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment'&&$contract->produkt_remuneration !='')) { ?><div class="col-md-6" id="term"><?php } ?>
                         <div class="form-group">
                           <label for="term_value"><?php echo _l('term_value'); ?></label>
-                          <input type="number" class="form-control calc" name="term_value" id="term_value" value="<?php if(isset($contract->term_value)){echo $contract->term_value; }?>" readonly>
+                          <input type="number" class="form-control produkt_calc_values" name="term_value" id="term_value" value="<?php if(isset($contract->term_value)){echo $contract->term_value; }?>" readonly>
                         </div>
                       </div>
 
-                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment')) { ?> <div class="col-md-12" id="amount" style="display: none;"><?php } ?>
-                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment')) { ?><div class="col-md-12" id="amount"><?php } ?>
+                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment'||$contract->produkt_remuneration =='')) { ?> <div class="col-md-12" id="amount" style="display: none;"><?php } ?>
+                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment'&&$contract->produkt_remuneration !='')) { ?><div class="col-md-12" id="amount"><?php } ?>
                         <div class="form-group">
                           <label for="amount_value"><?php echo _l('amount_value'); ?></label>
                           <div class="input-group" data-toggle="tooltip" title="<?php echo _l('amount_value'); ?>">
-                            <input type="number" class="form-control calc" name="amount_value" id="amount_value" value="<?php if(isset($contract->amount_value)){echo $contract->amount_value; }?>" readonly>
+                            <input type="number" class="form-control produkt_calc_values" name="amount_value" id="amount_value" value="<?php if(isset($contract->amount_value)){echo $contract->amount_value; }?>" readonly>
                             <div class="input-group-addon">
                                <?php echo $base_currency->symbol; ?>
                             </div>
@@ -368,31 +424,53 @@ init_head(); ?>
                         </div>
                       </div>
 
-                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment')) { ?> <div class="col-md-6" id="opening_payment" style="display: none;"><?php } ?>
-                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment')) { ?><div class="col-md-6" id="opening_payment" ><?php } ?>
+                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment'||$contract->produkt_remuneration =='')) { ?> <div class="col-md-6" id="opening_payment" style="display: none;"><?php } ?>
+                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment'&&$contract->produkt_remuneration !='')) { ?><div class="col-md-6" id="opening_payment" ><?php } ?>
                         <div class="form-group">
-                          <label for="opening_payment_value"><?php echo _l('opening_payment_value'); ?></label>
-                          <div class="input-group" data-toggle="tooltip" title="<?php echo _l('opening_payment_value'); ?>">
-                            <input type="number" class="form-control calc" name="opening_payment_value" id="opening_payment_value" value="<?php if(isset($contract->opening_payment_value)){echo $contract->opening_payment_value; }?>">
-                            <div class="input-group-addon">
-                               <?php echo $base_currency->symbol; ?>
+                          <div class="checkbox checkbox-primary no-mtop checkbox-inline">
+                            <input type="checkbox" id="opening_payment_check" name="opening_payment_check"<?php if(isset($contract->opening_payment_check)){if($contract->opening_payment_check == 1){echo ' checked';}}; ?>>
+                            <label for="produkt_opening_payment_value"><?php echo _l('produkt_opening_payment_value'); ?></label>
+                          </div>
+
+
+                          <?php if(!isset($contract->opening_payment_check)||($contract->opening_payment_check ==0)) { ?><div id="opening_hidden" style="display: none;"><?php }?>
+                          <?php if(isset($contract->opening_payment_check)&&($contract->opening_payment_check == 1)) { ?><div id="opening_hidden"><?php }?>
+                            <div class="input-group" data-toggle="tooltip" title="<?php echo _l('produkt_opening_payment_value'); ?>">
+                              <input type="number" class="form-control produkt_calc_values" name="produkt_opening_payment_value" id="produkt_opening_payment_value" value="<?php if(isset($contract->produkt_opening_payment_value)){echo $contract->produkt_opening_payment_value; }?>">
+                              <div class="input-group-addon">
+                                 <?php echo $base_currency->symbol; ?>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment')) { ?> <div class="col-md-6" id="dynamic_percentage_per_year" style="display: none;"><?php } ?>
-                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment')) { ?><div class="col-md-6" id="dynamic_percentage_per_year"><?php } ?>
+                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment'||$contract->produkt_remuneration =='')) { ?> <div class="col-md-6" id="dynamic_percentage_per_year" style="display: none;"><?php } ?>
+                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment'&&$contract->produkt_remuneration !='')) { ?><div class="col-md-6" id="dynamic_percentage_per_year"><?php } ?>
                         <div class="range-control ">
                         <!-- <div class="form-group"> -->
-                          <label for="dynamic_percentage_per_year_value"><?php echo _l('dynamic_percentage_per_year_value'); ?></label>
-                          <input id="dynamic_percentage_per_year_value" class="calc" name="dynamic_percentage_per_year_value" type="range" min="5" max="30" step="1" value="<?php if(isset($contract->dynamic_percentage_per_year_value)) echo $contract->dynamic_percentage_per_year_value; else echo 5;?>" data-thumbwidth="20" style="margin-top: 5%;margin-bottom: 17%">
-                          <output name="rangeVal"><?php if(isset($contract->dynamic_percentage_per_year_value)) echo $contract->dynamic_percentage_per_year_value; else echo 5;?></output>
+                          <div class="checkbox checkbox-primary no-mtop checkbox-inline">
+                            <input type="checkbox" id="dynamic_percent_check" name="dynamic_percent_check"<?php if(isset($contract->dynamic_percent_check)){if($contract->dynamic_percent_check == 1){echo ' checked';}}; ?>>
+                            <label for="dynamic_percentage_per_year_value"><?php echo _l('dynamic_percentage_per_year_value'); ?>&nbsp;&nbsp;
+                              <?php if(!isset($contract->dynamic_percent_check)||($contract->dynamic_percent_check ==0)) { ?><div id="dynamic_value_hidden" style="display: none;"><?php }?>
+                              <?php if(isset($contract->dynamic_percent_check)&&($contract->dynamic_percent_check == 1)) { ?><div id="dynamic_value_hidden"><?php }?>
+                                <span id="display_percent"><?php if(isset($contract->dynamic_percentage_per_year_value)) echo $contract->dynamic_percentage_per_year_value ?></span><span>%</span>
+                              </div>
+                            </label>
+                          </div>
+
+                          <?php if(!isset($contract->dynamic_percent_check)||($contract->dynamic_percent_check ==0)) { ?><div id="dynamic_hidden" style="display: none;"><?php }?>
+                          <?php if(isset($contract->dynamic_percent_check)&&($contract->dynamic_percent_check == 1)) { ?><div id="dynamic_hidden"><?php }?>
+                            <input id="dynamic_percentage_per_year_value" class="produkt_calc_values" name="dynamic_percentage_per_year_value" type="range" min="5" max="20" step="1" value="<?php if(isset($contract->dynamic_percentage_per_year_value)) echo $contract->dynamic_percentage_per_year_value; else echo 0;?>" data-thumbwidth="20" style="margin-top: 2%;margin-bottom: 2%">
+                            <output name="rangeVal"><?php if(isset($contract->dynamic_percentage_per_year_value)) echo $contract->dynamic_percentage_per_year_value; else echo 0;?></output>
+                            <span style="float: left;">5%</span>
+                            <span style="float: right;">20%</span>
+                          </div>
                         </div>
                       </div>
 
-                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment')) { ?> <div class="col-md-12" id="total_amount" style="display: none;"><?php } ?>
-                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment')) { ?><div class="col-md-12" id="total_amount"><?php } ?>
+                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment'||$contract->produkt_remuneration =='')) { ?> <div class="col-md-12" id="total_amount" style="display: none;"><?php } ?>
+                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment'&&$contract->produkt_remuneration !='')) { ?><div class="col-md-12" id="total_amount"><?php } ?>
                         <div class="form-group">
                           <label for="total_amount_value"><?php echo _l('total_amount_value'); ?></label>
                           <div class="input-group" data-toggle="tooltip" title="<?php echo _l('total_amount_value'); ?>">
@@ -404,16 +482,16 @@ init_head(); ?>
                         </div>
                       </div>
 
-                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment')) { ?> <div class="col-md-6" id="agent_remuneration_percent" style="display: none;"><?php } ?>
-                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment')) { ?><div class="col-md-6" id="agent_remuneration_percent"><?php } ?>
+                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment'||$contract->produkt_remuneration =='')) { ?> <div class="col-md-6" id="agent_remuneration_percent" style="display: none;"><?php } ?>
+                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment'&&$contract->produkt_remuneration !='')) { ?><div class="col-md-6" id="agent_remuneration_percent"><?php } ?>
                         <div class="form-group">
                           <label for="agent_remuneration_percent_value"><?php echo _l('agent_remuneration_percent_value'); ?></label>
-                          <input type="number" class="form-control calc" name="agent_remuneration_percent_value" id="agent_remuneration_percent_value" value="<?php if(isset($contract)){echo $contract->agent_remuneration_percent_value; }?>">
+                          <input type="number" class="form-control produkt_calc_values" name="agent_remuneration_percent_value" id="agent_remuneration_percent_value" value="<?php if(isset($contract)){echo $contract->agent_remuneration_percent_value; }?>">
                         </div>
                       </div>
 
-                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment')) { ?> <div class="col-md-6" id="agent_remuneration_price" style="display: none;"><?php } ?>
-                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment')) { ?><div class="col-md-6" id="agent_remuneration_price"><?php } ?>
+                      <?php if(!isset($contract->produkt_remuneration)||($contract->produkt_remuneration =='One Time Payment'||$contract->produkt_remuneration =='')) { ?> <div class="col-md-6" id="agent_remuneration_price" style="display: none;"><?php } ?>
+                      <?php if(isset($contract->produkt_remuneration)&&($contract->produkt_remuneration !='One Time Payment'&&$contract->produkt_remuneration !='')) { ?><div class="col-md-6" id="agent_remuneration_price"><?php } ?>
                         <div class="form-group">
                           <label for="agent_remuneration_price_value"><?php echo _l('agent_remuneration_price_value'); ?></label>
                           <div class="input-group" data-toggle="tooltip" title="<?php echo _l('agent_remuneration_price_value'); ?>">
@@ -428,9 +506,9 @@ init_head(); ?>
 
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6" id="payment">
-                        <div class="form-group"><label for="custom_fields[contracts_produkt][14]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment');?></label>
+                        <div class="form-group"><label for="custom_fields[contracts_produkt][payment]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                            <select data-fieldto="contracts_produkt" data-fieldid="14" name="custom_fields[contracts_produkt][14]" id="custom_fields_contracts_produkt__14_" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                            <select data-fieldto="contracts_produkt" data-fieldid="payment" name="custom_fields[contracts_produkt][payment]" id="custom_fields_contracts_produkt_payment" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               <option value=""></option>
                               <option <?php if($contract->produkt_p == 'One Time Payment') echo 'selected';?> value="One Time Payment"><?php echo _l('one_time_payment');?></option>
                               <option <?php if($contract->produkt_p == 'Partial Payment') echo 'selected';?> value="Partial Payment"><?php echo _l('partial_payment');?></option>
@@ -441,13 +519,26 @@ init_head(); ?>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="custom_fields[contracts_produkt][12]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
+                          <label for="custom_fields[contracts_produkt][method]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                            <select data-fieldto="contracts_produkt" data-fieldid="12" name="custom_fields[contracts_produkt][12]" id="custom_fields_contracts_produkt__12_" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                            <select data-fieldto="contracts_produkt" data-fieldid="method" name="custom_fields[contracts_produkt][method]" id="custom_fields_contracts_produkt_method" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               <option value=""></option>
                               <option <?php if($contract->produkt_p_m == 'Bank Transfer') echo 'selected';?> value="Bank Transfer"><?php echo _l('bank_transfer');?></option>
                               <option <?php if($contract->produkt_p_m == 'Immediate Transfer') echo 'selected';?> value="Immediate Transfer"><?php echo _l('immediate_transfer');?></option>
                               <option <?php if($contract->produkt_p_m == 'Debit') echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group"><label for="custom_fields[contracts_produkt][timeframe]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_timeframe');?></label>
+                          <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
+                            <select data-fieldto="contracts_ser" data-fieldid="13" name="custom_fields[contracts_produkt][timeframe]" id="custom_fields_contracts_produkt_timeframe" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                              <option value=""></option>
+                              <option <?php if($contract->produkt_p_t == 'Monthly') echo 'selected';?> value="Monthly"><?php echo _l('monthly');?></option>
+                              <option <?php if($contract->produkt_p_t == 'Quarterly') echo 'selected';?> value="Quarterly"><?php echo _l('Quarterly');?></option>
+                              <option <?php if($contract->produkt_p_t == 'Half-Yearly') echo 'selected';?> value="Half-Yearly"><?php echo _l('half_yearly');?></option>
+                              <option <?php if($contract->produkt_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('annually');?></option>
                             </select>
                           </div>
                         </div>
@@ -470,27 +561,511 @@ init_head(); ?>
                              <?php echo $base_currency->symbol; ?>
                           </div>
                        </div>
-                       <input type="hidden" name="sub_arr" id="sub_arr" value="<?php if(isset($contract->sub_arr))  print_r($contract->sub_arr); else echo "";?>">
-                       <input type="hidden" name="sub_tax" id="sub_tax" value="<?php if(isset($contract->sub_tax))  print_r($contract->sub_tax); else echo "";?>">
                       </div>
                     </div>
                   </div>
                 </div>
-                  
+                
+                <!-- customer payment value -->
+                <?php if(!isset($contract->id)||$contract->contract_type == null) { ?> <div id="customer_payment_value_form" style="display: none;"><?php } ?>
+                <?php if(isset($contract->id)&&$contract->contract_type!=null) { ?><div  id="customer_payment_value_form" ><?php } ?>
+                  <div class="row custom-fields-form-row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                       <label for="customer_payment_value"><?php echo _l('customer_payment_value'); ?></label>
+                       <div class="input-group" data-toggle="tooltip" title="<?php echo _l('customer_payment_value_tooltip'); ?>">
+                          <input type="number" class="form-control" name="customer_payment_value" id="customer_payment_value" value="<?php if(isset($contract)){echo $contract->customer_payment_value; }?>">
+                          <div class="input-group-addon">
+                             <?php echo $base_currency->symbol; ?>
+                          </div>
+                       </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <!-- description -->
                 <?php $value = (isset($contract) ? $contract->description : ''); ?>
                 <?php echo render_textarea('description',_l('notice_for_agent'),$value,array('rows'=>10)); ?>
-              
+
+
+
+                <!-- Time Tracking Creation -->
+                <?php if(!isset($contract->timetracking_id)) { ?>
+                  <div id="timetracking_creation">
+                    <hr class="hr-panel-heading" />
+                    <h4>
+                        <?php echo $project_title; ?>
+                    </h4>
+                    
+                    <?php
+                    $disable_type_edit = '';
+                    if(isset($project)){
+                        if($project->billing_type != 1){
+                            if(total_rows(db_prefix().'tasks',array('rel_id'=>$project->id,'rel_type'=>'project','billable'=>1,'billed'=>1)) > 0){
+                                $disable_type_edit = 'disabled';
+                            }
+                        }
+                    }
+                    ?>
+                    <?php $value = (isset($project) ? $project->name : ''); ?>
+                    <?php echo render_input('timetracking[name]','time_tracking_name',$value); ?>
+                    <!-- <div class="form-group select-placeholder">
+                        <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
+                        <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                         <?php $selected = (isset($project) ? $project->clientid : '');
+                         if($selected == ''){
+                             $selected = (isset($customer_id) ? $customer_id: '');
+                         }
+                         if($selected != ''){
+                            $rel_data = get_relation_data('customer',$selected);
+                            $rel_val = get_relation_values($rel_data,'customer');
+                            echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                        } ?>
+                        </select>
+                    </div> -->
+                    <div class="form-group">
+                        <div class="checkbox checkbox-success">
+                            <input type="checkbox" <?php if((isset($project) && $project->progress_from_tasks == 1) || !isset($project)){echo 'checked';} ?> name="timetracking[progress_from_tasks]" id="progress_from_tasks">
+                            <label for="timetracking[progress_from_tasks]"><?php echo _l('calculate_progress_through_tasks'); ?></label>
+                        </div>
+                    </div>
+                    <?php
+                    if(isset($project) && $project->progress_from_tasks == 1){
+                        $value = $this->projects_model->calc_progress_by_tasks($project->id);
+                    } else if(isset($project) && $project->progress_from_tasks == 0){
+                        $value = $project->progress;
+                    } else {
+                        $value = 0;
+                    }
+                    ?>
+                    <label for=""><?php echo _l('project_progress'); ?> <span class="label_progress"><?php echo $value; ?>%</span></label>
+                    <?php echo form_hidden('timetracking[progress]',$value); ?>
+                    <div class="project_progress_slider project_progress_slider_horizontal mbot15"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group select-placeholder">
+                                <label for="timetracking[billing_type]"><?php echo _l('time_tracking_billing_type'); ?></label>
+                                <div class="clearfix"></div>
+                                <select name="timetracking[billing_type]" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    
+                                    <option value="2" <?php if(isset($project) && $project->billing_type == 2 || !isset($project) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 2){echo 'selected'; } ?>><?php echo _l('project_billing_type_project_hours'); ?></option>
+                                    
+                                </select>
+                                <?php if($disable_type_edit != ''){
+                                    echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group select-placeholder">
+                                <label for="timetracking[status]"><?php echo _l('project_status'); ?></label>
+                                <div class="clearfix"></div>
+                                <select name="timetracking[status]" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <?php foreach($statuses as $status){ ?>
+                                        <option value="<?php echo $status['id']; ?>" <?php if(!isset($project) && $status['id'] == 2 || (isset($project) && $project->status == $status['id'])){echo 'selected';} ?>><?php echo $status['name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if(isset($project) && project_has_recurring_tasks($project->id)) { ?>
+                        <div class="alert alert-warning recurring-tasks-notice hide"></div>
+                    <?php } ?>
+                    <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'project-finished-to-customer','active'=>0)) == 0){ ?>
+                        <div class="form-group project_marked_as_finished hide">
+                            <div class="checkbox checkbox-primary">
+                                <input type="checkbox" name="timetracking[project_marked_as_finished_email_to_contacts]" id="project_marked_as_finished_email_to_contacts">
+                                <label for="timetracking[project_marked_as_finished_email_to_contacts]"><?php echo _l('project_marked_as_finished_to_contacts'); ?></label>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <?php if(isset($project)){ ?>
+                        <div class="form-group mark_all_tasks_as_completed hide">
+                            <div class="checkbox checkbox-primary">
+                                <input type="checkbox" name="timetracking[mark_all_tasks_as_completed]" id="mark_all_tasks_as_completed">
+                                <label for="timetracking[mark_all_tasks_as_completed]"><?php echo _l('project_mark_all_tasks_as_completed'); ?></label>
+                            </div>
+                        </div>
+                        <div class="notify_project_members_status_change hide">
+                            <div class="checkbox checkbox-primary">
+                                <input type="checkbox" name="timetracking[notify_project_members_status_change]" id="notify_project_members_status_change">
+                                <label for="timetracking[notify_project_members_status_change]"><?php echo _l('notify_project_members_status_change'); ?></label>
+                            </div>
+                            <hr />
+                        </div>
+                    <?php } ?>
+                    <?php
+                    $input_field_hide_class_total_cost = '';
+                    if(!isset($project)){
+                        if($auto_select_billing_type && $auto_select_billing_type->billing_type != 1 || !$auto_select_billing_type){
+                            $input_field_hide_class_total_cost = 'hide';
+                        }
+                    } else if(isset($project) && $project->billing_type != 1){
+                        $input_field_hide_class_total_cost = 'hide';
+                    }
+                    ?>
+                    <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
+                        <?php $value = (isset($project) ? $project->project_cost : ''); ?>
+                        <?php echo render_input('timetracking[project_cost]','project_total_cost',$value,'number'); ?>
+                    </div>
+                    <?php
+                    $input_field_hide_class_rate_per_hour = '';
+                    if(!isset($project)){
+                        if($auto_select_billing_type && $auto_select_billing_type->billing_type != 2 || !$auto_select_billing_type){
+                            $input_field_hide_class_rate_per_hour = 'hide';
+                        }
+                    } else if(isset($project) && $project->billing_type != 2){
+                        $input_field_hide_class_rate_per_hour = 'hide';
+                    }
+                    ?>
+                    <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
+                        <?php $value = (isset($project) ? $project->project_rate_per_hour : ''); ?>
+                        <?php
+                        $input_disable = array();
+                        if($disable_type_edit != ''){
+                            $input_disable['disabled'] = true;
+                        }
+                        ?>
+                        <?php echo render_input('timetracking[project_rate_per_hour]','project_rate_per_hour',$value,'number',$input_disable); ?>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php echo render_input('timetracking[estimated_hours]','estimated_hours',isset($project) ? $project->estimated_hours : '','number'); ?>
+                        </div>
+                        <div class="col-md-6">
+                           <?php
+                           $selected = array();
+                           if(isset($project_members)){
+                              foreach($project_members as $member){
+                                  array_push($selected,$member['staff_id']);
+                              }
+                          } else {
+                              array_push($selected,get_staff_user_id());
+                          }
+                          
+                          ?>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php $value = (isset($project) ? _d($project->start_date) : _d(date('Y-m-d'))); ?>
+                            <?php echo render_date_input('timetracking[start_date]','project_start_date',$value); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?php $value = (isset($project) ? _d($project->deadline) : ''); ?>
+                            <?php echo render_date_input('timetracking[deadline]','project_deadline',$value); ?>
+                        </div>
+                    </div>
+                    <?php if(isset($project) && $project->date_finished != null && $project->status == 4) { ?>
+                        <?php echo render_datetime_input('timetracking[date_finished]','project_completed_date',_dt($project->date_finished)); ?>
+                    <?php } ?>
+                    <!-- <div class="form-group">
+                        <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
+                        <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($project) ? prep_tags_input(get_tags_in($project->id,'project')) : ''); ?>" data-role="tagsinput">
+                    </div>
+                    <?php $rel_id_custom_field = (isset($project) ? $project->id : false); ?>
+                    <?php echo render_custom_fields('projects',$rel_id_custom_field); ?>
+                    <p class="bold"><?php echo _l('project_description'); ?></p>
+                    <?php $contents = ''; if(isset($project)){$contents = $project->description;} ?>
+                    <?php echo render_textarea('description','',$contents,array(),array(),'','tinymce'); ?>
+                    <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'assigned-to-project','active'=>0)) == 0){ ?>
+                        <div class="checkbox checkbox-primary">
+                         <input type="checkbox" name="send_created_email" id="send_created_email">
+                         <label for="send_created_email"><?php echo _l('project_send_created_email'); ?></label>
+                     </div>
+                     <?php } ?>
+                     <div class="btn-bottom-toolbar text-right">
+                         <button type="submit" data-form="#project_form" class="btn btn-info" autocomplete="off" data-loading-text="<?php echo _l('wait_text'); ?>"><?php echo _l('submit'); ?></button>
+                     </div>
+                     -->
+                  </div>
+                <?php }?>
+                <!-- Time Tracking Creation End -->
+                
+                <!-- Task Creation -->
+                <?php if(!isset($contract->task_id)) {?>
+                  <div id="task_creation">
+                    <hr class="hr-panel-heading" />
+                    <h4 ><?php echo $task_title; ?></h4>
+                    <div class="row">
+                      <div class="col-md-12">
+                         <?php
+                            $rel_type = '';
+                            $rel_id = '';
+                            if(isset($task) || ($this->input->get('rel_id') && $this->input->get('rel_type'))){
+                                $rel_id = isset($task) ? $task->rel_id : $this->input->get('rel_id');
+                                $rel_type = isset($task) ? $task->rel_type : $this->input->get('rel_type');
+                             }
+                             if(isset($task) && $task->billed == 1){
+                               echo '<div class="alert alert-success text-center no-margin">'._l('task_is_billed','<a href="'.admin_url('invoices/list_invoices/'.$task->invoice_id).'" target="_blank">'.format_invoice_number($task->invoice_id)). '</a></div><br />';
+                             }
+                            ?>
+                         <?php if(isset($task)){ ?>
+                         <div class="pull-right mbot10 task-single-menu task-menu-options">
+                            <div class="content-menu hide">
+                               <ul>
+                                  <?php if(has_permission('tasks','','create')){ ?>
+                                  <?php
+                                     $copy_template = "";
+                                     if(total_rows(db_prefix().'task_assigned',array('taskid'=>$task->id)) > 0){
+                                       $copy_template .= "<div class='checkbox checkbox-primary'><input type='checkbox' name='copy_task_assignees' id='copy_task_assignees' checked><label for='copy_task_assignees'>"._l('task_single_assignees')."</label></div>";
+                                     }
+                                     if(total_rows(db_prefix().'task_followers',array('taskid'=>$task->id)) > 0){
+                                       $copy_template .= "<div class='checkbox checkbox-primary'><input type='checkbox' name='copy_task_followers' id='copy_task_followers' checked><label for='copy_task_followers'>"._l('task_single_followers')."</label></div>";
+                                     }
+                                     if(total_rows(db_prefix().'task_checklist_items',array('taskid'=>$task->id)) > 0){
+                                      $copy_template .= "<div class='checkbox checkbox-primary'><input type='checkbox' name='copy_task_checklist_items' id='copy_task_checklist_items' checked><label for='copy_task_checklist_items'>"._l('task_checklist_items')."</label></div>";
+                                     }
+                                     if(total_rows(db_prefix().'files',array('rel_id'=>$task->id,'rel_type'=>'task')) > 0){
+                                      $copy_template .= "<div class='checkbox checkbox-primary'><input type='checkbox' name='copy_task_attachments' id='copy_task_attachments'><label for='copy_task_attachments'>"._l('task_view_attachments')."</label></div>";
+                                     }
+
+                                     $copy_template .= "<p>"._l('task_status')."</p>";
+                                     $task_copy_statuses = hooks()->apply_filters('task_copy_statuses', $task_statuses);
+                                     foreach($task_copy_statuses as $copy_status){
+                                     $copy_template .= "<div class='radio radio-primary'><input type='radio' value='".$copy_status['id']."' name='copy_task_status' id='copy_task_status_".$copy_status['id']."'".($copy_status['id'] == hooks()->apply_filters('copy_task_default_status', 1) ? ' checked' : '')."><label for='copy_task_status_".$copy_status['id']."'>".$copy_status['name']."</label></div>";
+                                     }
+
+                                     $copy_template .= "<div class='text-center'>";
+                                     $copy_template .= "<button type='button' data-task-copy-from='".$task->id."' class='btn btn-success copy_task_action'>"._l('copy_task_confirm')."</button>";
+                                     $copy_template .= "</div>";
+                                     ?>
+                                  <li> <a href="#" onclick="return false;" data-placement="bottom" data-toggle="popover" data-content="<?php echo htmlspecialchars($copy_template); ?>" data-html="true"><?php echo _l('task_copy'); ?></span></a>
+                                  </li>
+                                  <?php } ?>
+                                  <?php if(has_permission('tasks','','delete')){ ?>
+                                  <li>
+                                     <a href="<?php echo admin_url('tasks/delete_task/'.$task->id); ?>" class="_delete task-delete">
+                                     <?php echo _l('task_single_delete'); ?>
+                                     </a>
+                                  </li>
+                                  <?php } ?>
+                               </ul>
+                            </div>
+                            <?php if(has_permission('tasks','','delete') || has_permission('tasks','','create')){ ?>
+                            <a href="#" onclick="return false;" class="trigger manual-popover mright5">
+                            <i class="fa fa-circle-thin" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin" aria-hidden="true"></i>
+                            <i class="fa fa-circle-thin" aria-hidden="true"></i>
+                            </a>
+                            <?php } ?>
+                         </div>
+                         <?php } ?>
+                         <div class="checkbox checkbox-primary no-mtop checkbox-inline task-add-edit-public">
+                            <input type="checkbox" id="task_is_public" name="task[is_public]" <?php if(isset($task)){if($task->is_public == 1){echo 'checked';}}; ?>>
+                            <label for="task_is_public" data-toggle="tooltip" data-placement="bottom" title="<?php echo _l('task_public_help'); ?>"><?php echo _l('task_public'); ?></label>
+                         </div>
+                         <div class="checkbox checkbox-primary checkbox-inline task-add-edit-billable">
+                            <input type="checkbox" id="task_is_billable" name="task[billable]"
+                               <?php if((isset($task) && $task->billable == 1) || (!isset($task) && get_option('task_biillable_checked_on_creation') == 1)) {echo ' checked'; }?>>
+                            <label for="task_is_billable"><?php echo _l('task_billable'); ?></label>
+                         </div>
+                         <div class="task-visible-to-customer checkbox checkbox-inline checkbox-primary<?php if((isset($task) && $task->rel_type != 'project') || !isset($task) || (isset($task) && $task->rel_type == 'project' && total_rows(db_prefix().'project_settings',array('project_id'=>$task->rel_id,'name'=>'view_tasks','value'=>0)) > 0)){echo ' hide';} ?>">
+                            <input type="checkbox" id="task_visible_to_client" name="task[visible_to_client]" <?php if(isset($task)){if($task->visible_to_client == 1){echo 'checked';}} ?>>
+                            <label for="task_visible_to_client"><?php echo _l('task_visible_to_client'); ?></label>
+                         </div>
+                         <?php if(!isset($task)){ ?>
+                         <a href="#" class="pull-right" onclick="slideToggle('#new-task-attachments'); return false;">
+                         <?php echo _l('attach_files'); ?>
+                         </a>
+                         <div id="new-task-attachments" class="hide">
+                            <hr />
+                            <div class="row attachments">
+                               <div class="attachment">
+                                  <div class="col-md-12">
+                                     <div class="form-group">
+                                        <label for="attachment" class="control-label"><?php echo _l('add_task_attachments'); ?></label>
+                                        <div class="input-group">
+                                           <input type="file" extension="<?php echo str_replace('.','',get_option('allowed_files')); ?>" filesize="<?php echo file_upload_max_size(); ?>" class="form-control" name="task[attachments][0]">
+                                           <span class="input-group-btn">
+                                           <button class="btn btn-success add_more_attachments p8" type="button"><i class="fa fa-plus"></i></button>
+                                           </span>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                         <?php
+                            if($this->input->get('ticket_to_task')) {
+                              echo form_hidden('ticket_to_task');
+                            }
+                            } ?>
+                         <hr />
+                         <?php $value = (isset($task) ? $task->name : ''); ?>
+                         <?php echo render_input('task[name]','task_add_edit_subject',$value); ?>
+                         <div class="task-hours<?php if(isset($task) && $task->rel_type == 'project' && total_rows(db_prefix().'projects',array('id'=>$task->rel_id,'billing_type'=>3)) == 0){echo ' hide';} ?>">
+                            <?php $value = (isset($task) ? $task->hourly_rate : 0); ?>
+                            <?php echo render_input('task[hourly_rate]','task_hourly_rate',$value); ?>
+                         </div>
+                         
+                         <div class="row">
+                            <div class="col-md-6">
+                               <?php if(isset($task)){
+                                  $value = _d($task->startdate);
+                                  } else if(isset($start_date)){
+                                  $value = $start_date;
+                                  } else {
+                                  $value = _d(date('Y-m-d'));
+                                  }
+                                  $date_attrs = array();
+                                  if(isset($task) && $task->recurring > 0 && $task->last_recurring_date != null) {
+                                  $date_attrs['disabled'] = true;
+                                  }
+                                  ?>
+                               <?php echo render_date_input('task[startdate]','task_add_edit_start_date',$value, $date_attrs); ?>
+                            </div>
+                            <div class="col-md-6">
+                               <?php $value = (isset($task) ? _d($task->duedate) : ''); ?>
+                               <?php echo render_date_input('task[duedate]','task_add_edit_due_date',$value,$project_end_date_attrs); ?>
+                            </div>
+                            <div class="col-md-6">
+                               <div class="form-group">
+                                  <label for="task[priority]" class="control-label"><?php echo _l('task_add_edit_priority'); ?></label>
+                                  <select name="task[priority]" class="selectpicker" id="task[priority]" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                     <?php foreach(get_tasks_priorities() as $priority) { ?>
+                                     <option value="<?php echo $priority['id']; ?>"<?php if(isset($task) && $task->priority == $priority['id'] || !isset($task) && get_option('default_task_priority') == $priority['id']){echo ' selected';} ?>><?php echo $priority['name']; ?></option>
+                                     <?php } ?>
+                                     <?php hooks()->do_action('task_priorities_select', (isset($task) ? $task : 0)); ?>
+                                  </select>
+                               </div>
+                            </div>
+                            <div class="col-md-6">
+                               <div class="form-group">
+                                  <label for="task[repeat_every]" class="control-label"><?php echo _l('task_repeat_every'); ?></label>
+                                  <select name="task[repeat_every]" id="task[repeat_every]" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                     <option value="no-repeat" <?php if(isset($task) && $task->repeat_every == 0 && $task->recurring_type == 'day'){echo 'selected';} ?>><?php echo _l('task_no_repeat'); ?></option>
+                                     <option value="1-week" <?php if(isset($task) && $task->repeat_every == 1 && $task->recurring_type == 'week'){echo 'selected';} ?>><?php echo _l('week'); ?></option>
+                                     <option value="2-week" <?php if(isset($task) && $task->repeat_every == 2 && $task->recurring_type == 'week'){echo 'selected';} ?>>2 <?php echo _l('weeks'); ?></option>
+                                     <option value="1-month" <?php if(isset($task) && $task->repeat_every == 1 && $task->recurring_type == 'month'){echo 'selected';} ?>>1 <?php echo _l('month'); ?></option>
+                                     <option value="2-month" <?php if(isset($task) && $task->repeat_every == 2 && $task->recurring_type == 'month'){echo 'selected';} ?>>2 <?php echo _l('months'); ?></option>
+                                     <option value="3-month" <?php if(isset($task) && $task->repeat_every == 3 && $task->recurring_type == 'month'){echo 'selected';} ?>>3 <?php echo _l('months'); ?></option>
+                                     <option value="6-month" <?php if(isset($task) && $task->repeat_every == 6 && $task->recurring_type == 'month'){echo 'selected';} ?>>6 <?php echo _l('months'); ?></option>
+                                     <option value="1-year" <?php if(isset($task) && $task->repeat_every == 1 && $task->recurring_type == 'year'){echo 'selected';} ?>>1 <?php echo _l('year'); ?></option>
+                                     <option value="custom" <?php if(isset($task) && $task->custom_recurring == 1){echo 'selected';} ?>><?php echo _l('recurring_custom'); ?></option>
+                                  </select>
+                               </div>
+                            </div>
+                         </div>
+                         <div class="recurring_custom <?php if((isset($task) && $task->custom_recurring != 1) || (!isset($task))){echo 'hide';} ?>">
+                            <div class="row">
+                               <div class="col-md-6">
+                                  <?php $value = (isset($task) && $task->custom_recurring == 1 ? $task->repeat_every : 1); ?>
+                                  <?php echo render_input('task[repeat_every_custom]','',$value,'number',array('min'=>1)); ?>
+                               </div>
+                               <div class="col-md-6">
+                                  <select name="task[repeat_type_custom]" id="task[repeat_type_custom]" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                     <option value="day" <?php if(isset($task) && $task->custom_recurring == 1 && $task->recurring_type == 'day'){echo 'selected';} ?>><?php echo _l('task_recurring_days'); ?></option>
+                                     <option value="week" <?php if(isset($task) && $task->custom_recurring == 1 && $task->recurring_type == 'week'){echo 'selected';} ?>><?php echo _l('task_recurring_weeks'); ?></option>
+                                     <option value="month" <?php if(isset($task) && $task->custom_recurring == 1 && $task->recurring_type == 'month'){echo 'selected';} ?>><?php echo _l('task_recurring_months'); ?></option>
+                                     <option value="year" <?php if(isset($task) && $task->custom_recurring == 1 && $task->recurring_type == 'year'){echo 'selected';} ?>><?php echo _l('task_recurring_years'); ?></option>
+                                  </select>
+                               </div>
+                            </div>
+                         </div>
+                         <div id="cycles_wrapper" class="<?php if(!isset($task) || (isset($task) && $task->recurring == 0)){echo ' hide';}?>">
+                            <?php $value = (isset($task) ? $task->cycles : 0); ?>
+                            <div class="form-group recurring-cycles">
+                               <label for="cycles"><?php echo _l('recurring_total_cycles'); ?>
+                               <?php if(isset($task) && $task->total_cycles > 0){
+                                  echo '<small>' . _l('cycles_passed', $task->total_cycles) . '</small>';
+                                  }
+                                  ?>
+                               </label>
+                               <div class="input-group">
+                                  <input type="number" class="form-control"<?php if($value == 0){echo ' disabled'; } ?> name="cycles" id="cycles" value="<?php echo $value; ?>" <?php if(isset($task) && $task->total_cycles > 0){echo 'min="'.($task->total_cycles).'"';} ?>>
+                                  <div class="input-group-addon">
+                                     <div class="checkbox">
+                                        <input type="checkbox"<?php if($value == 0){echo ' checked';} ?> id="unlimited_cycles">
+                                        <label for="unlimited_cycles"><?php echo _l('cycles_infinity'); ?></label>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                         <div class="row">
+                            <!-- <div class="col-md-6">
+                               <div class="form-group">
+                                  <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
+                                  <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                     <option value=""></option>
+                                     <option value="project"
+                                        <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('project'); ?></option>
+                                     <option value="customer"
+                                        <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
+                                        <?php echo _l('client'); ?>
+                                     </option>
+                                     <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'contract'){echo 'selected';}} ?>>
+                                        <?php echo _l('contract'); ?>
+                                     </option>
+                                  </select>
+                               </div>
+                            </div> -->
+                            <div class="col-md-6">
+                               <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
+                                  <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
+                                  <div id="rel_id_select">
+                                     <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                     <?php if($rel_id != '' && $rel_type != ''){
+                                        $rel_data = get_relation_data($rel_type,$rel_id);
+                                        $rel_val = get_relation_values($rel_data,$rel_type);
+                                        echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                                        } ?>
+                                     </select>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                         <?php
+                            if(isset($task)
+                               && $task->status == Tasks_model::STATUS_COMPLETE
+                               && (has_permission('create') || has_permission('edit'))){
+                               echo render_datetime_input('datefinished','task_finished',_dt($task->datefinished));
+                            }
+                         ?>
+                         <div class="form-group checklist-templates-wrapper<?php if(count($checklistTemplates) == 0 || isset($task)){echo ' hide';}  ?>">
+                            <label for="checklist_items"><?php echo _l('insert_checklist_templates'); ?></label>
+                            <select id="checklist_items" name="checklist_items[]" class="selectpicker checklist-items-template-select" multiple="1" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex') ?>" data-width="100%" data-live-search="true" data-actions-box="true">
+                               <option value="" class="hide"></option>
+                               <?php foreach($checklistTemplates as $chkTemplate){ ?>
+                               <option value="<?php echo $chkTemplate['id']; ?>">
+                                  <?php echo $chkTemplate['description']; ?>
+                               </option>
+                               <?php } ?>
+                            </select>
+                         </div>
+                         <!-- <div class="form-group">
+                            <div id="inputTagsWrapper">
+                               <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
+                               <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($task) ? prep_tags_input(get_tags_in($task->id,'task')) : ''); ?>" data-role="tagsinput">
+                            </div>
+                         </div>
+                         <?php $rel_id_custom_field = (isset($task) ? $task->id : false); ?>
+                         <?php echo render_custom_fields('tasks',$rel_id_custom_field); ?>
+                         <hr />
+                         <p class="bold"><?php echo _l('task_add_edit_description'); ?></p>
+                         <?php
+                         // onclick and onfocus used for convert ticket to task too
+                         echo render_textarea('description','',(isset($task) ? $task->description : ''),array('rows'=>6,'placeholder'=>_l('task_add_description'),'data-task-ae-editor'=>true, !is_mobile() ? 'onclick' : 'onfocus'=>(!isset($task) || isset($task) && $task->description == '' ? 'init_editor(\'.tinymce-task\', {height:200, auto_focus: true});' : '')),array(),'no-mbot','tinymce-task'); ?> -->
+                      </div>
+                    </div>
+                  </div>
+                <?php }?>
                 <!-- bottom -->
                 <div class="btn-bottom-toolbar text-right" >
                     <button type="submit" class="btn btn-info" id="save"><?php echo _l('save');?></button>
                 </div>
-                
+                <input type="hidden" name="sub_arr" id="sub_arr" value="<?php if(isset($contract->sub_arr))  print_r($contract->sub_arr); else echo "";?>">
+                <input type="hidden" name="sub_tax" id="sub_tax" value="<?php if(isset($contract->sub_tax))  print_r($contract->sub_tax); else echo "";?>">
                 <?php echo form_close(); ?>
 
                </div>
              </div>
          </div>
+
+
          <?php if(isset($contract->id)) { ?>
          <div class="col-md-7 right-column">
             <div class="panel_s">
@@ -1148,16 +1723,10 @@ init_head(); ?>
    $(document).ready(function(){
         // form validation
           $('#contract_type').attr("required",true);
-          // Contract PreView
+
           var staff0 = '<?php echo json_encode($staff)?>';
           var staff = JSON.parse(staff0);
-          // console.log(staff)
-          // $('#staff_name').empty();
-          // $('#staff_name').append('-'+staff[0].firstname+'&nbsp;'+staff[0].lastname);
           $('#staf_name').val('-'+staff[0].firstname+'&nbsp;'+staff[0].lastname);
-
-          // $('#staff_info').empty();
-          // $('#staff_info').append('-'+staff[0].address+'</br>'+staff[0].zip+', '+staff[0].city+'</br>'+staff[0].state+', '+staff[0].short_name);
           $('#staf_info').val(staff[0].address+'</br>'+staff[0].zip+', '+staff[0].city+'</br>'+staff[0].state+', '+staff[0].short_name);
         /////////
         // Customer:
@@ -1167,13 +1736,8 @@ init_head(); ?>
             for (var i = 0; i < customer_array.length; i++)
              {
                 if(customer_array[i].userid == $('#clientid option:selected').val()){
-                  // $('#customer').empty();
-                  // $('#customer').append('-'+customer_array[i].company);
-                  // console.log("customer",$('#customer').val())
+        
                   $('#cus_value').val(customer_array[i].company);
-
-                  // $('#customer_address').empty();
-                  // $('#customer_address').append(customer_array[i].address + '</br>'+ customer_array[i].zip + ', '+customer_array[i].city + '</br>'+customer_array[i].state + ', '+customer_array[i].short_name);
                   $('#cus_addr_value').val(customer_array[i].address + '</br>'+ customer_array[i].zip + ', '+customer_array[i].city + '</br>'+customer_array[i].state + ', '+customer_array[i].short_name);
                   }
 
@@ -1187,13 +1751,8 @@ init_head(); ?>
             {
               if (customer_array[p].userid == current_customer_id)
               {
-                // console.log(customer_array[p])
-                // $('#customer').empty();
-                // $('#customer').append(customer_array[p].company);
+                
                 $('#cus_value').val('-'+customer_array[p].company);
-
-                // $('#customer_address').empty();
-                // $('#customer_address').append(customer_array[p].address + '</br>'+ customer_array[p].zip + ', '+customer_array[p].city + '</br>'+customer_array[p].state + ', '+customer_array[p].short_name);
                 $('#cus_addr_value').val(customer_array[p].address + '</br>'+ customer_array[p].zip + ', '+customer_array[p].city + '</br>'+customer_array[p].state + ', '+customer_array[p].short_name);
               }
               
@@ -1204,7 +1763,6 @@ init_head(); ?>
         // Contract type:(#contract_type->contract_type select, #contract&&#contract_ser->other field, #subscrip->subscription div, #contract_ser->payment)
           $('#contract_type').change(function(){
               var create_test = $('#contract_type option:selected').val();
-              // console.log("create_test", create_test)
               if(create_test==2) {
                   $('#contract').css("display","none");
                   $('#subscrip').css("display","block");
@@ -1214,13 +1772,15 @@ init_head(); ?>
                   $('#contracts_beratung').css("display","none");
                   $('#contracts_produkt').css("display","none");
                   $('#consulting').css("display","none");
+                  $('#customer_payment_value_form').css("display","block");
 
                   $('#subscription').attr("required",true);
                   $('#contract_value').attr('required',true);
-                  $('#custom_fields_contracts_ser__12_').attr("required",true);
-                  $('#custom_fields_contracts_ser__13_').attr("required",true);
+                  $('#custom_fields_contracts_ser_method').attr("required",true);
+                  $('#custom_fields_contracts_ser_timeframe').attr("required",true);
                   $('#dateend').attr("required",true);
-                  $('#description').attr("required",true);
+                  // $('#description').attr("required",true);
+
                 }
               else if (create_test == 3){
                   $('#contract').css("display","none");
@@ -1231,12 +1791,13 @@ init_head(); ?>
                   $('#contracts_beratung').css("display","block");
                   $('#contracts_produkt').css("display","none");
                   $('#contract_value_form').css("display","none");
+                  $('#customer_payment_value_form').css("display","block");
                   
                   $('#consulting_client_point').attr('required',true);
                   $('#dateend').attr("required",true);
-                  $('#custom_fields_contracts_beratung__12_').attr("required",true);
-                  $('#custom_fields_contracts_beratung__13_').attr("required",true);
-                  $('#description').removeAttr('required');
+                  $('#custom_fields_contracts_beratung_method').attr("required",true);
+                  $('#custom_fields_contracts_beratung_remuneration').attr("required",true);
+                  // $('#description').removeAttr('required');
               }
               else if (create_test == 1){
                   $('#contract').css("display","none");
@@ -1247,17 +1808,18 @@ init_head(); ?>
                   $('#contracts_beratung').css("display","none");
                   $('#contracts_produkt').css("display","block");
                   $('#contract_value_form').css("display","none");
+                  $('#customer_payment_value_form').css("display","block");
                   // $('#payment').css("display","none");
 
 
                   $('#consulting_client_point').attr('required',true);
                   $('#dateend').attr("required",true);
-                  $('#custom_fields_contracts_produkt__12_').attr("required",true);
-                  $('#custom_fields_contracts_produkt__13_').attr("required",true);
-                  if($('#custom_fields_contracts_produkt__13_ option:selected').val() == 'One Time Payment') $('#one_time_payment').attr('required', true);
-                  else if ($('#custom_fields_contracts_produkt__13_ option:selected').val() == 'Partial Payment Of Total Amount') $('#opening_payment').attr('required', true);
+                  $('#custom_fields_contracts_produkt_method').attr("required",true);
+                  $('#custom_fields_contracts_produkt_remuneration').attr("required",true);
+                  if($('#custom_fields_contracts_produkt_remuneration option:selected').val() == 'One Time Payment') $('#one_time_payment').attr('required', true);
+                  else if ($('#custom_fields_contracts_produkt_remuneration option:selected').val() == 'Partial Payment Of Total Amount') $('#opening_payment').attr('required', true);
                   $('#savings_amount_per_month').attr('required', true);
-                  $('#description').removeAttr('required');
+                  // $('#description').removeAttr('required');
               }
               else {
                   $('#contract').css("display","block");
@@ -1267,15 +1829,63 @@ init_head(); ?>
                 }
             });
 
-          // var selected_contract_type = $('#contract_type option:selected').val();
-          // if (selected_contract_type == 2)
-          //   {
-          //        $('#contract').css("display","none");
-          //        $('#subscrip').css("display","block");
-          //        $('#contract_opt').css("display","none");
-          //        $('#contract_ser').css("display","block");
-          //   }
-        ////////////
+          /* Payment Time Frame Change in Each Case */
+          $('#custom_fields_contracts_ser_timeframe').change(function(){
+              var seleted_time = $('#custom_fields_contracts_ser_timeframe option:selected').val();
+              if (seleted_time == 'Monthly')
+                $('#customer_payment_value').val($('#contract_value').val()/12);
+              else if (seleted_time == 'Quarterly')
+                $('#customer_payment_value').val($('#contract_value').val()/4);
+              else if (seleted_time == 'Half-Yearly')
+                $('#customer_payment_value').val($('#contract_value').val()/2);
+              else if (seleted_time == 'Annually')
+                $('#customer_payment_value').val($('#contract_value').val());
+              
+            });
+
+          $('#custom_fields_contracts_beratung_timeframe').change(function(){
+              var seleted_time = $('#custom_fields_contracts_beratung_timeframe option:selected').val();
+              var one_time = $('#beratung_one_time_payment_value').val();
+              var opening = $('#beratung_opening_payment_value').val();
+              if (seleted_time == 'Monthly')
+                $('#customer_payment_value').val((one_time-opening)/12);
+              else if (seleted_time == 'Quarterly')
+                $('#customer_payment_value').val((one_time-opening)/4);
+              else if (seleted_time == 'Half-Yearly')
+                $('#customer_payment_value').val((one_time-opening)/2);
+              else if (seleted_time == 'Annually')
+                $('#customer_payment_value').val((one_time-opening));
+              
+            });
+
+          $('#custom_fields_contracts_produkt_timeframe').change(function(){
+              var seleted_rem = $('#custom_fields_contracts_produkt_remuneration option:selected').val();
+              var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+
+              if (seleted_rem == 'One Time Payment'){
+                if (seleted_time == 'Monthly')
+                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/12);
+                else if (seleted_time == 'Quarterly')
+                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/4);
+                else if (seleted_time == 'Half-Yearly')
+                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/2);
+                else if (seleted_time == 'Annually')
+                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val());
+              }
+
+              else if(seleted_rem == 'Partial Payment Of Total Amount'){
+                if (seleted_time == 'Monthly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/12);
+                else if (seleted_time == 'Quarterly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/4);
+                else if (seleted_time == 'Half-Yearly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/2);
+                else if (seleted_time == 'Annually')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val());
+                }
+            });
+          /*--------------------------------*/
+
         // Subscription: (#subscription->only subscription select, #subtax->hidden subscription tax value, #sub_arr->hidden subscription array value)
            var subscription0 = '<?php echo json_encode($subscriptions) ?>';
            var subscription = JSON.parse(subscription0);
@@ -1301,7 +1911,7 @@ init_head(); ?>
                   }
                }
            }
-           //
+          
           $('#subscription').change(function(){
                var sub = $('#subscription option:selected').val();
                var contract_value;
@@ -1326,119 +1936,43 @@ init_head(); ?>
                   }
                }
                $('#contract_value').val(contract_value); 
-            });
+            });         
           
-          if($('#save').css('display')=='none') $('#btn_type').val("create_contract"); 
-          else $('#btn_type').val("save");
-            
-          
+          // beratung remuneration change
+          $('#custom_fields_contracts_beratung_remuneration').change(function(){
 
-          var payment_m = $('#custom_fields_contracts_ser__12_ option:selected').val();
-          if (payment_m == "Bank Transfer") 
-            {
-              $('#bank').css("display","block");
-              $('#immediate').css("display","none");
-              $('#debit').css("display","none");
+            var selected = $('#custom_fields_contracts_beratung_remuneration option:selected').val();
+            if(selected == 'One Time Payment'){
+              $('#beratung_remuneration').css('display','block');
             }
-          else if(payment_m == "Immediate Transfer")  
-            {
-              $('#bank').css("display","none");
-              $('#immediate').css("display","block");
-              $('#debit').css("display","none");
-            }
-          else if(payment_m == "Debit")
-            {
-              $('#bank').css("display","none");
-              $('#immediate').css("display","none");
-              $('#debit').css("display","block");
-            } 
-          // console.log(payment_m);
-
-          // Button Change
-          var btn = '<?php if( isset($btn_type)) echo ($btn_type) ?>';
-          var contract_type_value = '<?php if(isset($contract0['session']['contract_type'])) echo $contract0['session']['contract_type']  ?>';
-
-          if(btn == "save")
-          {
-            var value = "create_contract";
-            $('#btn_type').val(value);
-          }
-          if(btn){
-            $('#trash').prop('disabled',true);
-            $('#not_visible_to_client').prop('disabled',true);
-            $('#subject').prop('readonly',true);
-            $('#clientid').prop('disabled',true);
-            $('#contract_type').prop('disabled',true);
-
-            if(contract_type_value == 2)
-            {
-              $('#subscription').prop('disabled',true);
-              $('#custom_fields_contracts_ser__12_').prop('disabled',true);
-              $('#custom_fields_contracts_ser__13_').prop('disabled',true);
-              $('#contract_value').prop('readonly',true);
-              $('#datestart').prop('disabled',true);
-              $('#dateend').prop('disabled',true);
-              $('#description').prop('readonly',true);
-
+            else{
+              $('#beratung_remuneration').css('display','none');
             }
 
-            if(contract_type_value == 3)
-            {
-              $('#consulting_client_point').prop('disabled',true);
-              $('#custom_fields_contracts_beratung__12_').prop('disabled',true);
-              $('#custom_fields_contracts_beratung__13_').prop('disabled',true);
-              $('#datestart').prop('disabled',true);
-              $('#dateend').prop('disabled',true);
-              $('#description').prop('readonly',true);
-            }
-
-            if(contract_type_value == 1)
-            {
-              $('#consulting_client_point').prop('disabled',true);
-              $('#custom_fields_contracts_produkt__12_').prop('disabled',true);
-              $('#custom_fields_contracts_produkt__13_').prop('disabled',true);
-              $('#custom_fields_contracts_produkt__14_').prop('disabled',true);
-              $('#one_time_payment_value').prop('readonly',true);
-              $('#savings_amount_per_month_value').prop('readonly',true);
-              $('#term_value').prop('readonly',true);
-              $('#amount_value').prop('readonly',true);
-              $('#opening_payment_value').prop('readonly',true);
-              $('#dynamic_percentage_per_year_value').prop('readonly',true);
-              $('#total_amount_value').prop('readonly',true);
-              $('#agent_remuneration_percent_value').prop('readonly',true);
-              $('#agent_remuneration_price_value').prop('readonly',true);
-              $('#datestart').prop('disabled',true);
-              $('#dateend').prop('disabled',true);
-              $('#description').prop('readonly',true);
-
-            }
-            
-          }
-          
-
-          // Back button Action
-          $('#back').click(function(){
-            var oldURL = document.referrer;
-            location.href = oldURL;
-            // var contract_back_data = '<?php //if(isset($contract_back))
-            // echo json_encode($contract_back)?>';
-            // console.log(contract_back_data)
           });
-          $('#btn_type').val();
 
-          // 
-          // produkt left side change
-          $('#custom_fields_contracts_produkt__13_').change(function(){
+          $('.beratung_calc_values_one').change(function(){
+            var seleted_time = $('#custom_fields_contracts_beratung_timeframe option:selected').val();
+            var one_time = $('#beratung_one_time_payment_value').val();
+            var opening = $('#beratung_opening_payment_value').val();
+            if (seleted_time == 'Monthly')
+              $('#customer_payment_value').val((one_time-opening)/12);
+            else if (seleted_time == 'Quarterly')
+              $('#customer_payment_value').val((one_time-opening)/4);
+            else if (seleted_time == 'Half-Yearly')
+              $('#customer_payment_value').val((one_time-opening)/2);
+            else if (seleted_time == 'Annually')
+              $('#customer_payment_value').val((one_time-opening));
 
-            var selected_payment_agent = $('#custom_fields_contracts_produkt__13_ option:selected').val();
+          });
+          
+          // produkt left side change(Remuneration Calculation)
+          $('#custom_fields_contracts_produkt_remuneration').change(function(){
+
+            var selected_payment_agent = $('#custom_fields_contracts_produkt_remuneration option:selected').val();
             if(selected_payment_agent == 'One Time Payment'){
 
               $('#one_time_payment').css('display','block');
-              
-
-              // $('#custom_fields_contracts_produkt__14_').children('[value="One Time Payment"]').attr('selected', true);
-              $('#custom_fields_contracts_produkt__14_').val('One Time Payment');
-              // $('#payment').prop('disabled',true);
               
               $('#savings_amount_per_month').css('display','none');
               $('#term').css('display','none');
@@ -1453,8 +1987,7 @@ init_head(); ?>
             else if (selected_payment_agent == 'Partial Payment Of Total Amount'){
 
               $('#one_time_payment').css('display','none');
-              $('#payment').removeAttr('disabled');
-
+            
               $('#savings_amount_per_month').css('display','block');
               $('#term').css('display','block');
               $('#amount').css('display','block');
@@ -1487,296 +2020,196 @@ init_head(); ?>
               .css('left', 'calc(' + position + '% - ' + positionOffset + 'px)')
               .text(controlVal);
 
+            $('#display_percent').empty();
+            $('#display_percent').append(controlVal);
+
           });
 
           // term calculate in produkt
           $('.datepicker').change(function(){
-              // var day1 = $('#datestart').val().substring(0,2);
+              
               var month1 = $('#datestart').val().substring(3,5);
               var year1 = $('#datestart').val().substring(6);
 
-              // var day2 = $('#dateend').val().substring(0,2);
               var month2 = $('#dateend').val().substring(3,5);
               var year2 = $('#dateend').val().substring(6);
-              
-              // var date1 = new Date(month1+'/'+day1+'/'+year1);
-              // var date2 = new Date(month2+'/'+day2+'/'+year2);
-              
-              // var time_diff = date2.getTime() - date1.getTime();
-              // var day_diff = time_diff/(1000*3600*24);
-              // console.log(day_diff);
 
-              $('#term_value').val(12*(year2-year1)+parseInt(month2)-parseInt(month1) + 1);
+              $('#term_value').val(12*(year2-year1)+parseInt(month2)-parseInt(month1));
               $('#term_value').prop('readonly',true);
 
-              var open = $('#opening_payment_value').val();
+              var open = ($('#opening_payment_check').prop("checked") == true) ? $('#produkt_opening_payment_value').val() : 0;
               var saving = $('#savings_amount_per_month_value').val();
-              var term = parseInt(month2)-parseInt(month1) + 1;
-              var dynamicPercent = $('#dynamic_percentage_per_year_value').val();
+              var term = parseInt(month2)-parseInt(month1);
+              var dynamicPercent = ($('#dynamic_percent_check').prop("checked") == true) ? $('#dynamic_percentage_per_year_value').val() : 0;
+
               var amount = parseInt(saving)*parseInt(term)*12;
               var totalAmount = amount+amount*parseInt(dynamicPercent)*0.01+parseInt(open);
               var remunerationPercent = $('#agent_remuneration_percent_value').val();
-              console.log(remunerationPercent)
 
               $('#amount_value').val(amount);
-              $('#amount_value').prop("readonly",true);
               $('#total_amount_value').val(totalAmount);
-              $('#total_amount_value').prop("readonly",true);
               $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent/100);
-              $('#agent_remuneration_price_value').prop("readonly",true);
+              
+              if ($('#contract_type option:selected').val() ==1 && $('#custom_fields_contracts_produkt_remuneration option:selected').val() == 'Partial Payment Of Total Amount')
+              {
+                var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+                if (seleted_time == 'Monthly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/12);
+                else if (seleted_time == 'Quarterly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/4);
+                else if (seleted_time == 'Half-Yearly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/2);
+                else if (seleted_time == 'Annually')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val());  
+              }
+              
+              
             });
           
+          // Nettoprodukt First Remuneration Value Changes
+          $('#produkt_one_time_payment_value').change(function(){
 
-
-          $('.calc').change(function(){
-            // console.log("ddddd");
-              var open = $('#opening_payment_value').val();
-              var saving = $('#savings_amount_per_month_value').val();
-              var term = $('#term_value').val();
-              var dynamicPercent = $('#dynamic_percentage_per_year_value').val();
-              var amount = parseInt(saving)*parseInt(term)*12;
-              var totalAmount = amount+amount*parseInt(dynamicPercent)*0.01+parseInt(open);
-              var remunerationPercent = $('#agent_remuneration_percent_value').val();
-
-              $('#amount_value').val(amount);
-              $('#amount_value').prop("readonly",true);
-              $('#total_amount_value').val(totalAmount);
-              $('#total_amount_value').prop("readonly",true);
-              $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent*0.01);
-              $('#agent_remuneration_price_value').prop("readonly",true);
+              var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+              if (seleted_time == 'Monthly')
+                $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/12);
+              else if (seleted_time == 'Quarterly')
+                $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/4);
+              else if (seleted_time == 'Half-Yearly')
+                $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/2);
+              else if (seleted_time == 'Annually')
+                $('#customer_payment_value').val($('#produkt_one_time_payment_value').val());
 
           });
 
+          // Nettoprodukt Second Remuneration Value Changes
 
-          /* Vergütungsvereinbarung Beratung Content Part*/
-          // Consulting Point reflect
-          var inputed_consulting_point = '<?php if (isset($contract0['session']['consulting_client_point'])) echo $contract0['session']['consulting_client_point'] ?>';
-          if(inputed_consulting_point){
+          $('.produkt_calc_values').change(function(){
 
-            $('#consulting_beratung').empty();
-            $('#consulting_beratung').append('[' + inputed_consulting_point + ']');
+              var open = ($('#opening_payment_check').prop("checked") == true) ? $('#produkt_opening_payment_value').val() : 0;
+              var saving = $('#savings_amount_per_month_value').val();
+              var term = $('#term_value').val();
+              var dynamicPercent = ($('#dynamic_percent_check').prop("checked") == true) ? $('#dynamic_percentage_per_year_value').val() : 0;
+              // console.log(open, saving, term, dynamicPercent);
+              var amount = parseInt(saving)*parseInt(term)*12;
+              var totalAmount = amount+amount*parseInt(dynamicPercent)*0.01+parseInt(open);
+              var remunerationPercent = $('#agent_remuneration_percent_value').val();
 
-            $('#consulting_produkt').empty();
-            $('#consulting_produkt').append('[' + inputed_consulting_point + ']');
-          }
-          // payment for agent
-          var selected_payment_agent_beratung = $('#custom_fields_contracts_beratung__13_ option:selected').val();
-          var hourlyRate = '<?php if (isset($contract0['session']['hourly_rate'])) echo $contract0['session']['hourly_rate']?>';
+              $('#amount_value').val(amount);
+              $('#total_amount_value').val(totalAmount);
+              $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent*0.01);
 
-          if (selected_payment_agent_beratung == 'One Time Payment'){
+              
+              var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+              if (seleted_time == 'Monthly')
+                $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/12);
+              else if (seleted_time == 'Quarterly')
+                $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/4);
+              else if (seleted_time == 'Half-Yearly')
+                $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/2);
+              else if (seleted_time == 'Annually')
+                $('#customer_payment_value').val($('#agent_remuneration_price_value').val());
+              
+              
+          });
 
-            $('#one_time_payment_beratung').css('display','block');
-            $('#payment_time_spent_beratung').css('display','none');
-            $('#one_time_payment_value_beratung').empty();
-            $('#one_time_payment_value_beratung').append(hourlyRate);
+          $('#opening_payment_check').click(function(){
 
+              if($(this).prop("checked") == true)
+                $('#opening_hidden').css("display",'block');
+              else{
+                $('#opening_hidden').css("display",'none');
+                $('#produkt_opening_payment_value').val(0);
+              }
+                
 
-          } else if (selected_payment_agent_beratung == 'Payment According To Time Spent'){
+                var open = ($('#opening_payment_check').prop("checked") == true) ? $('#produkt_opening_payment_value').val() : 0;
+                var saving = $('#savings_amount_per_month_value').val();
+                var term = $('#term_value').val();
+                var dynamicPercent = ($('#dynamic_percent_check').prop("checked") == true) ? $('#dynamic_percentage_per_year_value').val() : 0;
+                // console.log(open, saving, term, dynamicPercent);
+                var amount = parseInt(saving)*parseInt(term)*12;
+                var totalAmount = amount+amount*parseInt(dynamicPercent)*0.01+parseInt(open);
+                var remunerationPercent = $('#agent_remuneration_percent_value').val();
 
-            $('#one_time_payment_beratung').css('display','none');
-            $('#payment_time_spent_beratung').css('display','block');
-            $('#payment_time_spent_value_beratung').empty();
-            $('#payment_time_spent_value_beratung').append(hourlyRate);
+                $('#amount_value').val(amount);
+                $('#total_amount_value').val(totalAmount);
+                $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent*0.01);
 
-          }
-          //payment method
-          var seleted_payment_method_beratung = $('#custom_fields_contracts_beratung__12_ option:selected').val();
-          if (seleted_payment_method_beratung == 'Bank Transfer'){
+                
+                var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+                if (seleted_time == 'Monthly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/12);
+                else if (seleted_time == 'Quarterly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/4);
+                else if (seleted_time == 'Half-Yearly')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/2);
+                else if (seleted_time == 'Annually')
+                  $('#customer_payment_value').val($('#agent_remuneration_price_value').val());
+              
+            });
 
-            $('#bank_beratung').css("display","block");
-            $('#immediate_beratung').css("display","none");
-            $('#debit_beratung').css("display","none");
+            $('#dynamic_percent_check').click(function(){
 
-          } else if (seleted_payment_method_beratung == 'Immediate Transfer'){
+              if($(this).prop("checked") == true)
+              {
+                $('#dynamic_hidden').css("display",'block');
+                $('#dynamic_value_hidden').css("display",'block');
+              }
+              else
+              {
+                $('#dynamic_hidden').css("display",'none');
+                $('#dynamic_value_hidden').css("display",'none');
+                // $('#dynamic_percentage_per_year_value').val(-5);
+              }
 
-             $('#bank_beratung').css("display","none");
-             $('#immediate_beratung').css("display","block");
-             $('#debit_beratung').css("display","none");
+              var open = ($('#opening_payment_check').prop("checked") == true) ? $('#produkt_opening_payment_value').val() : 0;
+              var saving = $('#savings_amount_per_month_value').val();
+              var term = $('#term_value').val();
+              var dynamicPercent = ($('#dynamic_percent_check').prop("checked") == true) ? $('#dynamic_percentage_per_year_value').val() : 0;
+              // console.log(open, saving, term, dynamicPercent);
+              var amount = parseInt(saving)*parseInt(term)*12;
+              var totalAmount = amount+amount*parseInt(dynamicPercent)*0.01+parseInt(open);
+              var remunerationPercent = $('#agent_remuneration_percent_value').val();
 
-          } else if (seleted_payment_method_beratung == 'Debit'){
+              $('#amount_value').val(amount);
+              $('#total_amount_value').val(totalAmount);
+              $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent*0.01);
 
-             $('#bank_beratung').css("display","none");
-             $('#immediate_beratung').css("display","none");
-             $('#debit_beratung').css("display","block");
-
-          }
-
-
-          /* Vergütungsvereinbarung Nettoprodukt Content Part*/
-          var open_calc = $('#opening_payment_value').val();
-          var saving_calc = $('#savings_amount_per_month_value').val();
-          var term_calc = $('#term_value').val();
-          var day1 = $('#datestart').val().substring(0,2);
-          var day2 = $('#dateend').val().substring(0,2);
-
-          if ($('#custom_fields_contracts_produkt__13_ option:selected').val() == 'One Time Payment'){
-
-            $('#one_time_produkt').css("display","block");
-            $('#partial_time_produkt').css("display","none");
-            // $('#payment').css("display","none");
-
-            $('#one_time_payment_produkt').css("display","block");
-            $('#partial_payment_produkt').css("display","none");
-            $('#partial_payment_with_increased_starting_produkt').css("display","none");
+              var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+              if (seleted_time == 'Monthly')
+                $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/12);
+              else if (seleted_time == 'Quarterly')
+                $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/4);
+              else if (seleted_time == 'Half-Yearly')
+                $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/2);
+              else if (seleted_time == 'Annually')
+                $('#customer_payment_value').val($('#agent_remuneration_price_value').val());
             
-            $('#one_time_payment_produkt_content_value').empty();
-            $('#one_time_payment_produkt_content_value').append($('#one_time_payment_value').val());
+            });
 
-          } else if($('#custom_fields_contracts_produkt__13_ option:selected').val() == 'Partial Payment Of Total Amount'){
+            var progress_input = $('input[name="progress"]');
+            var progress_from_tasks = $('#progress_from_tasks');
+            var progress = progress_input.val();
 
-            $('#one_time_produkt').css("display","none");
-            $('#partial_time_produkt').css("display","block");
-            // $('#payment').css("display","block");
+            $('.project_progress_slider').slider({
+                min:0,
+                max:100,
+                value:progress,
+                disabled:progress_from_tasks.prop('checked'),
+                slide: function( event, ui ) {
+                    progress_input.val( ui.value );
+                    $('.label_progress').html(ui.value+'%');
+                }
+            });
 
-            // console.log("first remuneration");
-            $('#dynamic_percentage_produkt_content_value0').empty();
-            $('#dynamic_percentage_produkt_content_value0').append($('#agent_remuneration_percent_value').val());
-
-            
-            $('#subtotal_without_percentage_produkt_content_value').empty();
-            $('#subtotal_without_percentage_produkt_content_value').append(parseInt(saving_calc)*parseInt(term_calc)*12);
-
-            $('#opening_payment_produkt_content_value0').empty();
-            $('#opening_payment_produkt_content_value0').append($('#opening_payment_value').val());
-
-            $('#dynamic_percentage_produkt_content_value1').empty();
-            $('#dynamic_percentage_produkt_content_value1').append($('#dynamic_percentage_per_year_value').val()); 
-
-            $('#total_without_percentage_produkt_content_value').empty();
-            $('#total_without_percentage_produkt_content_value').append($('#total_amount_value').val());
-
-            $('#dynamic_percentage_produkt_content_value2').empty();
-            $('#dynamic_percentage_produkt_content_value2').append($('#agent_remuneration_percent_value').val());
-
-          } 
+            progress_from_tasks.on('change',function(){
+                var _checked = $(this).prop('checked');
+                $('.project_progress_slider').slider({disabled:_checked});
+            });
 
 
-          if ($('#custom_fields_contracts_produkt__14_ option:selected').val() == 'One Time Payment')
-          {
 
-            $('#one_time_payment_produkt').css("display","block");
-            $('#partial_payment_produkt').css("display","none");
-            $('#partial_payment_with_increased_starting_produkt').css("display","none");
-
-          } else if($('#custom_fields_contracts_produkt__14_ option:selected').val() == 'Partial Payment') {
-
-            $('#one_time_payment_produkt').css("display","none");
-            $('#partial_payment_produkt').css("display","block");
-            $('#partial_payment_with_increased_starting_produkt').css("display","none");
-
-            $('#day_diff_in_month0').empty();
-            $('#day_diff_in_month0').append(term_calc*12);
-            $('#day_diff').val(term_calc*12);
-
-            $('#saving_produkt_content_value0').empty();
-            $('#saving_produkt_content_value0').append($('#savings_amount_per_month_value').val());
-
-            $('#start_date0').empty();
-            $('#start_date0').append($('#datestart').val());
-
-
-          } else if($('#custom_fields_contracts_produkt__14_ option:selected').val() == 'Partial Payment With Increased Starting Payment'){
-
-            $('#one_time_payment_produkt').css("display","none");
-            $('#partial_payment_produkt').css("display","none");
-            $('#partial_payment_with_increased_starting_produkt').css("display","block");
-
-            // $('#dynamic_percentage_produkt_content_value0').empty();
-            // $('#dynamic_percentage_produkt_content_value0').append($('#agent_remuneration_percent_value').val());
-
-            // $('#subtotal_without_percentage_produkt_content_value').empty();
-            // $('#subtotal_without_percentage_produkt_content_value').append(parseInt(saving_calc)*parseInt(term_calc)*12);
-
-            // $('#opening_payment_produkt_content_value0').empty();
-            // $('#opening_payment_produkt_content_value0').append($('#opening_payment_value').val());
-
-            // $('#dynamic_percentage_produkt_content_value1').empty();
-            // $('#dynamic_percentage_produkt_content_value1').append($('#dynamic_percentage_per_year_value').val()); 
-
-            // $('#total_without_percentage_produkt_content_value').empty();
-            // $('#total_without_percentage_produkt_content_value').append($('#total_amount_value').val());
-
-            // $('#dynamic_percentage_produkt_content_value2').empty();
-            // $('#dynamic_percentage_produkt_content_value2').append($('#agent_remuneration_percent_value').val());
-
-            // $('#opening_payment_produkt_content_value1').empty();
-            // $('#opening_payment_produkt_content_value1').append($('#opening_payment_value').val());
-
-            // var percent = $('#dynamic_percentage_per_year_value').val();
-            // var total = $('#total_amount_value').val();
-            // $('#percentage_payment_produkt_content_value').empty();
-            // $('#percentage_payment_produkt_content_value').append("XXX");
-
-            $('#day_diff_in_month1').empty();
-            $('#day_diff_in_month1').append(term_calc*12);
-
-            $('#day_diff').val(term_calc*12);
-
-            $('#saving_produkt_content_value1').empty();
-            $('#saving_produkt_content_value1').append(saving_calc);
-
-            $('#start_date1').empty();
-            $('#start_date1').append($('#datestart').val());
-            
-          } 
-
-
-          if ($('#custom_fields_contracts_produkt__12_ option:selected').val() == 'Bank Transfer'){
-
-            $('#bank_produkt').css("display","block");
-            $('#immediate_produkt').css("display","none");
-            $('#debit_produkt').css("display","none");
-
-          } else if ($('#custom_fields_contracts_produkt__12_ option:selected').val() == 'Immediate Transfer'){
-
-             $('#bank_produkt').css("display","none");
-             $('#immediate_produkt').css("display","block");
-             $('#debit_produkt').css("display","none");
-
-          } else if ($('#custom_fields_contracts_produkt__12_ option:selected').val() == 'Debit'){
-
-             $('#bank_produkt').css("display","none");
-             $('#immediate_produkt').css("display","none");
-             $('#debit_produkt').css("display","block");
-
-          }
-
-
-          // $('#contract-form').submit(function(){
-
-          //   $('#trash').removeAttr('disabled');
-          //   $('#not_visible_to_client').removeAttr('disabled');
-          //   $('#clientid').removeAttr('disabled');
-          //   $('#contract_type').removeAttr('disabled');
-          //   if ($('#contract_type option:selected').val() == 2) {
-
-          //     $('#subscription').removeAttr('disabled');
-          //     $('#custom_fields_contracts_ser__12_').removeAttr('disabled');
-          //     $('#custom_fields_contracts_ser__13_').removeAttr('disabled');
-
-          //   } else if ($('#contract_type option:selected').val() == 3) {
-
-          //     $('#consulting_client_point').removeAttr('disabled');
-          //     $('#custom_fields_contracts_beratung__12_').removeAttr('disabled');
-          //     $('#custom_fields_contracts_beratung__13_').removeAttr('disabled');
-
-
-          //   } else if($('#contract_type option:selected').val() == 1) {
-
-          //     $('#consulting_client_point').removeAttr('disabled');
-          //     $('#custom_fields_contracts_produkt__12_').removeAttr('disabled');
-          //     $('#custom_fields_contracts_produkt__13_').removeAttr('disabled');
-          //     $('#custom_fields_contracts_produkt__14_').removeAttr('disabled');
-
-          //   }
-          //   $('#datestart').removeAttr('disabled');
-          //   $('#dateend').removeAttr('disabled');
-
-          // });
-          
    });
-   
-
 </script>
 </body>
 </html>

@@ -24,18 +24,18 @@
                         ?>
                         <?php $value = (isset($project) ? $project->name : ''); ?>
                         <?php echo render_input('name','time_tracking_name',$value); ?>
-                        <div class="form-group select-placeholder">
-                            <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
-                            <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                             <?php $selected = (isset($project) ? $project->clientid : '');
-                             if($selected == ''){
-                                 $selected = (isset($customer_id) ? $customer_id: '');
-                             }
-                             if($selected != ''){
-                                $rel_data = get_relation_data('customer',$selected);
-                                $rel_val = get_relation_values($rel_data,'customer');
-                                echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
-                            } ?>
+                    <div class="form-group select-placeholder">
+                        <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
+                        <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                         <?php $selected = (isset($project) ? $project->clientid : '');
+                         if($selected == ''){
+                             $selected = (isset($customer_id) ? $customer_id: '');
+                         }
+                         if($selected != ''){
+                            $rel_data = get_relation_data('customer',$selected);
+                            $rel_val = get_relation_values($rel_data,'customer');
+                            echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
+                        } ?>
                         </select>
                     </div>
                     <div class="form-group">

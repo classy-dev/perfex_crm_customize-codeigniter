@@ -716,21 +716,23 @@ class Invoices extends AdminController
 
         if($contract['contract_type'] == 2){
 
-            $invoice_data['subtotal'] = $contract['contract_value'];
-            $invoice_data['total'] = $contract['contract_value'] * ( 1 + $contract['sub_tax']/100);
+            $invoice_data['subtotal'] = $contract['customer_payment_value'];
+            $invoice_data['total'] = $contract['customer_payment_value'] * ( 1 + $contract['sub_tax']/100);
             $invoice_data['sub_tax'] = $contract['sub_tax'];
             $invoice_data['subscription_id'] = $contract['subscription'];
 
-            if($contract['service_p_t'] == 'Quaterly'){
-                $invoice_data['recurring'] = 'custom';
-                $invoice_data['repeat_every_custom'] = 15;
-                $invoice_data['repeat_type_custom'] = 'day';
-            }
-            elseif ($contract['service_p_t'] == 'Monthly') {
+            
+            if ($contract['service_p_t'] == 'Monthly') {
                 $invoice_data['recurring'] = 'custom';
                 $invoice_data['repeat_every_custom'] = 1;
                 $invoice_data['repeat_type_custom'] = 'month';
             }
+            elseif($contract['service_p_t'] == 'Quarterly'){
+                $invoice_data['recurring'] = 'custom';
+                $invoice_data['repeat_every_custom'] = 3;
+                $invoice_data['repeat_type_custom'] = 'month';
+            }
+
             elseif ($contract['service_p_t'] == 'Half-Yearly') {
                 $invoice_data['recurring'] = 'custom';
                 $invoice_data['repeat_every_custom'] = 6;
@@ -745,11 +747,13 @@ class Invoices extends AdminController
         }
 
         else if ($contract['contract_type'] == 3){
-            $invoice_data['total'] = 0;
+            $invoice_data['subtotal'] = $contract['customer_payment_value'];
+            $invoice_data['total'] = $contract['customer_payment_value'] * ( 1 + 19/100);
         }
 
-        else if($contract['contract_type'] == 1)
-            $invoice_data['total'] = $contract['agent_remuneration_price_value'];
+        else if($contract['contract_type'] == 1) {
+            $invoice_data['total'] = $contract['customer_payment_value'];
+        }
 
         $invoice_id = $this->invoices_model->add($invoice_data);
         if ($invoice_id) {

@@ -3679,7 +3679,7 @@ $lang['debit'] = 'Debit';
 
 $lang['payment_timeframe'] = 'Payment Timeframe';
 $lang['daily'] = 'Daily';
-$lang['quaterly'] = 'Quaterly';
+$lang['Quarterly'] = 'Quarterly';
 $lang['monthly'] = 'Monthly';
 $lang['half_yearly'] = 'Half-Yearly';
 $lang['annually'] = 'Annually';
@@ -3696,6 +3696,8 @@ $lang['contract_subscription'] = 'Subscription';
 $lang['als_blocks'] = 'Blocks';
 $lang['als_sub_settings'] = 'Settings';
 $lang['monthly_costs'] = 'Monthly Costs';
+$lang['annual_costs'] = 'Annually Costs';
+
 
 $lang['monthly_subscription_costs'] = 'Monthly Subscription Costs';
 $lang['block_contents'] = 'Block Content';
@@ -3755,7 +3757,7 @@ $lang['partial_payment_with_increased_starting_payment'] = 'Partial Payment With
 $lang['one_time_payment_value'] = 'One Time Payment';
 $lang['opening_payment_value'] = 'Opening Payment';
 $lang['savings_amount_per_month_value'] = 'Savings Amount Per Month';
-$lang['term_value'] = 'Term In Years';
+$lang['term_value'] = 'Term In Months';
 $lang['dynamic_percentage_per_year_value'] = 'Dynamic Percentage Per Year';
 $lang['payment_amount_value'] = 'Total Amount';
 
@@ -3774,3 +3776,4 @@ $lang['time_tracking_progress_text']                    = 'Time Tracking Progres
 
 //Task
  $lang['task_no_repeat']                    = 'No Repeat';
+
