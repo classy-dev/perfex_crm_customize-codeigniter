@@ -83,6 +83,8 @@ class Contracts extends Admin_controller
 
         if ($this->input->post()) {
             // print_r($_POST); exit();
+            // print_r($_FILES); exit();
+
             $total_data = $_POST;
             unset($_POST['timetracking']);
             unset($_POST['task']);
@@ -105,25 +107,31 @@ class Contracts extends Admin_controller
 
                 $timetracking_data = $total_data['timetracking'];
                 $timetracking_data['clientid'] = $total_data['client'];
-                $timetracking_id = $this->projects_model->add($timetracking_data);
+                if($timetracking_data['name']!='')
+                    $timetracking_id = $this->projects_model->add($timetracking_data);
 
-                $task_data = $total_data['task'];
-                $task_data['rel_id'] = $total_data['client'];
-                $task_data['rel_type'] = 'customer';
-                unset($task_data['attachments']);
-                $task_id = $this->tasks_model->add($task_data);
+                $task_datas = $total_data['task'];
 
+                foreach ($task_datas as $task_data){
+                    
+                    $task_data['rel_id'] = $total_data['client'];
+                    $task_data['rel_type'] = 'customer';
+                    // unset($task_data['attachments']);
+                    if($task_data['name']!='')
+                        $task_id = $this->tasks_model->add($task_data);
+                }
+                
                 $data = $this->input->post();
                 $data['timetracking_id'] = $timetracking_id;
                 $data['task_id'] = $task_id;
                 $id = $this->contracts_model->add($data);
 
-                if ($id) {
+                if ($id && $timetracking_id && $task_id) {
+                    set_alert('success', _l('added_successfully', _l('contract, timetracking and task')));
+                    redirect(admin_url('contracts/contract/' . $id));
+                }
+                else if($id && !$timetracking_id && !$task_id){
                     set_alert('success', _l('added_successfully', _l('contract')));
-                    if($timetracking_id)
-                        set_alert('success', _l('added_successfully', _l('project')));
-                    if($task_id)
-                        set_alert('success', _l('added_successfully', _l('task')));
                     redirect(admin_url('contracts/contract/' . $id));
                 }
             } 

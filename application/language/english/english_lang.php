@@ -3776,4 +3776,5 @@ $lang['time_tracking_progress_text']                    = 'Time Tracking Progres
 
 //Task
  $lang['task_no_repeat']                    = 'No Repeat';
+ $lang['add timetracking and tasks here']                    = 'Create TimeTracking and Tasks here';
 
