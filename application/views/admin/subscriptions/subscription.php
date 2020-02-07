@@ -303,6 +303,7 @@ init_head(); ?>
         }
 
       $('#block_array').val(blocks_id_array);
-      console.log($('#costs').val())
+      // console.log(blocks_id_array)
+      // console.log($('#costs').val())
     });
 </script>

@@ -73,6 +73,7 @@ class Projects extends AdminController
                 if (!has_permission('projects', '', 'create')) {
                     access_denied('Projects');
                 }
+                
                 $id = $this->projects_model->add($data);
                 if ($id) {
                     set_alert('success', _l('added_successfully', _l('project')));
@@ -92,6 +93,7 @@ class Projects extends AdminController
         if ($id == '') {
             $title                            = _l('add_new', _l('time_tracking_lowercase'));
             $data['auto_select_billing_type'] = $this->projects_model->get_most_used_billing_type();
+            // print_r($data['auto_select_billing_type']); exit();
         } else {
             $data['project']                               = $this->projects_model->get($id);
             $data['project']->settings->available_features = unserialize($data['project']->settings->available_features);

@@ -214,13 +214,13 @@
                            <option value=""></option>
                            <option value="project"
                               <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('project'); ?></option>
-                           <option value="customer"
+                           <!-- <option value="customer"
                               <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
                               <?php echo _l('client'); ?>
                            </option>
                            <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'contract'){echo 'selected';}} ?>>
                               <?php echo _l('contract'); ?>
-                           </option>
+                           </option> -->
                         </select>
                      </div>
                   </div>

@@ -500,8 +500,8 @@ class Tasks_model extends App_Model
         } else {
             $data['is_public'] = 0;
         }
-
-        if (isset($data['repeat_every']) && $data['repeat_every'] != '') {
+        // print_r($data); exit();
+        if (isset($data['repeat_every']) && $data['repeat_every'] != ''&& $data['repeat_every'] != 'no-repeat') {
             $data['recurring'] = 1;
             if ($data['repeat_every'] == 'custom') {
                 $data['repeat_every']     = $data['repeat_every_custom'];
@@ -516,7 +516,7 @@ class Tasks_model extends App_Model
         } else {
             $data['recurring'] = 0;
         }
-
+        // print_r($data); exit();
         if (isset($data['repeat_type_custom']) && isset($data['repeat_every_custom'])) {
             unset($data['repeat_type_custom']);
             unset($data['repeat_every_custom']);
@@ -545,6 +545,7 @@ class Tasks_model extends App_Model
                 $data['milestone'] = 0;
             }
         }
+        // print_r($data); exit();
         if (empty($data['rel_type'])) {
             unset($data['rel_type']);
             unset($data['rel_id']);
@@ -562,7 +563,7 @@ class Tasks_model extends App_Model
             $tags = $data['tags'];
             unset($data['tags']);
         }
-
+        // print_r($data);exit();
         $this->db->insert(db_prefix() . 'tasks', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -691,7 +692,7 @@ class Tasks_model extends App_Model
             $original_task = $this->get($id);
 
             // Recurring task set to NO, Cancelled
-            if ($original_task->repeat_every != '' && $data['repeat_every'] == '') {
+            if ($original_task->repeat_every != '' && $data['repeat_every'] == ''&& $data['repeat_every'] != 'no-repeat') {
                 $data['cycles']              = 0;
                 $data['total_cycles']        = 0;
                 $data['last_recurring_date'] = null;

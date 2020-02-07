@@ -288,7 +288,7 @@ function handle_task_attachments_array($taskid, $index_name = 'attachments')
     $uploaded_files = [];
     $path           = get_upload_path_by_type('task') . $taskid . '/';
     $CI             = &get_instance();
-
+    // print_r($_FILES); exit();
     if (isset($_FILES[$index_name]['name'])
         && ($_FILES[$index_name]['name'] != '' || is_array($_FILES[$index_name]['name']) && count($_FILES[$index_name]['name']) > 0)) {
         if (!is_array($_FILES[$index_name]['name'])) {

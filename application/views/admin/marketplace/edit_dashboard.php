@@ -423,7 +423,7 @@ $(document).ready(function(){
     
     $(document).on('click','.delete',function(){
         var products_id = $(this).attr("id");
-        console.log($(this));
+        // console.log($(this));
         if (confirm("Are you sure you want to delete this?")) {
           $.ajax({
               url:'<?php echo admin_url('marketplace/products_single_remove') ?>',

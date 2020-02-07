@@ -115,7 +115,7 @@ class Contracts_model extends App_Model
         $data['addedfrom'] = get_staff_user_id();
         $data['hourly_rate'] = $this->get_staff_hourly_rate($data['addedfrom'])[0]['hourly_rate'];
         // print_r($data['hourly_rate']); exit();
-        $data['description'] = $data['description'];
+        // $data['description'] = $data['description'];
         $data['subscription'] = $data['subscription'];
         $sub_array = explode(",", $data['sub_arr']) ;
 
@@ -412,7 +412,7 @@ class Contracts_model extends App_Model
         $data['addedfrom'] = get_staff_user_id();
         $data['hourly_rate'] = $this->get_staff_hourly_rate($data['addedfrom'])[0]['hourly_rate'];
         // print_r($data['hourly_rate']); exit();
-        $data['description'] = $data['description'];
+        // $data['description'] = $data['description'];
         $data['contract_type'] = $data['contract_type'];
 
 
@@ -444,6 +444,8 @@ class Contracts_model extends App_Model
             $data['total_amount_value'] = null;
             $data['agent_remuneration_percent_value'] = null;
             $data['agent_remuneration_price_value'] = null;
+            $data['timetracking_id'] = null;
+            $data['tasks_ids'] = null;
 
         }
         else if ($data['contract_type'] == 3){
@@ -475,6 +477,12 @@ class Contracts_model extends App_Model
             $data['total_amount_value'] = null;
             $data['agent_remuneration_percent_value'] = null;
             $data['agent_remuneration_price_value'] = null;
+
+            if($data['beratung_remuneration'] != 'Payment According To Time Spent')
+            {
+                $data['timetracking_id'] = null;
+                $data['tasks_ids'] = null;
+            }
 
         }
         else if ($data['contract_type'] == 1){
@@ -513,6 +521,8 @@ class Contracts_model extends App_Model
                 $data['produkt_one_time_payment_value'] = null;
                 
             }
+            $data['timetracking_id'] = null;
+            $data['tasks_ids'] = null;
         }
 
         if (isset($data['trash'])) {

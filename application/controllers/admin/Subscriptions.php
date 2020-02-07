@@ -41,7 +41,7 @@ class Subscriptions extends AdminController
         }
 
         if ($this->input->post()) {
- 
+            print_r($_POST); exit();
             $insert_id = $this->subscriptions_model->create([
                 'block_array'         => $this->input->post('block_array'),
                 'name'                => $this->input->post('name'),

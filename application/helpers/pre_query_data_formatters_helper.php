@@ -34,6 +34,7 @@ function _format_data_sales_feature($data)
 
     if (isset($data['data']['date'])) {
         $data['data']['date'] = to_sql_date($data['data']['date']);
+        
     }
 
     if (isset($data['data']['open_till'])) {

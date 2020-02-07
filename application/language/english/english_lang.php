@@ -3776,5 +3776,14 @@ $lang['time_tracking_progress_text']                    = 'Time Tracking Progres
 
 //Task
  $lang['task_no_repeat']                    = 'No Repeat';
- $lang['add timetracking and tasks here']                    = 'Create TimeTracking and Tasks here';
+ // $lang['add timetracking and tasks here']                    = 'Create TimeTracking and Tasks here';
 
+//  contract add more
+ $lang['add timetracking and tasks here']                    = 'Create TimeTracking and Tasks here';
+ $lang['beratung_one_time_payment_value']                    = 'One Time Payment Value';
+ $lang['beratung_opening_payment_value']                    = 'Opening Payment Value';
+ $lang['customer_payment_value']                    = 'Customer Payment Value';
+ $lang['produkt_one_time_payment_value']                    = 'One Time Payment Value';
+ $lang['produkt_opening_payment_value']                    = 'Opening Payment Value';
+
+ $lang['contract, timetracking and task']                    = 'Contract, TimeTracking and Tasks';

@@ -308,7 +308,9 @@ class Tasks extends AdminController
                     ]);
                     die;
                 }
+
                 $id      = $this->tasks_model->add($data);
+                
                 $_id     = false;
                 $success = false;
                 $message = '';
@@ -317,6 +319,7 @@ class Tasks extends AdminController
                     $_id           = $id;
                     $message       = _l('added_successfully', _l('task'));
                     $uploadedFiles = handle_task_attachments_array($id);
+                    // print_r($uploadedFiles); exit();
                     if ($uploadedFiles && is_array($uploadedFiles)) {
                         foreach ($uploadedFiles as $file) {
                             $this->misc_model->add_attachment_to_database($id, 'task', [$file]);

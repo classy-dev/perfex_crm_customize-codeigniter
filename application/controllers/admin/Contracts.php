@@ -83,11 +83,6 @@ class Contracts extends Admin_controller
 
         if ($this->input->post()) {
             // print_r($_POST); exit();
-            // print_r($_FILES); exit();
-
-            $total_data = $_POST;
-            unset($_POST['timetracking']);
-            unset($_POST['task']);
             // new post
             if ($id == '') {
                 if (!has_permission('contracts', '', 'create')) {
@@ -104,33 +99,11 @@ class Contracts extends Admin_controller
                     ]);
                     die;
                 }
-
-                $timetracking_data = $total_data['timetracking'];
-                $timetracking_data['clientid'] = $total_data['client'];
-                if($timetracking_data['name']!='')
-                    $timetracking_id = $this->projects_model->add($timetracking_data);
-
-                $task_datas = $total_data['task'];
-
-                foreach ($task_datas as $task_data){
-                    
-                    $task_data['rel_id'] = $total_data['client'];
-                    $task_data['rel_type'] = 'customer';
-                    // unset($task_data['attachments']);
-                    if($task_data['name']!='')
-                        $task_id = $this->tasks_model->add($task_data);
-                }
+                
                 
                 $data = $this->input->post();
-                $data['timetracking_id'] = $timetracking_id;
-                $data['task_id'] = $task_id;
                 $id = $this->contracts_model->add($data);
-
-                if ($id && $timetracking_id && $task_id) {
-                    set_alert('success', _l('added_successfully', _l('contract, timetracking and task')));
-                    redirect(admin_url('contracts/contract/' . $id));
-                }
-                else if($id && !$timetracking_id && !$task_id){
+                if($id){
                     set_alert('success', _l('added_successfully', _l('contract')));
                     redirect(admin_url('contracts/contract/' . $id));
                 }
@@ -151,13 +124,36 @@ class Contracts extends Admin_controller
         // new
         if ($id == '') {
             $title = _l('add_new', _l('contract_lowercase'));
+            $data['project_title'] =  _l('add_new', _l('time_tracking_lowercase'));
+            $data['auto_select_billing_type'] = $this->projects_model->get_most_used_billing_type();
+
+            $data['task_title'] =  _l('add_new', _l('task_lowercase'));
         } 
         // edit
         else {
             $data['contract']                 = $this->contracts_model->get($id, [], true);
-
-            $data['project']                  = $this->projects_model->get($id);
+            $data['project']                  = $this->projects_model->get($data['contract']->timetracking_id);
             $data['project']->settings->available_features = unserialize($data['project']->settings->available_features);
+
+            if($data['contract']->timetracking_id == null)
+                $data['project_title'] =  _l('add_new', _l('time_tracking_lowercase'));
+            else
+                $data['project_title'] =  _l('edit', _l('time_tracking_lowercase'));
+
+            $tasks_ids_string = $data['contract']->tasks_ids;
+
+            $tasks_ids_arr = explode(",", $tasks_ids_string);
+            
+            $data['tasks'] = [];
+            foreach ($tasks_ids_arr as $key => $task_id) {
+                $task = $this->tasks_model->get($task_id);
+                array_push($data['tasks'], $task);
+            }
+
+            if($data['contract']->tasks_ids == null)
+                $data['task_title'] =  _l('add_new', _l('task_lowercase'));
+            else
+                $data['task_title'] =  _l('edit', _l('task_lowercase'));
 
             $data['contract_renewal_history'] = $this->contracts_model->get_contract_renewal_history($id);
             $data['totalNotes']               = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
@@ -193,13 +189,203 @@ class Contracts extends Admin_controller
 
         //timetracking part
         $data['statuses'] = $this->projects_model->get_project_statuses();
-        $data['project_title'] =  _l('add_new', _l('time_tracking_lowercase'));
-
-        // task
-        $data['task_title'] = _l('add_new', _l('task_lowercase'));
 
         $this->load->view('admin/contracts/contract', $data);
     }
+
+    public function timetracking_on_contract()
+    {
+        
+        // print_r($_POST); exit();
+        if($_POST['timetracking_action'] == 'add'){
+
+            if (!has_permission('projects', '', 'create')) {
+                    header('HTTP/1.0 400 Bad error');
+                    echo json_encode([
+                        'success' => false,
+                        'message' => _l('access_denied'),
+                    ]);
+                    die;
+                }
+
+            $project_data = $_POST['timetracking'];
+            $project_data['clientid'] = $_POST['timetracking_client'];
+            $project_data['start_date'] = $_POST['timetracking_start_date'];
+            $project_data['deadline'] = $_POST['timetracking_due_date'];
+
+            if($project_data['name']!='' && $project_data['clientid']!='' && $project_data['start_date'] !='' && $project_data['deadline']!=''){
+                $timetracking_id = $this->projects_model->add($project_data);
+                if($timetracking_id){
+                    $res['id'] = $timetracking_id;
+                    $res['msg'] = _l('added_successfully', _l('timetracking'));
+                    $res['status'] = 'add';
+                    echo json_encode($res);
+                }
+                
+            }
+
+            else {
+                $res['msg'] = "Please Confirm Fields(Customer, StartDate and EndDate)";
+                echo json_encode($res);
+            }
+        }
+
+        else if($_POST['timetracking_action'] == 'edit'){
+            
+            if (!has_permission('projects', '', 'edit')) {
+                    header('HTTP/1.0 400 Bad error');
+                    echo json_encode([
+                        'success' => false,
+                        'message' => _l('access_denied'),
+                    ]);
+                    die;
+                }
+            $project_data = $_POST['timetracking'];
+            $project_data['clientid'] = $_POST['timetracking_client'];
+            $project_data['start_date'] = $_POST['timetracking_start_date'];
+            $project_data['deadline'] = $_POST['timetracking_due_date'];
+
+            $id = $_POST['time_id'];
+            
+            $success = $this->projects_model->update($project_data, $id);
+
+            if($success)
+            {   
+                $message = _l('updated_successfully', _l('timetracking'));
+                echo json_encode([
+                    'success' => $success,
+                    'msg' => $message,
+                    'id'      => $id,
+                    'status' => 'edit'
+                ]);
+            }
+
+        }
+        
+        
+    }
+
+    public function tasks_on_contract()
+    {
+        
+        if($_POST['tasks_action'] == 'add'){
+
+            if (!has_permission('tasks', '', 'create')) {
+                    header('HTTP/1.0 400 Bad error');
+                    echo json_encode([
+                        'success' => false,
+                        'message' => _l('access_denied'),
+                    ]);
+                    die;
+                }
+
+            $task_datas = $_POST['task'];
+            $task_ids = [];
+            foreach ($task_datas as $task_data) {
+                $task_data['startdate'] = $_POST['tasks_start_date'];
+                $task_data['duedate'] = $_POST['tasks_due_date'];
+                
+                if($task_data['name']!=''){
+                    $task_id = $this->tasks_model->add($task_data);
+                    array_push($task_ids, $task_id);
+                }
+
+            }
+
+            if(count($task_ids)>0){
+                $res['msg'] = _l('added_successfully', _l('task'));
+                $res['ids'] = $task_ids;
+                $res['status'] = 'add';
+                echo json_encode($res);    
+            }
+        }
+        else if($_POST['tasks_action'] == 'edit'){
+
+            if (!has_permission('tasks', '', 'edit')) {
+                    header('HTTP/1.0 400 Bad error');
+                    echo json_encode([
+                        'success' => false,
+                        'message' => _l('access_denied'),
+                    ]);
+                    die;
+                }
+
+            $last_ids = explode(",", $this->contracts_model->get($_POST['contract_id_on_task'])->tasks_ids);
+            $task_datas = $_POST['task'];
+            $task_ids = explode(",", $_POST['t_ids']);
+            // print_r($task_ids); exit;
+            if(count($last_ids) == count($task_datas)){
+                $index = 0;
+                // $res = [];
+                foreach ($task_datas as $task_data) {
+                    $task_data['startdate'] = $_POST['tasks_start_date'];
+                    $task_data['duedate'] = $_POST['tasks_due_date'];
+                    $id = $task_ids[$index];
+                    // print_r($task_data);
+                    // print_r($id);
+                    $success = $this->tasks_model->update($task_data, $id);
+
+                    $message = '';
+                    if ($success) {
+                        $message = _l('updated_successfully', _l('task'));
+                    }
+                    // array_push($res, [
+                    //     'success' => $success,
+                    //     'msg' => $message,
+                    //     'id'      => $id,
+                    //     // 'status' => 'edit',
+                    //     'index' => $index
+                    // ]);
+                    // echo json_encode([
+                    //     'success' => $success,
+                    //     'msg' => $message,
+                    //     'id'      => $id,
+                    //     'status' => 'edit',
+                    //     'index' => $index
+                    // ]);
+
+                    $index = $index + 1;
+                }
+                // $res['status'] = 'edit';
+                echo json_encode([
+                    'msg' => $message,
+                    'flag'=> $success,
+                    'ids' => $task_ids
+
+                ]);
+            }
+
+            else if(count($last_ids)!=count($task_datas)){
+                foreach ($last_ids as $key => $id) {
+                    $this->tasks_model->delete_task($id);
+                }
+                $task_ids=[];
+                foreach ($task_datas as $key => $task_data) {
+                    $task_data['startdate'] = $_POST['tasks_start_date'];
+                    $task_data['duedate'] = $_POST['tasks_due_date'];
+                    
+                    if($task_data['name']!=''){
+                        $task_id = $this->tasks_model->add($task_data);
+                        array_push($task_ids, $task_id);
+                    }
+                }
+                $this->db->where('id',$_POST['contract_id_on_task']);
+                $task_ids_string = implode(",", $task_ids);
+                $success = $this->db->update(db_prefix().'contracts',['tasks_ids' => $task_ids_string]);
+                // print_r($success);
+                echo json_encode([
+                    'msg' => _l('updated_successfully', _l('task')),
+                    'flag' => $success,
+                    'ids' => $task_ids
+                ]);
+            }
+            
+
+        }
+        
+        
+    }
+
 
     public function get_template()
     {
