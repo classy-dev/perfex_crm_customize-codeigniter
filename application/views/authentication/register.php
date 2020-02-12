@@ -30,27 +30,27 @@
               </div>
 
               <div class="form-group" app-field-wrapper="address">
-                <label for="address" class="control-label">Address</label>
+                <label for="address" class="control-label"><?php echo _l('staff_add_edit_address')?></label>
                 <textarea id="address" name="address" class="form-control" rows="4" value="" required ></textarea>
               </div>
 
               <div class="form-group" app-field-wrapper="city">
-                <label for="city" class="control-label">City</label>
+                <label for="city" class="control-label"><?php echo _l('staff_add_edit_city')?></label>
                 <input type="text" id="city" name="city" class="form-control" value="" required>
               </div>
 
               <div class="form-group" app-field-wrapper="state">
-                <label for="state" class="control-label">State</label>
+                <label for="state" class="control-label"><?php echo _l('staff_add_edit_state')?></label>
                 <input type="text" id="state" name="state" class="form-control" value="" required>
               </div>
 
               <div class="form-group" app-field-wrapper="zip">
-                <label for="zip" class="control-label">Zip Code</label>
+                <label for="zip" class="control-label"><?php echo _l('staff_add_edit_zip')?></label>
                 <input type="text" id="zip" name="zip" class="form-control" value="" required>
               </div>
 
               <div class="form-group" app-field-wrapper="country">
-                <label for="country" class="control-label">Country</label>
+                <label for="country" class="control-label"><?php echo _l('staff_add_edit_country')?></label>
                 <select name="country" data-live-search="true" id="country" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
           
                     <?php foreach(get_all_countries() as $country){?>

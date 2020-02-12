@@ -537,7 +537,7 @@ init_head(); ?>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-6" >
                         <div class="form-group">
                           <label for="custom_fields[contracts_produkt][method]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
@@ -550,7 +550,13 @@ init_head(); ?>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <?php if(isset($contract)&&(empty($contract->produkt_p_t))){
+                       ?>
+                      <div class="col-md-6" id="timeframe" style="display: none;">
+                      <?php }?>
+                      <?php if(!isset($contract)||(!empty($contract->produkt_p_t))){
+                       ?>
+                      <div class="col-md-6" id="timeframe"><?php }?>
                         <div class="form-group"><label for="custom_fields[contracts_produkt][timeframe]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_timeframe');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
                             <select data-fieldto="contracts_produkt" data-fieldid="timeframe" name="custom_fields[contracts_produkt][timeframe]" id="custom_fields_contracts_produkt_timeframe" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
@@ -563,6 +569,23 @@ init_head(); ?>
                           </div>
                         </div>
                       </div>
+                      
+                      <?php if(isset($contract)&&($contract->produkt_remuneration == 'One Time Payment') && ($contract->produkt_p == 'Partial Payment With Increased Starting Payment')){ ?>
+                      <div class="col-md-6" id="opening_payment_on_one_time"  ><?php }?>
+                      <?php if(!isset($contract)||($contract->produkt_remuneration != 'One Time Payment') || ($contract->produkt_p != 'Partial Payment With Increased Starting Payment')){?>
+                      <div class="col-md-6" id="opening_payment_on_one_time" style="display: none;" ><?php }?>
+
+                        <div class="form-group">
+                          <label for="produkt_opening_payment_on_one_time_value"><?php echo _l('produkt_opening_payment_value'); ?></label>
+                          <div class="input-group" data-toggle="tooltip" title="<?php echo _l('produkt_opening_payment_value'); ?>">
+                            <input type="number" class="form-control" name="produkt_opening_payment_on_one_time_value" id="produkt_opening_payment_on_one_time_value" value="<?php if(isset($contract->produkt_opening_payment_on_one_time_value)){echo $contract->produkt_opening_payment_on_one_time_value; }?>">
+                            <div class="input-group-addon">
+                               <?php echo $base_currency->symbol; ?>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>   
 
                   <input type="hidden" name="timetracking_id" id="timetracking_id" value="<?php if(isset($contract->timetracking_id)) echo $contract->timetracking_id; else ''; ?>">
@@ -666,6 +689,7 @@ init_head(); ?>
                       <?php //echo form_hidden('timetracking[progress]',$value); ?>
                       <input type="hidden" name="timetracking[progress]" id="timetracking_progress" value="<?php echo $value; ?>">
                       <div class="project_progress_slider project_progress_slider_horizontal mbot15"></div>
+
                       <div class="row">
                           <div class="col-md-6">
                               <div class="form-group select-placeholder">
@@ -687,63 +711,13 @@ init_head(); ?>
                                   <label for="timetracking[status]"><?php echo _l('project_status'); ?></label>
                                   <div class="clearfix"></div>
                                   <select name="timetracking[status]" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                      <?php foreach($statuses as $status){ ?>
-                                          <option value="<?php echo $status['id']; ?>" <?php if(!isset($project) && $status['id'] == 2 || (isset($project) && $project->status == $status['id'])){echo 'selected';} ?>><?php echo $status['name']; ?></option>
-                                      <?php } ?>
+                                      
+                                          <option value="2" <?php if(!isset($project) && $status['id'] == 2 || (isset($project) && $project->status == $status['id'])){echo 'selected';} ?>><?php  echo _l('project_progress_status'); ?></option>
+                                      
                                   </select>
                               </div>
                           </div>
                       </div>
-                      <?php if(isset($project) && project_has_recurring_tasks($project->id)) { ?>
-                          <div class="alert alert-warning recurring-tasks-notice hide"></div>
-                      <?php } ?>
-                      <?php if(total_rows(db_prefix().'emailtemplates',array('slug'=>'project-finished-to-customer','active'=>0)) == 0){ ?>
-                          <div class="form-group project_marked_as_finished hide">
-                              <div class="checkbox checkbox-primary">
-                                  <input type="checkbox" name="timetracking[project_marked_as_finished_email_to_contacts]" id="project_marked_as_finished_email_to_contacts">
-                                  <label for="timetracking[project_marked_as_finished_email_to_contacts]"><?php echo _l('project_marked_as_finished_to_contacts'); ?></label>
-                              </div>
-                          </div>
-                      <?php } ?>
-                      <?php if(isset($project)){ ?>
-                          <div class="form-group mark_all_tasks_as_completed hide">
-                              <div class="checkbox checkbox-primary">
-                                  <input type="checkbox" name="timetracking[mark_all_tasks_as_completed]" id="mark_all_tasks_as_completed">
-                                  <label for="timetracking[mark_all_tasks_as_completed]"><?php echo _l('project_mark_all_tasks_as_completed'); ?></label>
-                              </div>
-                          </div>
-                          <div class="notify_project_members_status_change hide">
-                              <div class="checkbox checkbox-primary">
-                                  <input type="checkbox" name="timetracking[notify_project_members_status_change]" id="notify_project_members_status_change">
-                                  <label for="timetracking[notify_project_members_status_change]"><?php echo _l('notify_project_members_status_change'); ?></label>
-                              </div>
-                              <hr />
-                          </div>
-                      <?php } ?>
-                      <?php
-                      $input_field_hide_class_total_cost = '';
-                      if(!isset($project)){
-                          if($auto_select_billing_type && $auto_select_billing_type->billing_type != 1 || !$auto_select_billing_type){
-                              $input_field_hide_class_total_cost = 'hide';
-                          }
-                      } else if(isset($project) && $project->billing_type != 1){
-                          $input_field_hide_class_total_cost = 'hide';
-                      }
-                      ?>
-                      <div id="project_cost" class="<?php echo $input_field_hide_class_total_cost; ?>">
-                          <?php $value = (isset($project) ? $project->project_cost : ''); ?>
-                          <?php echo render_input('timetracking[project_cost]','project_total_cost',$value,'number'); ?>
-                      </div>
-                      <?php
-                      $input_field_hide_class_rate_per_hour = '';
-                      if(!isset($project)){
-                          if($auto_select_billing_type && $auto_select_billing_type->billing_type != 2 || !$auto_select_billing_type){
-                              $input_field_hide_class_rate_per_hour = 'hide';
-                          }
-                      } else if(isset($project) && $project->billing_type != 2){
-                          $input_field_hide_class_rate_per_hour = 'hide';
-                      }
-                      ?>
 
                       <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
                           <div class="form-group" app-field-wrapper="timetracking[project_rate_per_hour]">
@@ -771,9 +745,6 @@ init_head(); ?>
                             ?>
                           </div>
                       </div>
-                      <?php if(isset($project) && $project->date_finished != null && $project->status == 4) { ?>
-                          <?php echo render_datetime_input('timetracking[date_finished]','project_completed_date',_dt($project->date_finished)); ?>
-                      <?php } ?>
 
                       <input type="hidden" name="timetracking_action" id="timetracking_action" value="<?php if(isset($project)&&($contract->timetracking_id!=null)) echo "edit"; else echo "add"; ?>">
                       <input type="hidden" name="timetracking_client" id="timetracking_client" value="">
@@ -784,7 +755,7 @@ init_head(); ?>
                       <?php if(isset($project)){ ?>
                         <input type="hidden" name="time_id", id="time_id" value="<?php echo $project->id; ?>">
                       <?php }?>
-                      <div class="row" style="margin-left: 80%">
+                      <div class="row" style="margin-left: 70%">
                         <button type="submit" class="btn btn-primary" id="timetracking_save"><?php echo _l('save');?></button>
                       </div>
                       
@@ -963,7 +934,7 @@ init_head(); ?>
                   <?php if(isset($contract->timetracking_id) && ($contract->timetracking_id!=null) && ($contract->timetracking_id!='')) { ?>
                   <div id="button_group"><?php } ?>
                     <button type="button" class="btn btn-success" id="add_task"><i class="fa fa-plus"></i></button>
-                    <button type="submit" class="btn btn-primary" id="tasks_save" style="margin-left: 80%"><?php echo _l('save');?></button>
+                    <button type="submit" class="btn btn-primary" id="tasks_save" style="margin-left: 70%"><?php echo _l('save');?></button>
                   </div>
                   <?php echo form_close(); ?>
                 </div>
@@ -1793,22 +1764,46 @@ init_head(); ?>
               }   
             });
 
+          //Produkt-Payment TimeFrame Change Event
           $('#custom_fields_contracts_produkt_timeframe').change(function(){
-              var seleted_rem = $('#custom_fields_contracts_produkt_remuneration option:selected').val();
-              var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+              var selected_rem = $('#custom_fields_contracts_produkt_remuneration option:selected').val();
+              var selected_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+              var selected_payment = $('#custom_fields_contracts_produkt_payment option:selected').val();
+              
+              if (selected_rem == 'One Time Payment'){
 
-              if (seleted_rem == 'One Time Payment'){
-                if (seleted_time == 'Monthly')
-                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/12);
-                else if (seleted_time == 'Quarterly')
-                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/4);
-                else if (seleted_time == 'Half-Yearly')
-                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/2);
-                else if (seleted_time == 'Annually')
+                if(selected_payment == 'One Time Payment')
                   $('#customer_payment_value').val($('#produkt_one_time_payment_value').val());
+
+                else if (selected_payment == 'Partial Payment'){
+                  if (selected_time == 'Monthly')
+                    $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/12);
+                  else if (selected_time == 'Quarterly')
+                    $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/4);
+                  else if (selected_time == 'Half-Yearly')
+                    $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/2);
+                  else if (selected_time == 'Annually')
+                    $('#customer_payment_value').val($('#produkt_one_time_payment_value').val());
+                }
+
+                else if (selected_payment == 'Partial Payment With Increased Starting Payment'){
+                  // console.log(seleted_payment);
+                  var one_time = $('#produkt_one_time_payment_value').val();
+                  var opening = $('#produkt_opening_payment_on_one_time_value').val();
+                  if (selected_time == 'Monthly')
+                    $('#customer_payment_value').val((one_time-opening)/12);
+                  else if (selected_time == 'Quarterly')
+                    $('#customer_payment_value').val((one_time-opening)/4);
+                  else if (selected_time == 'Half-Yearly')
+                    $('#customer_payment_value').val((one_time-opening)/2);
+                  else if (selected_time == 'Annually')
+                    $('#customer_payment_value').val((one_time-opening));
+                }
+
+                
               }
 
-              else if(seleted_rem == 'Partial Payment Of Total Amount'){
+              else if(selected_rem == 'Partial Payment Of Total Amount'){
                 if (seleted_time == 'Monthly')
                   $('#customer_payment_value').val($('#agent_remuneration_price_value').val()/12);
                 else if (seleted_time == 'Quarterly')
@@ -1891,10 +1886,6 @@ init_head(); ?>
 
           });
 
-          // if($('#custom_fields_contracts_beratung_remuneration option:selected').val() != 'Payment According To Time Spent'){
-          //   $('#timetracking_and_task').css('display','none');
-          // }
-
           $('.beratung_calc_values_one').change(function(){
             var seleted_time = $('#custom_fields_contracts_beratung_timeframe option:selected').val();
             var one_time = $('#beratung_one_time_payment_value').val();
@@ -1927,6 +1918,39 @@ init_head(); ?>
               $('#agent_remuneration_percent').css('display','none');
               $('#agent_remuneration_price').css('display','none');
 
+              //when add
+              $('#custom_fields_contracts_produkt_payment').change(function(){
+
+                var seleted_payment = $('#custom_fields_contracts_produkt_payment').val();
+                var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+                if(seleted_payment == 'One Time Payment')
+                {
+                  $('#timeframe').css('display','none');
+                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val());
+                  $('#opening_payment_on_one_time').css('display','none');
+                }
+                else if (seleted_payment == 'Partial Payment With Increased Starting Payment')
+                {
+                  $('#timeframe').css('display','block');
+                  $('#opening_payment_on_one_time').css('display','block');
+                  var one_time = $('#produkt_one_time_payment_value').val();
+                  var opening = $('#produkt_opening_payment_on_one_time_value').val();
+                  if (seleted_time == 'Monthly')
+                    $('#customer_payment_value').val((one_time-opening)/12);
+                  else if (seleted_time == 'Quarterly')
+                    $('#customer_payment_value').val((one_time-opening)/4);
+                  else if (seleted_time == 'Half-Yearly')
+                    $('#customer_payment_value').val((one_time-opening)/2);
+                  else if (seleted_time == 'Annually')
+                    $('#customer_payment_value').val((one_time-opening));
+                }
+                else{
+                  $('#timeframe').css('display','block');
+                  $('#opening_payment_on_one_time').css('display','none');
+                }
+
+              });
+
             }
             else if (selected_payment_agent == 'Partial Payment Of Total Amount'){
 
@@ -1944,7 +1968,53 @@ init_head(); ?>
             }
             
           });
+          //when edit
+          $('#custom_fields_contracts_produkt_payment').change(function(){
 
+                var seleted_payment = $('#custom_fields_contracts_produkt_payment').val();
+                var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+                if(seleted_payment == 'One Time Payment')
+                {
+                  $('#timeframe').css('display','none');
+                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val());
+                  $('#opening_payment_on_one_time').css('display','none');
+                }
+                else if (seleted_payment == 'Partial Payment With Increased Starting Payment')
+                {
+                  $('#timeframe').css('display','block');
+                  $('#opening_payment_on_one_time').css('display','block');
+                  var one_time = $('#produkt_one_time_payment_value').val();
+                  var opening = $('#produkt_opening_payment_on_one_time_value').val();
+                  if (seleted_time == 'Monthly')
+                    $('#customer_payment_value').val((one_time-opening)/12);
+                  else if (seleted_time == 'Quarterly')
+                    $('#customer_payment_value').val((one_time-opening)/4);
+                  else if (seleted_time == 'Half-Yearly')
+                    $('#customer_payment_value').val((one_time-opening)/2);
+                  else if (seleted_time == 'Annually')
+                    $('#customer_payment_value').val((one_time-opening));
+                }
+                else{
+                  $('#timeframe').css('display','block');
+                  $('#opening_payment_on_one_time').css('display','none');
+                }
+
+              });
+
+          $('#produkt_opening_payment_on_one_time_value').change(function(){
+            var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+            var one_time = $('#produkt_one_time_payment_value').val();
+            var opening = $(this).val();
+
+            if (seleted_time == 'Monthly')
+              $('#customer_payment_value').val((one_time-opening)/12);
+            else if (seleted_time == 'Quarterly')
+              $('#customer_payment_value').val((one_time-opening)/4);
+            else if (seleted_time == 'Half-Yearly')
+              $('#customer_payment_value').val((one_time-opening)/2);
+            else if (seleted_time == 'Annually')
+              $('#customer_payment_value').val((one_time-opening));
+          });
 
           $('input[type="range"]').on('input', function() {
 
@@ -2014,6 +2084,7 @@ init_head(); ?>
           $('#produkt_one_time_payment_value').change(function(){
 
               var seleted_time = $('#custom_fields_contracts_produkt_timeframe option:selected').val();
+
               if (seleted_time == 'Monthly')
                 $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/12);
               else if (seleted_time == 'Quarterly')
@@ -2021,6 +2092,9 @@ init_head(); ?>
               else if (seleted_time == 'Half-Yearly')
                 $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/2);
               else if (seleted_time == 'Annually')
+                $('#customer_payment_value').val($('#produkt_one_time_payment_value').val());
+
+              if($('#custom_fields_contracts_produkt_payment').val() == 'One Time Payment')
                 $('#customer_payment_value').val($('#produkt_one_time_payment_value').val());
 
           });
@@ -2139,44 +2213,44 @@ init_head(); ?>
             
             // appValidateForm($('form'),{name:'required',start_date:'required',billing_type:'required'});
 
-            $('select[name="timetracking[status]"]').on('change',function(){
-                // console.log("status");
-                var status = $(this).val();
-                var mark_all_tasks_completed = $('.mark_all_tasks_as_completed');
-                var notify_project_members_status_change = $('.notify_project_members_status_change');
-                mark_all_tasks_completed.removeClass('hide');
-                if(typeof(original_project_status) != 'undefined'){
-                    if(original_project_status != status){
+            // $('select[name="timetracking[status]"]').on('change',function(){
+            //     // console.log("status");
+            //     var status = $(this).val();
+            //     var mark_all_tasks_completed = $('.mark_all_tasks_as_completed');
+            //     var notify_project_members_status_change = $('.notify_project_members_status_change');
+            //     mark_all_tasks_completed.removeClass('hide');
+            //     if(typeof(original_project_status) != 'undefined'){
+            //         if(original_project_status != status){
 
-                        mark_all_tasks_completed.removeClass('hide');
-                        notify_project_members_status_change.removeClass('hide');
+            //             mark_all_tasks_completed.removeClass('hide');
+            //             notify_project_members_status_change.removeClass('hide');
 
-                        if(status == 4 || status == 5 || status == 3) {
-                            $('.recurring-tasks-notice').removeClass('hide');
-                            var notice = "<?php echo _l('project_changing_status_recurring_tasks_notice'); ?>";
-                            notice = notice.replace('{0}', $(this).find('option[value="'+status+'"]').text().trim());
-                            $('.recurring-tasks-notice').html(notice);
-                            $('.recurring-tasks-notice').append('<input type="hidden" name="cancel_recurring_tasks" value="true">');
-                            mark_all_tasks_completed.find('input').prop('checked',true);
-                        } else {
-                            $('.recurring-tasks-notice').html('').addClass('hide');
-                            mark_all_tasks_completed.find('input').prop('checked',false);
-                        }
-                    } else {
-                        mark_all_tasks_completed.addClass('hide');
-                        mark_all_tasks_completed.find('input').prop('checked',false);
-                        notify_project_members_status_change.addClass('hide');
-                        $('.recurring-tasks-notice').html('').addClass('hide');
-                    }
-                }
+            //             if(status == 4 || status == 5 || status == 3) {
+            //                 $('.recurring-tasks-notice').removeClass('hide');
+            //                 var notice = "<?php echo _l('project_changing_status_recurring_tasks_notice'); ?>";
+            //                 notice = notice.replace('{0}', $(this).find('option[value="'+status+'"]').text().trim());
+            //                 $('.recurring-tasks-notice').html(notice);
+            //                 $('.recurring-tasks-notice').append('<input type="hidden" name="cancel_recurring_tasks" value="true">');
+            //                 mark_all_tasks_completed.find('input').prop('checked',true);
+            //             } else {
+            //                 $('.recurring-tasks-notice').html('').addClass('hide');
+            //                 mark_all_tasks_completed.find('input').prop('checked',false);
+            //             }
+            //         } else {
+            //             mark_all_tasks_completed.addClass('hide');
+            //             mark_all_tasks_completed.find('input').prop('checked',false);
+            //             notify_project_members_status_change.addClass('hide');
+            //             $('.recurring-tasks-notice').html('').addClass('hide');
+            //         }
+            //     }
 
-                if(status == 4){
-                    $('.project_marked_as_finished').removeClass('hide');
-                } else {
-                    $('.project_marked_as_finished').addClass('hide');
-                    $('.project_marked_as_finished').prop('checked',false);
-                }
-            });
+            //     if(status == 4){
+            //         $('.project_marked_as_finished').removeClass('hide');
+            //     } else {
+            //         $('.project_marked_as_finished').addClass('hide');
+            //         $('.project_marked_as_finished').prop('checked',false);
+            //     }
+            // });
 
             // $('form').on('submit',function(){
             //     $('input[name="project_rate_per_hour"]').prop('disabled',false);
@@ -2327,6 +2401,7 @@ init_head(); ?>
           
 
           $('#contract-timetracking-form').submit(function(e){
+            
             var client = $('#clientid option:selected').val();
             var startDate = $('#datestart').val();
             var dueDate = $('#dateend').val();

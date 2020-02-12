@@ -609,6 +609,11 @@ $lang['staff_dt_active']                               = 'Active';
 $lang['staff_add_edit_firstname']                      = 'First Name';
 $lang['staff_add_edit_lastname']                       = 'Last Name';
 $lang['staff_add_edit_email']                          = 'Email';
+$lang['staff_add_edit_address']                        = 'Address';
+$lang['staff_add_edit_city']                       	   = 'City';
+$lang['staff_add_edit_state']                          = 'State';
+$lang['staff_add_edit_zip']                            = 'Zip Code';
+$lang['staff_add_edit_country']                        = 'Country';
 $lang['staff_add_edit_phonenumber']                    = 'Phone';
 $lang['staff_add_edit_facebook']                       = 'Facebook';
 $lang['staff_add_edit_linkedin']                       = 'LinkedIn';
@@ -3688,6 +3693,27 @@ $lang['notice_for_agent'] = 'Notice for agent';
 $lang['create_invoice'] = 'Create Invoice';
 $lang['invoice_created'] = 'Invoice Already Created';
 
+//contract other type
+$lang['consulting_client_point'] = 'Product';
+$lang['remuneration'] = 'Remuneration Calculation';
+$lang['one_time_payment'] = 'One Time Payment';
+$lang['payment_according_to_time_spent'] = 'Payment According To Time Spent';
+
+$lang['partial_payment_of_total_payment'] = 'Partial Payment Of Total Amount';
+$lang['amount_value'] = 'Amount Value';
+$lang['total_amount_value'] = 'Total Amount Value';
+$lang['agent_remuneration_percent_value'] = 'Agent Remuneration Percent Value';
+$lang['agent_remuneration_price_value'] = 'Agent Remuneration Price Value';
+
+$lang['partial_payment'] = 'Partial Payment';
+$lang['partial_payment_with_increased_starting_payment'] = 'Partial Payment With Increased Starting Payment';
+
+$lang['one_time_payment_value'] = 'One Time Payment';
+$lang['opening_payment_value'] = 'Opening Payment';
+$lang['savings_amount_per_month_value'] = 'Savings Amount Per Month';
+$lang['term_value'] = 'Term In Months';
+$lang['dynamic_percentage_per_year_value'] = 'Dynamic Percentage Per Year';
+$lang['payment_amount_value'] = 'Total Amount';
 
 
 
@@ -3718,7 +3744,17 @@ $lang['contract_on_invoice'] = 'Contract';
 $lang['date_of_signing_on_invoice'] = 'Date of Signing';
 
 // time tracking
-$lang['time_tracking'] = 'Time Tracking';
+$lang['time_tracking'] = 'TimeTracking';
+$lang['timetrakings_summary']                   = 'Time Tracking Summary';
+$lang['new_time_tracking']                      = 'New Time Tracking';
+$lang['time_tracking_name']                     = 'Time Tracking Name';
+$lang['time_tracking_lowercase']                = 'time tracking';
+$lang['time_tracking_billing_type']             = 'Always Time Tracking';
+$lang['time_tracking_settings']            	    = 'Always Time Tracking';
+
+$lang['project_setting_comment_on_tasks']                    = 'comment on time tracking tasks';
+$lang['time_tracking_overview']                    = 'Time Tracking Overview';
+$lang['time_tracking_progress_text']                    = 'Time Tracking Progress';
 
 // role
 $lang['new_role_type'] = 'New Role Type';
@@ -3737,53 +3773,16 @@ $lang['total'] = 'total';
 $lang['amount_without_tax'] = 'Amount Without Tax';
 $lang['amount_to_pay'] = 'Amount To Pay';
 
-
-
-//contract other type
-$lang['consulting_client_point'] = 'Product';
-$lang['remuneration'] = 'Remuneration Calculation';
-$lang['one_time_payment'] = 'One Time Payment';
-$lang['payment_according_to_time_spent'] = 'Payment According To Time Spent';
-
-$lang['partial_payment_of_total_payment'] = 'Partial Payment Of Total Amount';
-$lang['amount_value'] = 'Amount Value';
-$lang['total_amount_value'] = 'Total Amount Value';
-$lang['agent_remuneration_percent_value'] = 'Agent Remuneration Percent Value';
-$lang['agent_remuneration_price_value'] = 'Agent Remuneration Price Value';
-
-$lang['partial_payment'] = 'Partial Payment';
-$lang['partial_payment_with_increased_starting_payment'] = 'Partial Payment With Increased Starting Payment';
-
-$lang['one_time_payment_value'] = 'One Time Payment';
-$lang['opening_payment_value'] = 'Opening Payment';
-$lang['savings_amount_per_month_value'] = 'Savings Amount Per Month';
-$lang['term_value'] = 'Term In Months';
-$lang['dynamic_percentage_per_year_value'] = 'Dynamic Percentage Per Year';
-$lang['payment_amount_value'] = 'Total Amount';
-
-
-// Time Tracking
-$lang['timetrakings_summary']                   = 'Time Tracking Summary';
-$lang['new_time_tracking']                      = 'New Time Tracking';
-$lang['time_tracking_name']                     = 'Time Tracking Name';
-$lang['time_tracking_lowercase']                = 'time tracking';
-$lang['time_tracking_billing_type']             = 'Always Time Tracking';
-$lang['time_tracking_settings']            	    = 'Always Time Tracking';
-
-$lang['project_setting_comment_on_tasks']                    = 'comment on time tracking tasks';
-$lang['time_tracking_overview']                    = 'Time Tracking Overview';
-$lang['time_tracking_progress_text']                    = 'Time Tracking Progress';
-
 //Task
  $lang['task_no_repeat']                    = 'No Repeat';
- // $lang['add timetracking and tasks here']                    = 'Create TimeTracking and Tasks here';
 
 //  contract add more
- $lang['add timetracking and tasks here']                    = 'Create TimeTracking and Tasks here';
  $lang['beratung_one_time_payment_value']                    = 'One Time Payment Value';
  $lang['beratung_opening_payment_value']                    = 'Opening Payment Value';
- $lang['customer_payment_value']                    = 'Customer Payment Value';
+ $lang['customer_payment_value']                           = 'Customer Payment Value';
  $lang['produkt_one_time_payment_value']                    = 'One Time Payment Value';
  $lang['produkt_opening_payment_value']                    = 'Opening Payment Value';
+ $lang['timetracking']                    = 'TimeTracking';
 
- $lang['contract, timetracking and task']                    = 'Contract, TimeTracking and Tasks';
+ $lang['project_progress_status']                    = 'In Progress';
+

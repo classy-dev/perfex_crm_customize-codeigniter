@@ -577,6 +577,12 @@ $lang['staff_dt_active']                                                      = 
 $lang['staff_add_edit_firstname']                                             = 'Vorname';
 $lang['staff_add_edit_lastname']                                              = 'Familienname';
 $lang['staff_add_edit_email']                                                 = 'E-Mail';
+
+$lang['staff_add_edit_address']                       						  = 'Adresse';
+$lang['staff_add_edit_city']                       							  = 'Stadt';
+$lang['staff_add_edit_state']                        						  = 'Bundesland';
+$lang['staff_add_edit_zip']                        							  = 'PLZ';
+$lang['staff_add_edit_country']                 						      = 'Land';
 $lang['staff_add_edit_phonenumber']                                           = 'Telefon';
 $lang['staff_add_edit_facebook']                                              = 'Facebook';
 $lang['staff_add_edit_linkedin']                                              = 'LinkedIn';
@@ -3522,12 +3528,39 @@ $lang['annually'] = 'Jährlich';
 
 $lang['notice_for_agent'] = 'Information zum Vertrag';
 
+$lang['create_invoice'] = '';
+$lang['invoice_created'] = '';
+
+//contract other type
+$lang['consulting_client_point'] = 'Produktanbieter';
+$lang['remuneration'] = 'Vermittlungsvereinbarung';
+$lang['one_time_payment'] = 'Pauschale Einmalzahlung';
+$lang['payment_according_to_time_spent'] = 'Zahlung nach Zeiterfassung';
+
+$lang['partial_payment_of_total_payment'] = 'Teilzahlung des Gesamtbetrags';
+$lang['amount_value'] = 'Zahlbetrag';
+$lang['total_amount_value'] = 'Gesamtbetrag';
+$lang['agent_remuneration_percent_value'] = 'Vergütung in %';
+$lang['agent_remuneration_price_value'] = 'Vergütung in €';
+
+$lang['partial_payment'] = 'Teilzahlung';
+$lang['partial_payment_with_increased_starting_payment'] = 'Teilzahlung mit erhöhter Startzahlung';
+
+$lang['one_time_payment_value'] = 'Pauschale Einmalzahlung';
+$lang['opening_payment_value'] = 'Erhöhte Startzahlung';
+$lang['savings_amount_per_month_value'] = 'Sparbetrag pro Monat';
+$lang['term_value'] = 'Laufzeit in Monaten';
+$lang['dynamic_percentage_per_year_value'] = 'Dynamik';
+$lang['payment_amount_value'] = 'Gesamtbetrag';
+
+
 
 // subscription
 $lang['contract_subscription'] = 'Service-Abo';
 $lang['als_blocks'] = 'Service-Blöcke';
 $lang['als_sub_settings'] = 'Einstellungen';
 $lang['monthly_costs'] = 'Monatliche Kosten';
+$lang['annual_costs'] = '';
 
 $lang['monthly_subscription_costs'] = 'Monatliche Kosten - Service-Abo';
 $lang['block_contents'] = 'Inhalt des Blocks';
@@ -3548,6 +3581,16 @@ $lang['date_of_signing_on_invoice'] = 'Datum der Unterschrift';
 
 // time tracking
 $lang['time_tracking'] = 'Zeiterfassungstool';
+$lang['timetrakings_summary']                   = 'Zeiterfassung';
+$lang['new_time_tracking']                      = 'Neue Zeiterfassung';
+$lang['time_tracking_name']                     = 'Bezeichnung';
+$lang['time_tracking_lowercase']                = 'Zeiterfassung';
+$lang['time_tracking_billing_type']             = 'Zeiterfassung';
+$lang['time_tracking_settings']            	    = 'Zeiterfassung';
+
+$lang['project_setting_comment_on_tasks']       = 'Persönliche Informationen zur Zeiterfassung';
+$lang['time_tracking_overview']                 = 'Überblick zur Zeiterfassung';
+$lang['time_tracking_progress_text']            = 'Fortschritt der erledigten Aufgaben';
 
 // role
 $lang['new_role_type'] = 'Neuen Rollentyp erstellen';
@@ -3564,3 +3607,7 @@ $lang['total'] = 'Gesamt';
 $lang['amount_without_tax'] = 'Betrag exkl. Ust.';
 $lang['amount_to_pay'] = 'Betrag zu zahlen';
 
+//Task
+$lang['task_no_repeat']                    = 'Einmalig';
+
+$lang['project_progress_status']                    = 'In Arbeit';
