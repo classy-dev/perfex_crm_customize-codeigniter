@@ -38,20 +38,16 @@ $('#contract-product-form').submit(function(e){
         data: new FormData(this),
         contentType:false,
         processData:false,
-        success:function(id){
-            if(id){
+        success:function(data){
+            var res = JSON.parse(data);
+            console.log(res);
+            if(data){
                 alert("New Product Added");
-                // $('#consulting_client_point').load(location.href + " #consulting_client_point");
-                // $('#consulting').load(document.URL +  ' #consulting');
+                $('#consulting_client_point').append('<option val="'+res[0].id+'">'+res[0].contract_product+'</option>');
+                
                 
             }
         }
     })
 });
-
-$('#close_product').click(function(){
-    // $('#consulting_client_point').load(document.URL + ' #consulting_client_point');
-    location.reload();
-});
-
 </script>

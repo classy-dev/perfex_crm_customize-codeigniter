@@ -1419,7 +1419,10 @@ class Contracts_model extends App_Model
     public function add_product($data)
     {
         $this->db->insert(db_prefix().'contracts_products',$data);
-        return $this->db->insert_id();
+        $id = $this->db->insert_id();
+        $this->db->where('id',$id);
+        $last_data = $this->db->get(db_prefix().'contracts_products');
+        return $last_data->result_array();
     }
 
 }

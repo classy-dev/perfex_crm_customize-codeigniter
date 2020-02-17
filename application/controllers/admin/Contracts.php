@@ -648,8 +648,9 @@ class Contracts extends Admin_controller
     }
 
     public function product(){
-        $id = $this->contracts_model->add_product($_POST);
-        echo $id;
+        $data = $this->contracts_model->add_product($_POST);
+        // print_r($data); exit();
+        echo json_encode($data);
     }
 
     public function contract_custom_type_values(){
