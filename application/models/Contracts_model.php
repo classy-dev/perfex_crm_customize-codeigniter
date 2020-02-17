@@ -1364,6 +1364,11 @@ class Contracts_model extends App_Model
         return $this->contract_types_model->get($id);
     }
 
+    public function get_contract_products()
+    {
+        return $this->db->get(db_prefix() . 'contracts_products')->result_array();
+    }
+
     /**
      * @param  integer ID
      * @return mixed
@@ -1409,6 +1414,12 @@ class Contracts_model extends App_Model
     public function get_contracts_types_values_chart_data()
     {
         return $this->contract_types_model->get_values_chart_data();
+    }
+
+    public function add_product($data)
+    {
+        $this->db->insert(db_prefix().'contracts_products',$data);
+        return $this->db->insert_id();
     }
 
 }

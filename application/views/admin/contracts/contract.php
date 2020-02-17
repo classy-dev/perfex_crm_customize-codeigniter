@@ -187,28 +187,12 @@ init_head(); ?>
                      <div class="col-md-6">
                         <?php $value = (isset($contract->datestart) ? _d($contract->datestart) : _d(date('Y-m-d'))); ?>
                         <?php echo render_date_input('datestart','contract_start_date',$value); ?>
-                        <!-- <div class="form-group" app-field-wrapper="datestart">
-                          <label for="datestart" class="control-label"> <small class="req text-danger">* </small><?php echo _l('contract_start_date')?></label>
-                          <div class="input-group date">
-                            <input type="text" id="datestart" name="datestart" class="form-control datepicker " value="<?php echo $value?>" autocomplete="off" aria-invalid="false">
-                            <div class="input-group-addon">
-                              <i class="fa fa-calendar calendar-icon"></i>
-                            </div>
-                          </div>
-                        </div> -->
+                        
                      </div>
                      <div class="col-md-6">
                         <?php $value = (isset($contract->dateend) ? _d($contract->dateend) : ''); ?>
                         <?php echo render_date_input('dateend','contract_end_date',$value); ?>
-                        <!-- <div class="form-group" app-field-wrapper="dateend">
-                          <label for="dateend" class="control-label"><?php echo _l('contract_end_date')?></label>
-                          <div class="input-group date">
-                            <input type="text" id="dateend" name="dateend" class="form-control datepicker" value="<?php echo $value;?>" autocomplete="off">
-                            <div class="input-group-addon">
-                              <i class="fa fa-calendar calendar-icon"></i>
-                            </div>
-                          </div>
-                        </div> -->
+                        
                      </div>
                   </div>
 
@@ -234,24 +218,20 @@ init_head(); ?>
                   <?php if(!isset($contract->contract_type)||($contract->contract_type!=3&&$contract->contract_type!=1)) { ?> <div id="consulting" style="display: none"><?php } ?>
                   <?php if(isset($contract->contract_type)&&($contract->contract_type==3||$contract->contract_type==1)) { ?><div id="consulting"><?php } ?>
                     <?php $value = (isset($contract->consulting_client_point) ? $contract->consulting_client_point : ''); ?>
-                    <!-- <?php //echo render_textarea('consulting_client_point',_l('consulting_client_point'),$value,array('rows'=>10)); ?> -->
-                    <div class="row custom-fields-form-row">
-                      <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="consulting_client_point" class="control-label" style="margin-bottom:9px;"><?php echo _l('consulting_client_point');?></label>
-                            <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                              <select data-fieldto="contracts_ser" data-fieldid="12" name="consulting_client_point" id="consulting_client_point" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
-                                <option value=""></option>
-                                <option <?php if($contract->consulting_client_point == 'Allianz') echo 'selected';?> value="Allianz"><?php echo _l('Allianz');?></option>
-                                <option <?php if($contract->consulting_client_point == 'Alte Leipziger') echo 'selected';?> value="Alte Leipziger"><?php echo _l('Alte_Leipziger');?></option>
-                                <option <?php if($contract->consulting_client_point == 'WWK') echo 'selected';?> value="WWK"><?php echo _l('WWK');?></option>
-                                <option <?php if($contract->consulting_client_point == 'Pro Life') echo 'selected';?> value="Pro Life"><?php echo _l('Pro Life');?></option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
+                   
+                    <?php
+                    $selected = (isset($contract->consulting_client_point) ? $contract->consulting_client_point : '');
+                    if(isset($products)){
+                        if(is_admin()){
+                        echo render_select_with_input_group('consulting_client_point',$products,array('id','contract_product'),'consulting_client_point',$selected,'<a href="#" onclick="new_product();return false;"><i class="fa fa-plus"></i></a>');
+                       } else {
+                        // echo $selected;
+                       echo render_select('consulting_client_point',$products,array('id','contract_product'),'consulting_client_point',$selected);
+                       }
+                     }
+                     ?>
+                      
+                    </div> 
 
                   <!--Servicegebührenvereinbarung Payment -->
                   <?php if(!isset($contract->contract_type)||$contract->contract_type!=2) { ?> <div id="contract_ser" style="display: none;"><?php } ?>
@@ -1290,6 +1270,7 @@ init_head(); ?>
 <?php $this->load->view('admin/contracts/renew_contract'); ?>
 <?php } ?>
 <?php $this->load->view('admin/contracts/contract_type'); ?>
+<?php $this->load->view('admin/contracts/contract_product'); ?>
 
 <script>
    Dropzone.autoDiscover = false;
@@ -2227,7 +2208,7 @@ init_head(); ?>
 
             //             if(status == 4 || status == 5 || status == 3) {
             //                 $('.recurring-tasks-notice').removeClass('hide');
-            //                 var notice = "<?php echo _l('project_changing_status_recurring_tasks_notice'); ?>";
+            //                 var notice = "<?php //echo _l('project_changing_status_recurring_tasks_notice'); ?>";
             //                 notice = notice.replace('{0}', $(this).find('option[value="'+status+'"]').text().trim());
             //                 $('.recurring-tasks-notice').html(notice);
             //                 $('.recurring-tasks-notice').append('<input type="hidden" name="cancel_recurring_tasks" value="true">');

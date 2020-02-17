@@ -175,6 +175,7 @@ class Contracts extends Admin_controller
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['types']         = $this->contracts_model->get_contract_types();
+        $data['products']      = $this->contracts_model->get_contract_products();
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
         $data['subscriptions'] = $this->subscriptions_model->get_subscriptions();
@@ -644,6 +645,11 @@ class Contracts extends Admin_controller
                 ]);
             }
         }
+    }
+
+    public function product(){
+        $id = $this->contracts_model->add_product($_POST);
+        echo $id;
     }
 
     public function contract_custom_type_values(){
