@@ -3786,3 +3786,7 @@ $lang['amount_to_pay'] = 'Amount To Pay';
 
  $lang['project_progress_status']                    = 'In Progress';
 
+
+
+ $lang['new_contract_product']                    = 'New Contract Product';
+

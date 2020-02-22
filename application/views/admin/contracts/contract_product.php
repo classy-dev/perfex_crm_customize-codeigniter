@@ -43,11 +43,15 @@ $('#contract-product-form').submit(function(e){
             console.log(res);
             if(data){
                 alert("New Product Added");
+                $('#consulting_client_point').selectpicker('destroy');
                 $('#consulting_client_point').append('<option val="'+res[0].id+'">'+res[0].contract_product+'</option>');
+                $('#consulting_client_point').selectpicker('refresh');
                 
                 
             }
         }
     })
 });
+
+
 </script>
