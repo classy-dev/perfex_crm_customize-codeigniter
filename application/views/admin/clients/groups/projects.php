@@ -1,8 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<h4 class="customer-profile-group-heading"><?php echo _l('projects'); ?></h4>
+<h4 class="customer-profile-group-heading"><?php echo _l('time_tracking'); ?></h4>
 <?php if(isset($client)){ ?>
 <?php if(has_permission('projects','','create')){ ?>
-<a href="<?php echo admin_url('projects/project?customer_id='.$client->userid); ?>" class="btn btn-info mbot25<?php if($client->active == 0){echo ' disabled';} ?>"><?php echo _l('new_project'); ?></a>
+<a href="<?php echo admin_url('projects/project?customer_id='.$client->userid); ?>" class="btn btn-info mbot25<?php if($client->active == 0){echo ' disabled';} ?>"><?php echo _l('new_time_tracking'); ?></a>
 <?php } ?>
 <div class="row">
    <?php

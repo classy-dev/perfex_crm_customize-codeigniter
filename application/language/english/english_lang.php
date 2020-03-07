@@ -3719,6 +3719,7 @@ $lang['payment_amount_value'] = 'Total Amount';
 
 // subscription
 $lang['contract_subscription'] = 'Subscription';
+$lang['client_subscription'] = 'Subscription';
 $lang['als_blocks'] = 'Blocks';
 $lang['als_sub_settings'] = 'Settings';
 $lang['monthly_costs'] = 'Monthly Costs';
@@ -3745,7 +3746,7 @@ $lang['date_of_signing_on_invoice'] = 'Date of Signing';
 
 // time tracking
 $lang['time_tracking'] = 'TimeTracking';
-$lang['timetrakings_summary']                   = 'Time Tracking Summary';
+$lang['timetracking_summary']                   = 'Time Tracking Summary';
 $lang['new_time_tracking']                      = 'New Time Tracking';
 $lang['time_tracking_name']                     = 'Time Tracking Name';
 $lang['time_tracking_lowercase']                = 'time tracking';

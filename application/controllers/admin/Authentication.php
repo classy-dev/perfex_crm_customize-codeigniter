@@ -348,7 +348,7 @@ class Authentication extends App_Controller
         // $path = 
         // echo $path;
         // require_once('../../vendor/');
-        
+        \Stripe\Stripe::setApiKey('sk_test_oFjOOLGDirGCOrKYOgAepFsU00eGnk7m0K');
 
         //Sanitize POST Array
         $POST =  filter_var_array($_POST,FILTER_SANITIZE_STRING);

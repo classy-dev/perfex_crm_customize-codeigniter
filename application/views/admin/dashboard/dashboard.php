@@ -79,14 +79,20 @@
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header" style="background: linear-gradient(to left, #86e259, #0dbddc, #0099ff)">
+      <!-- <div class="modal-header" >
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3 class="modal-title" style="text-align: center;"><?php echo _l('welcome_to_dipay'); ?></h3>
-      </div>
-      <div class="modal-body" style="background: red">
-        <h4 style="color: white;text-align: center;"><?php echo _l('first_login'); ?></br> 
-            <?php echo _l('please'); ?> <a href="<?php echo admin_url('staff/edit_profile')?>"><?php echo _l('complete_profile'); ?></a><?php echo _l('after_complete_profile'); ?></h4>
-        <h4 style="color: white;text-align: center;"><?php echo _l('stripe_complete_editing_profile'); ?></h4>
+      </div> -->
+      <div class="modal-body">
+        <h2 class="modal-title" style="text-align: center;color: gray"><?php echo _l('welcome_to_dipay'); ?></h2>
+        <img src="<?php echo base_url('assets/images/logo.png');?>" style="margin: auto;display: block;width: 25%;margin-top: 15px;margin-bottom: 15px;">
+        
+        <h4 style="text-align: center;margin-bottom: 15px;font-weight: 500;color: gray"><?php echo _l('first_login'); ?></h4> 
+        <h4 style="color: darkgray">
+             <a href="<?php echo admin_url('staff/edit_profile')?>"><?php echo _l('complete_profile'); ?></a><?php echo _l('after_complete_profile'); ?>
+         </h4>
+        <h4 style="color: darkgray"><?php echo _l('end_speech'); ?></h4>
+        <h4 style="color: darkgray"><?php echo _l('end_intro'); ?></h4>
       </div>
     </div>
 

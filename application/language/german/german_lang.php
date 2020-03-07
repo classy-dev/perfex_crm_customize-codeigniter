@@ -482,13 +482,13 @@ $lang['als_contracts']                                                        = 
 $lang['als_sales']                                                            = 'Vertrieb';
 $lang['als_staff']                                                            = 'Mitarbeiter';
 $lang['als_tasks']                                                            = 'Aufgaben';
-$lang['als_kb']                                                               = 'Knowledgebase';
+$lang['als_kb']                                                               = 'Wissenswertes';
 $lang['als_media']                                                            = 'Medien';
 $lang['als_reports']                                                          = 'Auswertungen';
 $lang['als_reports_sales_submenu']                                            = 'Verkauf';
 $lang['als_reports_leads_submenu']                                            = 'Interessent';
 $lang['als_kb_articles_submenu']                                              = 'Knowledgebase Artikel';
-$lang['als_utilities']                                                        = 'Tools';
+$lang['als_utilities']                                                        = 'Werkzeuge';
 $lang['als_announcements_submenu']                                            = 'Ankündigungen';
 $lang['als_calendar_submenu']                                                 = 'Kalender';
 $lang['als_activity_log_submenu']                                             = 'Aktivitäten';
@@ -575,7 +575,7 @@ $lang['staff_dt_email']                                                       = 
 $lang['staff_dt_last_Login']                                                  = 'Letztes Login';
 $lang['staff_dt_active']                                                      = 'Aktiv';
 $lang['staff_add_edit_firstname']                                             = 'Vorname';
-$lang['staff_add_edit_lastname']                                              = 'Familienname';
+$lang['staff_add_edit_lastname']                                              = 'Nachnname';
 $lang['staff_add_edit_email']                                                 = 'E-Mail';
 
 $lang['staff_add_edit_address']                       						  = 'Adresse';
@@ -839,7 +839,7 @@ $lang['payment_modes_dt_active']                                              = 
 # Contracts
 $lang['contract_not_found']                                                   = 'Vertrag konnte nicht gefunden werden. Vielleicht wurde er gelöscht, prüfen im Aktivitätslog';
 # Settings
-$lang['setting_bar_heading']                                                  = 'Setup';
+$lang['setting_bar_heading']                                                  = 'Einstellungen';
 $lang['settings_group_online_payment_modes']                                  = 'Payment Getaways';
 $lang['settings_paymentmethod_mode_label']                                    = 'Label';
 $lang['settings_paymentmethod_active']                                        = 'Aktiv';
@@ -1871,7 +1871,7 @@ $lang['estimate_table_hours_heading']                                         = 
 # General
 $lang['is_customer_indicator']                                                = 'Kunde';
 $lang['print']                                                                = 'Drucken';
-$lang['customer_permission_projects']                                         = 'Projekte';
+$lang['customer_permission_timetracking']                                     = 'Zeiterfassung';
 $lang['no_timers_found']                                                      = 'Kein aktive Zeitaufzeichnung';
 $lang['timers_started_confirm_logout']                                        = 'Laufende Stoppuhr erkannt!<br />Sicher, dass du dich ausloggen möchtest, ohne den Timer zu stoppen?';
 $lang['confirm_logout']                                                       = 'Abmelden';
@@ -3237,9 +3237,9 @@ $lang['cycles_infinity']                                                      = 
 $lang['recurring_total_cycles']                                               = 'Gesamte Zyklen';
 $lang['cycles_passed']                                                        = 'Bestandene %s';
 $lang['api_key_not_set_error_message']                                        = 'API-Schlüssel nicht konfiguriert, klicken Sie auf den folgenden Link, um den API-Schlüssel zu konfigurieren: %s';
-$lang['subscription']                                                         = 'Abonnement';
-$lang['subscription_lowercase']                                               = 'Abonnement';
-$lang['subscriptions']                                                        = 'Abonnements';
+$lang['subscription']                                                         = 'Servicepauschale';
+$lang['subscription_lowercase']                                               = 'Servicepauschale';
+$lang['subscriptions']                                                        = 'Servicepauschale';
 $lang['tax_is_used_in_subscriptions_warning']                                 = 'Du kannst diese Steuer nicht aktualisieren, weil sie von Abonnements benutzt wird.';
 $lang['credit_card']                                                          = 'Kreditkarte';
 $lang['update_credit_card']                                                   = 'Kreditkarte aktualisieren';
@@ -3451,9 +3451,9 @@ $lang['attach_statement']            = 'Attach Customer Statement';
 
 
 // Trial Expire
-$lang['trial_expired_1']		   = 'Ihr kostenfreier Testzeitraum ist beendet.';
-$lang['trial_expired_2']		   = 'Um fortzufahren, müssen Sie den Manager bezahlen.';
-$lang['trial_buy']		   = 'Jetzt Zugang kaufen.';
+$lang['trial_expired_1']		   = 'Ihr Testzeitraum ist leider abgelaufen';
+$lang['trial_expired_2']		   = 'Gerne können sie eine Lizenz mit klick auf den folgenden Button erwerben';
+$lang['trial_buy']		   = 'JETZT KOSTENPFLICHTIG KAUFEN';
 
 
 $lang['als_marketplace']		   = 'Marktplatz';
@@ -3502,11 +3502,13 @@ $lang['chooose_PDF']	   = 'PDF hochladen';
 
 // Dashboard
 
-$lang['welcome_to_dipay'] = 'Willkommen bei DIPAY';
-$lang['first_login'] = 'Sie haben sich das erste Mal eingeloggt.';
-$lang['please'] = 'Bitte';
-$lang['complete_profile'] = 'Vervollständigen Sie ihr Profil, ';
-$lang['after_complete_profile'] = 'sodass sie DIPAY in vollem Umfang nutzen können.';
+$lang['welcome_to_dipay'] = 'Willkommen bei';
+$lang['first_login'] = 'Sie haben sich das erste Mal angemeldet.';
+$lang['complete_profile'] = 'Bitte Vervollständigen Sie Ihre Angaben im Profil, ';
+$lang['after_complete_profile'] = 'sowie die Zahlungsanforderungen, um unsere Seite in vollem Umfang nutzen zu können';
+$lang['end_speech'] = 'Freundich grüßt';
+$lang['end_intro'] = 'Ihr DIPAY-Team';
+
 $lang['stripe_complete_editing_profile'] = 'Wichtig! Vergessen Sie nicht ihre Zahlungsinformationen zu hinterlegen!';
 
 // contract
@@ -3557,6 +3559,7 @@ $lang['payment_amount_value'] = 'Gesamtbetrag';
 
 // subscription
 $lang['contract_subscription'] = 'Service-Abo';
+$lang['client_subscription'] = 'Service-Abo';
 $lang['als_blocks'] = 'Service-Blöcke';
 $lang['als_sub_settings'] = 'Einstellungen';
 $lang['monthly_costs'] = 'Monatliche Kosten';
@@ -3580,8 +3583,8 @@ $lang['contract_on_invoice'] = 'Vertrag';
 $lang['date_of_signing_on_invoice'] = 'Datum der Unterschrift';
 
 // time tracking
-$lang['time_tracking'] = 'Zeiterfassungstool';
-$lang['timetrakings_summary']                   = 'Zeiterfassung';
+$lang['time_tracking'] = 'Zeiterfassung';
+$lang['timetracking_summary']                   = 'Zeiterfassung';
 $lang['new_time_tracking']                      = 'Neue Zeiterfassung';
 $lang['time_tracking_name']                     = 'Bezeichnung';
 $lang['time_tracking_lowercase']                = 'Zeiterfassung';

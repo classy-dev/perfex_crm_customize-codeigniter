@@ -25,6 +25,7 @@ class Roles extends AdminController
         }
 
         if ($this->input->post()) {
+
             if(1 === preg_match('~[0-9]~', $_POST['name'])){
                 preg_match("/([a-zA-Z]+)(\\d+)/", $_POST['name'] , $matches);
                 $data['common_letter'] = $matches[1];
@@ -52,7 +53,7 @@ class Roles extends AdminController
                 if (!has_permission('roles', '', 'edit')) {
                     access_denied('roles');
                 }
-
+                print_r($data); exit();
                 $success = $this->roles_model->update($data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('role')));

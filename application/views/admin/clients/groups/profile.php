@@ -14,7 +14,7 @@
    <?php echo form_open($this->uri->uri_string(),array('class'=>'client-form','autocomplete'=>'off')); ?>
    <div class="additional"></div>
    <div class="col-md-12">
-      <div class="horizontal-scrollable-tabs">
+      <!-- <div class="horizontal-scrollable-tabs">
          <div class="scroller arrow-left"><i class="fa fa-angle-left"></i></div>
          <div class="scroller arrow-right"><i class="fa fa-angle-right"></i></div>
          <div class="horizontal-tabs">
@@ -51,7 +51,7 @@
                <?php } ?>
             </ul>
          </div>
-      </div>
+      </div> -->
       <div class="tab-content">
          <?php hooks()->do_action('after_custom_profile_tab_content',isset($client) ? $client : false); ?>
          <?php if($customer_custom_fields) { ?>
@@ -62,14 +62,10 @@
          <?php } ?>
          <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab')){echo ' active';}; ?>" id="contact_info">
             <div class="row">
-
-
                <div class="col-md-12">
                   <?php $rel_id=( isset($client) ? $client->userid : false); ?>
                   <?php echo render_custom_fields( 'customers',$rel_id); ?>
                </div>
-
-
                <div class="col-md-12<?php if(isset($client) && (!is_empty_customer_company($client->userid) && total_rows(db_prefix().'contacts',array('userid'=>$client->userid,'is_primary'=>1)) > 0)) { echo ''; } else {echo ' hide';} ?>" id="client-show-primary-contact-wrapper">
                   <div class="checkbox checkbox-info mbot20 no-mtop">
                      <input type="checkbox" name="show_primary_contact"<?php if(isset($client) && $client->show_primary_contact == 1){echo ' checked';}?> value="1" id="show_primary_contact">

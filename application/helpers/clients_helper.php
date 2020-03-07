@@ -243,7 +243,7 @@ function app_init_customer_profile_tabs()
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('subscriptions', [
-        'name'     => _l('subscriptions'),
+        'name'     => _l('client_subscription'),
         'icon'     => 'fa fa-repeat',
         'view'     => 'admin/clients/groups/subscriptions',
         'visible'  => (has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own')),
@@ -267,7 +267,7 @@ function app_init_customer_profile_tabs()
     ]);
 
     $CI->app_tabs->add_customer_profile_tab('projects', [
-        'name'     => _l('projects'),
+        'name'     => _l('time_tracking'),
         'icon'     => 'fa fa-bars',
         'view'     => 'admin/clients/groups/projects',
         'position' => 65,
@@ -757,7 +757,7 @@ function get_contact_permissions()
         ],
         [
             'id'         => 4,
-            'name'       => _l('customer_permission_projects'),
+            'name'       => _l('customer_permission_timetracking'),
             'short_name' => 'projects',
         ],
     ];

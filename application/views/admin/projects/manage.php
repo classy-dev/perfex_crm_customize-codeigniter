@@ -47,7 +47,7 @@
               </div>
                <div class="row mbot15">
                 <div class="col-md-12">
-                  <h4 class="no-margin"><?php echo _l('timetrakings_summary'); ?></h4>
+                  <h4 class="no-margin"><?php echo _l('timetracking_summary'); ?></h4>
                   <?php
                   $_where = '';
                   if(!has_permission('projects','','view')){

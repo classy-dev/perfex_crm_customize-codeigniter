@@ -29,13 +29,13 @@
              </label>
            </div>
 
-           <div class="_buttons">
-            <a href="<?php echo admin_url('authentication/register'); ?>" class="btn btn-info pull-left display-block" style="width: 100%;
-            margin-bottom: 5px;"><?php echo _l('admin_auth_register_button'); ?></a>
+           <div class="form-group">
+            <button type="submit" class="btn btn-info btn-block"><?php echo _l('admin_auth_login_button'); ?></button>
           </div>
 
            <div class="form-group">
-            <button type="submit" class="btn btn-info btn-block"><?php echo _l('admin_auth_login_button'); ?></button>
+            <a href="<?php echo admin_url('authentication/register'); ?>" class="btn btn-info" style="width: 100%;"><?php echo _l('admin_auth_register_button'); ?></a>
+            <!-- <a href="<?php echo admin_url('authentication/register'); ?>"><button type="button" class="btn btn-info btn-block"><?php echo _l('admin_auth_register_button'); ?></button></a> -->
           </div>
 
           <div class="form-group">
