@@ -26,11 +26,11 @@
                <?php } else { ?>
                <span class="success-bg content-view-status contract-html-is-signed"><?php echo _l('is_signed'); ?></span>
                <?php } ?>
-               <?php echo form_open($this->uri->uri_string()); ?>
+               <?php if($contract->signed == 1) { echo form_open($this->uri->uri_string()); ?>
                <button type="submit" class="btn btn-default pull-right action-button mright5 contract-html-pdf">
                <i class="fa fa-file-pdf-o"></i> <?php echo _l('clients_invoice_html_btn_download'); ?></button>
                <?php echo form_hidden('action','contract_pdf'); ?>
-               <?php echo form_close(); ?>
+               <?php echo form_close();} ?>
                <?php if(is_client_logged_in() && has_contact_permission('contracts')){ ?>
                <a href="<?php echo site_url('clients/contracts/'); ?>" class="btn btn-default mright5 pull-right action-button go-to-portal">
                <?php echo _l('client_go_to_dashboard'); ?>
@@ -96,14 +96,14 @@
                   <div class="col-md-7 contract-start-date">
                      <?php echo _d($contract->datestart); ?>
                   </div>
-                  <?php if(!empty($contract->dateend)){ ?>
+                  <!-- <?php if(!empty($contract->dateend)){ ?>
                   <div class="col-md-5 text-muted contract-end-date">
                      <?php echo _l('contract_end_date'); ?>
                   </div>
                   <div class="col-md-7 contract-end-date">
                      <?php echo _d($contract->dateend); ?>
                   </div>
-                  <?php } ?>
+                  <?php } ?> -->
                   <?php if(!empty($contract->type_name)){ ?>
                   <div class="col-md-5 text-muted contract-type">
                      <?php echo _l('contract_type'); ?>

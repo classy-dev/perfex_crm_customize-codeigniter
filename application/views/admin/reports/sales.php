@@ -14,15 +14,15 @@
                         <a href="#" class="font-medium" onclick="init_report(this,'invoices-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('invoice_report'); ?></a>
                       </p>
                         <hr class="hr-10" />
-                      <p>
+                      <!-- <p>
                         <a href="#" class="font-medium" onclick="init_report(this,'items-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('items_report'); ?></a>
                       </p>
-                      <hr class="hr-10" />
+                      <hr class="hr-10" /> -->
                       <p>
                         <a href="#" class="font-medium" onclick="init_report(this,'payments-received'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('payments_received'); ?></a>
                       </p>
                       <hr class="hr-10" />
-                      <p>
+                      <!-- <p>
                         <a href="#" class="font-medium" onclick="init_report(this,'credit-notes'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('credit_notes_report'); ?></a>
                       </p>
                       <hr class="hr-10" />
@@ -32,7 +32,7 @@
                       <p>
                         <a href="#" class="font-medium" onclick="init_report(this,'estimates-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('estimates_report'); ?></a>
                       </p>
-                      <hr class="hr-10" />
+                      <hr class="hr-10" /> -->
                       <p>
                         <a href="#" class="font-medium" onclick="init_report(this,'customers-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('report_sales_type_customer'); ?></a>
                       </p>

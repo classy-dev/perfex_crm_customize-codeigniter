@@ -156,6 +156,8 @@
 				</div>
 			<?php } ?>
 		</div>
+
+		<?php $this->load->view('themes/flat/views/gdpr');?>
 	</div>
 
 </div>

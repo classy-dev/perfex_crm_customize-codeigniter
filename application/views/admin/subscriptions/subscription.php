@@ -18,7 +18,7 @@ init_head(); ?>
         </div>
         <?php } ?>
         <input type="hidden" name="isedit">
-        <?php if(isset($subscription)) { ?>
+        <!-- <?php if(isset($subscription)) { ?>
           <a href="#" class="btn btn-default" data-target="#subscription_send_to_client_modal" data-toggle="modal">
             <span class="btn-with-tooltip" data-toggle="tooltip" data-title="<?php echo _l('send_to_email'); ?>" data-placement="bottom">
               <i class="fa fa-envelope"></i></span>
@@ -26,7 +26,7 @@ init_head(); ?>
             <a href="<?php echo site_url('subscription/'.$subscription->hash); ?>" class="btn btn-default" target="_blank">
               <?php echo _l('view_subscription'); ?>
             </a>
-            <?php } ?>
+            <?php } ?> -->
             <?php
             if(!empty($subscription->stripe_subscription_id) && $subscription->status != 'canceled' && empty($subscription->ends_at)){ ?>
              <?php if(has_permission('subscriptions','','edit')){ ?>

@@ -22,7 +22,7 @@
                       <th style="width:10%;" ><?php echo _l('price'); ?></th>
                       <th style="width:10%;" ><?php echo _l('currency'); ?></th>
                       <th style="width:10%;"><?php echo _l('edit'); ?></th>
-                      <!-- <th style="width:10%;"><?php echo _l('delete'); ?></th> -->
+                      <th style="width:10%;"><?php echo _l('delete'); ?></th>
                     </tr>
                   </thead>
                 </table>
@@ -46,8 +46,11 @@
           <h4><?php echo _l('add_new_block'); ?></h4>
         </div>
         <div class="modal-body">
-          <label><?php echo _l('block_content'); ?></label>
-          <input type="text" name="content" id="content" class="form-control" />
+          <div id="content_div">
+            <label><?php echo _l('block_content'); ?></label>
+            <input type="text" name="content" id="content" class="form-control" />
+          </div>
+          
           <br>
           <div style="display: flex;">
             <div>
@@ -92,6 +95,7 @@
   
   $('#add').click(function(){
     $('.modal-title').html('Add New Block');
+    $('#content_div').show();
     $('#content').val('');
     $('#price').val('');
     $('#currency').val('');
@@ -122,7 +126,7 @@
         {data:"price"},
         {data:"currency"},
         {data:"edit"},
-        // {data:"delete"}
+        {data:"delete"}
        ]
     });
 
@@ -166,26 +170,26 @@
     });
     
 
-    // $(document).on('click','.delete',function(){
+    $(document).on('click','.delete',function(){
 
-    //     // $('#Blocks_Modal').modal('show');
-    //     var block_id = $(this).attr("id");
-    //     if (confirm("Are you sure you want to delete this?")) {
-    //       $.ajax({
-    //           url:'<?php echo admin_url('subscriptions/blocks_single_remove') ?>',
-    //           method:'POST',
-    //           data:{<?php  echo $this->security->get_csrf_token_name(); ?> : "<?php echo $this->security->get_csrf_hash(); ?>", block_id:block_id},
-    //           success:function(data)
-    //           {
-    //             alert(data);
-    //             dataTable.ajax.reload();
-    //           }
-    //       });
-    //     }
-    //     else{
-    //       return false;
-    //     }
-    // });
+        // $('#Blocks_Modal').modal('show');
+        var block_id = $(this).attr("id");
+        if (confirm("Are you sure you want to delete this?")) {
+          $.ajax({
+              url:'<?php echo admin_url('subscriptions/blocks_single_remove') ?>',
+              method:'POST',
+              data:{<?php  echo $this->security->get_csrf_token_name(); ?> : "<?php echo $this->security->get_csrf_hash(); ?>", block_id:block_id},
+              success:function(data)
+              {
+                alert(data);
+                dataTable.ajax.reload();
+              }
+          });
+        }
+        else{
+          return false;
+        }
+    });
 
     $(document).on('click','.edit', function(){
 
@@ -201,7 +205,11 @@
           $('#Blocks_Modal').modal('show');
           $('.modal-title').text('Edit Current Block');
           $('#block_id').val(block_id);
-          $('#content').val(data.content);
+          if(data.addedfrom == '<?php echo get_staff_user_id() ?>') {
+            $('#content_div').show();
+            $('#content').val(data.content);
+          }
+          else $('#content_div').hide();
           $('#price').val(data.price);
           $('#currency').val(data.currency);
           $('#index').val(data.index);

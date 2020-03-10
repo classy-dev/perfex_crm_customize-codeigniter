@@ -130,7 +130,7 @@ class Subscriptions_model extends App_Model
     // blocks data getting
 
         var $table = "tblsubscriptions_settings";
-        var $select_column =  array("id","content","price","currency","index");
+        var $select_column =  array("id","content","price","currency","index","addedfrom");
         var $order_column = array(null,"content","price", "currency",null,null);
 
 

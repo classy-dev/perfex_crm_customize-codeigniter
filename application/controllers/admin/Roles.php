@@ -53,7 +53,7 @@ class Roles extends AdminController
                 if (!has_permission('roles', '', 'edit')) {
                     access_denied('roles');
                 }
-                print_r($data); exit();
+                // print_r($data); exit();
                 $success = $this->roles_model->update($data, $id);
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('role')));

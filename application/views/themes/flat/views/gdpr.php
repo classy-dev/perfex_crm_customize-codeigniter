@@ -12,21 +12,21 @@
          </div>
       </div>
       <?php if(is_gdpr() && get_option('gdpr_enable_terms_and_conditions') == '1'){ ?>
-      <div class="col-md-4">
+      <div class="col-md-12">
          <div class="gdpr-right">
             <h3 class="gdpr-right-heading"><?php echo _l('gdpr_right_to_be_informed'); ?></h3>
             <a href="<?php echo terms_url(); ?>" class="btn btn-info"><?php echo _l('terms_and_conditions'); ?></a>
          </div>
       </div>
       <?php } ?>
-      <div class="col-md-4">
+      <div class="col-md-12">
          <div class="gdpr-right">
             <h3 class="gdpr-right-heading"><?php echo _l('gdpr_right_of_access'); ?></h3>
             <a href="<?php echo site_url('clients/profile'); ?>" class="btn btn-info"><?php echo _l('edit_my_information'); ?></a>
          </div>
       </div>
       <?php if(is_gdpr() && get_option('gdpr_contact_enable_right_to_be_forgotten') == '1'){ ?>
-      <div class="col-md-4">
+      <div class="col-md-12">
          <div class="gdpr-right">
             <h3 class="gdpr-right-heading"><?php echo _l('gdpr_right_to_erasure'); ?></h3>
             <a href="#" data-toggle="modal" data-target="#dataRemoval" class="btn btn-info"><?php echo _l('request_data_removal'); ?></a>
@@ -34,7 +34,7 @@
       </div>
       <?php } ?>
       <?php if(is_gdpr() && get_option('gdpr_data_portability_contacts') == '1') { ?>
-      <div class="col-md-4">
+      <div class="col-md-12">
          <div class="gdpr-right">
             <h3 class="gdpr-right-heading"><?php echo _l('gdpr_right_to_data_portability'); ?></h3>
             <a href="<?php echo site_url('clients/export'); ?>" class="btn btn-info"><?php echo _l('export_my_data'); ?></a>
@@ -42,7 +42,7 @@
       </div>
       <?php } ?>
       <?php if(is_gdpr() && get_option('gdpr_enable_consent_for_contacts') == '1'){ ?>
-      <div class="col-md-4">
+      <div class="col-md-12">
          <div class="gdpr-right">
             <h3 class="gdpr-right-heading"><?php echo _l('gdpr_consent'); ?></h3>
             <a href="<?php echo contact_consent_url(get_contact_user_id()); ?>" class="btn btn-info"><?php echo _l('gdpr_consent'); ?></a>

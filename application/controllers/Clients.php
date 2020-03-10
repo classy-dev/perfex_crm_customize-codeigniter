@@ -732,7 +732,6 @@ class Clients extends ClientsController
             'not_visible_to_client' => 0,
             'trash'                 => 0,
         ]);
-
         $data['contracts_by_type_chart'] = json_encode($this->contracts_model->get_contracts_types_chart_data());
         $data['title']                   = _l('clients_contracts');
         $this->data($data);
@@ -750,7 +749,7 @@ class Clients extends ClientsController
         $where = [
             'clientid' => get_client_user_id(),
         ];
-
+        // print_r($where);
         if (is_numeric($status)) {
             $where['status'] = $status;
         }
@@ -768,6 +767,7 @@ class Clients extends ClientsController
         }
 
         $data['invoices'] = $this->invoices_model->get('', $where);
+        // print_r($data['invoices']);
         $data['title']    = _l('clients_my_invoices');
         $this->data($data);
         $this->view('invoices');

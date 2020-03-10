@@ -35,10 +35,14 @@
       <div class="form-group select-placeholder">
          <label class="control-label" for="tax"><?php echo _l('tax'); ?></label>
          <select class="selectpicker" data-width="100%" name="tax_id" data-none-selected-text="<?php echo _l('no_tax'); ?>">
-            <option value=""></option>
-            <?php foreach($taxes as $tax){ ?>
+            <?php if(!isset($subscription)) foreach($taxes as $tax) {?>
+            <option value="<?php echo $tax['id']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if($tax['id'] == 1){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
+            <?php }?>
+
+            <?php if(isset($subscription)) foreach($taxes as $tax){ ?>
             <option value="<?php echo $tax['id']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if(isset($subscription) && $subscription->tax_id == $tax['id']){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
             <?php } ?>
+
          </select>
       </div>
    </div>

@@ -31,6 +31,7 @@ class Authentication_model extends App_Model
             $user = $this->db->get($table)->row();
             if ($user) {
                 // Email is okey lets check the password now
+                // print_r($user->password); exit();
                 if (!app_hasher()->CheckPassword($password, $user->password)) {
                     hooks()->do_action('failed_login_attempt', [
                         'user'            => $user,
@@ -637,7 +638,7 @@ class Authentication_model extends App_Model
     }
 
     public function set_pay_status($email){
-        $query = $this->db->query("update tblstaff set pay_status = 'paid' where email = '$email'");
+        $query = $this->db->query("update tblstaff set pay_status = 1 where email = '$email'");
         $query1 = $this->db->query("select pay_status from tblstaff where email='$email'");
             return $query1->result_array();
     }

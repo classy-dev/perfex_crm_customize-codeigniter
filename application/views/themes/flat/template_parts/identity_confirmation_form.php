@@ -41,6 +41,16 @@
    <input type="email" name="acceptance_email" id="acceptance_email" class="form-control" required="true" value="<?php echo (isset($contact) ? $contact->email : '') ?>">
  </div>
 </div>
+<div class="form-group">
+  <label for="acceptance_psw" class="control-label col-sm-2">
+    <span class="text-left inline-block full-width">
+      <?php echo _l('client_psw'); ?>
+    </span>
+  </label>
+  <div class="col-sm-10">
+   <input type="password" name="acceptance_psw" id="acceptance_psw" class="form-control" required="true" value="">
+ </div>
+</div>
 <p class="bold" id="signatureLabel"><?php echo _l('signature'); ?></p>
 <div class="signature-pad--body">
   <canvas id="signature" height="130" width="550"></canvas>

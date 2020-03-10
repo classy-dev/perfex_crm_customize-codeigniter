@@ -3791,3 +3791,9 @@ $lang['amount_to_pay'] = 'Amount To Pay';
 
  $lang['new_contract_product']                    = 'New Contract Product';
 
+$lang['clients_my_timetracking']            = 'TimeTracking';
+$lang['timetracking_name']                   = 'TimeTracking Name';
+$lang['timetracking_start_date']              = 'Start Of TimeTracking';
+$lang['timetracking_deadline']              = 'Deadline';
+
+$lang['client_psw']              = 'Password';

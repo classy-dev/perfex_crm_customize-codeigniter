@@ -1,16 +1,16 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<table class="table dt-table table-tickets" data-order-col="<?php echo (get_option('services') == 1 ? 7 : 6); ?>" data-order-type="desc">
+<table class="table dt-table table-tickets" data-order-col="1" data-order-type="desc">
   <thead>
     <th width="10%" class="th-ticket-number"><?php echo _l('clients_tickets_dt_number'); ?></th>
     <th class="th-ticket-subject"><?php echo _l('clients_tickets_dt_subject'); ?></th>
-    <?php if($show_submitter_on_table) { ?>
+   <!--  <?php if($show_submitter_on_table) { ?>
       <th class="th-ticket-submitter"><?php echo _l('ticket_dt_submitter'); ?></th>
-    <?php } ?>
-    <th class="th-ticket-department"><?php echo _l('clients_tickets_dt_department'); ?></th>
-    <th class="th-ticket-project"><?php echo _l('project'); ?></th>
-    <?php if(get_option('services') == 1){ ?>
+    <?php } ?> -->
+    <!-- <th class="th-ticket-department"><?php echo _l('clients_tickets_dt_department'); ?></th> -->
+    <!-- <th class="th-ticket-project"><?php echo _l('project'); ?></th> -->
+    <!-- <?php if(get_option('services') == 1){ ?>
       <th class="th-ticket-service"><?php echo _l('clients_tickets_dt_service'); ?></th>
-    <?php } ?>
+    <?php } ?> -->
     <th class="th-ticket-priority"><?php echo _l('priority'); ?></th>
     <th class="th-ticket-status"><?php echo _l('clients_tickets_dt_status'); ?></th>
     <th class="th-ticket-last-reply"><?php echo _l('clients_tickets_dt_last_reply'); ?></th>
@@ -33,26 +33,26 @@
             <?php echo $ticket['subject']; ?>
           </a>
         </td>
-        <?php if($show_submitter_on_table) { ?>
+        <!-- <?php if($show_submitter_on_table) { ?>
           <td>
             <?php echo $ticket['user_firstname'] . ' ' . $ticket['user_lastname'];  ?>
           </td>
-        <?php } ?>
-        <td>
+        <?php } ?> -->
+        <!-- <td>
           <?php echo $ticket['department_name']; ?>
-        </td>
-        <td>
+        </td> -->
+        <!-- <td>
           <?php
           if($ticket['project_id'] != 0){
             echo '<a href="'.site_url('clients/project/'.$ticket['project_id']).'">'.get_project_name_by_id($ticket['project_id']).'</a>';
           }
           ?>
-        </td>
-        <?php if(get_option('services') == 1){ ?>
+        </td> -->
+        <!-- <?php if(get_option('services') == 1){ ?>
           <td>
             <?php echo $ticket['service_name']; ?>
           </td>
-        <?php } ?>
+        <?php } ?> -->
         <td>
           <?php
           echo ticket_priority_translate($ticket['priority']);

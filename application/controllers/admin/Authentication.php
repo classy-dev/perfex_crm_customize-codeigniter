@@ -78,7 +78,7 @@ class Authentication extends App_Controller
                     $this->announcements_model->set_announcements_as_read_except_last_one(get_staff_user_id(), true);
 
                     // is logged in
-                    if($today < $trial_date || $role_status['admin'] == 1 || $role_status['status'] == "paid")
+                    if($today < $trial_date || $role_status['admin'] == 1 || $role_status['status'] == 1)
                     {
                         maybe_redirect_to_previous_url();
                         hooks()->do_action('after_staff_login');

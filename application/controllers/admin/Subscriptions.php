@@ -301,7 +301,10 @@ class Subscriptions extends AdminController
                 $sub_data['price'] = $rows->price;
                 $sub_data['currency'] = $rows->currency;
                  $sub_data['edit'] = '<button type="button" name="Edit" id="'.$rows->id.'" class="btn btn-success btn-xs edit">'._l('edit').'</button>';
-                $sub_data['delete'] = '<button type="button" name="delete" id="'.$rows->id.'" class="btn btn-danger btn-xs delete">'._l('delete').'</button>'; 
+                if($rows->addedfrom == get_staff_user_id())
+                    $sub_data['delete'] = '<button type="button" name="delete" id="'.$rows->id.'" class="btn btn-danger btn-xs delete">'._l('delete').'</button>'; 
+                else
+                    $sub_data['delete'] = '<button type="button" name="delete" id="'.$rows->id.'" class="btn btn-danger btn-xs delete" disabled>'._l('delete').'</button>'; 
                 $data[] = $sub_data;
             }
 
@@ -328,6 +331,8 @@ class Subscriptions extends AdminController
             $insert_data['price'] = $_POST['price'];
             $insert_data['currency'] = $_POST['currency'];
             $insert_data['index'] = $_POST['index'];
+            $insert_data['addedfrom'] = get_staff_user_id();
+
             $this->subscriptions_model->insert_block($insert_data);
             echo "Blocks Data Added Successfully";
         }
@@ -351,6 +356,7 @@ class Subscriptions extends AdminController
             $output['price'] = $value->price;
             $output['currency'] = $value->currency;
             $output['index'] = $value->index;
+            $output['addedfrom'] = $value->addedfrom;
         }
         echo json_encode($output);
    }

@@ -24,6 +24,7 @@ class Contracts_model extends App_Model
         $this->db->join(db_prefix() . 'contracts_types', '' . db_prefix() . 'contracts_types.id = ' . db_prefix() . 'contracts.contract_type', 'left');
         $this->db->join(db_prefix() . 'clients', '' . db_prefix() . 'clients.userid = ' . db_prefix() . 'contracts.client');
         if (is_numeric($id)) {
+            
             $this->db->where(db_prefix() . 'contracts.id', $id);
             $contract = $this->db->get(db_prefix() . 'contracts')->row();
             if ($contract) {
@@ -50,6 +51,7 @@ class Contracts_model extends App_Model
             return $contract;
         }
         $contracts = $this->db->get(db_prefix() . 'contracts')->result_array();
+
         $i         = 0;
         foreach ($contracts as $contract) {
             $contracts[$i]['attachments'] = $this->get_contract_attachments('', $contract['id']);

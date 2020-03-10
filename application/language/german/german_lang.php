@@ -249,13 +249,13 @@ $lang['payment_edit_date']                                                    = 
 # Knowledge Base
 $lang['kb_article_add_edit_subject']                                          = 'Betreff';
 $lang['kb_article_add_edit_group']                                            = 'Gruppe';
-$lang['kb_string']                                                            = 'Knowledgebase';
+$lang['kb_string']                                                            = 'Wissenswertes';
 $lang['kb_article']                                                           = 'Artikel';
 $lang['kb_article_lowercase']                                                 = $lang['kb_article'];
 $lang['kb_article_new_article']                                               = 'Neuer Artikel';
 $lang['kb_article_disabled']                                                  = 'Deaktivieren';
 $lang['kb_article_description']                                               = 'Artikelbeschreibung';
-$lang['kb_no_articles_found']                                                 = 'Kein Artikel in der Knowledgebase gefunden';
+$lang['kb_no_articles_found']                                                 = 'Kein Artikel in der Wissenswertes gefunden';
 $lang['kb_dt_article_name']                                                   = 'Artikel Name';
 $lang['kb_dt_group_name']                                                     = 'Gruppe';
 $lang['new_group']                                                            = 'Gruppe erstellen';
@@ -265,7 +265,7 @@ $lang['kb_group_add_edit_disabled']                                           = 
 $lang['kb_group_add_edit_note']                                               = 'Hinweis: Alle Artikel in dieser Gruppe werden deaktiviert.';
 $lang['group_table_name_heading']                                             = 'Name';
 $lang['group_table_isactive_heading']                                         = 'Aktivieren';
-$lang['kb_no_groups_found']                                                   = 'Keine Knowledgebase gefunden';
+$lang['kb_no_groups_found']                                                   = 'Keine Wissenswertes gefunden';
 $lang['media_files']                                                          = 'Dateien';
 # Payment modes
 $lang['new_payment_mode']                                                     = 'Zahlungsoption hinzufügen';
@@ -293,7 +293,7 @@ $lang['no_ticket_priorities_found']                                           = 
 $lang['ticket_priority_dt_name']                                              = 'Ticket-Prioritäten Name';
 $lang['ticket_priority_add_edit_name']                                        = 'Prioritätenname';
 # Reports
-$lang['kb_reports']                                                           = 'Über Knowledgebase Kenntnis berichten';
+$lang['kb_reports']                                                           = 'Über Wissenswertes Kenntnis berichten';
 $lang['sales_reports']                                                        = 'Verkaufsberichte';
 $lang['reports_choose_kb_group']                                              = 'Gruppe auswählen';
 $lang['report_kb_yes']                                                        = 'Ja';
@@ -348,7 +348,7 @@ $lang['settings_yes']                                                         = 
 $lang['settings_no']                                                          = 'Nein';
 $lang['settings_clients_default_theme']                                       = 'Standard Kunden Theme';
 $lang['settings_clients_allow_registration']                                  = 'Kunden können sich registrieren';
-$lang['settings_clients_allow_kb_view_without_registration']                  = 'Knowledgebase Zugriff ohne Login';
+$lang['settings_clients_allow_kb_view_without_registration']                  = 'Wissenswertes Zugriff ohne Login';
 $lang['settings_cron_send_overdue_reminder']                                  = 'Erinnerung für rückständige Rechnungen senden.';
 $lang['settings_cron_send_overdue_reminder_tooltip']                          = 'Eine Überfälligkeits-E-Mail an den Kunden senden, wenn der Status vom Cron Job auf "Überfällig" aktualisiert wurde.';
 $lang['automatically_send_invoice_overdue_reminder_after']                    = 'Automatisch eine Erinnerung nach (Tagen) senden.';
@@ -364,7 +364,7 @@ $lang['settings_general_company_logo_tooltip']                                = 
 $lang['settings_general_company_remove_logo_tooltip']                         = 'Entferne Firmenlogo';
 $lang['settings_general_company_name']                                        = 'Firmen Name';
 $lang['settings_general_company_main_domain']                                 = 'Firmen Hauptdomain';
-$lang['settings_general_use_knowledgebase']                                   = 'Knowledgebase aktivieren';
+$lang['settings_general_use_knowledgebase']                                   = 'Wissenswertes aktivieren';
 $lang['settings_general_use_knowledgebase_tooltip']                           = 'Wenn diese Optionen aktiviert ist, wird die Knowledgebase auch im Kundenbereich angezeigt.';
 $lang['settings_general_tables_limit']                                        = 'Tabellen Anzeige Limit';
 $lang['settings_general_default_staff_role']                                  = 'Standard-Mitarbeiter Rolle';
@@ -487,7 +487,7 @@ $lang['als_media']                                                            = 
 $lang['als_reports']                                                          = 'Auswertungen';
 $lang['als_reports_sales_submenu']                                            = 'Verkauf';
 $lang['als_reports_leads_submenu']                                            = 'Interessent';
-$lang['als_kb_articles_submenu']                                              = 'Knowledgebase Artikel';
+$lang['als_kb_articles_submenu']                                              = 'Wissenswertes Artikel';
 $lang['als_utilities']                                                        = 'Werkzeuge';
 $lang['als_announcements_submenu']                                            = 'Ankündigungen';
 $lang['als_calendar_submenu']                                                 = 'Kalender';
@@ -512,8 +512,8 @@ $lang['new_ticket']                                                           = 
 $lang['tickets']                                                              = 'Tickets';
 $lang['ticket']                                                               = 'Ticket';
 $lang['ticket_lowercase']                                                     = $lang['ticket'];
-$lang['support_tickets']                                                      = 'Support Tickets';
-$lang['support_ticket']                                                       = 'Support Ticket';
+$lang['support_tickets']                                                      = 'Support Tickets Erstellen';
+$lang['support_ticket']                                                       = 'Support Ticket Erstellen';
 $lang['ticket_settings_to']                                                   = 'Ticket von';
 $lang['ticket_settings_email']                                                = 'E-Mail Adresse';
 $lang['ticket_settings_departments']                                          = 'Abteilung';
@@ -546,7 +546,7 @@ $lang['ticket_single_note_added']                                             = 
 $lang['ticket_single_change_status']                                          = 'Status ändern';
 $lang['ticket_single_assign_to_me_on_update']                                 = 'Dieses Ticket automatisch mir zuweisen';
 $lang['ticket_single_insert_predefined_reply']                                = 'Vordefinierte Antwort einfügen';
-$lang['ticket_single_insert_knowledge_base_link']                             = 'Knowledgebase Link einfügen';
+$lang['ticket_single_insert_knowledge_base_link']                             = 'Wissenswertes Link einfügen';
 $lang['ticket_single_attachments']                                            = 'Anlagen';
 $lang['ticket_single_add_response']                                           = 'Antwort hinzufügen';
 $lang['ticket_single_note_heading']                                           = 'Notizen';
@@ -742,8 +742,8 @@ $lang['clients_edit_profile_new_password_repeat']                             = 
 $lang['clients_edit_profile_change_password_btn']                             = 'Passwort ändern';
 $lang['clients_profile_last_changed_password']                                = 'Letzte Kennwort Änderung %s';
 # Knowledge base
-$lang['clients_knowledge_base']                                               = 'Knowledgebase';
-$lang['clients_knowledge_base_articles_not_found']                            = 'Keine Knowledgebase Artikel gefunden.';
+$lang['clients_knowledge_base']                                               = 'Wissenswertes';
+$lang['clients_knowledge_base_articles_not_found']                            = 'Keine Wissenswertes Artikel gefunden.';
 $lang['clients_knowledge_base_find_useful']                                   = 'War dieser Artikel hilfreich?';
 $lang['clients_knowledge_base_find_useful_yes']                               = 'Ja';
 $lang['clients_knowledge_base_find_useful_no']                                = 'Nein';
@@ -787,8 +787,8 @@ $lang['clients_nav_login']                                                    = 
 $lang['clients_nav_register']                                                 = 'Registrieren';
 $lang['clients_nav_invoices']                                                 = 'Rechnungen';
 $lang['clients_nav_contracts']                                                = 'Verträge';
-$lang['clients_nav_kb']                                                       = 'Knowledgebase';
-$lang['clients_nav_profile']                                                  = 'Profil';
+$lang['clients_nav_kb']                                                       = 'Wissenswertes';
+$lang['clients_nav_profile']                                                  = 'Profil Bearbeiten';
 $lang['clients_nav_logout']                                                   = 'Abmelden';
 # Version 1.0.1
 # Admin
@@ -2136,7 +2136,7 @@ $lang['contact_lowercase']                                                    = 
 $lang['contact_primary']                                                      = 'Haupt Ansprechpartner';
 $lang['contact_position']                                                     = 'Position';
 $lang['contact_active']                                                       = 'Aktiv';
-$lang['client_company_info']                                                  = 'Firmen Details';
+$lang['client_company_info']                                                  = 'Firmenangaben';
 $lang['proposal_save']                                                        = 'Angebot speichern';
 $lang['calendar']                                                             = 'Kalender';
 $lang['settings_pdf']                                                         = 'PDF';
@@ -2764,7 +2764,7 @@ $lang['use_minified_files']                                                   = 
 
 # Version 1.5.0
 $lang['logo_favicon_changed_notice']                                          = 'Logo oder Favicon-Änderung erkannt. Wenn immer noch das ursprüngliche CRM-Logo angezeigt wird, sollte der Browser-Cache gelöscht werden';
-$lang['kb_search_articles']                                                   = 'Knowledgebase Artikel durchsuchen';
+$lang['kb_search_articles']                                                   = 'Wissenswertes Artikel durchsuchen';
 $lang['kb_search']                                                            = 'Suchen';
 $lang['have_a_question']                                                      = 'Gibt es Fragen?';
 $lang['card_expiration_year']                                                 = 'Ablaufjahr';
@@ -3614,3 +3614,12 @@ $lang['amount_to_pay'] = 'Betrag zu zahlen';
 $lang['task_no_repeat']                    = 'Einmalig';
 
 $lang['project_progress_status']                    = 'In Arbeit';
+
+$lang['clients_my_timetracking']            = 'Meine Zeiterfassung';
+$lang['timetracking_name']                   = 'Zeiterfassung Name';
+$lang['timetracking_start_date']              = 'Start der Zeiterfassung';
+$lang['timetracking_deadline']              = 'Geschätzte Zeit';
+
+$lang['client_psw']              = 'Passwort';
+
+

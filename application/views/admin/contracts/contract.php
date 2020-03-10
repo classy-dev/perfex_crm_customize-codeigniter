@@ -242,10 +242,10 @@ init_head(); ?>
                           <label for="custom_fields[contracts_ser][method]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
                             <select data-fieldto="contracts_ser" data-fieldid="method" name="custom_fields[contracts_ser][method]" id="custom_fields_contracts_ser_method" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
-                              <option value=""></option>
+                              <option <?php if($contract->service_p_m == 'Debit') echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
                               <option <?php if($contract->service_p_m == 'Bank Transfer') echo 'selected';?> value="Bank Transfer"><?php echo _l('bank_transfer');?></option>
                               <option <?php if($contract->service_p_m == 'Immediate Transfer') echo 'selected';?> value="Immediate Transfer"><?php echo _l('immediate_transfer');?></option>
-                              <option <?php if($contract->service_p_m == 'Debit') echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
+                              
                             </select>
                           </div>
                         </div>
@@ -254,13 +254,13 @@ init_head(); ?>
                         <div class="form-group"><label for="custom_fields[contracts_ser][timeframe]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_timeframe');?></label>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
                             <select data-fieldto="contracts_ser" data-fieldid="timeframe" name="custom_fields[contracts_ser][timeframe]" id="custom_fields_contracts_ser_timeframe" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
-                              <option value=""></option>
-                              <!-- <option <?php //if($contract0['session']['custom_fields']['contracts_ser']['13'] == 'Daily') echo 'selected';?> value="Daily"><?php //echo _l('daily');?></option> -->
                               
+                              <!-- <option <?php //if($contract0['session']['custom_fields']['contracts_ser']['13'] == 'Daily') echo 'selected';?> value="Daily"><?php //echo _l('daily');?></option> -->
+                              <option <?php if($contract->service_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('annually');?></option>
                               <option <?php if($contract->service_p_t == 'Monthly') echo 'selected';?> value="Monthly"><?php echo _l('monthly');?></option>
                               <option <?php if($contract->service_p_t == 'Quarterly') echo 'selected';?> value="Quarterly"><?php echo _l('Quarterly');?></option>
                               <option <?php if($contract->service_p_t == 'Half-Yearly') echo 'selected';?> value="Half-Yearly"><?php echo _l('half_yearly');?></option>
-                              <option <?php if($contract->service_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('annually');?></option>
+                              
                             </select>
                           </div>
                         </div>
@@ -1586,7 +1586,7 @@ init_head(); ?>
 
           var staff0 = '<?php echo json_encode($staff)?>';
           var staff = JSON.parse(staff0);
-          $('#staf_name').val('-'+staff[0].firstname+'&nbsp;'+staff[0].lastname);
+          $('#staf_name').val(staff[0].firstname+'&nbsp;'+staff[0].lastname);
           $('#staf_info').val(staff[0].address+'</br>'+staff[0].zip+', '+staff[0].city+'</br>'+staff[0].state+', '+staff[0].short_name);
         /////////
         // Customer:
@@ -1612,7 +1612,7 @@ init_head(); ?>
               if (customer_array[p].userid == current_customer_id)
               {
                 
-                $('#cus_value').val('-'+customer_array[p].company);
+                $('#cus_value').val(customer_array[p].company);
                 $('#cus_addr_value').val(customer_array[p].address + '</br>'+ customer_array[p].zip + ', '+customer_array[p].city + '</br>'+customer_array[p].state + ', '+customer_array[p].short_name);
               }
               

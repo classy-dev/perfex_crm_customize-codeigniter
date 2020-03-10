@@ -58,6 +58,7 @@ class Roles_model extends App_Model
      */
     public function update($data, $id)
     {
+
         $affectedRows = 0;
         $permissions  = [];
         if (isset($data['permissions'])) {
@@ -69,10 +70,11 @@ class Roles_model extends App_Model
         $update_staff_permissions = false;
         if (isset($data['update_staff_permissions'])) {
             $update_staff_permissions = true;
-            unset($data['update_staff_permissions']);
+            
         }
-        
+        unset($data['update_staff_permissions']);
         $this->db->where('roleid', $id);
+        // print_r($data); exit();
         $this->db->update(db_prefix() . 'roles', $data);
 
         if ($this->db->affected_rows() > 0) {
