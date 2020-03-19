@@ -12,13 +12,16 @@
          <div class="company-logo">
           <?php echo get_company_logo(); ?>
          </div>
-          <?php echo form_open_multipart($this->uri->uri_string(),array('class'=>'staff-form','autocomplete'=>'off')); ?>
+         <?php //echo url_string();?>
+          <?php //echo form_open_multipart(admin_url('authentication/send_email'),array('class'=>'staff-form','autocomplete'=>'off')); 
+          echo form_open_multipart($this->uri->uri_string(),array('class'=>'staff-form','autocomplete'=>'off'));
+          ?>
          <div class="mtop40 authentication-form">
 
-              <div class="form-group" app-field-wrapper="company">
+              <!-- <div class="form-group" app-field-wrapper="company">
                 <label for="company" class="control-label"><?php echo _l('staff_add_edit_company')?></label>
                 <input type="text" id="company" name="company" class="form-control" autofocus="1" value="">
-              </div>
+              </div> -->
 
               <div class="form-group" app-field-wrapper="firstname">
                 <label for="firstname" class="control-label"><?php echo _l('staff_add_edit_firstname')?></label>
@@ -35,7 +38,7 @@
                 <input type="email" id="email" name="email" class="form-control" autocomplete="off" value="" required>
               </div>
 
-              <!-- <div class="form-group" app-field-wrapper="address">
+             <div class="form-group" app-field-wrapper="address">
                 <label for="address" class="control-label"><?php echo _l('staff_add_edit_address')?></label>
                 <textarea id="address" name="address" class="form-control" rows="4" value="" required ></textarea>
               </div>
@@ -68,7 +71,7 @@
               <div class="form-group">
                 <label for="password" class="control-label"><?php echo _l('admin_auth_login_password'); ?></label>
                 <input type="password" id="password" name="password" class="form-control" value="<?php if (isset($password)) echo $password;?>" required>
-              </div> -->
+              </div>
             
              
              <div class="btn-bottom-toolbar text-right btn-toolbar-container-out" style="margin-top: 15px">

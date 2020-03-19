@@ -227,8 +227,22 @@ class Contracts_model extends App_Model
             
 
             if ($data['contract_type'] == 3){
+
+                $data['contract_tax'] = $data['tax_id'];
+                unset($data['tax_id']);
                 
-                $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['consulting_client_point'], $data['content']);
+                $task_id_array = explode(",",$data['tasks_ids']);
+                $task_subject_array = [];
+                
+                foreach ($task_id_array as $key => $task_id) {
+                    $this->db->select('name');
+                    $this->db->where ('id',$task_id);
+                    $task_name = $this->db->get(db_prefix().'tasks')->row();
+                    array_push($task_subject_array, $task_name->name);
+                }
+                $task_subject_string = implode(",", $task_subject_array);
+                
+                $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $task_subject_string, $data['content']);
 
                 if($data['custom_fields']['contracts_beratung']['remuneration'] == 'One Time Payment'){
                     $data['content'] = preg_replace('#<div id="payment_time_spent_beratung">(?s).*?</div>#', "", $data['content']);
@@ -256,8 +270,12 @@ class Contracts_model extends App_Model
 
             }
             if ($data['contract_type'] == 1){
-                
-                $data['content'] = preg_replace('#<span id="consulting_produkt">(?s).*?</span>#', $data['consulting_client_point'], $data['content']);
+                unset($data['tax_id']);
+                $this->db->select('contract_product');
+                $this->db->where('id',$data['consulting_client_point']);
+                $product_display_data = $this->db->get(db_prefix().'contracts_products')->row()->contract_product;
+
+                $data['content'] = preg_replace('#<span id="consulting_produkt">(?s).*?</span>#', $product_display_data, $data['content']);
 
                 if($data['custom_fields']['contracts_produkt']['remuneration'] == 'One Time Payment'){
                     
@@ -442,7 +460,7 @@ class Contracts_model extends App_Model
      */
     public function update($data, $id)
     {
-        // print_r($data); exit(); 
+         // print_r($data); exit(); 
         $affectedRows = 0;
 
         $data['client'] = $data['client'];
@@ -497,7 +515,7 @@ class Contracts_model extends App_Model
             $data['contract_value'] = null;
             $data['service_p_m'] = null;
             $data['service_p_t'] = null;
-            $data['sub_tax'] = null;
+            // $data['sub_tax'] = null;
 
             // $data['consulting_client_point'] = $data['consulting_client_point'];
             $data['beratung_remuneration'] = $data['custom_fields']['contracts_beratung']['remuneration'];
@@ -533,7 +551,7 @@ class Contracts_model extends App_Model
             $data['contract_value'] = null;
             $data['service_p_m'] = null;
             $data['service_p_t'] = null;
-            $data['sub_tax'] = null;
+            // $data['sub_tax'] = null;
 
             // $data['consulting_client_point'] = null;
             $data['beratung_remuneration'] = null;
@@ -544,6 +562,8 @@ class Contracts_model extends App_Model
             $data['produkt_p_m'] = $data['custom_fields']['contracts_produkt']['method'];
             $data['produkt_p_t'] = $data['custom_fields']['contracts_produkt']['timeframe'];
             $data['produkt_p'] = $data['custom_fields']['contracts_produkt']['payment'];
+
+            
 
             if ($data['produkt_remuneration'] == 'One Time Payment'){
 
@@ -666,7 +686,22 @@ class Contracts_model extends App_Model
 
             if ($data['contract_type'] == 3){
                 
-                $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['consulting_client_point'], $data['content']);
+                $data['contract_tax'] = $data['tax_id'];
+                unset($data['tax_id']);
+
+                $task_id_array = explode(",",$data['tasks_ids']);
+                $task_subject_array = [];
+                
+                foreach ($task_id_array as $key => $task_id) {
+                    $this->db->select('name');
+                    $this->db->where ('id',$task_id);
+                    $task_name = $this->db->get(db_prefix().'tasks')->row();
+                    array_push($task_subject_array, $task_name->name);
+                }
+                $task_subject_string = implode(",", $task_subject_array);
+
+
+                $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $task_subject_string, $data['content']);
 
                 if($data['custom_fields']['contracts_beratung']['remuneration'] == 'One Time Payment'){
                     $data['content'] = preg_replace('#<div id="payment_time_spent_beratung">(?s).*?</div>#', "", $data['content']);
@@ -694,8 +729,12 @@ class Contracts_model extends App_Model
 
             }
             if ($data['contract_type'] == 1){
-                
-                $data['content'] = preg_replace('#<span id="consulting_produkt">(?s).*?</span>#', $data['consulting_client_point'], $data['content']);
+                unset($data['tax_id']);
+                $this->db->select('contract_product');
+                $this->db->where('id',$data['consulting_client_point']);
+                $product_display_data = $this->db->get(db_prefix().'contracts_products')->row()->contract_product;
+
+                $data['content'] = preg_replace('#<span id="consulting_produkt">(?s).*?</span>#', $product_display_data, $data['content']);
 
                 if($data['custom_fields']['contracts_produkt']['remuneration'] == 'One Time Payment'){
 
@@ -1369,6 +1408,12 @@ class Contracts_model extends App_Model
     public function get_contract_products()
     {
         return $this->db->get(db_prefix() . 'contracts_products')->result_array();
+    }
+    public function remove_products($id){
+        // print_r($id); exit();
+        $this->db->where('id',$id);
+        $this->db->delete(db_prefix() . 'contracts_products');
+
     }
 
     /**

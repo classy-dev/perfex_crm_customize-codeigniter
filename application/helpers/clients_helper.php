@@ -556,6 +556,27 @@ function get_company_name($userid, $prevent_empty_company = false)
     return '';
 }
 
+function get_client_profile($userid)
+{
+    $_userid = get_client_user_id();
+    if ($userid !== '') {
+        $_userid = $userid;
+    }
+    $CI = & get_instance();
+
+    
+    $client = $CI->db->select('*')
+    ->where('userid', $_userid)
+    ->from(db_prefix() . 'clients')
+    ->get()
+    ->row();
+    if ($client) {
+        return $client;
+    }
+
+    return '';
+}
+
 
 /**
  * Get client default language

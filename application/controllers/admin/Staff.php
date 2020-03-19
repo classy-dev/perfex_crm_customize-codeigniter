@@ -16,6 +16,7 @@ class Staff extends AdminController
         }
         $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
         $data['title']         = _l('staff_members');
+        
         $this->load->view('admin/staff/manage', $data);
     }
 

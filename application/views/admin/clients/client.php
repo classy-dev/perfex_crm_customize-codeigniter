@@ -107,11 +107,29 @@
    </div>
 </div>
 <?php init_tail(); ?>
+<script type="text/javascript">
+   $(document).ready(function(){
+      // console.log("1")
+      $('#profile_title').change(function(){
+         var selectedTitle = $("#profile_title").val();
+         console.log(selectedTitle);
+         if(selectedTitle == "company"){
+            $('#company').show();
+            $('#person').hide();
+         };
+         if(selectedTitle == "mr" || selectedTitle == "miss" || selectedTitle == "other"){
+            $('#company').hide();
+            $('#person').show();
+         };
+      });
+   });
+</script>
 <?php if(isset($client)){ ?>
 <script>
    $(function(){
       init_rel_tasks_table(<?php echo $client->userid; ?>,'customer');
    });
+    
 </script>
 <?php } ?>
 <?php $this->load->view('admin/clients/client_js'); ?>

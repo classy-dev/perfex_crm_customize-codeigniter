@@ -265,4 +265,7 @@ class Emails extends AdminController
             }
         }
     }
+    public function send_email(){
+        print_r($_POST); exit();
+    }
 }

@@ -2133,7 +2133,7 @@ $lang['customer_contacts']                                                    = 
 $lang['new_contact']                                                          = 'Neuer Kontakt';
 $lang['contact']                                                              = 'Kontakt';
 $lang['contact_lowercase']                                                    = $lang['contact'];
-$lang['contact_primary']                                                      = 'Haupt Ansprechpartner';
+$lang['contact_primary']                                                      = 'Hauptansprechpartner';
 $lang['contact_position']                                                     = 'Position';
 $lang['contact_active']                                                       = 'Aktiv';
 $lang['client_company_info']                                                  = 'Firmenangaben';
@@ -3528,21 +3528,22 @@ $lang['monthly'] = 'Monatlich';
 $lang['half_yearly'] = 'Halbjährlich';
 $lang['annually'] = 'Jährlich';
 
-$lang['notice_for_agent'] = 'Information zum Vertrag';
+$lang['notice_for_agent'] = 'Gegenstand der Verelnbarung - Bedarf';
 
 $lang['create_invoice'] = '';
 $lang['invoice_created'] = '';
 
 //contract other type
 $lang['consulting_client_point'] = 'Produktanbieter';
-$lang['remuneration'] = 'Vermittlungsvereinbarung';
+// $lang['remuneration'] = 'Vermittlungsvereinbarung';
+$lang['remuneration'] = 'Vergütungsvereinbarung';
 $lang['one_time_payment'] = 'Pauschale Einmalzahlung';
 $lang['payment_according_to_time_spent'] = 'Zahlung nach Zeiterfassung';
 
 $lang['partial_payment_of_total_payment'] = 'Teilzahlung des Gesamtbetrags';
-$lang['amount_value'] = 'Zahlbetrag';
-$lang['total_amount_value'] = 'Gesamtbetrag';
-$lang['agent_remuneration_percent_value'] = 'Vergütung in %';
+$lang['amount_value'] = 'Zahlbetrag Beitragssumme';
+$lang['total_amount_value'] = 'Gesamtbetragssumme';
+$lang['agent_remuneration_percent_value'] = 'Vergütung in %%';
 $lang['agent_remuneration_price_value'] = 'Vergütung in €';
 
 $lang['partial_payment'] = 'Teilzahlung';
@@ -3552,6 +3553,8 @@ $lang['one_time_payment_value'] = 'Pauschale Einmalzahlung';
 $lang['opening_payment_value'] = 'Erhöhte Startzahlung';
 $lang['savings_amount_per_month_value'] = 'Sparbetrag pro Monat';
 $lang['term_value'] = 'Laufzeit in Monaten';
+$lang['produkt_one_time_payment_value']                   = 'Pauschale Einmalzahlung';
+$lang['produkt_opening_payment_value']                    = 'Eröffnungszahlung';
 $lang['dynamic_percentage_per_year_value'] = 'Dynamik';
 $lang['payment_amount_value'] = 'Gesamtbetrag';
 
@@ -3622,4 +3625,25 @@ $lang['timetracking_deadline']              = 'Geschätzte Zeit';
 
 $lang['client_psw']              = 'Passwort';
 
+$lang['client_profile_company']              = 'Firma';
+$lang['client_profile_mr']              	 = 'Herr';
+$lang['client_profile_miss']              	 = 'Frau';
+$lang['client_profile_other']              	 = 'Sonstiges';
 
+$lang['profile_title']              	 = 'Anrede';
+$lang['client_company_company']          = 'Unternehmen';
+$lang['client_company_form']             = 'Gesellschaftsform';
+$lang['client_company_address']          = 'Adresse';
+$lang['client_company_email']            = 'E-Mail';
+$lang['client_company_phonenumber']    	 = 'Telefon';
+$lang['client_company_commercial_register_number']   = 'Handelsregisternummer';
+
+$lang['client_person_firstname']   = 'Vorname';
+$lang['client_person_lastname']   = 'Nachname';
+$lang['client_person_street']   = 'Straße';
+$lang['client_person_city']   = 'PLZ/ORT';
+$lang['client_person_email']   = 'E-Mailadresse';
+
+$lang['staff_add_edit_company']   = 'Firma';
+
+$lang['beratung_customer_payment_value_excl_tax']   = 'Customer Payment Value Excl Tax';

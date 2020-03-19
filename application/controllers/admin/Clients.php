@@ -291,7 +291,7 @@ class Clients extends AdminController
 
         $data['bodyclass'] = 'customer-profile dynamic-create-groups';
         $data['title']     = $title;
-
+        //print_r($client); exit();
         $this->load->view('admin/clients/client', $data);
     }
 
@@ -348,6 +348,7 @@ class Clients extends AdminController
         $data['contactid']   = $contact_id;
         if ($this->input->post()) {
             $data             = $this->input->post();
+            // print_r($data); exit();
             $data['password'] = $this->input->post('password', false);
 
             unset($data['contactid']);

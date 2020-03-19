@@ -227,9 +227,11 @@
                   <div class="col-md-6">
                      <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
                         <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
+                       
                         <div id="rel_id_select">
                            <select name="rel_id" id="rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                            <?php if($rel_id != '' && $rel_type != ''){
+                              
                               $rel_data = get_relation_data($rel_type,$rel_id);
                               $rel_val = get_relation_values($rel_data,$rel_type);
                               echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';

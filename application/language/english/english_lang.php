@@ -3702,8 +3702,8 @@ $lang['payment_according_to_time_spent'] = 'Payment According To Time Spent';
 $lang['partial_payment_of_total_payment'] = 'Partial Payment Of Total Amount';
 $lang['amount_value'] = 'Amount Value';
 $lang['total_amount_value'] = 'Total Amount Value';
-$lang['agent_remuneration_percent_value'] = 'Agent Remuneration Percent Value';
-$lang['agent_remuneration_price_value'] = 'Agent Remuneration Price Value';
+$lang['agent_remuneration_percent_value'] = 'Agent Remuneration Percent Value (%%)';
+$lang['agent_remuneration_price_value'] = 'Agent Remuneration Price Value (€)';
 
 $lang['partial_payment'] = 'Partial Payment';
 $lang['partial_payment_with_increased_starting_payment'] = 'Partial Payment With Increased Starting Payment';
@@ -3792,8 +3792,34 @@ $lang['amount_to_pay'] = 'Amount To Pay';
  $lang['new_contract_product']                    = 'New Contract Product';
 
 $lang['clients_my_timetracking']            = 'TimeTracking';
-$lang['timetracking_name']                   = 'TimeTracking Name';
-$lang['timetracking_start_date']              = 'Start Of TimeTracking';
+$lang['timetracking_name']                  = 'TimeTracking Name';
+$lang['timetracking_start_date']            = 'Start Of TimeTracking';
 $lang['timetracking_deadline']              = 'Deadline';
 
-$lang['client_psw']              = 'Password';
+$lang['client_psw']              			 = 'Password';
+
+$lang['client_profile_company']              = 'Company';
+$lang['client_profile_mr']              	 = 'Mr';
+$lang['client_profile_miss']              	 = 'Miss';
+$lang['client_profile_other']              	 = 'Others';
+
+$lang['customer_permission_timetracking']    = 'TimeTracking';
+
+$lang['profile_title']              	 = 'Title';
+$lang['client_company_company']          = 'Company';
+$lang['client_company_form']             = 'Company Form';
+$lang['client_company_address']          = 'Address';
+$lang['client_company_email']            = 'E-Mail';
+$lang['client_company_phonenumber']    	 = 'Phone';
+$lang['client_company_commercial_register_number']   = 'Commercial Register Number';
+
+$lang['client_person_firstname']   = 'First Name';
+$lang['client_person_lastname']   = 'Last Name';
+$lang['client_person_street']   = 'Street';
+$lang['client_person_city']   = 'PLZ/City';
+$lang['client_person_email']   = 'Mail Address';
+
+$lang['staff_add_edit_company']   = 'Company';
+
+
+$lang['beratung_customer_payment_value_excl_tax']   = 'Payment Value Excl Tax';

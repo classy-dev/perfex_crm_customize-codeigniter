@@ -14,6 +14,7 @@ class Contracts extends Admin_controller
         $this->load->model('invoices_model');
         $this->load->model('projects_model');
         $this->load->model('tasks_model');
+        $this->load->model('taxes_model');
     }
 
     /* List all contracts */
@@ -82,7 +83,7 @@ class Contracts extends Admin_controller
     {
 
         if ($this->input->post()) {
-            // print_r($_POST); exit();
+              // print_r($_POST); exit();
             // new post
             if ($id == '') {
                 if (!has_permission('contracts', '', 'create')) {
@@ -150,6 +151,7 @@ class Contracts extends Admin_controller
                 array_push($data['tasks'], $task);
             }
 
+
             if($data['contract']->tasks_ids == null)
                 $data['task_title'] =  _l('add_new', _l('task_lowercase'));
             else
@@ -176,6 +178,8 @@ class Contracts extends Admin_controller
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['types']         = $this->contracts_model->get_contract_types();
         $data['products']      = $this->contracts_model->get_contract_products();
+        $data['taxes']      = $this->taxes_model->get();
+        // print_r($data['products']); exit();
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
         $data['subscriptions'] = $this->subscriptions_model->get_subscriptions();
@@ -212,21 +216,30 @@ class Contracts extends Admin_controller
             $project_data = $_POST['timetracking'];
             $project_data['clientid'] = $_POST['timetracking_client'];
             $project_data['start_date'] = $_POST['timetracking_start_date'];
-            $project_data['deadline'] = $_POST['timetracking_due_date'];
+            // $project_data['deadline'] = $_POST['timetracking_due_date'];
 
-            if($project_data['name']!='' && $project_data['clientid']!='' && $project_data['start_date'] !='' && $project_data['deadline']!=''){
+            if($project_data['clientid']!=''){
                 $timetracking_id = $this->projects_model->add($project_data);
                 if($timetracking_id){
+
+                    $rel_type = 'project';
+                    $rel_id = $timetracking_id;
+
+                    $rel_data = get_relation_data($rel_type,$rel_id);
+                    $rel_val = get_relation_values($rel_data,$rel_type);
+
                     $res['id'] = $timetracking_id;
                     $res['msg'] = _l('added_successfully', _l('timetracking'));
+                    $res['rel_val'] = $rel_val;
                     $res['status'] = 'add';
+
                     echo json_encode($res);
                 }
                 
             }
 
             else {
-                $res['msg'] = "Please Confirm Fields(Customer, StartDate and EndDate)";
+                $res['msg'] = "Please Confirm Customer Selection";
                 echo json_encode($res);
             }
         }
@@ -244,7 +257,7 @@ class Contracts extends Admin_controller
             $project_data = $_POST['timetracking'];
             $project_data['clientid'] = $_POST['timetracking_client'];
             $project_data['start_date'] = $_POST['timetracking_start_date'];
-            $project_data['deadline'] = $_POST['timetracking_due_date'];
+            // $project_data['deadline'] = $_POST['timetracking_due_date'];
 
             $id = $_POST['time_id'];
             
@@ -281,10 +294,12 @@ class Contracts extends Admin_controller
                 }
 
             $task_datas = $_POST['task'];
+            // print_r($task_datas);exit;
             $task_ids = [];
             foreach ($task_datas as $task_data) {
                 $task_data['startdate'] = $_POST['tasks_start_date'];
-                $task_data['duedate'] = $_POST['tasks_due_date'];
+                $task_data['rel_type'] = 'project';
+                // $task_data['duedate'] = $_POST['tasks_due_date'];
                 
                 if($task_data['name']!=''){
                     $task_id = $this->tasks_model->add($task_data);
@@ -320,7 +335,8 @@ class Contracts extends Admin_controller
                 // $res = [];
                 foreach ($task_datas as $task_data) {
                     $task_data['startdate'] = $_POST['tasks_start_date'];
-                    $task_data['duedate'] = $_POST['tasks_due_date'];
+                    // $task_data['duedate'] = $_POST['tasks_due_date'];
+                    $task_data['rel_type'] = 'project';
                     $id = $task_ids[$index];
                     // print_r($task_data);
                     // print_r($id);
@@ -363,7 +379,7 @@ class Contracts extends Admin_controller
                 $task_ids=[];
                 foreach ($task_datas as $key => $task_data) {
                     $task_data['startdate'] = $_POST['tasks_start_date'];
-                    $task_data['duedate'] = $_POST['tasks_due_date'];
+                    // $task_data['duedate'] = $_POST['tasks_due_date'];
                     
                     if($task_data['name']!=''){
                         $task_id = $this->tasks_model->add($task_data);
@@ -651,6 +667,14 @@ class Contracts extends Admin_controller
         $data = $this->contracts_model->add_product($_POST);
         // print_r($data); exit();
         echo json_encode($data);
+    }
+    public function delete_product(){
+        // print_r($_POST);
+        foreach ($_POST['selectedProduct'] as $key => $product_del) {
+            $success = $this->contracts_model->remove_products($product_del);
+        }
+        $result = $this->contracts_model->get_contract_products();
+        echo json_encode($result);
     }
 
     public function contract_custom_type_values(){

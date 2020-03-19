@@ -545,7 +545,7 @@ class Tasks_model extends App_Model
                 $data['milestone'] = 0;
             }
         }
-        // print_r($data); exit();
+        
         if (empty($data['rel_type'])) {
             unset($data['rel_type']);
             unset($data['rel_id']);
@@ -563,7 +563,7 @@ class Tasks_model extends App_Model
             $tags = $data['tags'];
             unset($data['tags']);
         }
-        // print_r($data);exit();
+         // print_r($data);exit();
         $this->db->insert(db_prefix() . 'tasks', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {

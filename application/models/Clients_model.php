@@ -93,7 +93,23 @@ class Clients_model extends App_Model
      */
     public function add($data, $client_or_lead_convert_request = false)
     {
-        
+        // print_r($data); exit();
+        if($data['profile_title'] == 'company'){
+            $data['person_firstname'] = null;
+            $data['person_lastname'] = null;
+            $data['person_street'] = null;
+            $data['person_city'] = null;
+            $data['person_email'] = null;
+        }
+        else{
+
+            $data['company'] = null;
+            $data['company_form'] = null;
+            $data['company_address'] = null;
+            $data['company_email'] = null;
+            $data['company_phonenumber'] = null;
+            $data['company_commercial_register_number'] = null;
+        }
         $contact_data = [];
         foreach ($this->contact_columns as $field) {
             if (isset($data[$field])) {
@@ -130,6 +146,7 @@ class Clients_model extends App_Model
         }
 
         // New filter action
+        // print_r($data); exit();
         $data = hooks()->apply_filters('before_client_added', $data);
 
         $this->db->insert(db_prefix() . 'clients', $data);
@@ -194,6 +211,23 @@ class Clients_model extends App_Model
      */
     public function update($data, $id, $client_request = false)
     {
+        if($data['profile_title'] == 'company'){
+            $data['person_firstname'] = null;
+            $data['person_lastname'] = null;
+            $data['person_street'] = null;
+            $data['person_city'] = null;
+            $data['person_email'] = null;
+        }
+        else{
+
+            $data['company'] = null;
+            $data['company_form'] = null;
+            $data['company_address'] = null;
+            $data['company_email'] = null;
+            $data['company_phonenumber'] = null;
+            $data['company_commercial_register_number'] = null;
+        }
+        
         if (isset($data['update_all_other_transactions'])) {
             $update_all_other_transactions = true;
             unset($data['update_all_other_transactions']);
@@ -487,7 +521,22 @@ class Clients_model extends App_Model
         $data['email'] = trim($data['email']);
 
         $data = hooks()->apply_filters('before_create_contact', $data);
+        
 
+        unset($data['company']);
+        unset($data['company_form']);
+        unset($data['company_address']);
+        unset($data['company_email']);
+        unset($data['company_phonenumber']);
+        unset($data['company_commercial_register_number']);
+        
+        unset($data['person_firstname']);
+        unset($data['person_lastname']);
+        unset($data['person_street']);
+        unset($data['person_city']);
+        unset($data['country']);
+        unset($data['person_email']);
+        // print_r($data); exit();
         $this->db->insert(db_prefix() . 'contacts', $data);
         $contact_id = $this->db->insert_id();
 
@@ -551,9 +600,9 @@ class Clients_model extends App_Model
                 }
             }
 
-            if ($send_welcome_email == true) {
-                send_mail_template('customer_created_welcome_mail', $data['email'], $data['userid'], $contact_id, $password_before_hash);
-            }
+            // if ($send_welcome_email == true) {
+            //     send_mail_template('customer_created_welcome_mail', $data['email'], $data['userid'], $contact_id, $password_before_hash);
+            // }
 
             if ($send_set_password_email) {
                 $this->authentication_model->set_password_email($data['email'], 0);

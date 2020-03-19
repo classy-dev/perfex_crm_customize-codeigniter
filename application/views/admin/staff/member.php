@@ -261,8 +261,8 @@
                            $selected_type = $type['id'];
                          }
                         } else {
-                        $default_staff_role = get_option('default_staff_role');
-                        if($default_staff_role == $type['id'] ){
+                        $default_staff_roletype = get_option('default_staff_roletype');
+                        if($default_staff_roletype == $type['id'] ){
                          $selected_type = $type['id'];
                         }
                         }
