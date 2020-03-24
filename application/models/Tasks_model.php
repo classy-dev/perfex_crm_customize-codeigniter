@@ -500,7 +500,9 @@ class Tasks_model extends App_Model
         } else {
             $data['is_public'] = 0;
         }
-        // print_r($data); exit();
+        // print_r("expression");
+        // print_r($data); 
+        // exit();
         if (isset($data['repeat_every']) && $data['repeat_every'] != ''&& $data['repeat_every'] != 'no-repeat') {
             $data['recurring'] = 1;
             if ($data['repeat_every'] == 'custom') {

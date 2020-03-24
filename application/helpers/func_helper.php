@@ -450,3 +450,12 @@ function strip_html_tags($str, $allowed = '')
 
     return $str;
 }
+
+if (!function_exists('dd')) {
+        function dd($var){
+            echo '<pre>';
+            print_r($var);
+            echo '</pre>';
+            exit;
+    }
+}

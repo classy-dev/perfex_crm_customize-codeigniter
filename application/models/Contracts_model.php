@@ -135,6 +135,7 @@ class Contracts_model extends App_Model
         $data['produkt_p_m'] = $data['custom_fields']['contracts_produkt']['method'];
         $data['produkt_p_t'] = $data['custom_fields']['contracts_produkt']['timeframe'];
 
+        unset($data['timetracking_rel']);
         if (isset($data['trash']) && ($data['trash'] == 1 || $data['trash'] === 'on')) {
             $data['trash'] = 1;
         } else {
@@ -202,7 +203,8 @@ class Contracts_model extends App_Model
             }
 
             if ($data['contract_type'] == 2) {
-
+                $data['contract_tax'] = $data['tax_id'];
+                unset($data['tax_id']);
                 $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['contract_value'], $data['content']);
                 $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '.$data['service_p_t'].' ) ', $data['content']);
 
@@ -460,7 +462,6 @@ class Contracts_model extends App_Model
      */
     public function update($data, $id)
     {
-         // print_r($data); exit(); 
         $affectedRows = 0;
 
         $data['client'] = $data['client'];
@@ -474,8 +475,8 @@ class Contracts_model extends App_Model
         // print_r($data['hourly_rate']); exit();
         // $data['description'] = $data['description'];
         $data['contract_type'] = $data['contract_type'];
-
-
+        unset($data['timetracking_rel']);
+        // Service-abo
         if ($data['contract_type'] == 2) {
 
             // $data['subscription'] = $data['subscription'];
@@ -508,6 +509,7 @@ class Contracts_model extends App_Model
             $data['tasks_ids'] = null;
 
         }
+        // Veratung
         else if ($data['contract_type'] == 3){
 
             $data['subscription'] = null;
@@ -518,6 +520,7 @@ class Contracts_model extends App_Model
             // $data['sub_tax'] = null;
 
             // $data['consulting_client_point'] = $data['consulting_client_point'];
+            $data['consulting_client_point'] = null;
             $data['beratung_remuneration'] = $data['custom_fields']['contracts_beratung']['remuneration'];
             $data['beratung_p_m'] = $data['custom_fields']['contracts_beratung']['method'];
             $data['beratung_p_t'] = $data['custom_fields']['contracts_beratung']['timeframe'];
@@ -545,6 +548,7 @@ class Contracts_model extends App_Model
             }
 
         }
+        //  Product
         else if ($data['contract_type'] == 1){
             $data['subscription'] = null;
             $data['sub_arr'] = null;
@@ -660,7 +664,8 @@ class Contracts_model extends App_Model
             }
 
             if ($data['contract_type'] == 2) {
-
+                $data['contract_tax'] = $data['tax_id'];
+                unset($data['tax_id']);
                 $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['contract_value'], $data['content']);
                 $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '.$data['service_p_t'].' ) ', $data['content']);
 

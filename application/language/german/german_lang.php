@@ -3557,7 +3557,7 @@ $lang['produkt_one_time_payment_value']                   = 'Pauschale Einmalzah
 $lang['produkt_opening_payment_value']                    = 'Eröffnungszahlung';
 $lang['dynamic_percentage_per_year_value'] = 'Dynamik';
 $lang['payment_amount_value'] = 'Gesamtbetrag';
-
+$lang['contract_tax']                    = 'Verträge Tax';
 
 
 // subscription

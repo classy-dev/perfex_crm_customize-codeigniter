@@ -3786,6 +3786,7 @@ $lang['amount_to_pay'] = 'Amount To Pay';
  $lang['timetracking']                    = 'TimeTracking';
 
  $lang['project_progress_status']                    = 'In Progress';
+ $lang['contract_tax']                    = 'Contract Tax';
 
 
 

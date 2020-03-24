@@ -136,6 +136,14 @@ class Contracts extends Admin_controller
             $data['project']                  = $this->projects_model->get($data['contract']->timetracking_id);
             $data['project']->settings->available_features = unserialize($data['project']->settings->available_features);
 
+            $rel_type = 'project';
+            $rel_id = $data['project']->id;
+
+            $rel_data = get_relation_data($rel_type,$rel_id);
+            $rel_val = get_relation_values($rel_data,$rel_type);
+
+            $data['timetracking_rel'] = json_encode($rel_val);
+            // print_r($data['timetracking_rel_name']); exit();
             if($data['contract']->timetracking_id == null)
                 $data['project_title'] =  _l('add_new', _l('time_tracking_lowercase'));
             else
@@ -194,7 +202,7 @@ class Contracts extends Admin_controller
 
         //timetracking part
         $data['statuses'] = $this->projects_model->get_project_statuses();
-
+        // print_r($data); exit();
         $this->load->view('admin/contracts/contract', $data);
     }
 
@@ -279,6 +287,26 @@ class Contracts extends Admin_controller
         
     }
 
+    // public function get_current_timetracking_rel_value()
+    // {
+    //     $timetracking_id = $_POST['time_id'];
+    //     if($timetracking_id){
+
+    //         $rel_type = 'project';
+    //         $rel_id = $timetracking_id;
+
+    //         $rel_data = get_relation_data($rel_type,$rel_id);
+    //         $rel_val = get_relation_values($rel_data,$rel_type);
+
+    //         $res['id'] = $timetracking_id;
+    //         $res['msg'] = _l('added_successfully', _l('timetracking'));
+    //         $res['rel_val'] = $rel_val;
+    //         $res['status'] = 'add';
+
+    //         echo json_encode($res);
+    //     }
+    // }
+
     public function tasks_on_contract()
     {
         
@@ -300,7 +328,7 @@ class Contracts extends Admin_controller
                 $task_data['startdate'] = $_POST['tasks_start_date'];
                 $task_data['rel_type'] = 'project';
                 // $task_data['duedate'] = $_POST['tasks_due_date'];
-                
+                // print_r($task_data);exit();
                 if($task_data['name']!=''){
                     $task_id = $this->tasks_model->add($task_data);
                     array_push($task_ids, $task_id);
@@ -329,41 +357,26 @@ class Contracts extends Admin_controller
             $last_ids = explode(",", $this->contracts_model->get($_POST['contract_id_on_task'])->tasks_ids);
             $task_datas = $_POST['task'];
             $task_ids = explode(",", $_POST['t_ids']);
-            // print_r($task_ids); exit;
+            // print_r($task_datas); exit;
             if(count($last_ids) == count($task_datas)){
                 $index = 0;
-                // $res = [];
+
                 foreach ($task_datas as $task_data) {
                     $task_data['startdate'] = $_POST['tasks_start_date'];
                     // $task_data['duedate'] = $_POST['tasks_due_date'];
                     $task_data['rel_type'] = 'project';
+
                     $id = $task_ids[$index];
-                    // print_r($task_data);
-                    // print_r($id);
                     $success = $this->tasks_model->update($task_data, $id);
 
                     $message = '';
                     if ($success) {
                         $message = _l('updated_successfully', _l('task'));
                     }
-                    // array_push($res, [
-                    //     'success' => $success,
-                    //     'msg' => $message,
-                    //     'id'      => $id,
-                    //     // 'status' => 'edit',
-                    //     'index' => $index
-                    // ]);
-                    // echo json_encode([
-                    //     'success' => $success,
-                    //     'msg' => $message,
-                    //     'id'      => $id,
-                    //     'status' => 'edit',
-                    //     'index' => $index
-                    // ]);
 
                     $index = $index + 1;
                 }
-                // $res['status'] = 'edit';
+                
                 echo json_encode([
                     'msg' => $message,
                     'flag'=> $success,
@@ -377,10 +390,12 @@ class Contracts extends Admin_controller
                     $this->tasks_model->delete_task($id);
                 }
                 $task_ids=[];
+                // print_r($task_datas); exit();
                 foreach ($task_datas as $key => $task_data) {
                     $task_data['startdate'] = $_POST['tasks_start_date'];
                     // $task_data['duedate'] = $_POST['tasks_due_date'];
-                    
+                    $task_data['rel_type'] = 'project';
+
                     if($task_data['name']!=''){
                         $task_id = $this->tasks_model->add($task_data);
                         array_push($task_ids, $task_id);
