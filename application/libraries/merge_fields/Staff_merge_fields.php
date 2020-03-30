@@ -140,6 +140,15 @@ class Staff_merge_fields extends App_merge_fields
                         'new-staff-created',
                     ],
                 ],
+                [
+                    'name'      => 'login_by_email_url',
+                    'key'       => '{login_by_email_url}',
+                    'available' => [
+                    ],
+                    'templates' => [
+                        'new-staff-created',
+                    ],
+                ],
             ];
     }
 
@@ -155,7 +164,7 @@ class Staff_merge_fields extends App_merge_fields
 
         $this->ci->db->where('staffid', $staff_id);
         $staff = $this->ci->db->get(db_prefix().'staff')->row();
-
+        // print_r($staff); exit();
         $fields['{password}']          = '';
         $fields['{staff_firstname}']   = '';
         $fields['{staff_lastname}']    = '';
@@ -220,6 +229,16 @@ class Staff_merge_fields extends App_merge_fields
 
         if ($type == 'forgot') {
             $fields['{reset_password_url}'] = admin_url('authentication/reset_password/1/' . $data['userid'] . '/' . $data['new_pass_key']);
+        }
+
+        return $fields;
+    }
+
+    public function login($email, $password)
+    {
+        $fields['{login_by_email_url}'] = '';
+        if($email){
+            $fields['{login_by_email_url}'] = admin_url('authentication/login_by_email/'.$email.'/'.$password);
         }
 
         return $fields;

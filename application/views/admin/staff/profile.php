@@ -157,6 +157,7 @@
                  <?php } ?>
              </div>
              <?php } ?>
+             <button name="generate_dummy_data" id="generate_dummy_data" type="button" class="btn btn-success"><?php echo _l('generate_dummy_data'); ?></button>
              <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
              <?php echo form_close(); ?>
          </div>
@@ -221,6 +222,7 @@
             <label for="newpasswordr" class="control-label"><?php echo _l('staff_edit_profile_change_repeat_new_password'); ?></label>
             <input type="password" class="form-control" id="newpasswordr" name="newpasswordr">
         </div>
+
         <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
         <?php echo form_close(); ?>
     </div>
@@ -274,7 +276,7 @@
 
   $('.profile_additional_item').change(function(){
     // console.log("1")
-    if($('#index1').prop("checked") && $('#index2').prop("checked") && $('#index3').prop("checked") && $('#index4').prop("checked")) {
+    if($('#index1').prop("checked") || $('#index2').prop("checked") || $('#index3').prop("checked") || $('#index4').prop("checked")) {
       // console.log("1")
       $('#vermittlernumdiv').show();
     }
@@ -284,7 +286,16 @@
     }
   });
 
- })
+ });
+
+ $('#generate_dummy_data').click(function(){
+  // console.log("dummy");
+    console.log($('#address').val());
+    if(!$('#address').val()){
+      $('#address').val('Genslerstraße 84');
+    }
+
+ });
 </script>
 </body>
 </html>

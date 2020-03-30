@@ -2,17 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cf01657-a062-44b8-891e-8e79c12758f2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Contracts.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Contracts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Staff.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Staff.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/assets_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/assets_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/config/app-config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/app-config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/config/email.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/email.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/config/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/routes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Authentication.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Authentication.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Clients.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Emails.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Emails.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Gdpr.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Gdpr.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Subscriptions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Subscriptions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/language/english/english_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/english/english_lang.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/Contracts_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Contracts_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/client.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/groups/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/groups/profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/language/german/german_lang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/language/german/german_lang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Authentication_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Authentication_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/Clients_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Clients_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/groups/contacts.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/groups/contacts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/manage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/clients/modals/contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/clients/modals/contact.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/contracts/contract.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/contracts/contract.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/admin/contracts/contract_product.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/contracts/contract_product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/dashboard/dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/dashboard/dashboard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/gdpr/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/gdpr/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/staff/member.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/staff/member.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/staff/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/staff/profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/subscriptions/settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/subscriptions/settings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/clients.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/clients.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/tables/contacts.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/tables/contacts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/authentication/register.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/authentication/register.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/themes/flat/views/projects.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/themes/flat/views/projects.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/system/libraries/Email.php" beforeDir="false" afterPath="$PROJECT_DIR$/system/libraries/Email.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,37 +42,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/admin/clients/groups/profile.php">
+        <entry file="file://$PROJECT_DIR$/application/controllers/admin/Settings.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="191" column="8" selection-start-line="191" selection-start-column="8" selection-end-line="191" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/helpers/assets_helper.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="213" column="20" selection-start-line="213" selection-start-column="20" selection-end-line="213" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/system/core/CodeIgniter.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="368" column="38" selection-start-line="368" selection-start-column="38" selection-end-line="368" selection-end-column="38" />
+            <state relative-caret-position="-682">
+              <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/system/core/Controller.php">
+        <entry file="file://$PROJECT_DIR$/application/controllers/admin/Emails.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="471">
-              <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
+            <state relative-caret-position="4730">
+              <caret line="257" column="45" lean-forward="true" selection-start-line="257" selection-start-column="45" selection-end-line="257" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -72,6 +70,7 @@
         <option value="$PROJECT_DIR$/application/controllers/admin/Authentication.php" />
         <option value="$PROJECT_DIR$/application/views/admin/clients/groups/profile.php" />
         <option value="$PROJECT_DIR$/application/helpers/assets_helper.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Emails.php" />
       </list>
     </option>
   </component>
@@ -142,7 +141,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="431" />
     <option name="y" value="178" />
     <option name="width" value="1400" />
@@ -153,7 +152,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -170,20 +168,24 @@
               <item name="my.dipay.de_latest" type="b2602c69:ProjectViewProjectNode" />
               <item name="my.dipay.de_latest" type="462c0819:PsiDirectoryNode" />
               <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="helpers" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="my.dipay.de_latest" type="b2602c69:ProjectViewProjectNode" />
               <item name="my.dipay.de_latest" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -213,17 +215,17 @@
       <updated>1583901061480</updated>
       <workItem from="1583901065429" duration="1706000" />
       <workItem from="1583981260349" duration="1993000" />
+      <workItem from="1585413824712" duration="1080000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3699000" />
+    <option name="totallyTimeSpent" value="4779000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="431" y="178" width="1400" height="1000" extended-state="1" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25373134" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18390192" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Grunt " order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -281,23 +283,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/admin/clients/groups/profile.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="191" column="8" selection-start-line="191" selection-start-column="8" selection-end-line="191" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/helpers/assets_helper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
+        <state relative-caret-position="4686">
           <caret line="213" column="20" selection-start-line="213" selection-start-column="20" selection-end-line="213" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system/core/CodeIgniter.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
+        <state relative-caret-position="8096">
           <caret line="368" column="38" selection-start-line="368" selection-start-column="38" selection-end-line="368" selection-end-column="38" />
         </state>
       </provider>
@@ -306,6 +301,34 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="471">
           <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/admin/clients/groups/profile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="729">
+          <caret line="137" column="8" selection-start-line="137" selection-start-column="8" selection-end-line="137" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Emails.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-682">
+          <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/admin/Emails.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4730">
+          <caret line="257" column="45" lean-forward="true" selection-start-line="257" selection-start-column="45" selection-end-line="257" selection-end-column="45" />
         </state>
       </provider>
     </entry>

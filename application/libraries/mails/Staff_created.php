@@ -28,6 +28,7 @@ class Staff_created extends App_mail_template
     {
         $this->to($this->staff_email)
         ->set_rel_id($this->staffid)
-        ->set_merge_fields('staff_merge_fields', $this->staffid, $this->original_password);
+        ->set_merge_fields('staff_merge_fields', $this->staffid, $this->original_password)
+        ->set_merge_fields($this->ci->staff_merge_fields->login($this->staff_email, $this->original_password));
     }
 }

@@ -17,6 +17,7 @@ class Emails extends AdminController
             access_denied('email_templates');
         }
         $langCheckings = get_option('email_templates_language_checks');
+        // echo $langCheckings; exit();
         if ($langCheckings == '') {
             $langCheckings = [];
         } else {
@@ -65,7 +66,7 @@ class Emails extends AdminController
 
         $data['staff'] = $this->emails_model->get([
             'type'     => 'staff',
-            'language' => 'english',
+            'language' => 'german',
         ]);
 
         $data['credit_notes'] = $this->emails_model->get([
@@ -123,7 +124,7 @@ class Emails extends AdminController
         $data['title'] = _l('email_templates');
 
         $data['hasPermissionEdit'] = has_permission('email_templates', '', 'edit');
-
+        // print_r($data); exit();
         $this->load->view('admin/emails/email_templates', $data);
     }
 
@@ -240,7 +241,7 @@ class Emails extends AdminController
                 });
                 $this->email->set_smtp_debug(3);
             }
-
+            // print_r($this->email);exit;
             $this->email->set_newline(config_item('newline'));
             $this->email->set_crlf(config_item('crlf'));
 
@@ -255,6 +256,8 @@ class Emails extends AdminController
 
             $this->email->subject($template->subject);
             $this->email->message($template->message);
+            // print_r($this->email); exit();
+
             if ($this->email->send(true)) {
                 set_alert('success', 'Seems like your SMTP settings is set correctly. Check your email now.');
                 hooks()->do_action('smtp_test_email_success');
@@ -265,7 +268,7 @@ class Emails extends AdminController
             }
         }
     }
-    public function send_email(){
-        print_r($_POST); exit();
-    }
+    // public function send_email(){
+    //     print_r($_POST); exit();
+    // }
 }

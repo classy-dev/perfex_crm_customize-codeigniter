@@ -18,7 +18,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 *
 */
 // define('APP_BASE_URL', 'https://my.dipay.de/');
-define('APP_BASE_URL', 'https://localhost/my.dipay.de_latest/');
+define('APP_BASE_URL', 'http://localhost/my.dipay.de_latest/');
 
 /*
 * --------------------------------------------------------------------------

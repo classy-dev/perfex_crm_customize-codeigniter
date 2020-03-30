@@ -12,16 +12,17 @@
          <div class="company-logo">
           <?php echo get_company_logo(); ?>
          </div>
-         <?php //echo url_string();?>
+
+         <?php if(!$email_sent_confirm){?>
           <?php //echo form_open_multipart(admin_url('authentication/send_email'),array('class'=>'staff-form','autocomplete'=>'off')); 
           echo form_open_multipart($this->uri->uri_string(),array('class'=>'staff-form','autocomplete'=>'off'));
           ?>
          <div class="mtop40 authentication-form">
 
-              <!-- <div class="form-group" app-field-wrapper="company">
+              <div class="form-group" app-field-wrapper="company">
                 <label for="company" class="control-label"><?php echo _l('staff_add_edit_company')?></label>
                 <input type="text" id="company" name="company" class="form-control" autofocus="1" value="">
-              </div> -->
+              </div>
 
               <div class="form-group" app-field-wrapper="firstname">
                 <label for="firstname" class="control-label"><?php echo _l('staff_add_edit_firstname')?></label>
@@ -37,8 +38,8 @@
                 <label for="email" class="control-label"><?php echo _l('staff_add_edit_email')?></label>
                 <input type="email" id="email" name="email" class="form-control" autocomplete="off" value="" required>
               </div>
-
-             <div class="form-group" app-field-wrapper="address">
+              <input type="hidden" name="password" id="password" value="">
+             <!-- <div class="form-group" app-field-wrapper="address">
                 <label for="address" class="control-label"><?php echo _l('staff_add_edit_address')?></label>
                 <textarea id="address" name="address" class="form-control" rows="4" value="" required ></textarea>
               </div>
@@ -66,13 +67,23 @@
                       <option value="<?php echo $country['country_id']; ?>" ><?php echo $country['short_name']; ?></option>
                       <?php }?>
                   </select>
-              </div>
+              </div> -->
 
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="password" class="control-label"><?php echo _l('admin_auth_login_password'); ?></label>
                 <input type="password" id="password" name="password" class="form-control" value="<?php if (isset($password)) echo $password;?>" required>
+              </div> -->
+              
+              <div class="form-group">   
+                <div class="checkbox checkbox-primary">
+                    <input type="checkbox" style="margin-left: 0" id="register_bottom" name="register_bottom" >
+                    <label for="register_bottom">Durch Absenden der Registrierung erkennen Sie die <a href="<?php echo admin_url('authentication/privacy_policy'); ?>" style="color: #284DF0">Nutzungsbedingungen</a>, sowie die <a href="<?php echo admin_url('authentication/privacy_policy')?>" style="color: #284DF0">Datenschutzbestimmungen von</a>
+                    DIPAY als Teil des geschlossenen Kaufvertrages an und bestätigen, von Ihrem Widerrufsrecht als Verbraucher
+                    Kenntnis genommen zu haben.</label> 
+                </div>  
               </div>
-            
+
+
              
              <div class="btn-bottom-toolbar text-right btn-toolbar-container-out" style="margin-top: 15px">
              <button type="submit" class="btn btn-info" style="margin-right: 8px;"><?php echo _l('submit'); ?></button>
@@ -80,9 +91,30 @@
              </div>
          </div> 
         <?php echo form_close(); ?>
+        <?php }?>
+        <?php echo $email_sent_confirm;?>
+        <!-- <div class="authentication-form">
+          <h3 style="font-weight: 0">Vielen Dank für Ihre Registrierung.</h3>
+          <h3>Wir haben ihnen eine eMail zur Bestätigung ihrer eMail-Adresse gesendet.</h3>
+          <h3>Bitte bestätigen sie diesen Link!</h3>
+          <h3>Ihr DIPAY-Team</h3>
+        </div> -->
       </div>
     </div>  
     </div>
   </div>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    var length = 8,
+    charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    console.log(retVal);
+    $('#password').val(retVal);
+  });
+    
+</script>
 </body>
 </html>

@@ -1961,7 +1961,7 @@ $lang['zip_invoices']         = 'Zip Invoices';
 $lang['zip_estimates']        = 'Zip Estimates';
 $lang['zip_payments']         = 'Zip Payments';
 $lang['setup_help']           = 'Help';
-$lang['clients_list_company'] = 'Company';
+$lang['clients_list_company'] = 'Company / Person';
 $lang['dt_button_export']     = 'Export';
 $lang['dt_entries']           = 'entries';
 $lang['invoice_total_paid']   = 'Total Paid';
@@ -2868,7 +2868,8 @@ $lang['estimate_invoiced']                                  = 'Invoiced';
 $lang['file_date_uploaded']                                 = 'Date Uploaded';
 $lang['allow_contact_to_delete_files']                      = 'Allow contacts to delete own files uploaded from customers area';
 $lang['file']                                               = 'File';
-$lang['customer_contact_person_only_one_allowed']           = 'Only 1 contact is allowed when the company field is not filled. The system will cast this customer as person';
+// $lang['customer_contact_person_only_one_allowed']           = 'Only 1 contact is allowed when the company field is not filled. The system will cast this customer as person';
+$lang['customer_contact_person_only_one_allowed']           = 'Only 1 contact is allowed';
 $lang['web_to_lead']                                        = 'Web to Lead';
 $lang['web_to_lead_form']                                   = 'Web to Lead Form';
 $lang['new_form']                                           = 'New Form';
@@ -3672,6 +3673,8 @@ $lang['please'] = 'Please';
 $lang['complete_profile'] = 'Complete your Profile, ';
 $lang['after_complete_profile'] = 'that everything work fine on this site!';
 $lang['stripe_complete_editing_profile'] = 'Dont forget to fill the payment requirements on stripe in the Editing Profile Page!';
+$lang['end_speech'] = 'Greetings';
+$lang['end_intro'] = 'Your DIPAY-Team';
 
 // contract
 $lang['back'] = 'Back';
@@ -3795,7 +3798,7 @@ $lang['amount_to_pay'] = 'Amount To Pay';
 $lang['clients_my_timetracking']            = 'TimeTracking';
 $lang['timetracking_name']                  = 'TimeTracking Name';
 $lang['timetracking_start_date']            = 'Start Of TimeTracking';
-$lang['timetracking_deadline']              = 'Deadline';
+$lang['timetracking_estimated_hours']              = 'Estimated Hours';
 
 $lang['client_psw']              			 = 'Password';
 

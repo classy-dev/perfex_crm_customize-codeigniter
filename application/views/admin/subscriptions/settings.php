@@ -147,7 +147,7 @@
         // console.log($(this).serialize());
         // console.log(currency);
 
-        if(content != ''){
+        // if(content != ''){
           $.ajax({
             url:'<?php echo admin_url('subscriptions/blocks_action') ?>',
             method:'POST',
@@ -162,10 +162,10 @@
               dataTable.ajax.reload();
               }
           });
-        }
-        else{
-          alert("Contents Are Required!");
-        }
+        // }
+        // else{
+        //   alert("Contents Are Required!");
+        // }
 
     });
     

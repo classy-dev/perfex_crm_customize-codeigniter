@@ -304,7 +304,7 @@ class Subscriptions extends AdminController
                 if($rows->addedfrom == get_staff_user_id())
                     $sub_data['delete'] = '<button type="button" name="delete" id="'.$rows->id.'" class="btn btn-danger btn-xs delete">'._l('delete').'</button>'; 
                 else
-                    $sub_data['delete'] = '<button type="button" name="delete" id="'.$rows->id.'" class="btn btn-danger btn-xs delete" disabled>'._l('delete').'</button>'; 
+                    $sub_data['delete'] = '<button type="button" name="delete" id="'.$rows->id.'" class="btn btn-basic btn-xs delete" disabled>'._l('delete').'</button>'; 
                 $data[] = $sub_data;
             }
 
@@ -337,8 +337,8 @@ class Subscriptions extends AdminController
             echo "Blocks Data Added Successfully";
         }
         if ($_POST['action'] == 'edit') {
-
-            $update_data['content'] = $_POST['content'];
+            if(!empty($_POST['content'])) 
+                $update_data['content'] = $_POST['content'];
             $update_data['price'] = $_POST['price'];
             $update_data['currency'] = $_POST['currency'];
             $update_data['index'] = $_POST['index'];

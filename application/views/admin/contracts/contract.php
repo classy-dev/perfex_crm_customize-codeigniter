@@ -289,46 +289,45 @@ init_head(); ?>
                     </div>
 
                     <!-- Calculation Value -->
-                  <?php if (!isset($contract)||($contract->beratung_remuneration == 'Payment According To Time Spent') ){?>
-                  <div id="beratung_remuneration_one" style="display: none;">
-                  <?php }?>
-                  <?php if(isset($contract)&&($contract->beratung_remuneration == 'One Time Payment')){?>
-                  <div id="beratung_remuneration_one">
-                  <?php }?>
-                    <div class="row custom-fields-form-row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="beratung_customer_payment_value_excl_tax"><?php echo _l('beratung_customer_payment_value_excl_tax'); ?></label>
-                          <div class="input-group" data-toggle="tooltip" title="<?php echo _l('beratung_customer_payment_value_excl_tax'); ?>">
-                            <input type="number" class="form-control beratung_calc_values_one" name="beratung_customer_payment_value_excl_tax" id="beratung_customer_payment_value_excl_tax" value="<?php if(isset($contract->beratung_customer_payment_value_excl_tax)){echo $contract->beratung_customer_payment_value_excl_tax; }?>">
+                    <?php if (!isset($contract)||($contract->beratung_remuneration != 'One Time Payment') ){?>
+                    <div id="beratung_remuneration_one" style="display: none;">
+                    <?php }?>
+                    <?php if(isset($contract)&&($contract->beratung_remuneration == 'One Time Payment')){?>
+                    <div id="beratung_remuneration_one">
+                    <?php }?>
+                      <div class="row custom-fields-form-row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="beratung_customer_payment_value_excl_tax"><?php echo _l('beratung_customer_payment_value_excl_tax'); ?></label>
+                            <div class="input-group" data-toggle="tooltip" title="<?php echo _l('beratung_customer_payment_value_excl_tax'); ?>">
+                              <input type="number" class="form-control beratung_calc_values_one" name="beratung_customer_payment_value_excl_tax" id="beratung_customer_payment_value_excl_tax" value="<?php if(isset($contract->beratung_customer_payment_value_excl_tax)){echo $contract->beratung_customer_payment_value_excl_tax; }?>">
 
-                            <div class="input-group-addon">
-                               <?php echo $base_currency->symbol; ?>
+                              <div class="input-group-addon">
+                                 <?php echo $base_currency->symbol; ?>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div class="col-md-6">
-                        <div class="form-group select-placeholder">
-                           <label class="control-label" for="tax"><?php echo _l('tax'); ?></label>
-                           <select class="selectpicker" data-width="100%" name="tax_id" data-none-selected-text="<?php echo _l('no_tax'); ?>">
-                              <?php if(!isset($contract)) foreach($taxes as $tax) {?>
-                              <option value="<?php echo $tax['taxrate']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if($tax['id'] == 1){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
-                              <?php }?>
+                        <div class="col-md-6">
+                          <div class="form-group select-placeholder">
+                             <label class="control-label" for="tax"><?php echo _l('tax'); ?></label>
+                             <select class="selectpicker" data-width="100%" name="tax_id" data-none-selected-text="<?php echo _l('no_tax'); ?>">
+                                <?php if(!isset($contract)) foreach($taxes as $tax) {?>
+                                <option value="<?php echo $tax['taxrate']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if($tax['id'] == 1){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
+                                <?php }?>
 
-                              <?php if(isset($contract)) foreach($taxes as $tax){ ?>
-                              <option value="<?php echo $tax['taxrate']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if(isset($subscription) && $subscription->tax_id == $tax['id']){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
-                              <?php } ?>
+                                <?php if(isset($contract)) foreach($taxes as $tax){ ?>
+                                <option value="<?php echo $tax['taxrate']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if(isset($subscription) && $subscription->tax_id == $tax['id']){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
+                                <?php } ?>
 
-                           </select>
+                             </select>
+                          </div>
                         </div>
                       </div>
                     </div>
-
-                  </div>
                   
-                   <!--  <?php if (!isset($contract->beratung_remuneration)||$contract->beratung_remuneration == 'Payment According To Time Spent'){?>
+                   <!-- <?php if (!isset($contract->beratung_remuneration)||$contract->beratung_remuneration == 'Payment According To Time Spent'){?>
                     <div class="row custom-fields-form-row" id="beratung_remuneration" style="display: none;"><?php }?>
                     <?php if (isset($contract->beratung_remuneration)&&($contract->beratung_remuneration == 'One Time Payment')){?>
                     <div class="row custom-fields-form-row" id="beratung_remuneration"><?php }?> -->
@@ -621,7 +620,7 @@ init_head(); ?>
                       <div class="form-group">
                        <label for="contract_value"><?php echo _l('contract_value'); ?></label>
                        <div class="input-group" data-toggle="tooltip" title="<?php echo _l('contract_value_tooltip'); ?>">
-                          <input type="number" class="form-control" name="contract_value" id="contract_value" value="<?php if(isset($contract)){echo $contract->contract_value; }?>">
+                          <input type="number" class="form-control" name="contract_value" id="contract_value" value="<?php if(isset($contract)){echo $contract->contract_value; }?>" readonly>
                           <div class="input-group-addon">
                              <?php echo $base_currency->symbol; ?>
                           </div>
@@ -2475,7 +2474,6 @@ init_head(); ?>
                   $('#task_'+number+'_unlimited_cycles').prop('checked', true).change();
               }
           });
-
 
           var rel_timetracking = JSON.parse('<?php if(isset($timetracking_rel)) echo $timetracking_rel;?>');
           var taskCnt = index_arr.length ;

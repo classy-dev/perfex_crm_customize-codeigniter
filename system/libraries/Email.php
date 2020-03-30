@@ -1680,8 +1680,10 @@ class CI_Email {
 	 */
 	public function send($auto_clear = TRUE)
 	{
+
 		if ( ! isset($this->_headers['From']))
 		{
+
 			$this->_set_error_message('lang:email_no_from');
 			return FALSE;
 		}
@@ -1695,6 +1697,7 @@ class CI_Email {
 			&& ! isset($this->_bcc_array) && ! isset($this->_headers['Bcc'])
 			&& ! isset($this->_headers['Cc']))
 		{
+
 			$this->_set_error_message('lang:email_no_recipients');
 			return FALSE;
 		}
@@ -1703,6 +1706,7 @@ class CI_Email {
 
 		if ($this->bcc_batch_mode && count($this->_bcc_array) > $this->bcc_batch_size)
 		{
+
 			$result = $this->batch_bcc_send();
 
 			if ($result && $auto_clear)
@@ -1715,16 +1719,17 @@ class CI_Email {
 
 		if ($this->_build_message() === FALSE)
 		{
+
 			return FALSE;
 		}
-
+		// echo "111";
 		$result = $this->_spool_email();
-
+		
 		if ($result && $auto_clear)
 		{
 			$this->clear();
 		}
-
+		// echo $result; exit;
 		return $result;
 	}
 
@@ -1827,9 +1832,12 @@ class CI_Email {
 		$this->_unwrap_specials();
 
 		$protocol = $this->_get_protocol();
+		// print_r($protocol); 
 		$method   = '_send_with_'.$protocol;
+		// print_r($method); 
 		if ( ! $this->$method())
 		{
+			// echo "fail"; exit();
 			$this->_set_error_message('lang:email_send_failure_'.($protocol === 'mail' ? 'phpmail' : $protocol));
 			return FALSE;
 		}
@@ -1955,19 +1963,23 @@ class CI_Email {
 	 */
 	protected function _send_with_smtp()
 	{
+
 		if ($this->smtp_host === '')
 		{
+
 			$this->_set_error_message('lang:email_no_hostname');
 			return FALSE;
 		}
 
 		if ( ! $this->_smtp_connect() OR ! $this->_smtp_authenticate())
 		{
+			echo "222"; exit();
 			return FALSE;
 		}
 
 		if ( ! $this->_send_command('from', $this->clean_email($this->_headers['From'])))
 		{
+
 			$this->_smtp_end();
 			return FALSE;
 		}
@@ -1976,6 +1988,7 @@ class CI_Email {
 		{
 			if ( ! $this->_send_command('to', $val))
 			{
+
 				$this->_smtp_end();
 				return FALSE;
 			}
@@ -1987,26 +2000,29 @@ class CI_Email {
 			{
 				if ($val !== '' && ! $this->_send_command('to', $val))
 				{
+
 					$this->_smtp_end();
 					return FALSE;
 				}
 			}
 		}
-
+		
 		if (count($this->_bcc_array) > 0)
 		{
 			foreach ($this->_bcc_array as $val)
 			{
 				if ($val !== '' && ! $this->_send_command('to', $val))
 				{
+
 					$this->_smtp_end();
 					return FALSE;
 				}
 			}
 		}
-
+		
 		if ( ! $this->_send_command('data'))
 		{
+
 			$this->_smtp_end();
 			return FALSE;
 		}
@@ -2017,12 +2033,15 @@ class CI_Email {
 		$this->_send_data('.');
 
 		$reply = $this->_get_smtp_data();
+		// echo "888";
+		// print_r($reply); exit();
 		$this->_set_error_message($reply);
 
 		$this->_smtp_end();
-
+		
 		if (strpos($reply, '250') !== 0)
 		{
+			// echo "44";exit();
 			$this->_set_error_message('lang:email_smtp_error', $reply);
 			return FALSE;
 		}
@@ -2061,15 +2080,29 @@ class CI_Email {
 		}
 
 		$ssl = ($this->smtp_crypto === 'ssl') ? 'ssl://' : '';
-
+		// print_r($ssl);
+		// print_r($ssl);
+		// print_r($this->smtp_port);
+		// print_r($this->smtp_host); exit();
 		$this->_smtp_connect = fsockopen($ssl.$this->smtp_host,
 							$this->smtp_port,
 							$errno,
 							$errstr,
 							$this->smtp_timeout);
 
+		// $this->_smtp_connect = fsockopen($this->smtp_host,
+		// 					$this->smtp_port,
+		// 					$errno,
+		// 					$errstr,
+		// 					$this->smtp_timeout);
+
+		// if (!$this->_smtp_connect) {
+  //   		echo "$errstr ($errno)<br />\n";
+  //   		exit();
+  //   	}
 		if ( ! is_resource($this->_smtp_connect))
 		{
+			// echo "5555"; exit();
 			$this->_set_error_message('lang:email_smtp_error', $errno.' '.$errstr);
 			return FALSE;
 		}
@@ -2318,7 +2351,7 @@ class CI_Email {
 				break;
 			}
 		}
-
+		// print_r($data); exit();
 		return $data;
 	}
 

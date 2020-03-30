@@ -174,6 +174,7 @@ $route['admin/marketplace/edit/(:any)'] = "admin/marketplace/edit/$1";
  * In future if there is implementation for clients set password, this route should be removed
  */
 $route['authentication/set_password/(:num)/(:num)/(:any)'] = 'admin/authentication/set_password/$1/$2/$3';
+// $route['admin/authentication/privacy_policy'] = 'admin/authentication/privacy_policy';
 
 if(file_exists(APPPATH.'config/my_routes.php')){
     include_once(APPPATH.'config/my_routes.php');

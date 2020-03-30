@@ -30,7 +30,7 @@ foreach ($custom_fields as $key => $field) {
     array_push($aColumns, 'ctable_' . $key . '.value as ' . $selectAs);
     array_push($join, 'LEFT JOIN ' . db_prefix() . 'customfieldsvalues as ctable_' . $key . ' ON ' . db_prefix() . 'contacts.id = ctable_' . $key . '.relid AND ctable_' . $key . '.fieldto="' . $field['fieldto'] . '" AND ctable_' . $key . '.fieldid=' . $field['id']);
 }
-
+// print_r($aColumns); exit();
 $where = ['AND userid=' . $client_id];
 
 // Fix for big queries. Some hosting have max_join_limit
@@ -42,7 +42,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
+// print_r($rResult); exit();
 foreach ($rResult as $aRow) {
     $row = [];
 
@@ -80,7 +80,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = '<a href="mailto:' . $aRow['email'] . '">' . $aRow['email'] . '</a>';
 
-    $row[] = $aRow['title'];
+    // $row[] = $aRow['title'];
 
     $row[] = '<a href="tel:' . $aRow['phonenumber'] . '">' . $aRow['phonenumber'] . '</a>';
 

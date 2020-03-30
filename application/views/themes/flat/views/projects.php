@@ -18,7 +18,7 @@
                <tr>
                   <th class="th-project-name"><?php echo _l('timetracking_name'); ?></th>
                   <th class="th-project-start-date"><?php echo _l('timetracking_start_date'); ?></th>
-                  <th class="th-project-deadline"><?php echo _l('timetracking_deadline'); ?></th>
+                  <th class="th-project-estimated-hours"><?php echo _l('timetracking_estimated_hours'); ?></th>
                   <!-- <th class="th-project-billing-type"><?php echo _l('project_billing_type'); ?></th> -->
                   <?php
                      $custom_fields = get_custom_fields('projects',array('show_on_client_portal'=>1));
@@ -33,7 +33,7 @@
                <tr>
                   <td><a href="<?php echo site_url('clients/project/'.$project['id']); ?>"><?php echo $project['name']; ?></a></td>
                   <td data-order="<?php echo $project['start_date']; ?>"><?php echo _d($project['start_date']); ?></td>
-                  <td data-order="<?php echo $project['deadline']; ?>"><?php echo _d($project['deadline']); ?></td>
+                  <td data-order="<?php echo $project['estimated_hours']; ?>"><?php echo $project['estimated_hours']; ?></td>
                   <!-- <td>
                      <?php
                         if($project['billing_type'] == 1){

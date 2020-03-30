@@ -51,6 +51,7 @@
 
                             $value=( isset($client) ? $client->company : '');
                             $attrs = (isset($client) ? array() : array('autofocus'=>true));
+                            
                             echo render_input( 'company', 'client_company',$value,'text',$attrs);
 
                             $value=( isset($client) ? $client->company_form : '');
@@ -69,7 +70,7 @@
                             echo render_input( 'company_commercial_register_number', 'client_company_commercial_register_number',$value);
 
                            } ?>
-                        <?php if(get_client_profile($customer_id)->profile_title != 'company'){
+                        <?php if(isset(get_client_profile($customer_id)->profile_title) && get_client_profile($customer_id)->profile_title != 'company'){
 
                             $client = get_client_profile($customer_id);
 
@@ -105,7 +106,9 @@
                         <?php $value=( isset($contact) ? $contact->phonenumber : ''); ?>
                         <?php echo render_input( 'phonenumber', 'client_phonenumber',$value,'text',array('autocomplete'=>'off')); ?> -->
 
-                        
+                        <?php if(!isset($client)){?>
+                        <input type="hidden" name="password" id="password" value="">
+                        <?php }?>
                     <?php $rel_id=( isset($contact) ? $contact->id : false); ?>
                     <?php echo render_custom_fields( 'contacts',$rel_id); ?>
 
@@ -155,7 +158,7 @@
                         </div>
                         <div class="col-md-6 mtop10">
                             <div class="onoffswitch">
-                                <input type="checkbox" id="<?php echo $permission['id']; ?>" class="onoffswitch-checkbox" <?php /*if(isset($contact) && has_contact_permission($permission['short_name'],$contact->id) || is_array($default_contact_permissions) && in_array($permission['id'],$default_contact_permissions)){echo 'checked';} */?> value="<?php echo $permission['id']; ?>" name="permissions[]" checked>
+                                <input type="checkbox" id="<?php echo $permission['id']; ?>" class="onoffswitch-checkbox" <?php if(isset($contact) && has_contact_permission($permission['short_name'],$contact->id) || is_array($default_contact_permissions) && in_array($permission['id'],$default_contact_permissions)){echo 'checked';} ?> value="<?php echo $permission['id']; ?>" name="permissions[]" >
                                 <label class="onoffswitch-label" for="<?php echo $permission['id']; ?>"></label>
                             </div>
                         </div>
@@ -199,7 +202,7 @@
                         </div>
                         <div class="col-md-6 mtop10">
                             <div class="onoffswitch">
-                                <input type="checkbox" id="credit_note_emails" data-perm-id="1" class="onoffswitch-checkbox" <?php /*if(isset($contact) && $contact->credit_note_emails == '1'){echo 'checked';} */?>  value="credit_note_emails" name="credit_note_emails" checked>
+                                <input type="checkbox" id="credit_note_emails" data-perm-id="3" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->credit_note_emails == '1'){echo 'checked';} ?>  value="credit_note_emails" name="credit_note_emails">
                                 <label class="onoffswitch-label" for="credit_note_emails"></label>
                             </div>
                         </div>
@@ -213,7 +216,7 @@
                         </div>
                         <div class="col-md-6 mtop10">
                             <div class="onoffswitch">
-                                <input type="checkbox" id="project_emails" data-perm-id="6" class="onoffswitch-checkbox" <?php /*if(isset($contact) && $contact->project_emails == '1'){echo 'checked';} */?>  value="project_emails" name="project_emails" checked>
+                                <input type="checkbox" id="project_emails" data-perm-id="4" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->project_emails == '1'){echo 'checked';} ?>  value="project_emails" name="project_emails" >
                                 <label class="onoffswitch-label" for="project_emails"></label>
                             </div>
                         </div>
@@ -227,7 +230,7 @@
                         </div>
                         <div class="col-md-6 mtop10">
                             <div class="onoffswitch">
-                                <input type="checkbox" id="contract_emails" data-perm-id="3" class="onoffswitch-checkbox" <?php /*if(isset($contact) && $contact->contract_emails == '1'){echo 'checked';} */?>  value="contract_emails" name="contract_emails" checked>
+                                <input type="checkbox" id="contract_emails" data-perm-id="2" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->contract_emails == '1'){echo 'checked';} ?>  value="contract_emails" name="contract_emails">
                                 <label class="onoffswitch-label" for="contract_emails"></label>
                             </div>
                         </div>
@@ -241,7 +244,7 @@
                         </div>
                         <div class="col-md-6 mtop10">
                             <div class="onoffswitch">
-                                <input type="checkbox" id="ticket_emails" data-perm-id="5" class="onoffswitch-checkbox" <?php /*if(isset($contact) && $contact->ticket_emails == '1'){echo 'checked';} */?>  value="ticket_emails" name="ticket_emails" checked>
+                                <input type="checkbox" id="ticket_emails" data-perm-id="5" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->ticket_emails == '1'){echo 'checked';} ?>  value="ticket_emails" name="ticket_emails" >
                                 <label class="onoffswitch-label" for="ticket_emails"></label>
                             </div>
                         </div>
@@ -250,7 +253,7 @@
                         </div>
                         <div class="col-md-6 mtop10">
                             <div class="onoffswitch">
-                                <input type="checkbox" id="task_emails" data-perm-id="6" class="onoffswitch-checkbox" <?php /*if(isset($contact) && $contact->task_emails == '1'){echo 'checked';} */?>  value="task_emails" name="task_emails" checked>
+                                <input type="checkbox" id="task_emails" data-perm-id="6" class="onoffswitch-checkbox" <?php if(isset($contact) && $contact->task_emails == '1'){echo 'checked';}?>  value="task_emails" name="task_emails">
                                 <label class="onoffswitch-label" for="task_emails"></label>
                             </div>
                         </div>
@@ -281,6 +284,37 @@
                     $('#contact_email_notifications [data-perm-id="'+input.val()+'"]').prop('checked',true);
                 }
             });
+
+            var addInputs = [5,6];
+            $.each(addInputs,function(i,dataPermID){
+                // console.log(i, dataPermID);
+                $('#contact_email_notifications [data-perm-id="'+dataPermID+'"]').prop('checked',true);
+            });
         });
+
     </script>
 <?php } ?>
+<script>
+    $('#company').prop('readonly',true);
+    $('#company_form').attr('readonly',true);
+    $('#company_address').prop('readonly',true);
+    $('#company_email').prop('readonly',true);
+    $('#company_phonenumber').prop('readonly',true);
+    $('#company_commercial_register_number').prop('readonly',true);
+
+    $('#person_firstname').prop('readonly',true);
+    $('#person_lastname').prop('readonly',true);
+    $('#person_city').prop('readonly',true);
+    $('#person_street').prop('readonly',true);
+    $('#person_email').prop('readonly',true);
+
+    var length = 8,
+    charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    console.log(retVal);
+    $('#password').val(retVal);
+
+</script>

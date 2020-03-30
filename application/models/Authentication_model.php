@@ -310,7 +310,6 @@ class Authentication_model extends App_Model
         }
         $this->db->where('email', $email);
         $user = $this->db->get($table)->row();
-
         if ($user) {
             if ($user->active == 0) {
                 return [
@@ -339,6 +338,51 @@ class Authentication_model extends App_Model
 
                 if ($sent) {
                     hooks()->do_action('forgot_password_email_sent', ['is_staff_member' => $staff, 'user' => $user]);
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+
+    public function staff_register_email($email,$password, $staff = false)
+    {
+        $table = db_prefix() . 'contacts';
+        $_id   = 'id';
+        if ($staff == true) {
+            $table = db_prefix() . 'staff';
+            $_id   = 'staffid';
+        }
+        $this->db->where('email', $email);
+        $user = $this->db->get($table)->row();
+        if ($user) {
+            if ($user->active == 0) {
+                return [
+                    'memberinactive' => true,
+                ];
+            }
+            if ($this->db->affected_rows() > 0) {
+                $data['staff']        = $staff;
+                $data['userid']       = $user->$_id;
+                $data['password']     = $user->password;
+                $merge_fields         = [];
+
+                if ($staff == false) {
+                    // $sent = send_mail_template('customer_contact_forgot_password', $user->email, $user->userid, $user->$_id, $data);
+                } else {
+                    // $sent = send_mail_template('staff_created', $user->email, $user->$staffid, $data);
+                    $sent = send_mail_template('staff_created', $user->email, $user->staffid, $password);
+                }
+                // print_r($sent); exit();
+                if ($sent) {
+                    hooks()->do_action('staff_created_email_sent', ['is_staff_member' => $staff, 'user' => $user]);
 
                     return true;
                 }

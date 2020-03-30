@@ -1821,7 +1821,7 @@ $lang['zip_invoices']                                                         = 
 $lang['zip_estimates']                                                        = 'Angebote zippen';
 $lang['zip_payments']                                                         = 'Zahlungen zippen';
 $lang['setup_help']                                                           = 'Hilfe';
-$lang['clients_list_company']                                                 = 'Firma';
+$lang['clients_list_company']                                                 = 'Firma / Person';
 $lang['dt_button_export']                                                     = 'Export';
 $lang['dt_entries']                                                           = ' Einträge';
 $lang['invoice_total_paid']                                                   = 'Gesamt bezahlt';
@@ -2715,7 +2715,8 @@ $lang['estimate_invoiced']                                                    = 
 $lang['file_date_uploaded']                                                   = 'Upload Datum';
 $lang['allow_contact_to_delete_files']                                        = 'Kontakten erlauben, eigene Dateien, die aus dem Kundenbereich hochgeladen wurden, zu löschen';
 $lang['file']                                                                 = 'Datei';
-$lang['customer_contact_person_only_one_allowed']                             = 'Nur ein Kontakt ist erlaubt, wenn das Firmenfeld nicht ausgefüllt ist. Das System wird diesen Kunden als Person anlegen';
+// $lang['customer_contact_person_only_one_allowed']                             = 'Nur ein Kontakt ist erlaubt, wenn das Firmenfeld nicht ausgefüllt ist. Das System wird diesen Kunden als Person anlegen';
+$lang['customer_contact_person_only_one_allowed']                             = 'Nur ein Kontakt ist erlaubt';
 $lang['web_to_lead']                                                          = 'Web zu Interessenten';
 $lang['web_to_lead_form']                                                     = 'Web zu Interessenten Formular';
 $lang['new_form']                                                             = 'Neues Formular';
@@ -3458,7 +3459,7 @@ $lang['trial_buy']		   = 'JETZT KOSTENPFLICHTIG KAUFEN';
 
 $lang['als_marketplace']		   = 'Marktplatz';
 $lang['als_view_overview']		   = 'Anzeigen';
-$lang['als_edit_my_showroom_profile']	   = 'Administrationsber';
+$lang['als_edit_my_showroom_profile']	   = 'Administration';
 
 $lang['welcome to'] = 'Willkommen bei';
 $lang['To the MarketplaceHome'] = 'Zurück zum Showroom';
@@ -3621,7 +3622,7 @@ $lang['project_progress_status']                    = 'In Arbeit';
 $lang['clients_my_timetracking']            = 'Meine Zeiterfassung';
 $lang['timetracking_name']                   = 'Zeiterfassung Name';
 $lang['timetracking_start_date']              = 'Start der Zeiterfassung';
-$lang['timetracking_deadline']              = 'Geschätzte Zeit';
+$lang['timetracking_estimated_hours']              = 'Geschätzte Zeit';
 
 $lang['client_psw']              = 'Passwort';
 

@@ -212,6 +212,7 @@
                      <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
                      <input  type="text" class="fake-autofill-field" name="fakeusernameremembered" value='' tabindex="-1"/>
                      <input  type="password" class="fake-autofill-field" name="fakepasswordremembered" value='' tabindex="-1"/>
+                     
                      <div class="clearfix form-group"></div>
                      <label for="password" class="control-label"><?php echo _l('staff_add_edit_password'); ?></label>
                      <div class="input-group">

@@ -282,11 +282,15 @@
                         ),
                          array(
                          'name'=>_l('clients_list_company'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-company')
+                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-company-person')
                         ),
+                        //  array(
+                        //  'name'=>_l('contact_primary'),
+                        //  'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-primary-contact')
+                        // ),
                          array(
-                         'name'=>_l('contact_primary'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-primary-contact')
+                         'name'=>_l('contact_position'),
+                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-customer-type')
                         ),
                          array(
                          'name'=>_l('company_primary_email'),

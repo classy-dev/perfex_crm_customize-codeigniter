@@ -16,6 +16,7 @@ class Gdpr extends AdminController
 
     public function index()
     {
+
         $data['page'] = $this->input->get('page') ? $this->input->get('page') : 'general';
         $data['save'] = true;
         if ($data['page'] == 'forgotten') {
@@ -25,6 +26,7 @@ class Gdpr extends AdminController
             $data['consent_purposes'] = $this->gdpr_model->get_consent_purposes();
         }
         $data['title'] = _l('gdpr');
+        // print_r($data); exit();
         $this->load->view('admin/gdpr/index', $data);
     }
 
@@ -43,7 +45,7 @@ class Gdpr extends AdminController
             $data['gdpr_contact_data_portability_allowed'] = isset($data['gdpr_contact_data_portability_allowed']) ? $data['gdpr_contact_data_portability_allowed'] : array();
             $data['gdpr_contact_data_portability_allowed'] = serialize($data['gdpr_contact_data_portability_allowed']);
         }
-
+        // print_r($data); exit();
         foreach ($data as $name => $val) {
             if (in_array($name, $noXSS)) {
                 $val = $this->input->post('settings', false)[$name];

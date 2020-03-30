@@ -211,6 +211,7 @@ class Clients_model extends App_Model
      */
     public function update($data, $id, $client_request = false)
     {
+
         if($data['profile_title'] == 'company'){
             $data['person_firstname'] = null;
             $data['person_lastname'] = null;
@@ -253,6 +254,24 @@ class Clients_model extends App_Model
         }
 
         $data = $this->check_zero_columns($data);
+
+        $this->db->select('profile_title');
+        $this->db->where('userid',$customer_id);
+        $profile = $this->db->get(db_prefix().'clients')->row()->profile_title;
+
+        if(isset($profile) && ($profile == 'company')){
+            $data['firstname'] = $data['company'];
+            $data['lastname'] = $data['company_form'];
+            $data['email'] = $data['company_email'];
+            $data['phonenumber'] = $data['company_phonenumber'];
+
+        }
+        else if(isset($profile) && ($profile != 'company')){
+            $data['firstname'] = $data['person_firstname'];
+            $data['lastname'] = $data['person_lastname'];
+            $data['email'] = $data['person_email'];
+        }
+
 
         $data = hooks()->apply_filters('before_client_updated', $data, $id);
 
@@ -331,8 +350,10 @@ class Clients_model extends App_Model
      */
     public function update_contact($data, $id, $client_request = false)
     {
+
         $affectedRows = 0;
         $contact      = $this->get_contact($id);
+        // print_r($contact); exit();
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -369,8 +390,38 @@ class Clients_model extends App_Model
             $data['ticket_emails']      = isset($data['ticket_emails']) ? 1 :0;
         }
 
-        $data = hooks()->apply_filters('before_update_contact', $data, $id);
+        $this->db->select('profile_title');
+        $this->db->where('userid',$contact->userid);
+        $profile = $this->db->get(db_prefix().'clients')->row()->profile_title;
 
+        if(isset($profile) && ($profile == 'company')){
+            $data['firstname'] = $data['company'];
+            $data['lastname'] = $data['company_form'];
+            $data['email'] = $data['company_email'];
+            $data['phonenumber'] = $data['company_phonenumber'];
+
+        }
+        else if(isset($profile) && ($profile != 'company')){
+            $data['firstname'] = $data['person_firstname'];
+            $data['lastname'] = $data['person_lastname'];
+            $data['email'] = $data['person_email'];
+        }
+
+        $data = hooks()->apply_filters('before_update_contact', $data, $id);
+        unset($data['company']);
+        unset($data['company_form']);
+        unset($data['company_address']);
+        unset($data['company_email']);
+        unset($data['company_phonenumber']);
+        unset($data['company_commercial_register_number']);
+        
+        unset($data['person_firstname']);
+        unset($data['person_lastname']);
+        unset($data['person_street']);
+        unset($data['person_city']);
+        unset($data['country']);
+        unset($data['person_email']);
+        // print_r($data); exit();
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'contacts', $data);
 
@@ -520,6 +571,24 @@ class Clients_model extends App_Model
 
         $data['email'] = trim($data['email']);
 
+        $this->db->select('profile_title');
+        $this->db->where('userid',$customer_id);
+        $profile = $this->db->get(db_prefix().'clients')->row()->profile_title;
+
+        if(isset($profile) && ($profile == 'company')){
+            $data['firstname'] = $data['company'];
+            $data['lastname'] = $data['company_form'];
+            $data['email'] = $data['company_email'];
+            $data['phonenumber'] = $data['company_phonenumber'];
+
+        }
+        else if(isset($profile) && ($profile != 'company')){
+            $data['firstname'] = $data['person_firstname'];
+            $data['lastname'] = $data['person_lastname'];
+            $data['email'] = $data['person_email'];
+        }
+
+        
         $data = hooks()->apply_filters('before_create_contact', $data);
         
 
@@ -536,6 +605,7 @@ class Clients_model extends App_Model
         unset($data['person_city']);
         unset($data['country']);
         unset($data['person_email']);
+
         // print_r($data); exit();
         $this->db->insert(db_prefix() . 'contacts', $data);
         $contact_id = $this->db->insert_id();
@@ -665,7 +735,7 @@ class Clients_model extends App_Model
         }
 
         $data = hooks()->apply_filters('customer_update_company_info', $data, $id);
-
+        
         $this->db->where('userid', $id);
         $this->db->update(db_prefix() . 'clients', $data);
         if ($this->db->affected_rows() > 0) {
@@ -1081,8 +1151,8 @@ class Clients_model extends App_Model
             $this->db->delete(db_prefix() . 'mail_queue');
 
             if (is_gdpr()) {
-                $this->db->where('email', $result->email);
-                $this->db->delete(db_prefix() . 'listemails');
+                // $this->db->where('email', $result->email);
+                // $this->db->delete(db_prefix() . 'listemails');
 
                 if (!empty($result->last_ip)) {
                     $this->db->where('ip', $result->last_ip);

@@ -13,7 +13,18 @@ $this->ci->db->query("SET sql_mode = ''");
 $aColumns = [
     '1',
     db_prefix().'clients.userid as userid',
+    'profile_title',
     'company',
+    'company_form',
+    'company_address',
+    'company_email',
+    'company_phonenumber',
+    'company_commercial_register_number',
+    'person_firstname',
+    'person_lastname',
+    'person_street',
+    'person_city',
+    'person_email',
     'firstname',
     'email',
     db_prefix().'clients.phonenumber as phonenumber',
@@ -177,7 +188,7 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
+// print_r($rResult); exit();
 foreach ($rResult as $aRow) {
     $row = [];
 
@@ -187,11 +198,15 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['userid'];
 
     // Company
-    $company  = $aRow['company'];
+    if($aRow['profile_title'] == 'company')
+        $company_person  = $aRow['company'];
+    else
+        $company_person  = $aRow['person_firstname'].' '.$aRow['person_lastname'];
+
     $isPerson = false;
 
-    if ($company == '') {
-        $company  = _l('no_company_view_profile');
+    if ($company_person == '') {
+        $company_person  = _l('no_company_view_profile');
         $isPerson = true;
     }
 
@@ -201,34 +216,48 @@ foreach ($rResult as $aRow) {
         $url .= '?contactid=' . $aRow['contact_id'];
     }
 
-    $company = '<a href="' . $url . '">' . $company . '</a>';
+    $company_person = '<a href="' . $url . '">' . $company_person . '</a>';
 
-    $company .= '<div class="row-options">';
-    $company .= '<a href="' . $url . '">' . _l('view') . '</a>';
+    $company_person .= '<div class="row-options">';
+    $company_person .= '<a href="' . $url . '">' . _l('view') . '</a>';
 
     if ($aRow['registration_confirmed'] == 0 && is_admin()) {
-        $company .= ' | <a href="' . admin_url('clients/confirm_registration/' . $aRow['userid']) . '" class="text-success bold">' . _l('confirm_registration') . '</a>';
+        $company_person .= ' | <a href="' . admin_url('clients/confirm_registration/' . $aRow['userid']) . '" class="text-success bold">' . _l('confirm_registration') . '</a>';
     }
     if (!$isPerson) {
-        $company .= ' | <a href="' . admin_url('clients/client/' . $aRow['userid'] . '?group=contacts') . '">' . _l('customer_contacts') . '</a>';
+        $company_person .= ' | <a href="' . admin_url('clients/client/' . $aRow['userid'] . '?group=contacts') . '">' . _l('customer_contacts') . '</a>';
     }
     if ($hasPermissionDelete) {
-        $company .= ' | <a href="' . admin_url('clients/delete/' . $aRow['userid']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
+        $company_person .= ' | <a href="' . admin_url('clients/delete/' . $aRow['userid']) . '" class="text-danger _delete">' . _l('delete') . '</a>';
     }
 
-    $company .= '</div>';
+    $company_person .= '</div>';
 
-    $row[] = $company;
+    $row[] = $company_person;
 
-    // Primary contact
-    $row[] = ($aRow['contact_id'] ? '<a href="' . admin_url('clients/client/' . $aRow['userid'] . '?contactid=' . $aRow['contact_id']) . '" target="_blank">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>' : '');
+    // // Primary contact
+    // $row[] = ($aRow['contact_id'] ? '<a href="' . admin_url('clients/client/' . $aRow['userid'] . '?contactid=' . $aRow['contact_id']) . '" target="_blank">' . $aRow['firstname'] . ' ' . $aRow['lastname'] . '</a>' : '');
+
+    // contract type
+    if($aRow['profile_title'] == 'company')
+        $row[] = _l('company');
+    else
+        $row[] = _l('person');
 
     // Primary contact email
-    $row[] = ($aRow['email'] ? '<a href="mailto:' . $aRow['email'] . '">' . $aRow['email'] . '</a>' : '');
+    //$row[] = ($aRow['email'] ? '<a href="mailto:' . $aRow['email'] . '">' . $aRow['email'] . '</a>' : '');
+
+    if($aRow['profile_title'] == 'company')
+        $row[] = ($aRow['company_email'] ? '<a href="mailto:' . $aRow['company_email'] . '">' . $aRow['company_email'] . '</a>' : '');
+    else
+        $row[] = ($aRow['person_email'] ? '<a href="mailto:' . $aRow['person_email'] . '">' . $aRow['person_email'] . '</a>' : '');
 
     // Primary contact phone
-    $row[] = ($aRow['phonenumber'] ? '<a href="tel:' . $aRow['phonenumber'] . '">' . $aRow['phonenumber'] . '</a>' : '');
-
+    // $row[] = ($aRow['phonenumber'] ? '<a href="tel:' . $aRow['phonenumber'] . '">' . $aRow['phonenumber'] . '</a>' : '');
+    if($aRow['profile_title'] == 'company')
+       $row[] = ($aRow['company_phonenumber'] ? '<a href="tel:' . $aRow['company_phonenumber'] . '">' . $aRow['company_phonenumber'] . '</a>' : ''); 
+    else
+        $row[] = '';
     // Toggle active/inactive customer
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip" data-title="' . _l('customer_active_inactive_help') . '">
     <input type="checkbox"' . ($aRow['registration_confirmed'] == 0 ? ' disabled' : '') . ' data-switch-url="' . admin_url() . 'clients/change_client_status" name="onoffswitch" class="onoffswitch-checkbox" id="' . $aRow['userid'] . '" data-id="' . $aRow['userid'] . '" ' . ($aRow[db_prefix().'clients.active'] == 1 ? 'checked' : '') . '>
