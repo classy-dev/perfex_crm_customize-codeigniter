@@ -42,7 +42,6 @@ class Clients extends AdminController
 
             $role = $this->staff_model->get_role(get_staff_user_id());
             $staffid_arr = $this->staff_model->get_customer_with_role($role[0]['role_type'],$role[0]['role']);
-
             foreach ($staffid_arr as  $value) {
                 $res[] = $value['staffid'];
             }

@@ -8,50 +8,42 @@
                <div class="panel-body">
                   <div class="row">
                      <div class="col-md-4 border-right">
-                      <h4 class="no-margin font-medium"><i class="fa fa-balance-scale" aria-hidden="true"></i> <?php echo _l('sales_report_heading'); ?></h4>
+                      <h4 class="no-margin font-medium"> <?php echo _l('staff_report'); ?></h4>
                       <hr />
                       <p>
                         <a href="#" class="font-medium" onclick="init_report(this,'invoices-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('invoice_report'); ?></a>
                       </p>
                         <hr class="hr-10" />
-                      <!-- <p>
-                        <a href="#" class="font-medium" onclick="init_report(this,'items-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('items_report'); ?></a>
-                      </p>
-                      <hr class="hr-10" /> -->
                       <p>
                         <a href="#" class="font-medium" onclick="init_report(this,'payments-received'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('payments_received'); ?></a>
                       </p>
+                      
                       <hr class="hr-10" />
-                      <!-- <p>
-                        <a href="#" class="font-medium" onclick="init_report(this,'credit-notes'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('credit_notes_report'); ?></a>
-                      </p>
+                      <p><a href="#" class="font-medium" onclick="init_report(this,'total-income'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('report_sales_type_income'); ?></a></p>
+
                       <hr class="hr-10" />
-                      <p>
-                      <a href="#" class="font-medium" onclick="init_report(this,'proposals-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('proposals_report'); ?></a></p>
+                      <p><a href="#" class="font-medium" onclick="init_report(this,'payment-modes'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('payment_modes_report'); ?></a></p>
+
                       <hr class="hr-10" />
-                      <p>
-                        <a href="#" class="font-medium" onclick="init_report(this,'estimates-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('estimates_report'); ?></a>
-                      </p>
-                      <hr class="hr-10" /> -->
-                      <p>
-                        <a href="#" class="font-medium" onclick="init_report(this,'customers-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('report_sales_type_customer'); ?></a>
-                      </p>
+                      <p><a href="#" class="font-medium" onclick="init_report(this,'customers-group'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('report_by_customer_groups'); ?></a></p>
 
                       <?php if(total_rows(db_prefix().'invoices',array('status'=>5)) > 0){ ?>
                       <hr class="hr-10" />
                       <p class="text-danger">
                         <i class="fa fa-exclamation-circle" aria-hidden="true"></i> <?php echo _l('sales_report_cancelled_invoices_not_included'); ?>
                      </p>
+
+
                      <?php } ?>
                   </div>
                   <div class="col-md-4 border-right">
-                    <h4 class="no-margin font-medium"><i class="fa fa-area-chart" aria-hidden="true"></i> <?php echo _l('charts_based_report'); ?></h4>
+                    <h4 class="no-margin font-medium"><?php echo _l('client_report'); ?></h4>
                     <hr />
-                    <p><a href="#" class="font-medium" onclick="init_report(this,'total-income'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('report_sales_type_income'); ?></a></p>
-                    <hr class="hr-10" />
-                    <p><a href="#" class="font-medium" onclick="init_report(this,'payment-modes'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('payment_modes_report'); ?></a></p>
-                    <hr class="hr-10" />
-                    <p><a href="#" class="font-medium" onclick="init_report(this,'customers-group'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('report_by_customer_groups'); ?></a></p>
+                
+                    <p>
+                      <a href="#" class="font-medium" onclick="init_report(this,'customers-report'); return false;"><i class="fa fa-caret-down" aria-hidden="true"></i> <?php echo _l('report_sales_type_customer'); ?></a>
+                    </p>
+                    
                  </div>
                  <div class="col-md-4">
                       <div class="bg-light-gray border-radius-4">

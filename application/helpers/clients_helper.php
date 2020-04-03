@@ -556,6 +556,28 @@ function get_company_name($userid, $prevent_empty_company = false)
     return '';
 }
 
+function get_full_name($userid, $prevent_empty_company = false)
+{
+    $_userid = get_client_user_id();
+    if ($userid !== '') {
+        $_userid = $userid;
+    }
+    $CI = & get_instance();
+
+    $select = ('fullname');
+
+    $client = $CI->db->select($select)
+    ->where('userid', $_userid)
+    ->from(db_prefix() . 'clients')
+    ->get()
+    ->row();
+    if ($client) {
+        return $client->fullname;
+    }
+
+    return '';
+}
+
 function get_client_profile($userid)
 {
     $_userid = get_client_user_id();

@@ -28,10 +28,10 @@ class Todo extends AdminController
         ]) / $this->todo_model->getTodosLimit());
 
         // get stripe
-        $staff_id = get_staff_user_id();
-        $this->load->model('staff_model');
-        $stripe = $this->staff_model->get_stripe($staff_id);
-        $data['stripe'] = $stripe;
+        // $staff_id = get_staff_user_id();
+        // $this->load->model('staff_model');
+        // $stripe = $this->staff_model->get_stripe($staff_id);
+        // $data['stripe'] = $stripe;
 
         $data['title'] = _l('my_todos');
         $this->load->view('admin/todos/all', $data);

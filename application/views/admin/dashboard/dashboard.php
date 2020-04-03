@@ -1,15 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php
-// print_r($stripe); exit();
-?>
 <?php init_head(); ?>
-<?php if ($stripe[0]['stripe_email'] == null) echo '<div id="wrapper" style="margin-left:0">' ?>
-<?php if ($stripe[0]['stripe_email'] != null) echo '<div id="wrapper">' ?>
-<!-- <div id="wrapper"> -->
+
+<div id="wrapper">
     <!-- <div class="screen-options-area"></div>
     <div class="screen-options-btn">
         <?php //echo _l('dashboard_options'); ?>
     </div> -->
+    <?php if ($profile[0]['profile_complete'] == 1){?>
     <div class="content">
         <div class="row">
 
@@ -73,6 +70,7 @@
             <?php hooks()->do_action('after_dashboard'); ?>
         </div>
     </div>
+    <?php }?>
 </div>
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -107,13 +105,10 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        var stripe0 = '<?php echo json_encode($stripe)?>';
-        var stripe = JSON.parse(stripe0);
-
-        console.log(stripe[0].stripe_email);
-        // console.log("dashboard")
-        if(stripe[0].stripe_email == null || stripe[0].stripe_email == '' ) {
-            // $('#wrapper').css("margin-left","0");
+        var profile0 = '<?php echo json_encode($profile)?>';
+        var profile = JSON.parse(profile0);
+        console.log(profile[0].profile_complete);
+        if(profile[0].profile_complete != 1) {
             $('#myModal').modal('show');
         }
         

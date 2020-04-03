@@ -135,6 +135,7 @@ function add_jquery_validation_js_assets($group = 'admin')
 
     $jqValidationBase = 'assets/plugins/jquery-validation/';
     $CI->app_scripts->add('jquery-validation-js', $jqValidationBase . 'jquery.validate.min.js', $group);
+    // $CI->app_scripts->add('jquery-validation-js', $jqValidationBase . 'jquery.validate.js', $group);
 
     if ($locale != 'en') {
         if (file_exists(FCPATH . $jqValidationBase . 'localization/messages_' . $locale . '.min.js')) {

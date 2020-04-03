@@ -576,7 +576,7 @@ $lang['staff_dt_last_Login']                                                  = 
 $lang['staff_dt_active']                                                      = 'Aktiv';
 $lang['staff_add_edit_firstname']                                             = 'Vorname';
 $lang['staff_add_edit_lastname']                                              = 'Nachnname';
-$lang['staff_add_edit_email']                                                 = 'E-Mail';
+$lang['staff_add_edit_email']                                                 = 'E-Mail zu Abrechnungszwecken';
 
 $lang['staff_add_edit_address']                       						  = 'Adresse';
 $lang['staff_add_edit_city']                       							  = 'Stadt';
@@ -3648,3 +3648,12 @@ $lang['client_person_email']   = 'E-Mailadresse';
 $lang['staff_add_edit_company']   = 'Firma';
 
 $lang['beratung_customer_payment_value_excl_tax']   = 'Customer Payment Value Excl Tax';
+
+$lang['email_success']   = 'Ihre eMail-Adresse wurde noch nicht bestätigt. Bitte bestätigen sie zuerst ihr Mailadresse.';
+
+$lang['thank_register'] = 'Vielen Dank für Ihre Registrierung.';
+$lang['check_email'] = 'Wir haben ihnen eine eMail zur Bestätigung ihrer eMail-Adresse gesendet.';
+$lang['check_link'] = 'Bitte bestätigen sie diesen Link!';
+$lang['diapy_team'] = 'Ihr DIPAY-Team';
+
+$lang['clientid'] = 'Kunde';

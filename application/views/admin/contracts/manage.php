@@ -31,7 +31,7 @@
                     <?php if(has_permission('contracts','','create')){ ?>
                     <a href="<?php echo admin_url('contracts/contract'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_contract'); ?></a>
 
-                    <!-- <a href="<?php echo admin_url('contracts/contract'); ?>" class="btn btn-info pull-left display-block" style="margin-left: 10px;"><?php echo _l('import_contract'); ?></a> -->
+                    <a href="<?php echo admin_url('contracts/contract_import'); ?>" class="btn btn-info pull-left display-block" style="margin-left: 10px;"><?php echo _l('import_contract'); ?></a>
 
                     <?php } ?>
                     <div class="btn-group pull-right btn-with-tooltip-group _filter_data" data-toggle="tooltip" data-title="<?php echo _l('filter_by'); ?>">

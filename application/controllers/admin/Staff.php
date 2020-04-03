@@ -5,7 +5,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Staff extends AdminController
 {
     /* List all staff members */
-    
+//     function __construct() {
+//         parent::__construct();
+//         error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
+//     }
     public function index()
     {
         if (!has_permission('staff', '', 'view')) {
@@ -16,14 +21,15 @@ class Staff extends AdminController
         }
         $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
         $data['title']         = _l('staff_members');
-        
         $this->load->view('admin/staff/manage', $data);
     }
 
     /* Add new staff member or edit existing */
     public function member($id = '')
     {
-        
+        $user_rel = array();
+        $created_by = get_staff_user_id();
+
         if (!has_permission('staff', '', 'view')) {
             access_denied('staff');
         }
@@ -32,18 +38,40 @@ class Staff extends AdminController
         $this->load->model('departments_model');
         if ($this->input->post()) {
             $data = $this->input->post();
+
+
+
             // Don't do XSS clean here.
             $data['email_signature'] = $this->input->post('email_signature', false);
             $data['email_signature'] = html_entity_decode($data['email_signature']);
 
             $data['password'] = $this->input->post('password', false);
 
+            
+            
             if ($id == '') {
                 if (!has_permission('staff', '', 'create')) {
                     access_denied('staff');
                 }
                 $id = $this->staff_model->add($data);
                 if ($id) {
+                    $created_by = get_staff_user_id();
+
+                    /*check the sub agent have percentage of this agent? */
+                    $check_agent = $this->staff_model->check_subagent_percentage($created_by);
+                    
+                    /*end check sub agent percentage*/
+
+                    if(!empty($check_agent)){
+                        $user_rel = array("created_by"=>$created_by,"create_id"=>$id,"date"=>date('Y-m-d'),"percentage"=>$check_agent->percentage);
+                    }else{
+                        $user_rel = array("created_by"=>$created_by,"create_id"=>$id,"date"=>date('Y-m-d'));
+                    }
+                    
+                    $relation_id = $this->staff_model->add_user_relation($user_rel);
+                    
+
+
                     handle_staff_profile_image_upload($id);
                     set_alert('success', _l('added_successfully', _l('staff_member')));
                     redirect(admin_url('staff/member/' . $id));
@@ -98,10 +126,11 @@ class Staff extends AdminController
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['roles']         = $this->roles_model->get();
-        $data['role_type']         = $this->roles_model->get_type();
+        $data['role_type']     = $this->roles_model->get_type();
         $data['user_notes']    = $this->misc_model->get_notes($id, 'staff');
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
+        $data['check_admin']   = $this->staff_model->get_staff_status(get_staff_user_id());
 
         $this->load->view('admin/staff/member', $data);
     }
@@ -183,9 +212,9 @@ class Staff extends AdminController
             unset($data['view_all']);
         }
 
-        $staff_id = get_staff_user_id();
-        $stripe = $this->staff_model->get_stripe($staff_id);
-        $data['stripe'] = $stripe;
+        // $staff_id = get_staff_user_id();
+        // $stripe = $this->staff_model->get_stripe($staff_id);
+        // $data['stripe'] = $stripe;
 
         $data['logged_time'] = $this->staff_model->get_logged_time_data(get_staff_user_id());
         $data['title']       = '';
@@ -224,20 +253,31 @@ class Staff extends AdminController
         $member = $this->staff_model->get(get_staff_user_id());
         $this->load->model('departments_model');
         $this->load->model('currencies_model');
+        $data['base_currency'] = $this->currencies_model->get_base_currency();
         $data['member']            = $member;
         $data['departments']       = $this->departments_model->get();
         $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
-        $data['base_currency'] = $this->currencies_model->get_base_currency();
-        //get stripe
-        $staff_id = get_staff_user_id();
-        $this->load->model('staff_model');
-        $stripe = $this->staff_model->get_stripe($staff_id);
-        $data['stripe'] = $stripe;
 
+        // //get stripe
+        // $staff_id = get_staff_user_id();
+        // $this->load->model('staff_model');
+        // $stripe = $this->staff_model->get_stripe($staff_id);
+        // $data['stripe'] = $stripe;
+
+        // get stripe
+        $this->db->select();
+        $this->db->where('staff_id',get_staff_user_id());
+        $data['stripe_info'] = $this->db->get(db_prefix().'stripe_info')->row();
         $data['title']             = $member->firstname . ' ' . $member->lastname;
-        // print_r($data); exit();
+
+        //get stripe info
+        // $stripe_info = $this->staff_model->get_stripe_info($staff_id);
+        // $data['stripe_info'] = $stripe_info;
+
+
         $this->load->view('admin/staff/profile', $data);
     }
+
 
     /* Remove staff profile image / ajax */
     public function remove_staff_profile_image($id = '')
@@ -307,10 +347,10 @@ class Staff extends AdminController
         ]);
         $data['total_pages'] = ceil($total_notifications / $this->misc_model->get_notifications_limit());
          //get stripe
-        $staff_id = get_staff_user_id();
-        $this->load->model('staff_model');
-        $stripe = $this->staff_model->get_stripe($staff_id);
-        $data['stripe'] = $stripe;
+        // $staff_id = get_staff_user_id();
+        // $this->load->model('staff_model');
+        // $stripe = $this->staff_model->get_stripe($staff_id);
+        // $data['stripe'] = $stripe;
         
         $this->load->view('admin/staff/myprofile', $data);
     }
@@ -379,23 +419,349 @@ class Staff extends AdminController
             die;
         }
     }
-    // for stripe info in edit staff profile
-    public function stripe_info()
+    
+    //for stripe bank details info
+    public function stripe_bank_details()
     {
-        // print_r($_POST); exit();
+        $this->load->library('stripe_core');
         if(isset($_POST)){
-            $data['stripe_email'] = $_POST['stripe_email'];
-            $data['stripe_password'] = $_POST['stripe_password'];
-            $staff_id = get_staff_user_id();
-             
-                $this->staff_model->add_stripe($data, $staff_id);
-                    set_alert('success', _l('added_successfully', _l('stripe')));
+            
+        
+            try{
+                $id_proof_file_front_id = $this->session->userdata('id_proof_file_front_id');
+            }catch (Exception $e) {
+                set_alert('danger', 'Id Proof Front Not Exist ');
+                redirect(admin_url('staff/edit_profile'));
+            }
+
+            try{
+                $id_proof_file_back_id = $back = $this->session->userdata('id_proof_file_back_id');
+            }catch (Exception $e) {
+                set_alert('danger', 'Id Proof Back Not Exist ');
+                redirect(admin_url('staff/edit_profile'));
+            }
+
+            try{
+                $addtional_id_proof_id = $this->session->userdata('addtional_id_proof_id');
+            }catch (Exception $e) {
+                set_alert('danger', 'Addtional id proof Not Exist ');
+                redirect(admin_url('staff/edit_profile'));
+            }
+
+            
+
+
+
+            $data['stripe_email'] = $_POST['stripe_bank_email'];
+            $data['currency'] = $_POST['bank_account_currency'];
+            $data['country'] = $_POST['bank_account_country'];
+            $data['IBAN'] = $_POST['account_numbers'];
+            $data['staff_id'] = get_staff_user_id();
+            $datas['staff_p']     = $this->staff_model->get($data['staff_id']);
+
+
+            /*code for get account_id*/
+            $stripe_data = array('type' => 'custom',
+                              'country' => $data['country'],
+                              'email' => $data['stripe_email'],
+                              'requested_capabilities' => [
+                                'card_payments',
+                                'transfers',
+                              ],
+                            );
+            try{
+                $response_account = $this->stripe_core->get_account_id($stripe_data);
+                $account_id = $response_account['id'];
+            }catch (Exception $e) {
+                set_alert('danger', $e->getMessage());
+                redirect(admin_url('staff/edit_profile'));
+            }
+
+            /*End get account id*/
+            /*star for get token id*/
+            $stripe_token_data = array(
+                                    'bank_account' => [
+                                   'country' => $data['country'],
+                                    'currency' => $data['currency'],
+                                    'account_holder_name' => $datas['staff_p']->firstname.' '.$datas['staff_p']->lastname,
+                                    'account_holder_type' => 'individual',
+                                    #'routing_number' => '110000000',
+                                    'account_number' => $data['IBAN'],
+                                  ],
+                                );
+            try{
+                $response_token = $this->stripe_core->create_token($stripe_token_data);
+                $token_id = $response_token->id;
+            }catch (Exception $e) {
+                set_alert('danger', $e->getMessage());
+                redirect(admin_url('staff/edit_profile'));
+            }
+            
+            /*end token**/
+            /*start create account*/
+           
+            $external_account = ['external_account' => $token_id];
+            try{
+                $response_create_account = $this->stripe_core->create_external_account($account_id,$external_account);            
+                $data['bank_account_id'] = $response_create_account->id;
+            }catch (Exception $e) {
+                set_alert('danger', $e->getMessage());
+                redirect(admin_url('staff/edit_profile'));
+            }
+            
+
+            /*end create account*/  
+            try{
+                if(!empty($response_create_account))
+                {
+                    $data['bank_account_id'] = $response_create_account->id;
+                    $data['stripe_account_id'] = $response_create_account->account;
+                    $data['fingerprint'] = $response_create_account->fingerprint;
+                    $this->staff_model->add_stripe_bank_details($data);
+                    try{
+
+                        $connected_stripe_account_id = $account_id;
+
+        $account_update_arr = [
+                                'requested_capabilities' => [
+                                'card_payments',
+                                'transfers',
+                                ],
+                                'business_type'=>'individual',
+                                'business_profile'=>[
+                                  'mcc'=>7011,
+                                  'url'=>'http://dipay.de',
+                                  'name'=>$datas['staff_p']->firstname.' '.$datas['staff_p']->lastname
+                                ],
+                                'individual'=> [
+                                      'address'=>[
+                                        'city'=>'Berlin',
+                                        'line1'=>'123 Smith Street Apartment 4B',
+                                        'postal_code'=>'20095',
+                                      ],
+                                      'dob'=>[
+                                        'day'=>'09',
+                                        'month'=>'08',
+                                        'year'=>'1992'
+                                      ],
+                                      'email'=>$data['stripe_email'],
+                                      'first_name'=>$datas['staff_p']->firstname,
+                                      'last_name'=>$datas['staff_p']->lastname,
+                                      'phone'=>7985689562,
+                                      'verification'=>[
+                                      'document'=>[
+                                        'front'=>$_SESSION["id_proof_file_front_id"],
+                                        'back'=>$_SESSION["id_proof_file_back_id"],
+                                      ],
+                                      'additional_document'=>[
+                                        'front'=>$_SESSION["addtional_id_proof_id"],
+                                      ],
+                                    ],
+                                ],
+                                
+                                'tos_acceptance' => [
+                                  'date' => time(),
+                                  'ip' => $_SERVER['REMOTE_ADDR'],
+                                ],
+                                ['metadata' => ['order_id' => '5523']]
+                            ];
+
+
+            //account update start
+
+                        $update = $this->stripe_core->account_update($connected_stripe_account_id,$account_update_arr);
+            //end account update           
+
+                    }catch (Exception $e) {
+                        set_alert('danger', $e->getMessage());
+                        redirect(admin_url('staff/edit_profile'));
+                    }
+
+                    set_alert('success', _l('Bank Account Create Successfully', _l('stripe')));
                     redirect(admin_url('staff/edit_profile'));
+                }  
+            }
+            catch (Exception $e) {
+                set_alert('danger', $e->getMessage());
+                redirect(admin_url('staff/edit_profile'));
+            }
+            
         }
     }
-    // for role_name in staff table
-    public function get_staff_role_name()
-    {
-        return "attacthed";
+   
+
+    public function id_proff_front(){
+        $data = [];
+
+            $this->load->library('stripe_core');
+            $image = $_FILES['identity_proof_front']['name'];
+
+            $size = $_FILES['identity_proof_front']['size'];
+
+            if(!empty($image)){
+                //if($size > 50000000){
+
+                     $imageArr=explode('.',$image); 
+                     $rand=rand(10000,99999);
+                     $newImageName=$imageArr[0].$rand.'.'.$imageArr[1];
+                     $uploadPath="uploads/document_details/".$newImageName;
+                     $isUploaded=move_uploaded_file($_FILES["identity_proof_front"]["tmp_name"],$uploadPath);
+                     if($isUploaded){
+
+                          $id_proof_file_front_id = $this->stripe_core->create_file_id(fopen('/var/www/vhosts/dipay.de/my.dipay.de/uploads/document_details/'.$newImageName, 'r'));
+                         if(!empty($id_proof_file_front_id)){
+                            $this->session->set_userdata('id_proof_file_front_id', $id_proof_file_front_id);
+                            $data['success'] = 1;
+                            $data['message'] = "image upload done";
+                            $data['token'] = $this->security->get_csrf_hash();
+                            $data['imageId'] = $id_proof_file_front_id;
+                         }else{
+                            $data['success'] = 0;
+                            $data['message'] = "Something went wrong";
+                            $data['token'] = $this->security->get_csrf_hash();
+
+                         }
+                       
+                     }else{
+                        $data['success'] = 0;
+                        $data['message'] = "image not upload";
+                        $data['token'] = $this->security->get_csrf_hash();
+                     }
+                /*}
+                else
+                {
+                        $data['success'] = 0;
+                        $data['message'] = "File size must be less than 5 mb";
+                        $data['token'] = $this->security->get_csrf_hash();
+                }*/
+            }
+            else
+            {
+                $data['success'] = 0;
+                $data['message'] = "Please select file";
+                $data['token'] = $this->security->get_csrf_hash();
+            }
+        echo json_encode($data);
+    }
+
+    public function id_proff_back(){
+        $data = [];
+
+            $this->load->library('stripe_core');
+            $image = $_FILES['identity_proof_back']['name'];
+
+            $size = $_FILES['identity_proof_back']['size'];
+
+            if(!empty($image)){
+                //if($size > 50000000){
+
+                     $imageArr=explode('.',$image); 
+                     $rand=rand(10000,99999);
+                     $newImageName=$imageArr[0].$rand.'.'.$imageArr[1];
+                     $uploadPath="uploads/document_details/".$newImageName;
+                     $isUploaded=move_uploaded_file($_FILES["identity_proof_back"]["tmp_name"],$uploadPath);
+                     if($isUploaded){
+
+                          $id_proof_file_back_id = $this->stripe_core->create_file_id(fopen('/var/www/vhosts/dipay.de/my.dipay.de/uploads/document_details/'.$newImageName, 'r'));
+                         if(!empty($id_proof_file_back_id)){
+                             $this->session->set_userdata('id_proof_file_back_id', $id_proof_file_back_id);
+                            $data['success'] = 1;
+                            $data['message'] = "image upload done";
+                            $data['token'] = $this->security->get_csrf_hash();
+                            $data['imageId'] = $id_proof_file_back_id;
+                         }else{
+                            $data['success'] = 0;
+                            $data['message'] = "Something went wrong";
+                            $data['token'] = $this->security->get_csrf_hash();
+
+                         }
+                       
+                     }else{
+                        $data['success'] = 0;
+                        $data['message'] = "image not upload";
+                        $data['token'] = $this->security->get_csrf_hash();
+                     }
+                /*}
+                else
+                {
+                        $data['success'] = 0;
+                        $data['message'] = "File size must be less than 5 mb";
+                        $data['token'] = $this->security->get_csrf_hash();
+                }*/
+            }
+            else
+            {
+                $data['success'] = 0;
+                $data['message'] = "Please select file";
+                $data['token'] = $this->security->get_csrf_hash();
+            }
+        echo json_encode($data);
+    }
+
+    public function addtional_id_proof(){
+        $data = [];
+
+            $this->load->library('stripe_core');
+            $image = $_FILES['addtional_id_proof']['name'];
+
+            $size = $_FILES['addtional_id_proof']['size'];
+
+            if(!empty($image)){
+                //if($size > 50000000){
+
+                     $imageArr=explode('.',$image); 
+                     $rand=rand(10000,99999);
+                     $newImageName=$imageArr[0].$rand.'.'.$imageArr[1];
+                     $uploadPath="uploads/document_details/".$newImageName;
+                     $isUploaded=move_uploaded_file($_FILES["addtional_id_proof"]["tmp_name"],$uploadPath);
+                     if($isUploaded){
+
+                          $addtional_id_proof_id = $this->stripe_core->create_file_id(fopen('/var/www/vhosts/dipay.de/my.dipay.de/uploads/document_details/'.$newImageName, 'r'));
+                         if(!empty($addtional_id_proof_id)){
+                            //$_SESSION['id_proof_file_back_id'] = $id_proof_file_back_id;
+                            $this->session->set_userdata('addtional_id_proof_id', $addtional_id_proof_id);
+                            $data['success'] = 1;
+                            $data['message'] = "image upload done";
+                            $data['token'] = $this->security->get_csrf_hash();
+                            $data['imageId'] = $addtional_id_proof_id;
+                         }else{
+                            $data['success'] = 0;
+                            $data['message'] = "Something went wrong";
+                            $data['token'] = $this->security->get_csrf_hash();
+
+                         }
+                       
+                     }else{
+                        $data['success'] = 0;
+                        $data['message'] = "image not upload";
+                        $data['token'] = $this->security->get_csrf_hash();
+                     }
+                /*}
+                else
+                {
+                        $data['success'] = 0;
+                        $data['message'] = "File size must be less than 5 mb";
+                        $data['token'] = $this->security->get_csrf_hash();
+                }*/
+            }
+            else
+            {
+                $data['success'] = 0;
+                $data['message'] = "Please select file";
+                $data['token'] = $this->security->get_csrf_hash();
+            }
+        echo json_encode($data);
+    }
+    public function user_relation(){
+        $data=[];
+        if (!has_permission('staff', '', 'view')) {
+            access_denied('staff');
+        }
+        if ($this->input->is_ajax_request()) {
+            $this->app->get_table_data('staff');
+        }
+        $data['staff_members'] = $this->staff_model->get_user_relation('', ['active' => 1]);
+        $data['title']         = _l('staff_members');
+        $this->load->view('admin/staff/user_relation', $data);
     }
 }

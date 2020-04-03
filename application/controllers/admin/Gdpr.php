@@ -49,10 +49,12 @@ class Gdpr extends AdminController
         foreach ($data as $name => $val) {
             if (in_array($name, $noXSS)) {
                 $val = $this->input->post('settings', false)[$name];
+                print_r($name);
+                print_r($val);
             }
             update_option($name, $val);
         }
-
+        exit();
         redirect(admin_url('gdpr/index?page=' . $page));
     }
 

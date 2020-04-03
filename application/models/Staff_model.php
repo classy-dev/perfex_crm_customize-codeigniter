@@ -329,6 +329,21 @@ class Staff_model extends App_Model
         return $this->db->get(db_prefix() . 'staff')->result_array();
     }
 
+    public function get_user_relation(){
+         return $this->db->get(db_prefix() . 'user_relation')->result_array();
+    }
+
+
+    public function get_stripe_info($id){
+        $result = array();
+        $query = $this->db->query("select * from tblstripe_info where staff_id=$id");
+        if($query->num_rows()>0){
+            return $result = $query->row();
+        }else{
+            return $result;
+        }
+    }
+
     public function get_staff_with_country($id){
         $query = $this->db->query("SELECT tblstaff.*,tblcountries.`short_name`FROM tblstaff LEFT JOIN tblcountries ON tblstaff.`country`=tblcountries.`country_id` where `staffid`=$id");
         return $query->result_array();
@@ -589,15 +604,42 @@ class Staff_model extends App_Model
         
         return false;
     }
+//coded by matainja
+    /**
+     * create account
+     * @param  array $data or $dat staff data
+     * @param  mixed $id   staff id
+     * @return boolean
+     */
 
-    public function add_stripe($dat,$staff_id)
-    {
-        $data['stripe_email'] = $dat['stripe_email'];
-        $data['stripe_password'] = app_hash_password($dat['stripe_password']);
+    public function add_stripe_bank_details($data){
 
-        $this->db->where('staffid', $staff_id);
-        $this->db->update(db_prefix() . 'staff', $data);
+        #print_r($data);
+        #die;
+        $exist_check = $this->db->get_where(db_prefix() . 'stripe_info', array('staff_id' => $data['staff_id']));
 
+        if($exist_check->num_rows()>0){
+            $this->db->where('staff_id', $data['staff_id']);
+            $this->db->update(db_prefix() . 'stripe_info', $data);
+            $insert_id = $this->db->affected_rows();
+
+        }else{
+            
+            $this->db->insert(db_prefix() . 'stripe_info', $data);
+            $insert_id = $this->db->insert_id();
+        }
+
+        if($afftectedRows || $insert_id > 0)
+        {
+            $password = rand();
+            $dat['stripe_email'] = $data['stripe_email'];
+            $dat['stripe_password'] = app_hash_password($password);
+
+            $this->db->where('staffid', $data['staff_id']);
+            $this->db->update(db_prefix() . 'staff', $dat);
+        }
+        
+       
     }
     /**
      * Update staff member info
@@ -734,7 +776,6 @@ class Staff_model extends App_Model
 
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', $data);
-        // print_r($this->db->affected_rows()); exit();
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
         }
@@ -742,7 +783,6 @@ class Staff_model extends App_Model
         if ($this->update_permissions((isset($data['admin']) && $data['admin'] == 1 ? [] : $permissions), $id)) {
             $affectedRows++;
         }
-        // print_r($affectedRows); exit();
         if ($affectedRows > 0) {
 
             hooks()->do_action('staff_member_updated', $id);
@@ -799,6 +839,7 @@ class Staff_model extends App_Model
 
     public function update_profile($data, $id)
     {
+        // print_r($data); exit();
         $data = hooks()->apply_filters('before_staff_update_profile', $data, $id);
 
         if (empty($data['password'])) {
@@ -814,7 +855,32 @@ class Staff_model extends App_Model
             $data['two_factor_auth_enabled'] = 0;
         }
 
+        if(isset($data['index1']) && $data['index1'] == 'on')
+            $data['index1'] = 1;
+        else
+            $data['index1'] = null;
 
+        if(isset($data['index2']) && $data['index2'] == 'on')
+            $data['index2'] = 1;
+        else
+            $data['index2'] = null;
+
+        if(isset($data['index3']) && $data['index3'] == 'on')
+            $data['index3'] = 1;
+        else
+            $data['index3'] = null;
+
+        if(isset($data['index4']) && $data['index4'] == 'on')
+            $data['index4'] = 1;
+        else
+            $data['index4'] = null;
+
+        if(isset($data['index5']) && $data['index5'] == 'on')
+            $data['index5'] = 1;
+        else
+            $data['index5'] = null;
+        
+        $data['profile_complete'] = 1;
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', $data);
         if ($this->db->affected_rows() > 0) {
@@ -990,27 +1056,26 @@ class Staff_model extends App_Model
         $query = $this->db->query("select role, role_type from tblstaff where `staffid` = $id");
         return $query->result_array();
     }
-    public function get_stripe($id){
+    public function get_profile_complete($id){
 
-        $query = $this->db->query("select `stripe_email`,`stripe_password` from tblstaff where `staffid` = $id");
+        $query = $this->db->query("select `profile_complete` from tblstaff where `staffid` = $id");
         return $query->result_array();
     }
+
     ////get staffid for customer
     public function get_customer_with_role($role_type,$role){
-        // $query = $this->db->query("select staffid from tblstaff where `role_type` = $role_type and `role` in (5,6)");
         
         $my_num = $this->db->query("select number from tblroles where `roleid` = '$role'");
         $my_num1 = $my_num->result_array();
+
         $c_name = $this->db->query("select common_letter from tblroles where `roleid` = '$role' ");
         $c_name1 = $c_name->result_array();
         $c_name2 = $c_name1[0]['common_letter'];
+
         $name_num = $this->db->query("select number from tblroles where `common_letter`= '$c_name2'");
         $name_num_arr = $name_num->result_array();
-        // print_r($name_num_arr); exit();
+        
         foreach ($name_num_arr as  $value) {
-            # code...
-            // print_r($value['number']);
-            // exit();
             if($value['number'] >= $my_num1[0]['number'])
                 $res[] = $value['number'];
         }
@@ -1023,17 +1088,67 @@ class Staff_model extends App_Model
 
         $whereIn1 = implode(",", $res1);
         $staff_res = $this->db->query('select staffid from '.db_prefix().'staff where `role_type` = '.$role_type.' and `role` in ('.$whereIn1.')');
+
         return $staff_res->result_array();
-        // print_r($staff_res); exit();
     }
 
      // for role_name in staff table
     public function get_staff_role_name($id)
     {
-
         $query = $this->db->query("SELECT `role_type_name` FROM tblrole_type WHERE `id`=$id");
         return $query->row();
-
     }
 
+//coded by matainja
+    public function get_account_details($id){
+        $query = $this->db->query("SELECT stripe_account_id FROM tblstripe_info WHERE staff_id=".$id);
+        return $query->row();
+    }
+    public function get_agent_id_by_invoice_id($invoice_id){
+        $query = $this->db->query("SELECT addedfrom FROM tblinvoices WHERE id=".$invoice_id);
+        return $query->row();
+    }
+    public function get_agent_percentage(){
+        $query = $this->db->query("SELECT value FROM tbloptions WHERE name='percentage_agent'");
+        return $query->row();
+    }
+
+    public function add_user_relation($data){
+        $insert_id = 0;
+        if(!empty($data)){
+            $this->db->insert(db_prefix() . 'user_relation', $data);
+            $insert_id = $this->db->insert_id();
+        }
+        return $insert_id;
+    }
+     public function get_staff_status($staff_id){
+        
+        $row = array();
+        $query = $this->db->query('select admin from tblstaff where staffid="'.$staff_id.'" AND active=1');
+        if($query){
+            return $query->row();
+        }
+        return $row;
+    }
+    public function get_relation_count($staff_id){
+        
+        $row = array();
+        $query = $this->db->query('select count(*) as total_sub_agent from tbluser_relation where create_id="'.$staff_id.'"');
+        if($query->num_rows()>0){
+            return $query->row();
+        }
+        return $row;
+    }
+    public function check_subagent_percentage($staff_id){
+        $percentage = 0;
+        $row = array();
+
+        $query = $this->db->query('select percentage,created_by,create_id from tbluser_relation where create_id="'.$staff_id.'"');
+        if($query->num_rows()>0){
+            return $row = $query->row();
+        }
+        
+        return $row;
+    }
+    //end code matainja
 }

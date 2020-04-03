@@ -168,9 +168,11 @@ function get_relation_values($relation, $type)
         if (is_array($relation)) {
             $id   = $relation['userid'];
             $name = $relation['company'];
+            // $name = $relation['fullname'];
         } else {
             $id   = $relation->userid;
             $name = $relation->company;
+            // $name = $relation->fullname;
         }
         $link = admin_url('clients/client/' . $id);
     } elseif ($type == 'contact' || $type == 'contacts') {
@@ -315,8 +317,8 @@ function get_relation_values($relation, $type)
             $clientId = $relation->clientid;
         }
 
-        $name = '#' . $id . ' - ' . $name . ' - ' . get_company_name($clientId);
-
+        // $name = '#' . $id . ' - ' . $name . ' - ' . get_company_name($clientId);
+        $name = '#' . $id . ' - ' . $name . ' - ' . get_full_name($clientId);
         $link = admin_url('projects/view/' . $id);
     }
 

@@ -1,8 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<?php if ($stripe[0]['stripe_email'] == '' or $stripe[0]['stripe_email'] == null ) echo '<div id="wrapper" style="margin-left:0">' ?>
-<?php if ($stripe[0]['stripe_email'] != '' or $stripe[0]['stripe_email'] != null) echo '<div id="wrapper">' ?>
-<!-- <div id="wrapper"> -->
+<div id="wrapper">
   <div class="content">
     <div class="row">
       <?php if (($staff_p->staffid == get_staff_user_id() || is_admin()) && !$this->input->get('notifications')){ ?>

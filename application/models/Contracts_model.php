@@ -95,8 +95,8 @@ class Contracts_model extends App_Model
         $query = $this->db->query("select `description`,`staff_name`, `staff_info`, `cus_value`,`cus_addr_value` from tblcontracts where `client`=$clientid && `addedfrom`=$staffid");
         return $query->result_array();
     }
-    public function get_staff_hourly_rate($staffid){
-        $query = $this->db->query("select `hourly_rate` from tblstaff where `staffid`=$staffid");
+    public function get_timetracking_hourly_rate($id_on_contract){
+        $query = $this->db->query("select `project_rate_per_hour` from tblprojects where `id`=$id_on_contract");
         return $query->result_array();
     }
 
@@ -115,9 +115,9 @@ class Contracts_model extends App_Model
         $customer_addr = $data['cus_addr_value'];
         $data['dateadded'] = date('Y-m-d H:i:s');
         $data['addedfrom'] = get_staff_user_id();
-        $data['hourly_rate'] = $this->get_staff_hourly_rate($data['addedfrom'])[0]['hourly_rate'];
-        // print_r($data['hourly_rate']); exit();
-        // $data['description'] = $data['description'];
+
+        $data['hourly_rate'] = $this->get_timetracking_hourly_rate($data['timetracking_id'])[0]['project_rate_per_hour'];
+
         $data['subscription'] = $data['subscription'];
         $sub_array = explode(",", $data['sub_arr']) ;
 
@@ -463,7 +463,6 @@ class Contracts_model extends App_Model
     public function update($data, $id)
     {
         $affectedRows = 0;
-
         $data['client'] = $data['client'];
         $staff_name = $data['staff_name'];
         $staff_info = $data['staff_info'];
@@ -471,20 +470,15 @@ class Contracts_model extends App_Model
         $customer_addr = $data['cus_addr_value'];
         $data['dateadded'] = date('Y-m-d H:i:s');
         $data['addedfrom'] = get_staff_user_id();
-        $data['hourly_rate'] = $this->get_staff_hourly_rate($data['addedfrom'])[0]['hourly_rate'];
-        // print_r($data['hourly_rate']); exit();
-        // $data['description'] = $data['description'];
+        $data['hourly_rate'] = $this->get_timetracking_hourly_rate($data['timetracking_id'])[0]['project_rate_per_hour'];
         $data['contract_type'] = $data['contract_type'];
         unset($data['timetracking_rel']);
         // Service-abo
         if ($data['contract_type'] == 2) {
 
-            // $data['subscription'] = $data['subscription'];
             $sub_array = explode(",", $data['sub_arr']) ;
-            // $data['contract_value'] = $data['contract_value'];
             $data['service_p_m'] = $data['custom_fields']['contracts_ser']['method'];
             $data['service_p_t'] = $data['custom_fields']['contracts_ser']['timeframe'];
-            // $data['sub_tax'] = $data['sub_tax'];
 
             $data['consulting_client_point'] = null;
             $data['beratung_remuneration'] = null;
@@ -496,7 +490,7 @@ class Contracts_model extends App_Model
             $data['produkt_p_t'] = null;
             $data['produkt_one_time_payment_value'] = null;
             $data['savings_amount_per_month_value'] = null;
-            // $data['term_value'] = null;
+            $data['term_value'] = null;
             $data['amount_value'] = null;
             $data['produkt_opening_payment_value'] = null;
             $data['opening_payment_check'] = 0;
@@ -507,6 +501,7 @@ class Contracts_model extends App_Model
             $data['agent_remuneration_price_value'] = null;
             $data['timetracking_id'] = null;
             $data['tasks_ids'] = null;
+            $data['real_payment_term'] = null;
 
         }
         // Veratung
@@ -531,7 +526,7 @@ class Contracts_model extends App_Model
             $data['produkt_p_t'] = null;
             $data['produkt_one_time_payment_value'] = null;
             $data['savings_amount_per_month_value'] = null;
-            // $data['term_value'] = null;
+            $data['term_value'] = null;
             $data['amount_value'] = null;
             $data['produkt_opening_payment_value'] = null;
             $data['opening_payment_check'] = 0;
@@ -540,6 +535,7 @@ class Contracts_model extends App_Model
             $data['total_amount_value'] = null;
             $data['agent_remuneration_percent_value'] = null;
             $data['agent_remuneration_price_value'] = null;
+            $data['real_payment_term'] = null;
 
             if($data['beratung_remuneration'] != 'Payment According To Time Spent')
             {
@@ -591,6 +587,7 @@ class Contracts_model extends App_Model
             if($data['produkt_p'] == 'One Time Payment'){
                 $data['produkt_p_t'] = null;
                 $data['produkt_opening_payment_on_one_time_value'] = null;
+                $data['real_payment_term'] = null;
             }
             else if($data['produkt_p'] == 'Partial Payment'){
                 $data['produkt_opening_payment_on_one_time_value'] = null;
@@ -690,7 +687,6 @@ class Contracts_model extends App_Model
             
 
             if ($data['contract_type'] == 3){
-                
                 $data['contract_tax'] = $data['tax_id'];
                 unset($data['tax_id']);
 

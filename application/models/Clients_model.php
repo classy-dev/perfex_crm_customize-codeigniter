@@ -56,6 +56,11 @@ class Clients_model extends App_Model
         return $query->result_array();
     }
 
+    public function get_client_by_staff($staffid){
+        $this->db->select();
+        $this->db->where('addedfrom',$staffid);
+        return $this->db->get(db_prefix().'clients')->result_array();
+    }
     /**
      * Get customers contacts
      * @param  mixed $customer_id
@@ -95,6 +100,7 @@ class Clients_model extends App_Model
     {
         // print_r($data); exit();
         if($data['profile_title'] == 'company'){
+            $data['fullname'] = $data['company'];
             $data['person_firstname'] = null;
             $data['person_lastname'] = null;
             $data['person_street'] = null;
@@ -102,7 +108,7 @@ class Clients_model extends App_Model
             $data['person_email'] = null;
         }
         else{
-
+            $data['fullname'] = $data['person_firstname'].' '.$data['person_lastname'];
             $data['company'] = null;
             $data['company_form'] = null;
             $data['company_address'] = null;
@@ -146,7 +152,6 @@ class Clients_model extends App_Model
         }
 
         // New filter action
-        // print_r($data); exit();
         $data = hooks()->apply_filters('before_client_added', $data);
 
         $this->db->insert(db_prefix() . 'clients', $data);

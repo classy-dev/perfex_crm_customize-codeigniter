@@ -1,6 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php $this->load->view('authentication/includes/head.php'); ?>
-
+<style type="text/css">
+  h4{
+    text-align: center;
+    font-weight: 300;
+  }
+</style>
 <body class="authentication register" style="background-image: url(<?php echo site_url('/assets/images/1.png') ?>); background-repeat: no-repeat; background-size: 100%,100%;">
   <div class="container">
    <div class="row" style="display: flex;">
@@ -13,12 +18,10 @@
           <?php echo get_company_logo(); ?>
          </div>
 
-         <?php if(!$email_sent_confirm){?>
-          <?php //echo form_open_multipart(admin_url('authentication/send_email'),array('class'=>'staff-form','autocomplete'=>'off')); 
-          echo form_open_multipart($this->uri->uri_string(),array('class'=>'staff-form','autocomplete'=>'off'));
-          ?>
+         <?php //if(!$email_sent_confirm){?>
+          <?php  echo form_open_multipart($this->uri->uri_string(),array('class'=>'staff-form','autocomplete'=>'off'));?>
          <div class="mtop40 authentication-form">
-
+          <?php $this->load->view('authentication/includes/alerts'); ?>
               <div class="form-group" app-field-wrapper="company">
                 <label for="company" class="control-label"><?php echo _l('staff_add_edit_company')?></label>
                 <input type="text" id="company" name="company" class="form-control" autofocus="1" value="">
@@ -76,8 +79,8 @@
               
               <div class="form-group">   
                 <div class="checkbox checkbox-primary">
-                    <input type="checkbox" style="margin-left: 0" id="register_bottom" name="register_bottom" >
-                    <label for="register_bottom">Durch Absenden der Registrierung erkennen Sie die <a href="<?php echo admin_url('authentication/privacy_policy'); ?>" style="color: #284DF0">Nutzungsbedingungen</a>, sowie die <a href="<?php echo admin_url('authentication/privacy_policy')?>" style="color: #284DF0">Datenschutzbestimmungen von</a>
+                    <input type="checkbox" style="margin-left: 0" id="register_bottom" name="register_bottom" required>
+                    <label for="register_bottom">Durch Absenden der Registrierung erkennen Sie die <a href="#" class="terms_policy" style="color: #284DF0">Nutzungsbedingungen</a>, sowie die <a href="#" class="terms_policy" style="color: #284DF0">Datenschutzbestimmungen </a>von
                     DIPAY als Teil des geschlossenen Kaufvertrages an und bestätigen, von Ihrem Widerrufsrecht als Verbraucher
                     Kenntnis genommen zu haben.</label> 
                 </div>  
@@ -91,28 +94,92 @@
              </div>
          </div> 
         <?php echo form_close(); ?>
-        <?php }?>
-        <?php echo $email_sent_confirm;?>
-        <!-- <div class="authentication-form">
-          <h3 style="font-weight: 0">Vielen Dank für Ihre Registrierung.</h3>
-          <h3>Wir haben ihnen eine eMail zur Bestätigung ihrer eMail-Adresse gesendet.</h3>
-          <h3>Bitte bestätigen sie diesen Link!</h3>
-          <h3>Ihr DIPAY-Team</h3>
-        </div> -->
       </div>
     </div>  
     </div>
   </div>
+  <div id="emailConfirm" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content" style=" width: 380px;margin: auto;border-radius: unset;margin-top: 35%">
+      <div class="modal-body">
+        <!-- <h2 class="modal-title" style="text-align: center;color: gray;font-weight: unset;margin-top: 20px;"><?php echo _l('welcome_to_dipay'); ?></h2> -->
+        <!-- <img src="<?php echo base_url('assets/images/logo.png');?>" style="margin: auto;display: block;width: 50%;margin-top: 15px;margin-bottom: 15px;"> -->
+        
+        <h4 style="margin-top: 20px;margin-bottom: 40px;"><?php echo _l('thank_register'); ?></h4> 
+        
+        <h4 style="margin-top: 25px; margin-bottom: 30px;"><?php echo _l('check_email'); ?></h4>
+        <h4 style="margin-bottom: 30px;"><?php echo _l('check_link'); ?></h4>
+        <h4 style="margin-bottom: 30px;"><?php echo _l('diapy_team'); ?></h4>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="terms_policy_modal" class="modal fade">
+  <div class="modal-dialog">
+    <form method="post" id="blocks_form">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+          <h4><?php echo _l('terms_and_policy'); ?></h4>
+        </div>
+        <div class="modal-body">
+          <p class="">
+              Terms and Conditions
+              <br />
+              <a href="<?php echo terms_url(); ?>" target="_blank"><?php echo terms_url(); ?></a>
+          </p>
+          <?php echo get_option('terms_and_conditions'); ?>
+          <hr class="hr-panel-heading" />
+          <p class="">
+              <i class="fa fa-question-circle" data-toggle="tooltip" data-title="You may want to include the privacy policy in your terms and condtions content."></i> Privacy Policy
+              <br />
+              <a href="<?php echo privacy_policy_url(); ?>" target="_blank"><?php echo privacy_policy_url(); ?></a>
+          </p>
+          <?php echo get_option('terms_and_conditions'); ?>
+        </div>
+        <div class="modal-footer">
+          <input type="button" class="btn btn-success" name="accept" id="accept" value="<?php echo _l('accept_policy'); ?>"/>
+          <button type="button" class="btn btn-default" id="cancel"><?php echo _l('cancel'); ?></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+
   <script type="text/javascript">
   $(document).ready(function(){
+    // Random Password
     var length = 8,
     charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     retVal = "";
     for (var i = 0, n = charset.length; i < length; ++i) {
         retVal += charset.charAt(Math.floor(Math.random() * n));
     }
-    console.log(retVal);
     $('#password').val(retVal);
+
+    //Email Confirm
+    var emailSent = '<?php echo $email_sent_confirm;?>';
+    if(emailSent){
+      $('#emailConfirm').modal('show');
+    }
+    // Terms and Policy
+    $('.terms_policy').click(function(){
+      $('#terms_policy_modal').modal('show');
+    });
+
+    $('#accept').click(function(){
+      $('#register_bottom').prop('checked', true);
+      $('#terms_policy_modal').modal('hide');
+    })
+    $('#cancel').click(function(){
+      $('#register_bottom').prop('checked', false);
+      $('#terms_policy_modal').modal('hide');
+    })
+
   });
     
 </script>

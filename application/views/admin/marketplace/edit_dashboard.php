@@ -246,6 +246,7 @@
                   
                 </div>
                <!--  end blog content -->
+
                <!--  start product table -->
                <div class="col-md-12">
                 <div class="container box" style="margin-top: 40px; width: 100% !important;">
@@ -323,39 +324,40 @@
 
 
 <script type="text/javascript">
-//profile and blog      
 
-        function changeImage(target) {
-          $(target).click();
-        }
-        $(document).on('change','.input-image-file',function(){
-           var imgPath = this.value;
-          var ext = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
-          if (ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg"){
-            readURL(this, this.parentNode.children[0].getAttribute('id'));
-          }
-              
-          else
-              alert("Please select image file (jpg, jpeg, png).");
-        });
+function changeImage(target) {
+  console.log("target", target)
+  $(target).click();
+}
 
-        // $('.input-image-file').change(function () {
-        //         // alert('dd');
+$(document).on('change','.input-image-file',function(){
+  var imgPath = this.value;
+  var ext = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+  if (ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg"){
+    readURL(this, this.parentNode.children[0].getAttribute('id'));
+  }
+      
+  else
+      alert("Please select image file (jpg, jpeg, png).");
+});
 
-        //     });
 
-        function readURL(input, preview) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.readAsDataURL(input.files[0]);
-                    reader.onload = function (e) {
-                        $('#' + preview).attr('src', e.target.result);
-                    };
-                }
-            }
-        function reset(){
-          location.reload();
-        }
+function readURL(input, preview) {
+
+  if (input.files && input.files[0]) {
+
+      var reader = new FileReader();
+      reader.readAsDataURL(input.files[0]);
+      reader.onload = function (e) {
+          $('#' + preview).attr('src', e.target.result);
+      };
+  }
+
+}
+
+function reset(){
+  location.reload();
+}
 
 
 

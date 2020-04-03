@@ -976,6 +976,7 @@ class Projects_model extends App_Model
 
     public function add($data)
     {
+
         if (isset($data['notify_project_members_status_change'])) {
             unset($data['notify_project_members_status_change']);
         }
@@ -1025,10 +1026,16 @@ class Projects_model extends App_Model
         } elseif ($data['billing_type'] == 2) {
             $data['project_cost'] = 0;
         } else {
-            $data['project_rate_per_hour'] = 0;
-            $data['project_cost']          = 0;
+            //from contract
+            if(!isset($data['on_contract'])){
+                $data['project_rate_per_hour'] = 0;
+                $data['project_cost']          = 0;    
+            }
         }
-
+        // if(isset($data['timetracking[project_rate_per_hour]'])){
+        //     $data['project_rate_per_hour'] =
+        // }
+        unset($data['on_contract']);
         $data['addedfrom'] = get_staff_user_id();
 
         $data = hooks()->apply_filters('before_add_project', $data);
@@ -1150,6 +1157,7 @@ class Projects_model extends App_Model
             $notify_project_members_status_change = true;
             unset($data['notify_project_members_status_change']);
         }
+        
         $affectedRows = 0;
         if (!isset($data['settings'])) {
             $this->db->where('project_id', $id);
@@ -1244,8 +1252,12 @@ class Projects_model extends App_Model
         } elseif ($data['billing_type'] == 2) {
             $data['project_cost'] = 0;
         } else {
-            $data['project_rate_per_hour'] = 0;
-            $data['project_cost']          = 0;
+            // from contract
+            if(!isset($data['on_contract'])){
+                $data['project_rate_per_hour'] = 0;
+                $data['project_cost']          = 0;    
+            }
+            
         }
         if (isset($data['project_members'])) {
             $project_members = $data['project_members'];
@@ -1274,9 +1286,8 @@ class Projects_model extends App_Model
             unset($data['cancel_recurring_tasks']);
             $this->cancel_recurring_tasks($id);
         }
-
+        unset($data['on_contract']);
         $data = hooks()->apply_filters('before_update_project', $data, $id);
-
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'projects', $data);
 

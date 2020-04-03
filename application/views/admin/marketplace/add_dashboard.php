@@ -248,6 +248,7 @@
                   
                 </div>
                <!--  end blog content -->
+               
                 <!-- start contact -->
                 <div class="col-md-12" style="display: flex;justify-content: center;margin-top: 40px">
                   <div class="col-md-8" id="contacts">

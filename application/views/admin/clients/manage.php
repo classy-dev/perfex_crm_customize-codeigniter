@@ -1,5 +1,4 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<!-- <?php print_r($where_include);?> -->
 <?php init_head(); ?>
 <div id="wrapper">
    <div class="content">

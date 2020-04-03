@@ -45,7 +45,7 @@ class Contracts extends Admin_controller
               $data['where_include'] = $res;  
             }
         
-
+        
         $this->load->view('admin/contracts/manage', $data);
     }
 
@@ -56,7 +56,7 @@ class Contracts extends Admin_controller
         }
 
         if (has_permission( 'contracts', '', 'view_own') and !is_admin()){
-           $role = $this->staff_model->get_role(get_staff_user_id());
+            $role = $this->staff_model->get_role(get_staff_user_id());
             $staffid_arr = $this->staff_model->get_customer_with_role($role[0]['role_type'],$role[0]['role']);
 
             foreach ($staffid_arr as  $value) {
@@ -83,7 +83,6 @@ class Contracts extends Admin_controller
     {
 
         if ($this->input->post()) {
-              // print_r($_POST); exit();
             // new post
             if ($id == '') {
                 if (!has_permission('contracts', '', 'create')) {
@@ -143,7 +142,6 @@ class Contracts extends Admin_controller
             $rel_val = get_relation_values($rel_data,$rel_type);
 
             $data['timetracking_rel'] = json_encode($rel_val);
-            // print_r($data['timetracking_rel_name']); exit();
             if($data['contract']->timetracking_id == null)
                 $data['project_title'] =  _l('add_new', _l('time_tracking_lowercase'));
             else
@@ -187,7 +185,6 @@ class Contracts extends Admin_controller
         $data['types']         = $this->contracts_model->get_contract_types();
         $data['products']      = $this->contracts_model->get_contract_products();
         $data['taxes']      = $this->taxes_model->get();
-        // print_r($data['products']); exit();
         $data['title']         = $title;
         $data['bodyclass']     = 'contract';
         $data['subscriptions'] = $this->subscriptions_model->get_subscriptions();
@@ -195,15 +192,163 @@ class Contracts extends Admin_controller
         $data['title']         = $title;
         
         $data['bodyclass']     = 'contract';
-        $data['customer'] = $this->clients_model->get_customer_with_country();
-        // $data['customer'] = $this->clients_model->get();
+        $data['all_customers_with_country'] = $this->clients_model->get_customer_with_country();
+        
+        // related_customers_with_role
+        // $role = $this->staff_model->get_role(get_staff_user_id());
+        // $staffid_arr = $this->staff_model->get_customer_with_role($role[0]['role_type'],$role[0]['role']);
+
+        // $data['related_customers'] = [];
+
+        // foreach ($staffid_arr as $key => $staff_id) {
+        //     $customer = $this->clients_model->get_client_by_staff($staff_id['staffid']);
+        //     array_push($data['related_customers'], $customer);
+        // }
+        
+        $data['my_customers'] = $this->clients_model->get_client_by_staff(get_staff_user_id());
+
         $staffid = get_staff_user_id();
         $data['staff'] = $this->staff_model->get_staff_with_country($staffid);
 
         //timetracking part
         $data['statuses'] = $this->projects_model->get_project_statuses();
-        // print_r($data); exit();
         $this->load->view('admin/contracts/contract', $data);
+    }
+
+    public function contract_import($id = '')
+    {
+
+        if ($this->input->post()) {
+            // new post
+            if ($id == '') {
+                if (!has_permission('contracts', '', 'create')) {
+                    access_denied('contracts');
+                }
+                if (!has_permission('projects', '', 'create')) {
+                    access_denied('Projects');
+                }
+                if (!has_permission('tasks', '', 'create')) {
+                    header('HTTP/1.0 400 Bad error');
+                    echo json_encode([
+                        'success' => false,
+                        'message' => _l('access_denied'),
+                    ]);
+                    die;
+                }
+                
+                
+                $data = $this->input->post();
+                $id = $this->contracts_model->add($data);
+                if($id){
+                    set_alert('success', _l('added_successfully', _l('contract')));
+                    redirect(admin_url('contracts/contract/' . $id));
+                }
+            } 
+            // update post
+            else {
+                if (!has_permission('contracts', '', 'edit')) {
+                    access_denied('contracts');
+                }
+
+                $success = $this->contracts_model->update($this->input->post(), $id);
+                if ($success) {
+                    set_alert('success', _l('updated_successfully', _l('contract')));
+                }
+                redirect(admin_url('contracts/contract/' . $id));
+            }
+        }
+        // new
+        if ($id == '') {
+            $title = _l('add_new', _l('contract_lowercase'));
+            $data['project_title'] =  _l('add_new', _l('time_tracking_lowercase'));
+            $data['auto_select_billing_type'] = $this->projects_model->get_most_used_billing_type();
+
+            $data['task_title'] =  _l('add_new', _l('task_lowercase'));
+        } 
+        // edit
+        else {
+            $data['contract']                 = $this->contracts_model->get($id, [], true);
+            $data['project']                  = $this->projects_model->get($data['contract']->timetracking_id);
+            $data['project']->settings->available_features = unserialize($data['project']->settings->available_features);
+
+            $rel_type = 'project';
+            $rel_id = $data['project']->id;
+
+            $rel_data = get_relation_data($rel_type,$rel_id);
+            $rel_val = get_relation_values($rel_data,$rel_type);
+
+            $data['timetracking_rel'] = json_encode($rel_val);
+            if($data['contract']->timetracking_id == null)
+                $data['project_title'] =  _l('add_new', _l('time_tracking_lowercase'));
+            else
+                $data['project_title'] =  _l('edit', _l('time_tracking_lowercase'));
+
+            $tasks_ids_string = $data['contract']->tasks_ids;
+
+            $tasks_ids_arr = explode(",", $tasks_ids_string);
+            
+            $data['tasks'] = [];
+            foreach ($tasks_ids_arr as $key => $task_id) {
+                $task = $this->tasks_model->get($task_id);
+                array_push($data['tasks'], $task);
+            }
+
+
+            if($data['contract']->tasks_ids == null)
+                $data['task_title'] =  _l('add_new', _l('task_lowercase'));
+            else
+                $data['task_title'] =  _l('edit', _l('task_lowercase'));
+
+            $data['contract_renewal_history'] = $this->contracts_model->get_contract_renewal_history($id);
+            $data['totalNotes']               = total_rows(db_prefix().'notes', ['rel_id' => $id, 'rel_type' => 'contract']);
+            if (!$data['contract'] || (!has_permission('contracts', '', 'view') && $data['contract']->addedfrom != get_staff_user_id())) {
+                blank_page(_l('contract_not_found'));
+            }
+
+            $data['contract_merge_fields'] = $this->app_merge_fields->get_flat('contract', ['other', 'client'], '{email_signature}');
+
+            $title = $data['contract']->subject;
+
+            $data = array_merge($data, prepare_mail_preview_data('contract_send_to_customer', $data['contract']->client));
+        }
+
+        if ($this->input->get('customer_id')) {
+            $data['customer_id'] = $this->input->get('customer_id');
+        }
+
+        $this->load->model('currencies_model');
+        $data['base_currency'] = $this->currencies_model->get_base_currency();
+        $data['types']         = $this->contracts_model->get_contract_types();
+        $data['products']      = $this->contracts_model->get_contract_products();
+        $data['taxes']      = $this->taxes_model->get();
+        $data['title']         = $title;
+        $data['bodyclass']     = 'contract';
+        $data['subscriptions'] = $this->subscriptions_model->get_subscriptions();
+        $data['blocks'] = $this->subscriptions_model->get_set_information();
+        $data['title']         = $title;
+        
+        $data['bodyclass']     = 'contract';
+        $data['all_customers_with_country'] = $this->clients_model->get_customer_with_country();
+        
+        // related_customers_with_role
+        // $role = $this->staff_model->get_role(get_staff_user_id());
+        // $staffid_arr = $this->staff_model->get_customer_with_role($role[0]['role_type'],$role[0]['role']);
+
+        // $data['related_customers'] = [];
+
+        // foreach ($staffid_arr as $key => $staff_id) {
+        //     $customer = $this->clients_model->get_client_by_staff($staff_id['staffid']);
+        //     array_push($data['related_customers'], $customer);
+        // }
+        
+        $data['my_customers'] = $this->clients_model->get_client_by_staff(get_staff_user_id());
+
+        $staffid = get_staff_user_id();
+        $data['staff'] = $this->staff_model->get_staff_with_country($staffid);
+
+        //timetracking part
+        $data['statuses'] = $this->projects_model->get_project_statuses();
+        $this->load->view('admin/contracts/contract_import', $data);
     }
 
     public function timetracking_on_contract()
@@ -224,6 +369,7 @@ class Contracts extends Admin_controller
             $project_data = $_POST['timetracking'];
             $project_data['clientid'] = $_POST['timetracking_client'];
             $project_data['start_date'] = $_POST['timetracking_start_date'];
+            $project_data['on_contract'] = 1;
             // $project_data['deadline'] = $_POST['timetracking_due_date'];
 
             if($project_data['clientid']!=''){
@@ -235,7 +381,6 @@ class Contracts extends Admin_controller
 
                     $rel_data = get_relation_data($rel_type,$rel_id);
                     $rel_val = get_relation_values($rel_data,$rel_type);
-
                     $res['id'] = $timetracking_id;
                     $res['msg'] = _l('added_successfully', _l('timetracking'));
                     $res['rel_val'] = $rel_val;
@@ -265,6 +410,7 @@ class Contracts extends Admin_controller
             $project_data = $_POST['timetracking'];
             $project_data['clientid'] = $_POST['timetracking_client'];
             $project_data['start_date'] = $_POST['timetracking_start_date'];
+            $project_data['on_contract'] = 1;
             // $project_data['deadline'] = $_POST['timetracking_due_date'];
 
             $id = $_POST['time_id'];
@@ -287,25 +433,6 @@ class Contracts extends Admin_controller
         
     }
 
-    // public function get_current_timetracking_rel_value()
-    // {
-    //     $timetracking_id = $_POST['time_id'];
-    //     if($timetracking_id){
-
-    //         $rel_type = 'project';
-    //         $rel_id = $timetracking_id;
-
-    //         $rel_data = get_relation_data($rel_type,$rel_id);
-    //         $rel_val = get_relation_values($rel_data,$rel_type);
-
-    //         $res['id'] = $timetracking_id;
-    //         $res['msg'] = _l('added_successfully', _l('timetracking'));
-    //         $res['rel_val'] = $rel_val;
-    //         $res['status'] = 'add';
-
-    //         echo json_encode($res);
-    //     }
-    // }
 
     public function tasks_on_contract()
     {
@@ -757,7 +884,15 @@ class Contracts extends Admin_controller
             ]);
         }
     }
-    // public function recurring_test(){
-    //     $this->invoices_model->recurring_invoices();
-    // }
+
+    public function import_contract_pdf()
+    {
+        $folderPath = "uploads/";
+        if (move_uploaded_file($_FILES["contract_pdf"]["tmp_name"], $folderPath . $_FILES["contract_pdf"]["name"])) {
+            $path = $folderPath . $_FILES["contract_pdf"]["name"];
+            $data = '<embed src="'.site_url($path).'" typp="application/pdf" width="100%" height="800px"></embed>';
+        }
+        echo $data;
+    }   
+    
 }

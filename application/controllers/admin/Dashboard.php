@@ -22,10 +22,9 @@ class Dashboard extends AdminController
         $staff_id = get_staff_user_id();
         $pre_data= $this->dashboard_model->get_role($staff_id);
         $data['start_role'] = $pre_data[0]['role'];
-        // get stripe
+        // get profile_complete
         $this->load->model('staff_model');
-        $stripe = $this->staff_model->get_stripe($staff_id);
-        $data['stripe'] = $stripe;
+        $data['profile'] = $this->staff_model->get_profile_complete($staff_id);
 
         $data['departments'] = $this->departments_model->get();
         $data['todos'] = $this->todo_model->get_todo_items(0);

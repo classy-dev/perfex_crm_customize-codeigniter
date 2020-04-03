@@ -1,8 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<?php if ($stripe[0]['stripe_email'] == '' or $stripe[0]['stripe_email'] == null ) echo '<div id="wrapper" style="margin-left:0">' ?>
-<?php if ($stripe[0]['stripe_email'] != '' or $stripe[0]['stripe_email'] != null) echo '<div id="wrapper">' ?>
-<!-- <div id="wrapper"> -->
+<div id="wrapper">
 	<div class="content">
 		<div class="row">
 			<div class="col-md-12">

@@ -608,7 +608,7 @@ $lang['staff_dt_last_Login']                           = 'Last Login';
 $lang['staff_dt_active']                               = 'Active';
 $lang['staff_add_edit_firstname']                      = 'First Name';
 $lang['staff_add_edit_lastname']                       = 'Last Name';
-$lang['staff_add_edit_email']                          = 'Email';
+$lang['staff_add_edit_email']                          = 'Stripe Email';
 $lang['staff_add_edit_address']                        = 'Address';
 $lang['staff_add_edit_city']                       	   = 'City';
 $lang['staff_add_edit_state']                          = 'State';
@@ -3827,3 +3827,22 @@ $lang['staff_add_edit_company']   = 'Company';
 
 
 $lang['beratung_customer_payment_value_excl_tax']   = 'Payment Value Excl Tax';
+
+$lang['email_success']   = 'E-mail address! It hasn not been confirmed yet.Please check your email address first.';
+
+$lang['thank_register'] = 'Thank you for registering.';
+$lang['check_email'] = 'We sent you an email. Check email address sent.';
+$lang['check_link'] = 'Please check Link!';
+$lang['diapy_team'] = 'DIPAY-Team';
+
+$lang['clientid'] = 'Customer';
+
+$lang['real_payment_term'] = 'How long they will pay';
+
+$lang['import_contract'] = 'Import Contract';
+$lang['select_pdf'] = 'Select';
+$lang['clear_pdf'] = 'Clear';
+$lang['upload'] = 'Upload';
+
+$lang['staff_report'] = 'Staff Reports';
+$lang['client_report'] = 'Customers Reports';

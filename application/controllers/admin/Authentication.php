@@ -59,7 +59,6 @@ class Authentication extends App_Controller
                         redirect(admin_url('authentication'));
                     } elseif (is_array($data) && isset($data['two_factor_auth'])) {
                         $this->Authentication_model->set_two_factor_auth_code($data['user']->staffid);
-
                         $sent = send_mail_template('staff_two_factor_auth_key', $data['user']);
 
                         if (!$sent) {
@@ -162,7 +161,7 @@ class Authentication extends App_Controller
 
     public function reset_password($staff, $userid, $new_pass_key)
     {
-        print_r($staff); exit();
+        // print_r($staff); exit();
         if (!$this->Authentication_model->can_reset_password($staff, $userid, $new_pass_key)) {
             set_alert('danger', _l('password_reset_key_expired'));
             redirect(admin_url('authentication'));
@@ -265,7 +264,6 @@ class Authentication extends App_Controller
             //default role && role_type
             $data['role'] = 1;
             $data['role_type'] = 7;
-            // print_r($data); exit();
             if ($id == '') {
             
                 $id = $this->staff_model->add_staff($data);
@@ -288,12 +286,9 @@ class Authentication extends App_Controller
             }
             $email_success = $this->Authentication_model->staff_register_email($this->input->post('email'),$this->input->post('password'), true);
             if($email_success){
-                $data['email_sent_confirm'] = 'Vielen Dank für Ihre Registrierung.
-                                                Wir haben ihnen eine eMail zur
-                                                Bestätigung ihrer eMail-Adresse
-                                                gesendet.
-                                                Bitte bestätigen sie diesen Link!
-                                                Ihr DIPAY-Team';
+                set_alert('success', _l('email_success'));
+                // set_alert('success', _l('password_reset_message'));
+                $data['email_sent_confirm'] = 1;
             }
                 
         }
@@ -452,30 +447,5 @@ class Authentication extends App_Controller
         } else {
             show_error($this->email->print_debugger());
         }
-    }
-    public function privacy_policy(){
-        
-        // exit();
-        // parent::__construct();
-        // $notAdminAllowed = ['lead_consent_opt_action', 'contact_consent_opt_action'];
-        // if (!is_admin() && !in_array($this->uri->segment(3), $notAdminAllowed)) {
-        //     access_denied('GDPR');
-        // }
-        // $this->load->model('gdpr_model');
-
-        // $data['page'] = $this->input->get('page') ? $this->input->get('page') : 'general';
-        // $data['save'] = true;
-        // if ($data['page'] == 'forgotten') {
-        //     $data['requests'] = $this->gdpr_model->get_removal_requests();
-        //     $data['not_pending_requests'] = total_rows(db_prefix().'gdpr_requests', array('status '=>'pending'));
-        // } elseif ($data['page'] == 'consent') {
-        //     $data['consent_purposes'] = $this->gdpr_model->get_consent_purposes();
-        // }
-        // $data['title'] = _l('gdpr');
-        $data['page'] = 'informed';
-        $data['save'] = 1;
-
-        $this->load->view('admin/gdpr/test', $data);
-        // $this->load->view('authentication/gdpr_index');
     }
 }

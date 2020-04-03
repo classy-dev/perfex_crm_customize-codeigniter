@@ -120,10 +120,11 @@ $.extend( $.fn, {
 
 	// https://jqueryvalidation.org/valid/
 	valid: function() {
-		var valid, validator, errorList;
 
+		var valid, validator, errorList;
 		if ( $( this[ 0 ] ).is( "form" ) ) {
 			valid = this.validate().form();
+
 		} else {
 			errorList = [];
 			valid = true;
