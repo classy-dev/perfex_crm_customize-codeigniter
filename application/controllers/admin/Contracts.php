@@ -206,6 +206,7 @@ class Contracts extends Admin_controller
         // }
         
         $data['my_customers'] = $this->clients_model->get_client_by_staff(get_staff_user_id());
+        $data['my_subscriptions'] = $this->subscriptions_model->get_my_subscription(get_staff_user_id());
 
         $staffid = get_staff_user_id();
         $data['staff'] = $this->staff_model->get_staff_with_country($staffid);

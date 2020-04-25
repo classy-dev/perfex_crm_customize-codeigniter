@@ -41,10 +41,10 @@
                   </div>
                 </div>
                 <?php if(!isset($client)|| $client->profile_title != 'company') {?>
-                  <div class="col-md-6" id="company"  style="display: none;">
+                  <div class="col-md-6" id="companydiv"  style="display: none;">
                 <?php }?>
                 <?php if(isset($client)&& $client->profile_title == 'company') {?>
-                  <div class="col-md-6" id="company">
+                  <div class="col-md-6" id="companydiv">
                 <?php }?>
                     <?php $value=( isset($client) ? $client->company : ''); ?>
                   <?php $attrs = (isset($client) ? array() : array('autofocus'=>true)); ?>
@@ -69,10 +69,10 @@
                </div>
             
                 <?php if(!isset($client)||$client->profile_title == 'company') {?>
-                  <div class="col-md-6" id="person"  style="display: none;">
+                  <div class="col-md-6" id="persondiv"  style="display: none;">
                <?php }?>
                 <?php if(isset($client) && !empty($client->profile_title) && $client->profile_title != 'company') {?>
-                  <div class="col-md-6" id="person">
+                  <div class="col-md-6" id="persondiv">
                 <?php }?>
                   <?php $value=( isset($client) ? $client->person_firstname : ''); ?>
                   <?php echo render_input( 'person_firstname', 'client_person_firstname',$value); ?>
@@ -92,7 +92,10 @@
                      echo render_select( 'country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected);
                      ?>
                   <?php $value=( isset($client) ? $client->person_email : ''); ?>
-                  <?php echo render_input( 'person_email', 'client_person_email',$value); ?>  
+                  <?php echo render_input( 'person_email', 'client_person_email',$value); ?> 
+
+                  <?php $value=( isset($client) ? $client->person_phone : ''); ?>
+                  <?php echo render_input( 'person_phone', 'client_person_phone',$value); ?>  
                </div>
                
             </div>
@@ -134,3 +137,4 @@
 <?php } ?>
 <?php } ?>
 <?php $this->load->view('admin/clients/client_group'); ?>
+

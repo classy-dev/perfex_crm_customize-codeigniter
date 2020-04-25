@@ -71,6 +71,7 @@ $route['admin/not_found']  = "admin/misc/not_found";
 $route['admin/profile']  = "admin/staff/profile";
 $route['admin/profile/(:num)']  = "admin/staff/profile/$1";
 $route['admin/tasks/view/(:any)']  = "admin/tasks/index/$1";
+$route['admin/staff/stripe_bank_details'] = "admin/staff/stripe_bank_details";
 
 /**
  * Items search rewrite

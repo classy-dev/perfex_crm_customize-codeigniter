@@ -346,6 +346,10 @@ init_head();
 
 
 <script type="text/javascript">
+
+  $('.menu-item-marketplace').addClass('active');
+  $('.sub-menu-item-view_overview').addClass('active');
+
     $(document).ready(function() {
 
         // Gets the video src from the data-src on each button

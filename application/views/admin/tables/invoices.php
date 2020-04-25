@@ -157,7 +157,12 @@ foreach ($rResult as $aRow) {
 
     $row[] = app_format_money($aRow['total'], $aRow['currency_name']);
 
-    $row[] = app_format_money($aRow['total_tax'], $aRow['currency_name']);
+    if($aRow['total_tax'] == 0.00){
+        $row[] = '';
+    }
+    else
+        $row[] = app_format_money($aRow['total_tax'], $aRow['currency_name']);
+
 
     $row[] = $aRow['year'];
 

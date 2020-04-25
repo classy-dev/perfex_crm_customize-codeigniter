@@ -57,7 +57,7 @@
             <div class="clearfix"></div>
             <hr class="hr-panel-heading" />
 
-            <h4 class="mbot15"><i class="fa fa-cc-stripe" aria-hidden="true"></i> <?php echo _l('subscriptions_summary'); ?></h4>
+            <!-- <h4 class="mbot15"><i class="fa fa-cc-stripe" aria-hidden="true"></i> <?php echo _l('subscriptions_summary'); ?></h4>
             <div class="row">
               <?php foreach(subscriptions_summary() as $summary){ ?>
                 <div class="col-md-2 col-xs-6 border-right">
@@ -68,7 +68,7 @@
                 </div>
                 <?php } ?>
               </div>
-              <hr class="hr-panel-heading" />
+              <hr class="hr-panel-heading" /> -->
               <?php hooks()->do_action('before_subscriptions_table'); ?>
               <?php //$this->load->view('admin/subscriptions/table_html',array('url'=>admin_url('subscriptions/table'))); ?>
 

@@ -57,7 +57,11 @@ class Dashboard extends AdminController
         $data['total_undismissed_announcements'] = $this->announcements_model->get_total_undismissed_announcements();
 
         $this->load->model('projects_model');
-        $data['projects_activity'] = $this->projects_model->get_activity('', hooks()->apply_filters('projects_activity_dashboard_limit', 20));
+        if(is_admin())
+            $data['projects_activity'] = $this->projects_model->get_activity('', hooks()->apply_filters('projects_activity_dashboard_limit', 20));
+        else
+            $data['projects_activity'] = $this->projects_model->get_activity_by_staff('', hooks()->apply_filters('projects_activity_dashboard_limit', 20));
+
         add_calendar_assets();
         $this->load->model('utilities_model');
         $this->load->model('estimates_model');

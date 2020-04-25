@@ -35,11 +35,11 @@
                      </a>
                   </li>
                   <?php if((get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member()){ ?>
-                  <li role="presentation">
+                  <!-- <li role="presentation">
                      <a href="#home_tab_tickets" onclick="init_table_tickets(true);" aria-controls="home_tab_tickets" role="tab" data-toggle="tab">
                      <i class="fa fa-ticket menu-icon"></i> <?php echo _l('home_tickets'); ?>
                      </a>
-                  </li>
+                  </li> -->
                   <?php } ?>
                   <?php if(is_staff_member()){ ?>
                   <li role="presentation">
@@ -76,7 +76,7 @@
                      </div>
                      <?php $this->load->view('admin/tasks/_table'); ?>
                   </div>
-                  <?php if((get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member()){ ?>
+                  <!-- <?php if((get_option('access_tickets_to_none_staff_members') == 1 && !is_staff_member()) || is_staff_member()){ ?>
                   <div role="tabpanel" class="tab-pane" id="home_tab_tickets">
                      <a href="<?php echo admin_url('tickets'); ?>" class="mbot20 inline-block full-width"><?php echo _l('home_widget_view_all'); ?></a>
                      <div class="clearfix"></div>
@@ -90,7 +90,7 @@
                      </div>
                      <?php echo AdminTicketsTableStructure(); ?>
                   </div>
-                  <?php } ?>
+                  <?php } ?> -->
                   <div role="tabpanel" class="tab-pane" id="home_my_projects">
                      <a href="<?php echo admin_url('projects'); ?>" class="mbot20 inline-block full-width"><?php echo _l('home_widget_view_all'); ?></a>
                      <div class="clearfix"></div>

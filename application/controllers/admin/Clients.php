@@ -145,6 +145,7 @@ class Clients extends AdminController
                     }
                 }
                 $success = $this->clients_model->update($this->input->post(), $id);
+                $this->clients_model->update_contact($data, $id);
                 if ($success == true) {
                     set_alert('success', _l('updated_successfully', _l('client')));
                 }
@@ -235,9 +236,9 @@ class Clients extends AdminController
             }
 
             $data['staff'] = $this->staff_model->get('', ['active' => 1]);
-
             $data['client'] = $client;
-            $title          = $client->company;
+            $title          = $client->fullname;
+            // $title          = $client->company;
 
             // Get all active staff members (used to add reminder)
             $data['members'] = $data['staff'];

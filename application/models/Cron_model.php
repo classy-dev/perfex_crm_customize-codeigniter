@@ -1668,154 +1668,281 @@ class Cron_model extends App_Model
             }
 
             $re_create_at = date('Y-m-d', strtotime('+' . $invoice['recurring'] . ' ' . strtoupper($invoice['recurring_type']), strtotime($last_recurring_date)));
-            $this->db->select('dateend');
+            $this->db->select();
             $this->db->from(db_prefix() . 'contracts');
             $this->db->where('id=',$invoice['accordingContract']);
-            $end_contract_date = $this->db->get()->row();
-            // print_r($end_contract_date->dateend);
-            // print_r($re_create_at); exit();
-            if (date('Y-m-d') >= $re_create_at && date('Y-m-d') <= $end_contract_date->dateend) {
+            $contract = $this->db->get()->row();
+            $contract_rep_type = $contract->contract_type;
+            $contract_end = $contract->dateend;
+            
+            if($contract_rep_type == 2){
+                if(date('Y-m-d') >= $re_create_at){
+                     // Recurring invoice date is okey lets convert it to new invoice
+                    $_invoice                     = $this->invoices_model->get($invoice['id']);
+                    $new_invoice_data             = [];
+                    $new_invoice_data['clientid'] = $_invoice->clientid;
+                    $new_invoice_data['number']   = get_option('next_invoice_number');
+                    $new_invoice_data['date']     = _d($re_create_at);
+                    $new_invoice_data['duedate']  = null;
 
-                // Recurring invoice date is okey lets convert it to new invoice
-                $_invoice                     = $this->invoices_model->get($invoice['id']);
-                $new_invoice_data             = [];
-                $new_invoice_data['clientid'] = $_invoice->clientid;
-                $new_invoice_data['number']   = get_option('next_invoice_number');
-                $new_invoice_data['date']     = _d($re_create_at);
-                $new_invoice_data['duedate']  = null;
-
-                if ($_invoice->duedate) {
-                    // Now we need to get duedate from the old invoice and calculate the time difference and set new duedate
-                    // Ex. if the first invoice had duedate 20 days from now we will add the same duedate date but starting from now
-                    $dStart                      = new DateTime($invoice['date']);
-                    $dEnd                        = new DateTime($invoice['duedate']);
-                    $dDiff                       = $dStart->diff($dEnd);
-                    $new_invoice_data['duedate'] = _d(date('Y-m-d', strtotime('+' . $dDiff->days . ' DAY', strtotime($re_create_at))));
-                } else {
-                    if (get_option('invoice_due_after') != 0) {
-                        $new_invoice_data['duedate'] = _d(date('Y-m-d', strtotime('+' . get_option('invoice_due_after') . ' DAY', strtotime($re_create_at))));
-                    }
-                }
-
-                $new_invoice_data['project_id']       = $_invoice->project_id;
-                $new_invoice_data['show_quantity_as'] = $_invoice->show_quantity_as;
-                $new_invoice_data['currency']         = $_invoice->currency;
-                $new_invoice_data['subtotal']         = $_invoice->subtotal;
-                $new_invoice_data['total']            = $_invoice->total;
-                $new_invoice_data['adjustment']       = $_invoice->adjustment;
-                $new_invoice_data['discount_percent'] = $_invoice->discount_percent;
-                $new_invoice_data['discount_total']   = $_invoice->discount_total;
-                $new_invoice_data['discount_type']    = $_invoice->discount_type;
-                $new_invoice_data['terms']            = clear_textarea_breaks($_invoice->terms);
-                $new_invoice_data['sale_agent']       = $_invoice->sale_agent;
-                // Since version 1.0.6
-                $new_invoice_data['billing_street']   = clear_textarea_breaks($_invoice->billing_street);
-                $new_invoice_data['billing_city']     = $_invoice->billing_city;
-                $new_invoice_data['billing_state']    = $_invoice->billing_state;
-                $new_invoice_data['billing_zip']      = $_invoice->billing_zip;
-                $new_invoice_data['billing_country']  = $_invoice->billing_country;
-                $new_invoice_data['shipping_street']  = clear_textarea_breaks($_invoice->shipping_street);
-                $new_invoice_data['shipping_city']    = $_invoice->shipping_city;
-                $new_invoice_data['shipping_state']   = $_invoice->shipping_state;
-                $new_invoice_data['shipping_zip']     = $_invoice->shipping_zip;
-                $new_invoice_data['shipping_country'] = $_invoice->shipping_country;
-                if ($_invoice->include_shipping == 1) {
-                    $new_invoice_data['include_shipping'] = $_invoice->include_shipping;
-                }
-                $new_invoice_data['include_shipping']         = $_invoice->include_shipping;
-                $new_invoice_data['show_shipping_on_invoice'] = $_invoice->show_shipping_on_invoice;
-                // Determine status based on settings
-                if ($new_recurring_invoice_action == 'generate_and_send' || $new_recurring_invoice_action == 'generate_unpaid') {
-                    $new_invoice_data['status'] = 1;
-                } elseif ($new_recurring_invoice_action == 'generate_draft') {
-                    $new_invoice_data['save_as_draft'] = true;
-                }
-                $new_invoice_data['clientnote']            = clear_textarea_breaks($_invoice->clientnote);
-                $new_invoice_data['adminnote']             = '';
-                $new_invoice_data['allowed_payment_modes'] = unserialize($_invoice->allowed_payment_modes);
-                $new_invoice_data['is_recurring_from']     = $_invoice->id;
-                $new_invoice_data['subscription_id'] = $_invoice->subscription_id;
-                $new_invoice_data['total_tax'] = $_invoice->total_tax;
-                $new_invoice_data['accordingContract'] = $_invoice->accordingContract;
-                // $new_invoice_data['newitems']              = [];
-                // $key                                       = 1;
-                // $custom_fields_items                       = get_custom_fields('items');
-                // foreach ($_invoice->items as $item) {
-                //     $new_invoice_data['newitems'][$key]['description']      = $item['description'];
-                //     $new_invoice_data['newitems'][$key]['long_description'] = clear_textarea_breaks($item['long_description']);
-                //     $new_invoice_data['newitems'][$key]['qty']              = $item['qty'];
-                //     $new_invoice_data['newitems'][$key]['unit']             = $item['unit'];
-                //     $new_invoice_data['newitems'][$key]['taxname']          = [];
-                //     $taxes                                                  = get_invoice_item_taxes($item['id']);
-                //     foreach ($taxes as $tax) {
-                //         // tax name is in format TAX1|10.00
-                //         array_push($new_invoice_data['newitems'][$key]['taxname'], $tax['taxname']);
-                //     }
-                //     $new_invoice_data['newitems'][$key]['rate']  = $item['rate'];
-                //     $new_invoice_data['newitems'][$key]['order'] = $item['item_order'];
-
-                //     foreach ($custom_fields_items as $cf) {
-                //         $new_invoice_data['newitems'][$key]['custom_fields']['items'][$cf['id']] = get_custom_field_value($item['id'], $cf['id'], 'items', false);
-
-                //         if (!defined('COPY_CUSTOM_FIELDS_LIKE_HANDLE_POST')) {
-                //             define('COPY_CUSTOM_FIELDS_LIKE_HANDLE_POST', true);
-                //         }
-                //     }
-                //     $key++;
-                // }
-                // print_r($new_invoice_data); exit();
-                $id = $this->invoices_model->add($new_invoice_data);
-                if (!$id){
-                    print_r($this->db->error()); exit();
-                }
-                if ($id) {
-                    $this->db->where('id', $id);
-                    $this->db->update(db_prefix() . 'invoices', [
-                        'addedfrom'                => $_invoice->addedfrom,
-                        'sale_agent'               => $_invoice->sale_agent,
-                        'cancel_overdue_reminders' => $_invoice->cancel_overdue_reminders,
-                    ]);
-
-
-                    $tags = get_tags_in($_invoice->id, 'invoice');
-                    handle_tags_save($tags, $id, 'invoice');
-
-                    // Get the old expense custom field and add to the new
-                    $custom_fields = get_custom_fields('invoice');
-                    foreach ($custom_fields as $field) {
-                        $value = get_custom_field_value($invoice['id'], $field['id'], 'invoice', false);
-                        if ($value != '') {
-                            $this->db->insert(db_prefix() . 'customfieldsvalues', [
-                                'relid'   => $id,
-                                'fieldid' => $field['id'],
-                                'fieldto' => 'invoice',
-                                'value'   => $value,
-                            ]);
+                    if ($_invoice->duedate) {
+                        // Now we need to get duedate from the old invoice and calculate the time difference and set new duedate
+                        // Ex. if the first invoice had duedate 20 days from now we will add the same duedate date but starting from now
+                        $dStart                      = new DateTime($invoice['date']);
+                        $dEnd                        = new DateTime($invoice['duedate']);
+                        $dDiff                       = $dStart->diff($dEnd);
+                        $new_invoice_data['duedate'] = _d(date('Y-m-d', strtotime('+' . $dDiff->days . ' DAY', strtotime($re_create_at))));
+                    } else {
+                        if (get_option('invoice_due_after') != 0) {
+                            $new_invoice_data['duedate'] = _d(date('Y-m-d', strtotime('+' . get_option('invoice_due_after') . ' DAY', strtotime($re_create_at))));
                         }
                     }
-                    // Increment total renewed invoices
-                    $total_renewed++;
-                    // Update last recurring date to this invoice
-                    $this->db->where('id', $invoice['id']);
-                    $this->db->update(db_prefix() . 'invoices', [
-                        'last_recurring_date' => $re_create_at,
-                    ]);
 
-                    $this->db->where('id', $invoice['id']);
-                    $this->db->set('total_cycles', 'total_cycles+1', false);
-                    $this->db->update(db_prefix() . 'invoices');
+                    $new_invoice_data['project_id']       = $_invoice->project_id;
+                    $new_invoice_data['show_quantity_as'] = $_invoice->show_quantity_as;
+                    $new_invoice_data['currency']         = $_invoice->currency;
+                    $new_invoice_data['subtotal']         = $_invoice->subtotal;
+                    $new_invoice_data['total']            = $_invoice->total;
+                    $new_invoice_data['adjustment']       = $_invoice->adjustment;
+                    $new_invoice_data['discount_percent'] = $_invoice->discount_percent;
+                    $new_invoice_data['discount_total']   = $_invoice->discount_total;
+                    $new_invoice_data['discount_type']    = $_invoice->discount_type;
+                    $new_invoice_data['terms']            = clear_textarea_breaks($_invoice->terms);
+                    $new_invoice_data['sale_agent']       = $_invoice->sale_agent;
+                    // Since version 1.0.6
+                    $new_invoice_data['billing_street']   = clear_textarea_breaks($_invoice->billing_street);
+                    $new_invoice_data['billing_city']     = $_invoice->billing_city;
+                    $new_invoice_data['billing_state']    = $_invoice->billing_state;
+                    $new_invoice_data['billing_zip']      = $_invoice->billing_zip;
+                    $new_invoice_data['billing_country']  = $_invoice->billing_country;
+                    $new_invoice_data['shipping_street']  = clear_textarea_breaks($_invoice->shipping_street);
+                    $new_invoice_data['shipping_city']    = $_invoice->shipping_city;
+                    $new_invoice_data['shipping_state']   = $_invoice->shipping_state;
+                    $new_invoice_data['shipping_zip']     = $_invoice->shipping_zip;
+                    $new_invoice_data['shipping_country'] = $_invoice->shipping_country;
+                    if ($_invoice->include_shipping == 1) {
+                        $new_invoice_data['include_shipping'] = $_invoice->include_shipping;
+                    }
+                    $new_invoice_data['include_shipping']         = $_invoice->include_shipping;
+                    $new_invoice_data['show_shipping_on_invoice'] = $_invoice->show_shipping_on_invoice;
+                    // Determine status based on settings
+                    if ($new_recurring_invoice_action == 'generate_and_send' || $new_recurring_invoice_action == 'generate_unpaid') {
+                        $new_invoice_data['status'] = 1;
+                    } elseif ($new_recurring_invoice_action == 'generate_draft') {
+                        $new_invoice_data['save_as_draft'] = true;
+                    }
+                    $new_invoice_data['clientnote']            = clear_textarea_breaks($_invoice->clientnote);
+                    $new_invoice_data['adminnote']             = '';
+                    $new_invoice_data['allowed_payment_modes'] = unserialize($_invoice->allowed_payment_modes);
+                    $new_invoice_data['is_recurring_from']     = $_invoice->id;
+                    $new_invoice_data['subscription_id'] = $_invoice->subscription_id;
+                    $new_invoice_data['total_tax'] = $_invoice->total_tax;
+                    $new_invoice_data['accordingContract'] = $_invoice->accordingContract;
 
-                    if ($new_recurring_invoice_action == 'generate_and_send') {
-                        $this->invoices_model->send_invoice_to_client($id, 'invoice_send_to_customer', true);
+                    $id = $this->invoices_model->add($new_invoice_data);
+                    if (!$id){
+                        print_r($this->db->error()); exit();
+                    }
+                    if ($id) {
+                        $this->db->where('id', $id);
+                        $this->db->update(db_prefix() . 'invoices', [
+                            'addedfrom'                => $_invoice->addedfrom,
+                            'sale_agent'               => $_invoice->sale_agent,
+                            'cancel_overdue_reminders' => $_invoice->cancel_overdue_reminders,
+                        ]);
+
+
+                        $tags = get_tags_in($_invoice->id, 'invoice');
+                        handle_tags_save($tags, $id, 'invoice');
+
+                        // Get the old expense custom field and add to the new
+                        $custom_fields = get_custom_fields('invoice');
+                        foreach ($custom_fields as $field) {
+                            $value = get_custom_field_value($invoice['id'], $field['id'], 'invoice', false);
+                            if ($value != '') {
+                                $this->db->insert(db_prefix() . 'customfieldsvalues', [
+                                    'relid'   => $id,
+                                    'fieldid' => $field['id'],
+                                    'fieldto' => 'invoice',
+                                    'value'   => $value,
+                                ]);
+                            }
+                        }
+                        // Increment total renewed invoices
+                        $total_renewed++;
+                        // Update last recurring date to this invoice
+                        $this->db->where('id', $invoice['id']);
+                        $this->db->update(db_prefix() . 'invoices', [
+                            'last_recurring_date' => $re_create_at,
+                        ]);
+
+                        $this->db->where('id', $invoice['id']);
+                        $this->db->set('total_cycles', 'total_cycles+1', false);
+                        $this->db->update(db_prefix() . 'invoices');
+
+                        if ($new_recurring_invoice_action == 'generate_and_send') {
+                            $this->invoices_model->send_invoice_to_client($id, 'invoice_send_to_customer', true);
+                        }
+
+                        $_renewals_ids_data[] = [
+                            'from'       => $invoice['id'],
+                            'clientid'   => $invoice['clientid'],
+                            'renewed'    => $id,
+                            'addedfrom'  => $invoice['addedfrom'],
+                            'sale_agent' => $invoice['sale_agent'],
+                        ];
+                    }
+                }
+            }
+
+            if($contract_rep_type == 1 && $contract->produkt_p!='One Time Payment'){
+
+                if (date('Y-m-d') >= $re_create_at && date('Y-m-d') <= $contract_end) {
+                    // Recurring invoice date is okey lets convert it to new invoice
+                    $_invoice                     = $this->invoices_model->get($invoice['id']);
+                    $new_invoice_data             = [];
+                    $new_invoice_data['clientid'] = $_invoice->clientid;
+                    // $new_invoice_data['number']   = get_option('next_invoice_number');
+                    $new_invoice_data['number']   = $_invoice->number+1;
+                    $new_invoice_data['date']     = _d($re_create_at);
+                    $new_invoice_data['duedate']  = null;
+
+                    if ($_invoice->duedate) {
+                        // Now we need to get duedate from the old invoice and calculate the time difference and set new duedate
+                        // Ex. if the first invoice had duedate 20 days from now we will add the same duedate date but starting from now
+                        $dStart                      = new DateTime($invoice['date']);
+                        $dEnd                        = new DateTime($invoice['duedate']);
+                        $dDiff                       = $dStart->diff($dEnd);
+                        $new_invoice_data['duedate'] = _d(date('Y-m-d', strtotime('+' . $dDiff->days . ' DAY', strtotime($re_create_at))));
+                    } else {
+                        if (get_option('invoice_due_after') != 0) {
+                            $new_invoice_data['duedate'] = _d(date('Y-m-d', strtotime('+' . get_option('invoice_due_after') . ' DAY', strtotime($re_create_at))));
+                        }
                     }
 
-                    $_renewals_ids_data[] = [
-                        'from'       => $invoice['id'],
-                        'clientid'   => $invoice['clientid'],
-                        'renewed'    => $id,
-                        'addedfrom'  => $invoice['addedfrom'],
-                        'sale_agent' => $invoice['sale_agent'],
-                    ];
+                    $new_invoice_data['project_id']       = $_invoice->project_id;
+                    $new_invoice_data['show_quantity_as'] = $_invoice->show_quantity_as;
+                    $new_invoice_data['currency']         = $_invoice->currency;
+                    $new_invoice_data['subtotal']         = $_invoice->subtotal;
+                    $new_invoice_data['total']            = $_invoice->total;
+                    $new_invoice_data['adjustment']       = $_invoice->adjustment;
+                    $new_invoice_data['discount_percent'] = $_invoice->discount_percent;
+                    $new_invoice_data['discount_total']   = $_invoice->discount_total;
+                    $new_invoice_data['discount_type']    = $_invoice->discount_type;
+                    $new_invoice_data['terms']            = clear_textarea_breaks($_invoice->terms);
+                    $new_invoice_data['sale_agent']       = $_invoice->sale_agent;
+                    // Since version 1.0.6
+                    $new_invoice_data['billing_street']   = clear_textarea_breaks($_invoice->billing_street);
+                    $new_invoice_data['billing_city']     = $_invoice->billing_city;
+                    $new_invoice_data['billing_state']    = $_invoice->billing_state;
+                    $new_invoice_data['billing_zip']      = $_invoice->billing_zip;
+                    $new_invoice_data['billing_country']  = $_invoice->billing_country;
+                    $new_invoice_data['shipping_street']  = clear_textarea_breaks($_invoice->shipping_street);
+                    $new_invoice_data['shipping_city']    = $_invoice->shipping_city;
+                    $new_invoice_data['shipping_state']   = $_invoice->shipping_state;
+                    $new_invoice_data['shipping_zip']     = $_invoice->shipping_zip;
+                    $new_invoice_data['shipping_country'] = $_invoice->shipping_country;
+                    if ($_invoice->include_shipping == 1) {
+                        $new_invoice_data['include_shipping'] = $_invoice->include_shipping;
+                    }
+                    $new_invoice_data['include_shipping']         = $_invoice->include_shipping;
+                    $new_invoice_data['show_shipping_on_invoice'] = $_invoice->show_shipping_on_invoice;
+                    // Determine status based on settings
+                    if ($new_recurring_invoice_action == 'generate_and_send' || $new_recurring_invoice_action == 'generate_unpaid') {
+                        $new_invoice_data['status'] = 1;
+                    } elseif ($new_recurring_invoice_action == 'generate_draft') {
+                        $new_invoice_data['save_as_draft'] = true;
+                    }
+                    $new_invoice_data['clientnote']            = clear_textarea_breaks($_invoice->clientnote);
+                    $new_invoice_data['adminnote']             = '';
+                    $new_invoice_data['allowed_payment_modes'] = unserialize($_invoice->allowed_payment_modes);
+                    $new_invoice_data['is_recurring_from']     = $_invoice->id;
+                    $new_invoice_data['subscription_id'] = $_invoice->subscription_id;
+                    $new_invoice_data['total_tax'] = $_invoice->total_tax;
+                    $new_invoice_data['accordingContract'] = $_invoice->accordingContract;
+
+
+
+                    // $new_invoice_data['newitems']              = [];
+                    // $key                                       = 1;
+                    // $custom_fields_items                       = get_custom_fields('items');
+                    // foreach ($_invoice->items as $item) {
+                    //     $new_invoice_data['newitems'][$key]['description']      = $item['description'];
+                    //     $new_invoice_data['newitems'][$key]['long_description'] = clear_textarea_breaks($item['long_description']);
+                    //     $new_invoice_data['newitems'][$key]['qty']              = $item['qty'];
+                    //     $new_invoice_data['newitems'][$key]['unit']             = $item['unit'];
+                    //     $new_invoice_data['newitems'][$key]['taxname']          = [];
+                    //     $taxes                                                  = get_invoice_item_taxes($item['id']);
+                    //     foreach ($taxes as $tax) {
+                    //         // tax name is in format TAX1|10.00
+                    //         array_push($new_invoice_data['newitems'][$key]['taxname'], $tax['taxname']);
+                    //     }
+                    //     $new_invoice_data['newitems'][$key]['rate']  = $item['rate'];
+                    //     $new_invoice_data['newitems'][$key]['order'] = $item['item_order'];
+
+                    //     foreach ($custom_fields_items as $cf) {
+                    //         $new_invoice_data['newitems'][$key]['custom_fields']['items'][$cf['id']] = get_custom_field_value($item['id'], $cf['id'], 'items', false);
+
+                    //         if (!defined('COPY_CUSTOM_FIELDS_LIKE_HANDLE_POST')) {
+                    //             define('COPY_CUSTOM_FIELDS_LIKE_HANDLE_POST', true);
+                    //         }
+                    //     }
+                    //     $key++;
+                    // }
+                    // print_r($new_invoice_data); exit();
+                    $id = $this->invoices_model->add($new_invoice_data);
+                    if (!$id){
+                        print_r($this->db->error()); exit();
+                    }
+                    if ($id) {
+                        $this->db->where('id', $id);
+                        $this->db->update(db_prefix() . 'invoices', [
+                            'addedfrom'                => $_invoice->addedfrom,
+                            'sale_agent'               => $_invoice->sale_agent,
+                            'cancel_overdue_reminders' => $_invoice->cancel_overdue_reminders,
+                        ]);
+
+
+                        $tags = get_tags_in($_invoice->id, 'invoice');
+                        handle_tags_save($tags, $id, 'invoice');
+
+                        // Get the old expense custom field and add to the new
+                        $custom_fields = get_custom_fields('invoice');
+                        foreach ($custom_fields as $field) {
+                            $value = get_custom_field_value($invoice['id'], $field['id'], 'invoice', false);
+                            if ($value != '') {
+                                $this->db->insert(db_prefix() . 'customfieldsvalues', [
+                                    'relid'   => $id,
+                                    'fieldid' => $field['id'],
+                                    'fieldto' => 'invoice',
+                                    'value'   => $value,
+                                ]);
+                            }
+                        }
+                        // Increment total renewed invoices
+                        $total_renewed++;
+                        // Update last recurring date to this invoice
+                        $this->db->where('id', $invoice['id']);
+                        $this->db->update(db_prefix() . 'invoices', [
+                            'last_recurring_date' => $re_create_at,
+                        ]);
+
+                        $this->db->where('id', $invoice['id']);
+                        $this->db->set('total_cycles', 'total_cycles+1', false);
+                        $this->db->update(db_prefix() . 'invoices');
+
+                        if ($new_recurring_invoice_action == 'generate_and_send') {
+                            $this->invoices_model->send_invoice_to_client($id, 'invoice_send_to_customer', true);
+                        }
+
+                        $_renewals_ids_data[] = [
+                            'from'       => $invoice['id'],
+                            'clientid'   => $invoice['clientid'],
+                            'renewed'    => $id,
+                            'addedfrom'  => $invoice['addedfrom'],
+                            'sale_agent' => $invoice['sale_agent'],
+                        ];
+                    }
                 }
             }
         }

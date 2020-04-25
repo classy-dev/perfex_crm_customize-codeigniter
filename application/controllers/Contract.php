@@ -12,7 +12,6 @@ class Contract extends ClientsController
         $this->db->select('password');
         $this->db->where('userid',$contract->client);
         $contact = $this->db->get(db_prefix().'contacts')->row();
-        // print_r($contact->password);exit();
         if (!$contract) {
             show_404();
         }
@@ -96,7 +95,6 @@ class Contract extends ClientsController
 
         $this->disableNavigation();
         $this->disableSubMenu();
-
         $data['title']     = $contract->subject;
         $data['contract']  = hooks()->apply_filters('contract_html_pdf_data', $contract);
         $data['bodyclass'] = 'contract contract-view';

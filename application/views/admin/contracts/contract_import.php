@@ -1416,6 +1416,7 @@ init_head(); ?>
 <?php $this->load->view('admin/contracts/contract_product'); ?>
 
 <script>
+  $('.menu-item-contracts').addClass('active');
    Dropzone.autoDiscover = false;
    $(function () {
 

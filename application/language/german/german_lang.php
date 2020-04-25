@@ -1409,7 +1409,8 @@ $lang['lead_public']                                                          = 
 $lang['kb_group_color']                                                       = 'Farbe';
 $lang['kb_group_order']                                                       = 'Bestellung';
 # Utilities - BULK PDF Exporter
-$lang['bulk_pdf_exporter']                                                    = 'Massen PDF Exporter';
+// $lang['bulk_pdf_exporter']                                                    = 'Massen PDF Exporter';
+$lang['bulk_pdf_exporter']                                                    = 'PDF Exporter';
 $lang['bulk_export_pdf_payments']                                             = 'Bezahlungen';
 $lang['bulk_export_pdf_estimates']                                            = 'Angebote';
 $lang['bulk_export_pdf_invoices']                                             = 'Rechnungen';
@@ -1800,7 +1801,7 @@ $lang['home_invoice_overview']                                                = 
 $lang['home_estimate_overview']                                               = 'Kostenvoranschlag Überblick';
 $lang['home_proposal_overview']                                               = 'Angebote Überblick';
 $lang['home_lead_overview']                                                   = 'Interessenten Übersicht';
-$lang['home_my_projects']                                                     = 'Meine Projekte';
+$lang['home_my_projects']                                                     = 'Meine Zeiterfassungen';
 $lang['home_announcements']                                                   = 'Ankündigungen';
 # Settings
 $lang['settings_leads_kanban_limit']                                          = 'Die Interessenten auf Kanban Reihen pro Status limitieren';
@@ -2426,6 +2427,7 @@ $lang['estimate_files']                                                       = 
 $lang['proposal_files']                                                       = 'Angebotsdateien';
 $lang['invoices_awaiting_payment']                                            = 'Ausstehende Rechnungen';
 $lang['tasks_not_finished']                                                   = 'Nicht abgeschlossene Aufgaben';
+$lang['tasks_not_finished']                                                   = 'Zu erledigende Aufgaben';
 $lang['outstanding_invoices']                                                 = 'Ausstehende Rechnungen';
 $lang['past_due_invoices']                                                    = 'Fällige Rechnungen';
 $lang['paid_invoices']                                                        = 'Bezahlte Rechnungen';
@@ -3559,10 +3561,10 @@ $lang['produkt_opening_payment_value']                    = 'Eröffnungszahlung'
 $lang['dynamic_percentage_per_year_value'] = 'Dynamik';
 $lang['payment_amount_value'] = 'Gesamtbetrag';
 $lang['contract_tax']                    = 'Verträge Tax';
-
+$lang['customer_payment_value']                           = 'Zahlbetrag des Kunden';
 
 // subscription
-$lang['contract_subscription'] = 'Service-Abo';
+$lang['contract_subscription'] = 'Servicepauschale';
 $lang['client_subscription'] = 'Service-Abo';
 $lang['als_blocks'] = 'Service-Blöcke';
 $lang['als_sub_settings'] = 'Einstellungen';
@@ -3643,11 +3645,12 @@ $lang['client_person_firstname']   = 'Vorname';
 $lang['client_person_lastname']   = 'Nachname';
 $lang['client_person_street']   = 'Straße';
 $lang['client_person_city']   = 'PLZ/ORT';
-$lang['client_person_email']   = 'E-Mailadresse';
+$lang['client_person_email']   = 'E-Mail';
+$lang['client_person_phone']   = 'Telefon';
 
 $lang['staff_add_edit_company']   = 'Firma';
 
-$lang['beratung_customer_payment_value_excl_tax']   = 'Customer Payment Value Excl Tax';
+$lang['beratung_customer_payment_value_excl_tax']   = 'Zahlbetrag exkl Ust';
 
 $lang['email_success']   = 'Ihre eMail-Adresse wurde noch nicht bestätigt. Bitte bestätigen sie zuerst ihr Mailadresse.';
 
@@ -3657,3 +3660,25 @@ $lang['check_link'] = 'Bitte bestätigen sie diesen Link!';
 $lang['diapy_team'] = 'Ihr DIPAY-Team';
 
 $lang['clientid'] = 'Kunde';
+
+$lang['real_payment_term'] = 'Zahlungszeitraum in Monaten';
+
+$lang['import_contract'] = 'Vertrag Importieren';
+$lang['select_pdf'] = 'Vertrag wählen';
+$lang['clear_pdf'] = 'Löschen';
+$lang['upload'] = 'Upload';
+
+$lang['staff_report'] = 'Staff Reports';
+$lang['client_report'] = 'Customers Reports';
+
+$lang['rate_per_hour'] = 'Kosten pro Stunden';
+$lang['contract_end_date_netto'] = 'Zahlungsvereinbarung bis';
+
+$lang['contract_summary_total'] = 'Gesamt';
+$lang['contract_summary_signed'] = 'Unterschrieben';
+$lang['contract_summary_unsigned'] = 'Noch nicht unterschrieben';
+
+$lang['question_from_customer'] = 'Fragen des Kunden';
+
+$lang['company'] = 'Firma';
+$lang['person'] = 'Einzelperson';

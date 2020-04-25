@@ -1,18 +1,19 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-// print_r($staff_arr); exit();
 if (isset($staff_arr)) $whereIn = implode(",", $staff_arr);
 $base_currency = get_base_currency();
 $aColumns = [
     db_prefix() . 'contracts.id as id',
     'subject',
     get_sql_select_client_company(),
+    get_sql_select_client_fullname(),
     db_prefix() . 'contracts_types.name as type_name',
     'contract_value',
     'datestart',
     'dateend',
     'signature',
+    'customer_payment_value'
     ];
 
 $sIndexColumn = 'id';
@@ -95,9 +96,9 @@ if ($clientid != '') {
 }
 
 if (has_permission('contracts', '', 'view_own') and !is_admin()) {
-    array_push($where, 'AND ' . db_prefix() . 'contracts.addedfrom IN (' .$whereIn.')');
+    // array_push($where, 'AND ' . db_prefix() . 'contracts.addedfrom IN (' .$whereIn.')');
+    array_push($where, 'AND ' . db_prefix() . 'contracts.addedfrom=' . get_staff_user_id());
 }
-
 // if (!has_permission('contracts', '', 'view')) {
 //     array_push($where, 'AND ' . db_prefix() . 'contracts.addedfrom=' . get_staff_user_id());
 // }
@@ -112,7 +113,6 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-// print_r($rResult); exit();
 foreach ($rResult as $aRow) {
     $row = [];
 
@@ -142,15 +142,17 @@ foreach ($rResult as $aRow) {
     $subjectOutput .= '</div>';
     $row[] = $subjectOutput;
 
-    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['client']) . '">' . $aRow['company'] . '</a>';
+    // $row[] = '<a href="' . admin_url('clients/client/' . $aRow['client']) . '">' . $aRow['company'] . '</a>';
+    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['client']) . '">' . $aRow['fullname'] . '</a>';
 
     $row[] = $aRow['type_name'];
 
-    $row[] = app_format_money($aRow['contract_value'], $base_currency);
+    // $row[] = app_format_money($aRow['contract_value'], $base_currency);
+    $row[] = app_format_money($aRow['customer_payment_value'], $base_currency);
 
     $row[] = _d($aRow['datestart']);
 
-    $row[] = _d($aRow['dateend']);
+    // $row[] = _d($aRow['dateend']);
 
     if (!empty($aRow['signature'])) {
         if($aRow['invoice_created'] != 1)

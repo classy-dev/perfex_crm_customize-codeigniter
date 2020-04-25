@@ -8,9 +8,15 @@
 				<div class="panel_s">
 					<div class="panel-body">
 						<?php if(has_permission('staff','','create')){ ?>
-						<div class="_buttons">
+						<div class="_buttons" style="display: flex;">
+							<div style="margin-right: 10px;">
 							<a href="<?php echo admin_url('staff/member'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('new_staff'); ?></a>
+								</div>
+							<div>
+							<a href="<?php echo admin_url('staff/user_relation'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('see_relation'); ?></a>
 						</div>
+						</div>
+
 						<div class="clearfix"></div>
 						<hr class="hr-panel-heading" />
 						<?php } ?>
@@ -21,12 +27,13 @@
 							_l('staff_dt_email'),
 							_l('role'),
 							_l('role_type'),
+							_l('staff_dt_plan'),
 							_l('staff_dt_last_Login'),
 							_l('staff_dt_active'),
 							);
 						// print_r($table_data); exit();
 						$custom_fields = get_custom_fields('staff',array('show_on_table'=>1));
-
+						
 						foreach($custom_fields as $field){
 							array_push($table_data,$field['name']);
 						}
@@ -66,7 +73,6 @@
 <?php init_tail(); ?>
 <script>
 	$(function(){
-		console.log(window.location.href);
 		initDataTable('.table-staff', window.location.href);
 	});
 	function delete_staff_member(id){

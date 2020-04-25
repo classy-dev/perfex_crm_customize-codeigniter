@@ -9,7 +9,8 @@ $hasPermissionCreate = has_permission('projects', '', 'create');
 $aColumns = [
     db_prefix() . 'projects.id as id',
     'name',
-    get_sql_select_client_company(),
+    // get_sql_select_client_company(),
+    get_sql_select_client_fullname(),
     '(SELECT GROUP_CONCAT(name SEPARATOR ",") FROM ' . db_prefix() . 'taggables JOIN ' . db_prefix() . 'tags ON ' . db_prefix() . 'taggables.tag_id = ' . db_prefix() . 'tags.id WHERE rel_id = ' . db_prefix() . 'projects.id and rel_type="project" ORDER by tag_order ASC) as tags',
     'start_date',
     'deadline',
@@ -32,9 +33,13 @@ if ($clientid != '') {
     array_push($where, ' AND clientid=' . $clientid);
 }
 
-if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {
-    array_push($where, ' AND ' . db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')');
+if (!has_permission('projects', '', 'view')) {
+    array_push($where, ' AND ' . db_prefix() . 'projects.addedfrom =' . get_staff_user_id());
 }
+
+// if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {
+//     array_push($where, ' AND ' . db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')');
+// }
 
 $statusIds = [];
 
@@ -75,7 +80,6 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
 foreach ($rResult as $aRow) {
     $row = [];
 
@@ -89,9 +93,9 @@ foreach ($rResult as $aRow) {
 
     $name .= '<a href="' . $link . '">' . _l('view') . '</a>';
 
-    if ($hasPermissionCreate && !$clientid) {
-        $name .= ' | <a href="#" onclick="copy_project(' . $aRow['id'] . ');return false;">' . _l('copy_project') . '</a>';
-    }
+    // if ($hasPermissionCreate && !$clientid) {
+    //     $name .= ' | <a href="#" onclick="copy_project(' . $aRow['id'] . ');return false;">' . _l('copy_project') . '</a>';
+    // }
 
     if ($hasPermissionEdit) {
         $name .= ' | <a href="' . admin_url('projects/project/' . $aRow['id']) . '">' . _l('edit') . '</a>';
@@ -105,13 +109,13 @@ foreach ($rResult as $aRow) {
 
     $row[] = $name;
 
-    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
+    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['fullname'] . '</a>';
 
-    $row[] = render_tags($aRow['tags']);
+    // $row[] = render_tags($aRow['tags']);
 
     $row[] = _d($aRow['start_date']);
 
-    $row[] = _d($aRow['deadline']);
+    // $row[] = _d($aRow['deadline']);
 
     // $membersOutput = '';
 

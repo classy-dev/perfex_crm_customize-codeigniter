@@ -108,6 +108,26 @@
                      <?php $value = (isset($member) ? $member->email : ''); ?>
                      <?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
 
+                     <!--  staff plan add new by matainja-->
+                     <div class="form-group select-placeholder">
+                        <label for="plans_type"><?php echo _l('user_plan'); ?></label>
+                        <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="plans_type" id="user_plan">
+                           <!-- <option value="" <?php if(isset($member) && empty($member->direction)){echo 'selected';} ?>></option> -->
+                           <?php $plans= get_plan_list();
+                           if(!empty($plans))
+                           {
+                              foreach ($plans as $key => $user_plan)
+                              {
+                           ?>
+                                 <option value="<?=$user_plan->plan_id ?>"><?=$user_plan->plan_name;?></option>
+                           <?php
+                              }
+                           }
+                           ?>
+                        </select>
+                     </div>
+                     <!--  staff plan end -->
+
                      <?php $value=( isset($member) ? $member->address : ''); ?>
                      <?php echo render_textarea( 'address', 'client_address',$value); ?>
                      <?php $value=( isset($member) ? $member->city : ''); ?>
@@ -121,7 +141,7 @@
                         $selected =( isset($member) ? $member->country : $customer_default_country);
                         echo render_select( 'country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
                         ?>
-                     <div class="form-group">
+                     <!-- <div class="form-group">
                         <label for="hourly_rate"><?php echo _l('staff_hourly_rate'); ?></label>
                         <div class="input-group">
                            <input type="number" name="hourly_rate" value="<?php if(isset($member)){echo $member->hourly_rate;} else {echo 0;} ?>" id="hourly_rate" class="form-control">
@@ -129,10 +149,11 @@
                            <?php echo $base_currency->symbol; ?>
                            </span>
                         </div>
-                     </div>
+                     </div> -->
                      <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
                      <?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
-                     <?php if(get_option('disable_language') == 0){ ?>
+
+                     <!-- <?php if(get_option('disable_language') == 0){ ?>
                      <div class="form-group select-placeholder">
                         <label for="default_language" class="control-label"><?php echo _l('localization_default_language'); ?></label>
                         <select name="default_language" data-live-search="true" id="default_language" class="form-control selectpicker" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -149,18 +170,57 @@
                            <?php } ?>
                         </select>
                      </div>
-                     <?php } ?>
-                     <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('staff_email_signature_help'); ?>"></i>
+                     <?php } ?> -->
+
+                    <!--  <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('staff_email_signature_help'); ?>"></i>
                      <?php $value = (isset($member) ? $member->email_signature : ''); ?>
-                     <?php echo render_textarea('email_signature','settings_email_signature',$value, ['data-entities-encode'=>'true']); ?>
-                     <div class="form-group select-placeholder">
+                     <?php echo render_textarea('email_signature','settings_email_signature',$value, ['data-entities-encode'=>'true']); ?> -->
+
+                    <!--  <div class="form-group select-placeholder">
                         <label for="direction"><?php echo _l('document_direction'); ?></label>
                         <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="direction" id="direction">
                            <option value="" <?php if(isset($member) && empty($member->direction)){echo 'selected';} ?>></option>
                            <option value="ltr" <?php if(isset($member) && $member->direction == 'ltr'){echo 'selected';} ?>>LTR</option>
                            <option value="rtl" <?php if(isset($member) && $member->direction == 'rtl'){echo 'selected';} ?>>RTL</option>
                         </select>
-                     </div>
+                     </div> -->
+
+                     <div class="form-group" id="products_list">
+                      
+                      <div class="checkbox checkbox-primary">
+                          <input type="checkbox" class="profile_additional_item" id="index1" name="index1" <?php if(isset($member->index1)&&$member->index1 == 1) echo 'checked';?>>
+                          <label for="index1">Finanzanlagenvermittler mit Erlaubnis nach ξ 34f</label> 
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                          <input type="checkbox" class="profile_additional_item" id="index2" name="index2"<?php if(isset($member->index2)&&$member->index2 == 1) echo 'checked';?> >
+                          <label  for="">Versicherungsmakler mit Erlaubnis ξ 34d</label> 
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                          <input type="checkbox" class="profile_additional_item" id="index3" name="index3" <?php if(isset($member->index3)&&$member->index3 == 1) echo 'checked';?>>
+                          <label for="index3">Immobilienkreditvermittler mit Erlaubnis nach ξ 34i</label> 
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                          <input type="checkbox" class="profile_additional_item" id="index4" name="index4"<?php if(isset($member->index4)&&$member->index4 == 1) echo 'checked';?> >
+                          <label  for="index4">Honorar-Finanzanlagenberater ξ 34h</label> 
+                      </div>
+                      <div class="checkbox checkbox-primary">
+                          <input type="checkbox"  id="index5" name="index5" <?php if(isset($member->index5)&&$member->index5 == 1) echo 'checked';?> >
+                          <label for="index5">sonstige Personen (z.B.Mitarbeiter, Sekretärin etc.)</label> 
+                      </div>
+                      
+                    </div>
+                    <?php if(isset($member) && !empty($member->vermittlernum)){?>
+                    <div class="form-group" id="vermittlernumdiv">
+                    <?php }?>
+                    <?php if (!isset($member) || empty($member->vermittlernum)){?>
+                    <div class="form-group" id="vermittlernumdiv" style="display: none;">
+                    <?php }?>
+                        <label for="vermittlernum" class="control-label">Vermittlernummer</label>
+                        <input type="number" name="vermittlernum" class="form-control" value="<?php if(isset($member)) echo $member->vermittlernum; else echo NULL;?>" id="vermittlernum"  >
+                    </div>
+
+                    <input type="hidden" name="password" id="password" value="">
+
                      <div class="form-group">
                         <?php if(count($departments) > 0){ ?>
                         <label for="departments"><?php echo _l('staff_add_edit_departments'); ?></label>
@@ -206,15 +266,31 @@
                                  <label for="send_welcome_email"><?php echo _l('staff_send_welcome_email'); ?></label>
                               </div>
                            <?php } ?>
+
+            <!-- sub agent filed implement-->
+
+              <?php if(isset($check_admin) && $check_admin->admin == 0) { ?>
+                          
+                           <label for="lastname" class="control-label"> <small class="req text-danger">* </small>Sub Agent Percentage</label>
+                          <input type="number" class="form-control subagentpercentage" name="subagentpercentage" autocomplete="off" required="required"
+                          value="<?php if($member->subagentpercentage) echo $member->subagentpercentage; else echo '';?>">
+               <?php }?>
+
+
+
+               <!--end sub agent field -->
+
+
+
+
                         </div>
                      </div>
                      <?php if(!isset($member) || is_admin() || !is_admin() && $member->admin == 0) { ?>
                      <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
                      <input  type="text" class="fake-autofill-field" name="fakeusernameremembered" value='' tabindex="-1"/>
                      <input  type="password" class="fake-autofill-field" name="fakepasswordremembered" value='' tabindex="-1"/>
-                     
                      <div class="clearfix form-group"></div>
-                     <label for="password" class="control-label"><?php echo _l('staff_add_edit_password'); ?></label>
+                     <!-- <label for="password" class="control-label"><?php echo _l('staff_add_edit_password'); ?></label>
                      <div class="input-group">
                         <input type="password" class="form-control password" name="password" autocomplete="off">
                         <span class="input-group-addon">
@@ -231,7 +307,7 @@
                      <span class="text-has-action" data-toggle="tooltip" data-title="<?php echo _dt($member->last_password_change); ?>">
                         <?php echo time_ago($member->last_password_change); ?>
                      </span>
-                     <?php } } ?>
+                     <?php } } ?> -->
                   <?php } ?>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="staff_permissions">
@@ -569,6 +645,38 @@
        });
    });
 
+   $(document).ready(function(){
+        document.getElementById("address").placeholder = "Genslerstraße 84";
+        document.getElementById("city").placeholder = "Berlin Wedding";
+        document.getElementById("state").placeholder = "Brandenbrug";
+        document.getElementById("zip").placeholder = "13359";
+        document.getElementById("phonenumber").placeholder = "491234567890";
+
+        $('.profile_additional_item').change(function(){
+          if($('#index1').prop("checked") || $('#index2').prop("checked") || $('#index3').prop("checked") || $('#index4').prop("checked")) {
+            $('#vermittlernumdiv').show();
+          }
+          else{
+            $('#vermittlernumdiv').hide();
+          }
+        });
+
+        $('.profile').prop('required',true);
+        $('#address').prop('required', true);
+        $('#city').prop('required', true);
+        $('#state').prop('required', true);
+        $('#zip').prop('required', true);
+        $('#phonenumber').prop('required', true);
+
+
+        var length = 8,
+        charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+           retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        $('#password').val(retVal);
+    });
 </script>
 </body>
 </html>

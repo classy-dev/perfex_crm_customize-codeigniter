@@ -115,7 +115,6 @@ class ClientsController extends App_Controller
         }
 
         $this->data = array_merge($this->data, $data);
-
         return $this;
     }
 

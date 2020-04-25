@@ -25,6 +25,7 @@ $aColumns = [
     'person_street',
     'person_city',
     'person_email',
+    'person_phone',
     'firstname',
     'email',
     db_prefix().'clients.phonenumber as phonenumber',
@@ -257,7 +258,7 @@ foreach ($rResult as $aRow) {
     if($aRow['profile_title'] == 'company')
        $row[] = ($aRow['company_phonenumber'] ? '<a href="tel:' . $aRow['company_phonenumber'] . '">' . $aRow['company_phonenumber'] . '</a>' : ''); 
     else
-        $row[] = '';
+        $row[] = ($aRow['person_phone'] ? '<a href="tel:' . $aRow['person_phone'] . '">' . $aRow['person_phone'] . '</a>' : '');
     // Toggle active/inactive customer
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip" data-title="' . _l('customer_active_inactive_help') . '">
     <input type="checkbox"' . ($aRow['registration_confirmed'] == 0 ? ' disabled' : '') . ' data-switch-url="' . admin_url() . 'clients/change_client_status" name="onoffswitch" class="onoffswitch-checkbox" id="' . $aRow['userid'] . '" data-id="' . $aRow['userid'] . '" ' . ($aRow[db_prefix().'clients.active'] == 1 ? 'checked' : '') . '>
@@ -278,7 +279,7 @@ foreach ($rResult as $aRow) {
         }
     }
 
-    $row[] = $groupsRow;
+    // $row[] = $groupsRow;
 
     $row[] = _dt($aRow['datecreated']);
 

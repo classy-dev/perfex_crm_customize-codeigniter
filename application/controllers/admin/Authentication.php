@@ -272,12 +272,14 @@ class Authentication extends App_Controller
                     "marketplace" => ["view", "edit"],
                     "bulk_pdf_exporter" => ["view"],
                     "contracts" => ["view_own", "create","edit","delete"],
-                    "customers" => ["create","edit","delete"],
+                    "customers" => ["create","view","edit","delete"],
                     "invoices" => ["view_own", "create", "edit"],
                     "projects" => ["view", "create","edit","delete"],
+                    "tasks" => ["view", "create","edit","delete"],
                     "reports" => ["view"],
                     "checklist_templates" => ["create", "delete"],
-                    "leads" => ["view", "delete"]
+                    "leads" => ["view", "delete"],
+                    "subscriptions" => ["view_own","create","edit","delete"]
 
                 ];
                     

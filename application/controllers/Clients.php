@@ -732,6 +732,7 @@ class Clients extends ClientsController
             'not_visible_to_client' => 0,
             'trash'                 => 0,
         ]);
+
         $data['contracts_by_type_chart'] = json_encode($this->contracts_model->get_contracts_types_chart_data());
         $data['title']                   = _l('clients_contracts');
         $this->data($data);
@@ -749,7 +750,6 @@ class Clients extends ClientsController
         $where = [
             'clientid' => get_client_user_id(),
         ];
-        // print_r($where);
         if (is_numeric($status)) {
             $where['status'] = $status;
         }
@@ -767,7 +767,6 @@ class Clients extends ClientsController
         }
 
         $data['invoices'] = $this->invoices_model->get('', $where);
-        // print_r($data['invoices']);
         $data['title']    = _l('clients_my_invoices');
         $this->data($data);
         $this->view('invoices');
@@ -984,11 +983,12 @@ class Clients extends ClientsController
     public function profile()
     {
         if ($this->input->post('profile')) {
-            $this->form_validation->set_rules('firstname', _l('client_firstname'), 'required');
-            $this->form_validation->set_rules('lastname', _l('client_lastname'), 'required');
 
-            $this->form_validation->set_message('contact_email_profile_unique', _l('form_validation_is_unique'));
-            $this->form_validation->set_rules('email', _l('clients_email'), 'required|valid_email|callback_contact_email_profile_unique');
+            // $this->form_validation->set_rules('firstname', _l('client_firstname'), 'required');
+            // $this->form_validation->set_rules('lastname', _l('client_lastname'), 'required');
+
+            // $this->form_validation->set_message('contact_email_profile_unique', _l('form_validation_is_unique'));
+            // $this->form_validation->set_rules('email', _l('clients_email'), 'required|valid_email|callback_contact_email_profile_unique');
 
             $custom_fields = get_custom_fields('contacts', [
                 'show_on_client_portal'  => 1,
@@ -1000,9 +1000,12 @@ class Clients extends ClientsController
                 if ($field['type'] == 'checkbox' || $field['type'] == 'multiselect') {
                     $field_name .= '[]';
                 }
-                $this->form_validation->set_rules($field_name, $field['name'], 'required');
+                // $this->form_validation->set_rules($field_name, $field['name'], 'required');
             }
-            if ($this->form_validation->run() !== false) {
+            
+            // if ($this->form_validation->run() !== false) {
+                // print_r($_POST); exit();
+
                 handle_contact_profile_image_upload();
 
                 $data = $this->input->post();
@@ -1042,30 +1045,35 @@ class Clients extends ClientsController
                     $data['project_emails'] = $contact->project_emails;
                     $data['task_emails']    = $contact->task_emails;
                 }
+                
 
-                $success = $this->clients_model->update_contact([
-                    'firstname'          => $this->input->post('firstname'),
-                    'lastname'           => $this->input->post('lastname'),
-                    'title'              => $this->input->post('title'),
-                    'email'              => $this->input->post('email'),
-                    'phonenumber'        => $this->input->post('phonenumber'),
-                    'direction'          => $this->input->post('direction'),
-                    'invoice_emails'     => $data['invoice_emails'],
-                    'credit_note_emails' => $data['credit_note_emails'],
-                    'estimate_emails'    => $data['estimate_emails'],
-                    'ticket_emails'      => $data['ticket_emails'],
-                    'contract_emails'    => $data['contract_emails'],
-                    'project_emails'     => $data['project_emails'],
-                    'task_emails'        => $data['task_emails'],
-                    'custom_fields'      => isset($data['custom_fields']) && is_array($data['custom_fields']) ? $data['custom_fields'] : [],
-                ], get_contact_user_id(), true);
+                $this->clients_model->update($this->input->post(), get_client_user_id());
+                $success = $this->clients_model->update_contact(
+                    $data
+                //     [
+                //     'firstname'          => $this->input->post('firstname'),
+                //     'lastname'           => $this->input->post('lastname'),
+                //     'title'              => $this->input->post('title'),
+                //     'email'              => $this->input->post('email'),
+                //     'phonenumber'        => $this->input->post('phonenumber'),
+                //     'direction'          => $this->input->post('direction'),
+                //     'invoice_emails'     => $data['invoice_emails'],
+                //     'credit_note_emails' => $data['credit_note_emails'],
+                //     'estimate_emails'    => $data['estimate_emails'],
+                //     'ticket_emails'      => $data['ticket_emails'],
+                //     'contract_emails'    => $data['contract_emails'],
+                //     'project_emails'     => $data['project_emails'],
+                //     'task_emails'        => $data['task_emails'],
+                //     'custom_fields'      => isset($data['custom_fields']) && is_array($data['custom_fields']) ? $data['custom_fields'] : [],
+                // ]
+                , get_contact_user_id(), true);
 
                 if ($success == true) {
                     set_alert('success', _l('clients_profile_updated'));
                 }
 
                 redirect(site_url('clients/profile'));
-            }
+            // }
         } elseif ($this->input->post('change_password')) {
             $this->form_validation->set_rules('oldpassword', _l('clients_edit_profile_old_password'), 'required');
             $this->form_validation->set_rules('newpassword', _l('clients_edit_profile_new_password'), 'required');
@@ -1086,6 +1094,7 @@ class Clients extends ClientsController
                 redirect(site_url('clients/profile'));
             }
         }
+
         $data['title'] = _l('clients_profile_heading');
         $this->data($data);
         $this->view('profile');

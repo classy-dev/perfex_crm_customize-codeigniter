@@ -5,12 +5,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Staff extends AdminController
 {
     /* List all staff members */
-//     function __construct() {
-//         parent::__construct();
-//         error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+    function __construct() {
+        parent::__construct();
+        error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
-//     }
+    }
     public function index()
     {
         if (!has_permission('staff', '', 'view')) {
@@ -47,7 +47,9 @@ class Staff extends AdminController
 
             $data['password'] = $this->input->post('password', false);
 
-            
+            /*add userplan*/
+            $data['plans_type'] = $this->input->post('plans_type');
+            /*end to add user plan*/
             
             if ($id == '') {
                 if (!has_permission('staff', '', 'create')) {
@@ -131,6 +133,7 @@ class Staff extends AdminController
         $data['departments']   = $this->departments_model->get();
         $data['title']         = $title;
         $data['check_admin']   = $this->staff_model->get_staff_status(get_staff_user_id());
+        //$data['user_plan']     = $this->staff_model->get_all_plans();
 
         $this->load->view('admin/staff/member', $data);
     }
@@ -212,9 +215,9 @@ class Staff extends AdminController
             unset($data['view_all']);
         }
 
-        // $staff_id = get_staff_user_id();
-        // $stripe = $this->staff_model->get_stripe($staff_id);
-        // $data['stripe'] = $stripe;
+        $staff_id = get_staff_user_id();
+        $stripe = $this->staff_model->get_stripe($staff_id);
+        $data['stripe'] = $stripe;
 
         $data['logged_time'] = $this->staff_model->get_logged_time_data(get_staff_user_id());
         $data['title']       = '';
@@ -257,22 +260,17 @@ class Staff extends AdminController
         $data['member']            = $member;
         $data['departments']       = $this->departments_model->get();
         $data['staff_departments'] = $this->departments_model->get_staff_departments($member->staffid);
-
-        // //get stripe
-        // $staff_id = get_staff_user_id();
-        // $this->load->model('staff_model');
+        //get stripe
+        $staff_id = get_staff_user_id();
+        $this->load->model('staff_model');
         // $stripe = $this->staff_model->get_stripe($staff_id);
         // $data['stripe'] = $stripe;
 
-        // get stripe
-        $this->db->select();
-        $this->db->where('staff_id',get_staff_user_id());
-        $data['stripe_info'] = $this->db->get(db_prefix().'stripe_info')->row();
         $data['title']             = $member->firstname . ' ' . $member->lastname;
 
         //get stripe info
-        // $stripe_info = $this->staff_model->get_stripe_info($staff_id);
-        // $data['stripe_info'] = $stripe_info;
+        $stripe_info = $this->staff_model->get_stripe_info($staff_id);
+        $data['stripe_info'] = $stripe_info;
 
 
         $this->load->view('admin/staff/profile', $data);
@@ -347,10 +345,10 @@ class Staff extends AdminController
         ]);
         $data['total_pages'] = ceil($total_notifications / $this->misc_model->get_notifications_limit());
          //get stripe
-        // $staff_id = get_staff_user_id();
-        // $this->load->model('staff_model');
-        // $stripe = $this->staff_model->get_stripe($staff_id);
-        // $data['stripe'] = $stripe;
+        $staff_id = get_staff_user_id();
+        $this->load->model('staff_model');
+        $stripe = $this->staff_model->get_stripe_info($staff_id);
+        $data['stripe'] = $stripe;
         
         $this->load->view('admin/staff/myprofile', $data);
     }
@@ -419,7 +417,21 @@ class Staff extends AdminController
             die;
         }
     }
-    
+    // for stripe info in edit staff profile
+    public function stripe_info()
+    {
+        // print_r($_POST); exit();
+        if(isset($_POST)){
+            $data['stripe_email'] = $_POST['stripe_email'];
+            $data['stripe_password'] = $_POST['stripe_password'];
+
+            $staff_id = get_staff_user_id();
+             
+                $this->staff_model->add_stripe($data, $staff_id);
+                    set_alert('success', _l('added_successfully', _l('stripe')));
+                    redirect(admin_url('staff/edit_profile'));
+        }
+    }
     //for stripe bank details info
     public function stripe_bank_details()
     {
@@ -588,7 +600,11 @@ class Staff extends AdminController
             
         }
     }
-   
+    // for role_name in staff table
+    public function get_staff_role_name()
+    {
+        return "attacthed";
+    }
 
     public function id_proff_front(){
         $data = [];
@@ -754,14 +770,15 @@ class Staff extends AdminController
     }
     public function user_relation(){
         $data=[];
-        if (!has_permission('staff', '', 'view')) {
-            access_denied('staff');
+        if (!has_permission('user_relation', '', 'view')) {
+            access_denied('user_relation');
         }
         if ($this->input->is_ajax_request()) {
-            $this->app->get_table_data('staff');
+            $this->app->get_table_data('user_relation');
         }
-        $data['staff_members'] = $this->staff_model->get_user_relation('', ['active' => 1]);
-        $data['title']         = _l('staff_members');
+        $data['user_relation'] = $this->staff_model->get_user_relation('', ['active' => 1]);
+        $data['title']         = _l('see_relation');
         $this->load->view('admin/staff/user_relation', $data);
     }
+    
 }

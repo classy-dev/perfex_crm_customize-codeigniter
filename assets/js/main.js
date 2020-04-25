@@ -1787,7 +1787,7 @@ $(function() {
             tasksTableURL += '?bulk_actions=true';
         }
 
-        _table_api = initDataTable(table_tasks, tasksTableURL, tasksTableNotSortable, tasksTableNotSortable, TasksServerParams, [table_tasks.find('th.duedate').index(), 'asc']);
+        _table_api = initDataTable(table_tasks, tasksTableURL, tasksTableNotSortable, tasksTableNotSortable, TasksServerParams, [0, 'asc']);
 
         if (_table_api && $("body").hasClass('dashboard')) {
             _table_api.column(5).visible(false, false)

@@ -93,27 +93,27 @@ foreach ($rResult as $aRow) {
 
     $row[] = $outputName;
 
-    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
+    // $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
 
-    $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
+    // $row[] = '<a href="' . admin_url('projects/view/' . $aRow['project_id']) . '">' . $aRow['project_name'] . '</a>';
 
-    if (empty($aRow['status'])) {
-        $row[] = _l('subscription_not_subscribed');
-    } else {
-        $row[] = _l('subscription_' . $aRow['status'], '', false);
-    }
+    // if (empty($aRow['status'])) {
+    //     $row[] = _l('subscription_not_subscribed');
+    // } else {
+    //     $row[] = _l('subscription_' . $aRow['status'], '', false);
+    // }
 
-    if ($aRow['next_billing_cycle']) {
-        $row[] = _d(date('Y-m-d', $aRow['next_billing_cycle']));
-    } else {
-        $row[] = '-';
-    }
+    // if ($aRow['next_billing_cycle']) {
+    //     $row[] = _d(date('Y-m-d', $aRow['next_billing_cycle']));
+    // } else {
+    //     $row[] = '-';
+    // }
 
-    if ($aRow['date_subscribed']) {
-        $row[] = _dt($aRow['date_subscribed']);
-    } else {
-        $row[] = '-';
-    }
+    // if ($aRow['date_subscribed']) {
+    //     $row[] = _dt($aRow['date_subscribed']);
+    // } else {
+    //     $row[] = '-';
+    // }
 
 
     $row['DT_RowClass'] = 'has-row-options';

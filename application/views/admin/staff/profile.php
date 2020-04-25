@@ -130,10 +130,10 @@ margin-top : -16px;
                       </div>
                       
                     </div>
-                    <?php if(isset($member)){?>
+                    <?php if(isset($member) && !empty($member->vermittlernum)){?>
                     <div class="form-group" id="vermittlernumdiv">
                     <?php }?>
-                    <?php if (!isset($member)){?>
+                    <?php if (!isset($member) || empty($member->vermittlernum)){?>
                     <div class="form-group" id="vermittlernumdiv" style="display: none;">
                     <?php }?>
                         <label for="vermittlernum" class="control-label">Vermittlernummer</label>
@@ -197,10 +197,10 @@ margin-top : -16px;
                  <?php } ?>
              </div>
              <?php } ?>
-             <!-- <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button> -->
-             <div class="btn-bottom-toolbar text-right" >
+             <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
+             <!-- <div class="btn-bottom-toolbar text-right" >
                 <button type="submit" class="btn btn-info" id="save"><?php echo _l('save');?></button>
-             </div>
+             </div> -->
              <?php echo form_close(); ?>
          </div>
      </div>
@@ -214,6 +214,8 @@ margin-top : -16px;
             Stripe Bank Details</h4>
            <hr class="hr-panel-heading">
             <?php echo form_open_multipart('admin/staff/stripe_bank_details',array('id'=>'stripe_bank_details')); ?>
+            <?php //echo form_open_multipart(admin_url('staff/change_password_profile'),array('id'=>'stripe_bank_details','autocomplete'=>'off')); ?>
+           
               <div class="form-group">
                 <label for="stripe_bank_email" class="control-label"><?php echo _l('staff_add_edit_email'); ?></label>
                 <input type="email" name="stripe_bank_email" id="stripe_bank_email"  class="form-control" value="<?php if(isset($stripe_info->stripe_email)) echo $stripe_info->stripe_email; else echo NULL ?>" required >
@@ -232,24 +234,24 @@ margin-top : -16px;
               </div>
               <div class="form-group">
                 <label for="account_numbers" class="control-label">IBAN</label>
-                <input id="account_numbers[account_number]" name="account_numbers" id="account_numbers" placeholder="DE55370400440532014000" type="text" class="form-control" value="<?php if(isset($stripe_info->IBAN)) echo $stripe_info->IBAN; else echo NULL ?>">
+                <input id="account_numbers[account_number]" name="account_numbers" id="account_numbers" placeholder="DE55370400440532014000" type="text" class="form-control" value="<?php if(isset($stripe_info->IBAN)) echo $stripe_info->IBAN; else echo NULL ?>" required>
               </div>
               <div class="form-group">
                 <label for="confirm_account_numbers" class="control-label">Confirm IBAN</label>
-               <input id="confirm_account_numbers" name="confirm_account_numbers" id="confirm_account_numbers" placeholder="DE55370400440532014000" type="text" data-rule-equalto="#account_numbers" class="form-control" value="<?php if(isset($stripe_info->IBAN)) echo $stripe_info->IBAN; else echo NULL ?>">
+               <input id="confirm_account_numbers" name="confirm_account_numbers" id="confirm_account_numbers" placeholder="DE55370400440532014000" type="text" data-rule-equalto="#account_numbers" class="form-control" value="<?php if(isset($stripe_info->IBAN)) echo $stripe_info->IBAN; else echo NULL ?>" required>
               </div>
               <div class="form-group" id="identityFront">
                 <label for="identity_proof" class="control-label">*Identity Proof Front(smaller than 5 mb(JPEG or PNG))</label>
-               <input id="identity_proof_front" name="identity_proof_front" placeholder="ID Proof Front Image Url" type="file" class="form-control" accept="image/x-png,image/jpeg">
+               <input id="identity_proof_front" name="identity_proof_front" placeholder="ID Proof Front Image Url" type="file" class="form-control" accept="image/x-png,image/jpeg" required>
               </div>
               <div class="form-group" id="identityBack">
                  <label for="identity_proof" class="control-label">*Identity Proof Back(smaller than 5 mb(JPEG or PNG))</label>
-                 <input id="identity_proof_back" name="identity_proof_back" placeholder="ID Proof Back Image Url" type="file" class="form-control" accept="image/x-png,image/jpeg">
+                 <input id="identity_proof_back" name="identity_proof_back" placeholder="ID Proof Back Image Url" type="file" class="form-control" accept="image/x-png,image/jpeg" required>
                  
               </div>
               <div class="form-group" id="addtionalId">
                <label for="identity_proof" class="control-label">*Addtional Proff  (document showing address (JPEG or PNG) smaller than 5 mb)</label>
-               <input id="addtional_id_proof" name="addtional_id_proof" placeholder="Addtional Id Proof Image Url" type="file" class="form-control" accept="image/x-png,image/jpeg">
+               <input id="addtional_id_proof" name="addtional_id_proof" placeholder="Addtional Id Proof Image Url" type="file" class="form-control" accept="image/x-png,image/jpeg" required>
               </div>
               <button type="submit" id="sripeSubmit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
           <?php echo form_close(); ?>  
@@ -303,7 +305,7 @@ margin-top : -16px;
    appValidateForm($('#staff_password_change_form'),{oldpassword:'required',newpassword:'required',newpasswordr: { equalTo: "#newpassword"}});
 
 
-   $("#sripeSubmit").prop("disabled", true);
+   // $("#sripeSubmit").prop("disabled", true);
 
    /*appValidateForm($('#stripe_bank_details'),{account_numbers:'required',confirm_account_numbers:'required',confirm_account_numbers: { equalTo: "#account_numbers"}});*/
 
@@ -440,6 +442,7 @@ margin-top : -16px;
             cache: false,
             processData:false,
             success: function(response){ 
+                //$('input[name=csrf_token_name]').val();
                  $("div#divLoading").removeClass('show');
                  $("#sripeSubmit").prop("disabled", false);
                  var res = JSON.parse(response);
@@ -448,7 +451,7 @@ margin-top : -16px;
                   $("div#addtionalId").removeClass('has-error has-feedback');
                   $("div#addtionalId").addClass('has-success has-feedback');
                   $("div#addtionalId").append('<span class="glyphicon glyphicon-ok form-control-feedback"></span>');
-                  $('input[name=csrf_token_name]').val(response.token);
+                  //$('input[name=csrf_token_name]').val(response.token);
                   //alert(res.message);
                  }else{
                    $("div#addtionalId").addClass('has-error has-feedback');
@@ -465,7 +468,7 @@ margin-top : -16px;
  $(document).ready(function(){
   document.getElementById("address").placeholder = "Genslerstraße 84";
   document.getElementById("city").placeholder = "Berlin Wedding";
-  document.getElementById("state").placeholder = "Berlin";
+  document.getElementById("state").placeholder = "Brandenbrug";
   document.getElementById("zip").placeholder = "13359";
   document.getElementById("phonenumber").placeholder = "491234567890";
 
@@ -486,17 +489,21 @@ margin-top : -16px;
   $('#phonenumber').prop('required', true);
  });
 
- $('#stripe_bank_details').submit(function(){
+ /*$('#stripe_bank_details').submit(function(){
+    $('#stripe_confirm').val(true);
+ });*/
+
+ $('#sripeSubmit').on('click',function(){
     $('#stripe_confirm').val(true);
  });
 
- $('#staff_profile_table').submit(function(e){
+ /*$('#staff_profile_table').submit(function(e){
     var stripe_confirm = $('#stripe_confirm').val();
     if(!stripe_confirm){
       e.preventDefault();
       alert("complete stripe");  
     }
- })
+ })*/
  
 </script>
 </body>

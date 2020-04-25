@@ -38,7 +38,7 @@
             <?php }?>
 
              <?php if($start_role == 1) {?>
-            <div class="col-md-8" data-container="left-8">
+            <div class="col-md-12" data-container="left-8">
                 <?php render_dashboard_widgets_case('left-8',$start_role); ?>
             </div>
             <?php }?>
@@ -107,7 +107,6 @@
 
         var profile0 = '<?php echo json_encode($profile)?>';
         var profile = JSON.parse(profile0);
-        console.log(profile[0].profile_complete);
         if(profile[0].profile_complete != 1) {
             $('#myModal').modal('show');
         }

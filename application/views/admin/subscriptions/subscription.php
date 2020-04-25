@@ -189,6 +189,8 @@ init_head(); ?>
     <?php init_tail(); ?>
 
 <script>
+  $('.menu-item-subscriptions').addClass('active');
+  $('.sub-menu-item-blocks').addClass('active');
     $(function(){
       // Project ajax search
       init_ajax_project_search_by_customer_id();

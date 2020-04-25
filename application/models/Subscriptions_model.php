@@ -197,5 +197,13 @@ class Subscriptions_model extends App_Model
         $query = $this->db->query("SELECT tblsubscriptions.*,tbltaxes.`taxrate`FROM tbltaxes right JOIN tblsubscriptions ON tbltaxes.`id` = tblsubscriptions.`tax_id`");
         return $query->result_array();
     }
+
+    public function get_my_subscription($staffid) {
+
+        $this->db->select();
+        $this->db->where('created_from',$staffid);
+        return $this->db->get(db_prefix().'subscriptions')->result_array();
+
+    }
     
 }

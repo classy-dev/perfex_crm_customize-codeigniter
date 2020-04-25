@@ -156,6 +156,8 @@ class Dashboard_model extends App_Model
             $sql .= ' SELECT COUNT(*) as total';
             $sql .= ' FROM ' . db_prefix() . 'projects';
             $sql .= ' WHERE status=' . $status['id'];
+            if(!is_admin())
+                $sql .= ' AND addedfrom=' . get_staff_user_id();
             if (!$has_permission) {
                 $sql .= ' AND id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')';
             }

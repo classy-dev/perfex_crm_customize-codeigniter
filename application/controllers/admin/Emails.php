@@ -66,7 +66,7 @@ class Emails extends AdminController
 
         $data['staff'] = $this->emails_model->get([
             'type'     => 'staff',
-            'language' => 'german',
+            'language' => 'english',
         ]);
 
         $data['credit_notes'] = $this->emails_model->get([

@@ -12,14 +12,14 @@ $table_data = array(
     'name'=>_l('annual_costs'),
     'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-monthly_costs')
   ),
-  array(
-    'name'=>_l('subscription_status'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-status')
-  ),
-  array(
-    'name'=>_l('date_subscribed'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-subscribed')
-  ),
+  // array(
+  //   'name'=>_l('subscription_status'),
+  //   'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-status')
+  // ),
+  // array(
+  //   'name'=>_l('date_subscribed'),
+  //   'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-subscribed')
+  // ),
 );
 render_datatable($table_data,'subscriptions',
   array(),

@@ -454,6 +454,7 @@ class Tasks_model extends App_Model
      */
     public function add($data, $clientRequest = false)
     {
+
         $ticket_to_task = false;
 
         if (isset($data['ticket_to_task'])) {
@@ -500,9 +501,6 @@ class Tasks_model extends App_Model
         } else {
             $data['is_public'] = 0;
         }
-        // print_r("expression");
-        // print_r($data); 
-        // exit();
         if (isset($data['repeat_every']) && $data['repeat_every'] != ''&& $data['repeat_every'] != 'no-repeat') {
             $data['recurring'] = 1;
             if ($data['repeat_every'] == 'custom') {
@@ -518,7 +516,6 @@ class Tasks_model extends App_Model
         } else {
             $data['recurring'] = 0;
         }
-        // print_r($data); exit();
         if (isset($data['repeat_type_custom']) && isset($data['repeat_every_custom'])) {
             unset($data['repeat_type_custom']);
             unset($data['repeat_every_custom']);
@@ -565,7 +562,7 @@ class Tasks_model extends App_Model
             $tags = $data['tags'];
             unset($data['tags']);
         }
-         // print_r($data);exit();
+        // print_r($data); exit();
         $this->db->insert(db_prefix() . 'tasks', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {
@@ -594,9 +591,10 @@ class Tasks_model extends App_Model
             }
 
             if ($clientRequest == false) {
-                $new_task_auto_assign_creator = (get_option('new_task_auto_assign_current_member') == '1' ? true : false);
 
+                $new_task_auto_assign_creator = (get_option('new_task_auto_assign_current_member') == '1' ? true : false);
                 if (isset($data['rel_type']) && $data['rel_type'] == 'project' && !$this->projects_model->is_member($data['rel_id'])) {
+                    echo "111"; exit();
                     $new_task_auto_assign_creator = false;
                 }
                 if ($new_task_auto_assign_creator == true) {

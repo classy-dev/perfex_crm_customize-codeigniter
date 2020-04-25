@@ -69,7 +69,7 @@
             flex: 1 auto;
     position: relative;
     padding-bottom: 1.5em;
-    background-color: #44B4E0; }
+    background-color: white; }
 .footer-wrap {
     padding: .75em;
     height: auto;
@@ -309,9 +309,9 @@ section.section-content.section-no-gradient {
 
     .stage-position-element-logo_pic {
     position: absolute;
-    top:61.1% ;
+    top:61.5% ;
     width:130px;
-    height: 10.5%;
+    height: 9.5%;
     border-radius: 0;
     overflow: hidden;
     /*clip-path: polygon(8% 0%, 90% 0%, 100% 93%, 14% 93%);*/
@@ -509,9 +509,9 @@ section.section-content.section-no-gradient {
 
     .stage-position-element-logo_pic {
     position: absolute;
-    top:61.1% ;
+    top:61.5% ;
     width:10.5%;
-    height: 10.5%;
+    height: 9.5%;
     border-radius: 0;
     overflow: hidden;
     /*clip-path: polygon(8% 0%, 90% 0%, 100% 93%, 14% 93%);*/

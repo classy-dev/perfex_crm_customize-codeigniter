@@ -391,7 +391,6 @@ class Misc_model extends App_Model
         $departments       = $this->departments_model->get();
         $staff_departments = $this->departments_model->get_staff_departments(false, true);
         $ids               = [];
-
         // Check departments google calendar ids
         foreach ($departments as $department) {
             if ($department['calendar_id'] == '') {
@@ -411,7 +410,6 @@ class Misc_model extends App_Model
         if ($main_id_calendar != '') {
             $ids[] = $main_id_calendar;
         }
-
         return array_unique($ids);
     }
 

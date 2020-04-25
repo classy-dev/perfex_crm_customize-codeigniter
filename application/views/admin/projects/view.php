@@ -163,6 +163,9 @@
    taskid = '<?php echo $this->input->get('taskid'); ?>';
 </script>
 <script>
+    $('.menu-item-time_tracking').addClass('active');
+    $('.sub-menu-item-tracking').addClass('active');
+
    var gantt_data = {};
    <?php if(isset($gantt_data)){ ?>
    gantt_data = <?php echo json_encode($gantt_data); ?>;

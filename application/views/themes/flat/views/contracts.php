@@ -6,12 +6,12 @@
 </div>
 <div class="panel_s">
   <div class="panel-body">
-    <div class="col-md-12">
+    <!-- <div class="col-md-12">
       <h3 class="text-success contracts-summary-heading no-mtop mbot15"><?php echo _l('contract_summary_by_type'); ?></h3>
       <div class="relative" style="max-height:300px;">
         <canvas class="chart" height="300" id="contracts-by-type-chart"></canvas>
       </div>
-    </div>
+    </div> -->
     <div class="clearfix"></div>
     <table class="table dt-table table-contracts" data-order-col="1" data-order-type="asc">
       <thead>

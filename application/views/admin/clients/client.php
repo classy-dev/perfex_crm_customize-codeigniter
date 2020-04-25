@@ -108,18 +108,20 @@
 </div>
 <?php init_tail(); ?>
 <script type="text/javascript">
+   $('.menu-item-customers').addClass('active');
    $(document).ready(function(){
       // console.log("1")
       $('#profile_title').change(function(){
          var selectedTitle = $("#profile_title").val();
          console.log(selectedTitle);
          if(selectedTitle == "company"){
-            $('#company').show();
-            $('#person').hide();
+            
+            $('#companydiv').show();
+            $('#persondiv').hide();
          };
          if(selectedTitle == "mr" || selectedTitle == "miss" || selectedTitle == "other"){
-            $('#company').hide();
-            $('#person').show();
+            $('#companydiv').hide();
+            $('#persondiv').show();
          };
       });
    });

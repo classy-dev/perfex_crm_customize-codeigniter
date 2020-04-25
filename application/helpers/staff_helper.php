@@ -125,7 +125,8 @@ function get_available_staff_permissions($data = [])
         ],
         'staff' => [
             'name'         => _l('staff'),
-            'capabilities' => $withoutViewOwnPermissionsArray,
+            // 'capabilities' => $withoutViewOwnPermissionsArray,
+            'capabilities' => $allPermissionsArray,
         ],
         'subscriptions' => [
             'name'         => _l('subscriptions'),
@@ -381,4 +382,17 @@ function is_staff_member($staff_id = '')
     ->where('is_not_staff', 0);
 
     return $CI->db->count_all_results(db_prefix() . 'staff') > 0 ? true : false;
+}
+
+function get_plan_list(){
+    $plan_list = array();
+    $CI = & get_instance();
+    $CI->db->select('*');
+    $CI->db->from(db_prefix() . 'user_plan');
+    $CI->db->where('status', 1);
+    $staff = $CI->db->get();
+    if($staff->num_rows()>0){
+        $plan_list = $staff->result();
+    }
+    return $plan_list;
 }

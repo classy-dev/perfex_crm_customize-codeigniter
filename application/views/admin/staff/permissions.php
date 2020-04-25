@@ -25,6 +25,11 @@
                <?php foreach ($permission['capabilities'] as $capability => $name) {
                   $checked = '';
                   $disabled = '';
+
+
+                  
+                 
+
                   if((isset($is_admin) && $is_admin) ||
                    (is_array($name) && isset($name['not_applicable']) && $name['not_applicable']) ||
                    (

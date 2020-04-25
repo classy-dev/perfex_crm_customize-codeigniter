@@ -106,6 +106,7 @@ class Clients_model extends App_Model
             $data['person_street'] = null;
             $data['person_city'] = null;
             $data['person_email'] = null;
+            $data['person_phone'] = null;
         }
         else{
             $data['fullname'] = $data['person_firstname'].' '.$data['person_lastname'];
@@ -223,6 +224,7 @@ class Clients_model extends App_Model
             $data['person_street'] = null;
             $data['person_city'] = null;
             $data['person_email'] = null;
+            $data['person_phone'] = null;
         }
         else{
 
@@ -277,6 +279,20 @@ class Clients_model extends App_Model
             $data['email'] = $data['person_email'];
         }
 
+        if(isset($data['profile']))
+            unset($data['profile']);
+        if(isset($data['invoice_emails']))
+            unset($data['invoice_emails']);
+        if(isset($data['credit_note_emails']))
+            unset($data['credit_note_emails']);
+        if(isset($data['ticket_emails']))
+            unset($data['ticket_emails']);
+        if(isset($data['contract_emails']))
+            unset($data['contract_emails']);
+        if(isset($data['project_emails']))
+            unset($data['project_emails']);
+        if(isset($data['task_emails']))
+            unset($data['task_emails']);
 
         $data = hooks()->apply_filters('before_client_updated', $data, $id);
 
@@ -410,6 +426,7 @@ class Clients_model extends App_Model
             $data['firstname'] = $data['person_firstname'];
             $data['lastname'] = $data['person_lastname'];
             $data['email'] = $data['person_email'];
+            $data['phonenumber'] = $data['person_phone'];
         }
 
         $data = hooks()->apply_filters('before_update_contact', $data, $id);
@@ -426,6 +443,13 @@ class Clients_model extends App_Model
         unset($data['person_city']);
         unset($data['country']);
         unset($data['person_email']);
+        unset($data['person_phone']);
+
+        if(isset($data['profile']))
+            unset($data['profile']);
+        if(isset($data['profile_title']))
+            unset($data['profile_title']);
+
         // print_r($data); exit();
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'contacts', $data);
@@ -591,6 +615,7 @@ class Clients_model extends App_Model
             $data['firstname'] = $data['person_firstname'];
             $data['lastname'] = $data['person_lastname'];
             $data['email'] = $data['person_email'];
+            $data['phonenumber'] = $data['person_phone'];
         }
 
         
@@ -610,6 +635,7 @@ class Clients_model extends App_Model
         unset($data['person_city']);
         unset($data['country']);
         unset($data['person_email']);
+        unset($data['person_phone']);
 
         // print_r($data); exit();
         $this->db->insert(db_prefix() . 'contacts', $data);

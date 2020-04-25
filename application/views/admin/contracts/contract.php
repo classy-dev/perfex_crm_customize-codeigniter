@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php   //print_r($customer_id); exit();
+<?php   
+// print_r($subscriptions); exit();
 init_head(); ?>
 <style>
    .form-group[app-field-wrapper=subject], #contractmergefields, #tasks, #renewals{
@@ -151,6 +152,8 @@ init_head(); ?>
                      <input type="hidden" id="cus_value" name="cus_value" value="<?php if(isset($contract->cus_value))  print_r($contract->cus_value); else echo "";?>">
                      <input type="hidden" id="cus_addr_value" name="cus_addr_value" value="<?php if(isset($contract->cus_addr_value))  print_r($contract->cus_addr_value); else echo "";?>">
                   </div> -->
+
+                  
                   <!-- customer -->
                   <?php
                     $selected = (isset($contract->client) ? $contract->client : '');
@@ -184,12 +187,12 @@ init_head(); ?>
                         
                      }
                      if(isset($types)){
-                        if(is_admin() || get_option('staff_members_create_inline_contract_types') == '1'){
-                        echo render_select_with_input_group('contract_type',$types,array('id','name'),'contract_type',$selected,'<a href="#" onclick="new_type();return false;"><i class="fa fa-plus"></i></a>');
-                       } else {
-                        // echo $selected;
+                       //  if(is_admin() || get_option('staff_members_create_inline_contract_types') == '1'){
+                       //  echo render_select_with_input_group('contract_type',$types,array('id','name'),'contract_type',$selected,'<a href="#" onclick="new_type();return false;"><i class="fa fa-plus"></i></a>');
+                       // } else {
+                        
                        echo render_select('contract_type',$types,array('id','name'),'contract_type',$selected);
-                       }
+                       // }
                      }
                      
                   ?>
@@ -221,7 +224,7 @@ init_head(); ?>
                     else {
                         if(!isset($contract->subscription)||$contract->contract_type!=2) echo '<div id="subscrip" style="display:none">';
                         if(isset($contract->subscription)&&$contract->contract_type==2) echo '<div id="subscrip">';
-                        echo render_select('subscription',$subscriptions,array('id','name'),'Subscription',$selected);
+                        echo render_select('subscription',$my_subscriptions,array('id','name'),_l('contract_subscription'),$selected);
                         echo "</div>";
                        }
                   ?>
@@ -234,12 +237,11 @@ init_head(); ?>
                     <?php
                     $selected = (isset($contract->consulting_client_point) ? $contract->consulting_client_point : '');
                     if(isset($products)){
-                        if(is_admin()){
-                        echo render_select_with_input_group('consulting_client_point',$products,array('id','contract_product'),'consulting_client_point',$selected,'<a href="#" onclick="new_product();return false;"><i class="fa fa-plus"></i></a>&nbsp;<a href="#" onclick="delete_product()"><i class="fa fa-minus"></i></a>');
-                       } else {
-                        // echo $selected;
+                       //  if(is_admin()){
+                       //  echo render_select_with_input_group('consulting_client_point',$products,array('id','contract_product'),'consulting_client_point',$selected,'<a href="#" onclick="new_product();return false;"><i class="fa fa-plus"></i></a>&nbsp;<a href="#" onclick="delete_product()"><i class="fa fa-minus"></i></a>');
+                       // } else {
                        echo render_select('consulting_client_point',$products,array('id','contract_product'),'consulting_client_point',$selected);
-                       }
+                       // }
                      }
                      ?>
                      
@@ -307,7 +309,7 @@ init_head(); ?>
                               <option value=""></option>
                               <option <?php if($contract->beratung_p_m == 'Bank Transfer') echo 'selected';?> value="Bank Transfer"><?php echo _l('bank_transfer');?></option>
                               <option <?php if($contract->beratung_p_m == 'Immediate Transfer') echo 'selected';?> value="Immediate Transfer"><?php echo _l('immediate_transfer');?></option>
-                              <option <?php if($contract->beratung_p_m == 'Debit') echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
+                              <option <?php if($contract->beratung_p_m == 'Debit'|| !isset($contract->id) ) echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
                             </select>
                           </div>
                         </div>
@@ -639,7 +641,7 @@ init_head(); ?>
                       <?php }?>
                         <div class="col-md-6">
                           <?php $value = (isset($contract->dateend) ? _d($contract->dateend) : ''); ?>
-                          <?php echo render_date_input('dateend','contract_end_date',$value); ?>
+                          <?php echo render_date_input('dateend','contract_end_date_netto',$value); ?>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -770,39 +772,39 @@ init_head(); ?>
                       <input type="hidden" name="timetracking[progress]" id="timetracking_progress" value="<?php echo $value; ?>">
                       <div class="project_progress_slider project_progress_slider_horizontal mbot15"></div> -->
 
-                      <div class="row">
-                          <!-- <div class="col-md-6">
-                              <div class="form-group select-placeholder">
-                                  <label for="timetracking[billing_type]"><?php echo _l('time_tracking_billing_type'); ?></label>
-                                  <div class="clearfix"></div>
-                                  <select name="timetracking[billing_type]" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                      
-                                      <option value="2" <?php if(isset($project) && $project->billing_type == 2 || !isset($project) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 2){echo 'selected'; } ?>><?php echo _l('project_billing_type_project_hours'); ?></option>
-                                      
-                                  </select>
-                                  <?php if($disable_type_edit != ''){
-                                      echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
-                                  }
-                                  ?>
-                              </div>
-                          </div> -->
-                          <div class="col-md-6">
-                              <div class="form-group" app-field-wrapper="timetracking[estimated_hours]">
-                                <label for="timetracking_estimated_hours" class="control-label"><?php echo _l('estimated_hours')?></label>
-                                <input type="number" id="timetracking_estimated_hours" name="timetracking[estimated_hours]" class="form-control " value="<?php echo isset($project) ? $project->estimated_hours : 0;?>" aria-invalid="false"></div>
-                          </div>
+                        <div class="row">
+                            <!-- <div class="col-md-6">
+                                <div class="form-group select-placeholder">
+                                    <label for="timetracking[billing_type]"><?php echo _l('time_tracking_billing_type'); ?></label>
+                                    <div class="clearfix"></div>
+                                    <select name="timetracking[billing_type]" class="selectpicker" id="billing_type" data-width="100%" <?php echo $disable_type_edit ; ?> data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        
+                                        <option value="2" <?php if(isset($project) && $project->billing_type == 2 || !isset($project) && $auto_select_billing_type && $auto_select_billing_type->billing_type == 2){echo 'selected'; } ?>><?php echo _l('project_billing_type_project_hours'); ?></option>
+                                        
+                                    </select>
+                                    <?php if($disable_type_edit != ''){
+                                        echo '<p class="text-danger">'._l('cant_change_billing_type_billed_tasks_found').'</p>';
+                                    }
+                                    ?>
+                                </div>
+                            </div> -->
+                            <div class="col-md-6">
+                                <div class="form-group" app-field-wrapper="timetracking[estimated_hours]">
+                                  <label for="timetracking_estimated_hours" class="control-label"><?php echo _l('estimated_hours')?></label>
+                                  <input type="number" id="timetracking_estimated_hours" name="timetracking[estimated_hours]" class="form-control " value="<?php echo isset($project) ? $project->estimated_hours : 0;?>" aria-invalid="false"></div>
+                            </div>
 
-                          <div class="col-md-6">
-                              <div class="form-group select-placeholder">
-                                  <label for="timetracking[status]"><?php echo _l('project_status'); ?></label>
-                                  <div class="clearfix"></div>
-                                  <select name="timetracking[status]" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                      
-                                          <option value="2" <?php if(!isset($project) && $status['id'] == 2 || (isset($project) && $project->status == $status['id'])){echo 'selected';} ?>><?php  echo _l('project_progress_status'); ?></option>
-                                      
-                                  </select>
-                              </div>
-                          </div>
+                            <div class="col-md-6">
+                                <div class="form-group select-placeholder">
+                                    <label for="timetracking[status]"><?php echo _l('project_status'); ?></label>
+                                    <div class="clearfix"></div>
+                                    <select name="timetracking[status]" id="status" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                        
+                                            <option value="2" <?php if(!isset($project) && $status['id'] == 2 || (isset($project) && $project->status == $status['id'])){echo 'selected';} ?>><?php  echo _l('project_progress_status'); ?></option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
                       </div>
 
                       <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
@@ -1062,7 +1064,7 @@ init_head(); ?>
                            </li>
                            <li role="presentation" id="comments">
                               <a href="#tab_comments" aria-controls="tab_comments" role="tab" data-toggle="tab" onclick="get_contract_comments(); return false;">
-                              <?php echo _l('Question from customer'); ?>
+                              <?php echo _l('question_from_customer'); ?>
                               <?php
                               $totalComments = total_rows(db_prefix().'contract_comments','contract_id='.$contract->id)
                               ?>
@@ -1378,6 +1380,9 @@ init_head(); ?>
 <?php $this->load->view('admin/contracts/contract_product'); ?>
 
 <script>
+
+  $('.menu-item-contracts').addClass('active');
+
    Dropzone.autoDiscover = false;
    $(function () {
 
@@ -1831,9 +1836,10 @@ init_head(); ?>
                   $('#consulting_client_point').attr('required',true);
                   $('#custom_fields_contracts_produkt_method').attr("required",true);
                   $('#custom_fields_contracts_produkt_remuneration').attr("required",true);
+                  
                   if($('#custom_fields_contracts_produkt_remuneration option:selected').val() == 'One Time Payment') $('#one_time_payment').attr('required', true);
                   else if ($('#custom_fields_contracts_produkt_remuneration option:selected').val() == 'Partial Payment Of Total Amount') $('#opening_payment').attr('required', true);
-                  $('#savings_amount_per_month').attr('required', true);
+                  
                   $('#timetracking_and_task').css('display','none');
                   $('#timeframe').hide();
               }
@@ -1848,7 +1854,7 @@ init_head(); ?>
       /* Contract Type Selection End */
 
 
-      /* Service-Abo Calculation Start*/
+      /* Service-Abo Calculation Start */
 
         // Subscription Change
           $('#subscription').change(function(){
@@ -1880,13 +1886,13 @@ init_head(); ?>
               $('#contract_tax').val(contract_tax);
 
               if($('#custom_fields_contracts_ser_timeframe').val() == 'Annually')
-                $('#customer_payment_value').val(contract_value);
-              else if($('#custom_fields_contracts_ser_timeframe').val() == 'Monthly')
                 $('#customer_payment_value').val(contract_value*12);
+              else if($('#custom_fields_contracts_ser_timeframe').val() == 'Monthly')
+                $('#customer_payment_value').val(contract_value);
               else if($('#custom_fields_contracts_ser_timeframe').val() == 'Quarterly')
                 $('#customer_payment_value').val(contract_value*4);
               else if($('#custom_fields_contracts_ser_timeframe').val() == 'Half-Yearly')
-                $('#customer_payment_value').val(contract_value*2);
+                $('#customer_payment_value').val(contract_value*6);
           });
 
           var subscription0 = '<?php echo json_encode($subscriptions) ?>';
@@ -1918,17 +1924,17 @@ init_head(); ?>
           $('#custom_fields_contracts_ser_timeframe').change(function(){
               var seleted_time = $('#custom_fields_contracts_ser_timeframe option:selected').val();
               if (seleted_time == 'Monthly')
-                $('#customer_payment_value').val($('#contract_value').val()*12);
+                $('#customer_payment_value').val($('#contract_value').val());
               else if (seleted_time == 'Quarterly')
                 $('#customer_payment_value').val($('#contract_value').val()*4);
               else if (seleted_time == 'Half-Yearly')
-                $('#customer_payment_value').val($('#contract_value').val()*2);
+                $('#customer_payment_value').val($('#contract_value').val()*6);
               else if (seleted_time == 'Annually')
-                $('#customer_payment_value').val($('#contract_value').val());
+                $('#customer_payment_value').val($('#contract_value').val()*12);
               
           }); 
 
-      /* Service-Abo Calculation End*/
+      /* Service-Abo Calculation End */
 
 
       /* Vergütungsvereinbarung Calculation Start */
@@ -2201,7 +2207,9 @@ init_head(); ?>
 
               $('#one_time_payment').css('display','block');
               $('#savings_amount_per_month').css('display','none');
+              $('#savings_amount_per_month').attr('required', false);
               $('#term').css('display','none');
+              $('#term_value').prop('required',false);
               $('#amount').css('display','none');
               $('#opening_payment').css('display','none');
               $('#dynamic_percentage_per_year').css('display','none');
@@ -2214,6 +2222,7 @@ init_head(); ?>
               
               $('#one_time_payment').css('display','none');
               $('#savings_amount_per_month').css('display','block');
+              $('#savings_amount_per_month').attr('required', true);
               $('#term').css('display','block');
               $('#term_value').prop('required',true);
               $('#amount').css('display','block');

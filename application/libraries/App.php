@@ -189,7 +189,6 @@ class App
     public function get_table_data($table, $params = [])
     {
         $params = hooks()->apply_filters('table_params', $params, $table);
-
         foreach ($params as $key => $val) {
             $$key = $val;
         }

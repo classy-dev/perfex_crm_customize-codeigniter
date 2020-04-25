@@ -148,9 +148,12 @@ class Roles_model extends App_Model
             $this->db->where('roleid', $id);
 
             $role              = $this->db->get(db_prefix() . 'roles')->row();
+
             $role->permissions = !empty($role->permissions) ? unserialize($role->permissions) : [];
 
             $this->app_object_cache->add('role-' . $id, $role);
+
+ 
 
             return $role;
         }

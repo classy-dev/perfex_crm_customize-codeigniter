@@ -167,6 +167,7 @@ class Utilities_model extends App_Model
                     $this->db->where($noPermissionsQuery);
                 }
             }
+            $this->db->where(db_prefix().'invoices.'.'addedfrom =',get_staff_user_id());   
             $invoices = $this->db->get()->result_array();
             foreach ($invoices as $invoice) {
                 if (($client_data && !$has_contact_permission_invoices) || (!$client_data && !user_can_view_invoice($invoice['id']))) {
@@ -307,7 +308,7 @@ class Utilities_model extends App_Model
                 if ((!$has_permission_tasks_view || get_option('calendar_only_assigned_tasks') == '1') && !$client_data) {
                     $this->db->where('(id IN (SELECT taskid FROM ' . db_prefix() . 'task_assigned WHERE staffid = ' . get_staff_user_id() . '))');
                 }
-
+                $this->db->where(db_prefix().'tasks.'.'addedfrom =',get_staff_user_id());    
                 $tasks = $this->db->get()->result_array();
 
                 foreach ($tasks as $task) {
@@ -411,7 +412,7 @@ class Utilities_model extends App_Model
             }
 
             $this->db->where('(dateend > "' . date('Y-m-d') . '" AND dateend IS NOT NULL AND dateend BETWEEN "' . $start . '" AND "' . $end . '" OR datestart >"' . date('Y-m-d') . '")');
-
+            $this->db->where(db_prefix().'contracts.'.'addedfrom =',get_staff_user_id());   
             $contracts = $this->db->get()->result_array();
 
             foreach ($contracts as $contract) {
@@ -449,7 +450,7 @@ class Utilities_model extends App_Model
             $this->db->select('name as title,id,clientid, CASE WHEN deadline IS NULL THEN start_date ELSE deadline END as date,' . get_sql_select_client_company(), false);
 
             $this->db->from(db_prefix() . 'projects');
-
+            
             // Exclude cancelled and finished
             $this->db->where('status !=', 4);
             $this->db->where('status !=', 5);
@@ -462,8 +463,9 @@ class Utilities_model extends App_Model
             } elseif ($client_data) {
                 $this->db->where('clientid', $client_id);
             }
-
+            $this->db->where(db_prefix().'projects.'.'addedfrom =',get_staff_user_id());
             $projects = $this->db->get()->result_array();
+
             foreach ($projects as $project) {
                 $rel_showcase = '';
 

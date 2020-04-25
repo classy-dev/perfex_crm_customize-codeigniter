@@ -69,6 +69,7 @@ class Projects extends AdminController
         if ($this->input->post()) {
             $data                = $this->input->post();
             $data['description'] = $this->input->post('description', false);
+            $data['project_members'] = array(get_staff_user_id());
             if ($id == '') {
                 if (!has_permission('projects', '', 'create')) {
                     access_denied('Projects');
@@ -116,7 +117,8 @@ class Projects extends AdminController
         $data['settings'] = $this->projects_model->get_settings();
         $data['statuses'] = $this->projects_model->get_project_statuses();
         $data['staff']    = $this->staff_model->get('', ['active' => 1]);
-
+        $data['my_staff'] = $this->staff_model->get('', ['staffid' => get_staff_user_id()]);
+        $data['my_customers'] = $this->clients_model->get_client_by_staff(get_staff_user_id());
         $data['title'] = $title;
         $this->load->view('admin/projects/project', $data);
     }
@@ -173,6 +175,7 @@ class Projects extends AdminController
     public function view($id)
     {
         if (has_permission('projects', '', 'view') || $this->projects_model->is_member($id)) {
+
             close_setup_menu();
             $project = $this->projects_model->get($id);
 

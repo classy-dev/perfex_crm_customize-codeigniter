@@ -13,14 +13,20 @@ $aColumns = [
     'email',
     db_prefix().'roles.name',
     'role_type',
+    'plans_type',
     'last_login',
     'active',
     ];
-// 
+//
+// echo $this->ci->db->last_query(); exit(); 
 $sIndexColumn = 'staffid';
 $sTable       = db_prefix().'staff';
-$join         = ['LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role'];
+$join         = [
+                    'LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role',
+                    'RIGHT JOIN '.db_prefix().'user_relation ON '.db_prefix().'user_relation.`create_id`='.db_prefix().'staff.`staffid` WHERE '.db_prefix().'user_relation.`created_by`='.get_staff_user_id()                    
+                ];
 $i            = 0;
+
 foreach ($custom_fields as $field) {
     $select_as = 'cvalue_' . $i;
     if ($field['type'] == 'date_picker' || $field['type'] == 'date_picker_time') {
@@ -38,16 +44,20 @@ if (count($custom_fields) > 4) {
 }
 
 $where = hooks()->apply_filters('staff_table_sql_where', []);
+
+if (has_permission('staff', '', 'view_own') and !is_admin()) {
+    array_push($where, 'AND ' . db_prefix() . 'contracts.addedfrom IN (' .$whereIn.')');
+}
+
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
     'profile_image',
     'lastname',
     'role_type',
+    'plans_type',
     'staffid',
     ]);
-
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
 foreach ($rResult as $aRow) {
 
     // $staff_role_name = $this->ci->staff_model->get_staff_role_name($aRow['role_type']);
@@ -61,6 +71,17 @@ foreach ($rResult as $aRow) {
         $staff_role_name = $this->ci->staff_model->get_staff_role_name($aRow['role_type']);
         $aRow['role_type'] = $staff_role_name->role_type_name;
     }
+
+    if ($aRow['plans_type'] == 0 || $aRow['plans_type'] == null){
+        $aRow['plans_type'] = '';
+    }
+    else
+    {
+        $user_group_name = $this->ci->staff_model->get_plans_name($aRow['plans_type']);
+        $aRow['plans_type'] = $user_group_name->plan_name;
+    }
+
+
     
     $row = [];
     for ($i = 0; $i < count($aColumns); $i++) {

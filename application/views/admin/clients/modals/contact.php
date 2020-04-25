@@ -89,6 +89,9 @@
                             $value=( isset($client) ? $client->person_email : '');
                             echo render_input( 'person_email', 'client_person_email',$value);
 
+                           $value=( isset($client) ? $client->person_phone : '');
+                           echo render_input( 'person_phone', 'client_person_phone',$value);  
+
                            } ?>
 
                         <!-- <?php $value=( isset($contact) ? $contact->firstname : ''); ?>
@@ -307,6 +310,7 @@
     $('#person_city').prop('readonly',true);
     $('#person_street').prop('readonly',true);
     $('#person_email').prop('readonly',true);
+    $('#person_phone').prop('readonly',true);
 
     var length = 8,
     charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",

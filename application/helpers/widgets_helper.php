@@ -63,50 +63,50 @@ function get_dashboard_widgets()
 function get_dashboard_widgets_case()
 {
     $widgets = [
-        [
-            'path'      => 'admin/dashboard/widgets/top_stats',
-            'container' => 'top-12',
-        ],
         // [
-        //     'path'      => 'admin/dashboard/widgets/finance_overview',
-        //     'container' => 'left-8',
+        //     'path'      => 'admin/dashboard/widgets/top_stats',
+        //     'container' => 'top-12',
         // ],
         [
-            'path'      => 'admin/dashboard/widgets/user_data',
+            'path'      => 'admin/dashboard/widgets/finance_overview',
             'container' => 'left-8',
         ],
-        [
-            'path'      => 'admin/dashboard/widgets/upcoming_events',
-            'container' => 'left-8',
-        ],
-        [
-            'path'      => 'admin/dashboard/widgets/calendar',
-            'container' => 'left-8',
-        ],
-        [
-            'path'      => 'admin/dashboard/widgets/weekly_payments_chart',
-            'container' => 'left-8',
-        ],
-        [
-            'path'      => 'admin/dashboard/widgets/todos',
-            'container' => 'right-4',
-        ],
+        // [
+        //     'path'      => 'admin/dashboard/widgets/user_data',
+        //     'container' => 'left-8',
+        // ],
+        // [
+        //     'path'      => 'admin/dashboard/widgets/upcoming_events',
+        //     'container' => 'left-8',
+        // ],
+        // [
+        //     'path'      => 'admin/dashboard/widgets/calendar',
+        //     'container' => 'left-8',
+        // ],
+        // [
+        //     'path'      => 'admin/dashboard/widgets/weekly_payments_chart',
+        //     'container' => 'left-8',
+        // ],
+        // [
+        //     'path'      => 'admin/dashboard/widgets/todos',
+        //     'container' => 'right-4',
+        // ],
         // [
         //     'path'      => 'admin/dashboard/widgets/leads_chart',
         //     'container' => 'right-4',
         // ],
-        [
-            'path'      => 'admin/dashboard/widgets/projects_chart',
-            'container' => 'right-4',
-        ],
-        [
-            'path'      => 'admin/dashboard/widgets/tickets_chart',
-            'container' => 'right-4',
-        ],
-        [
-            'path'      => 'admin/dashboard/widgets/projects_activity',
-            'container' => 'right-4',
-        ],
+        // [
+        //     'path'      => 'admin/dashboard/widgets/projects_chart',
+        //     'container' => 'right-4',
+        // ],
+        // [
+        //     'path'      => 'admin/dashboard/widgets/tickets_chart',
+        //     'container' => 'right-4',
+        // ],
+        // [
+        //     'path'      => 'admin/dashboard/widgets/projects_activity',
+        //     'container' => 'right-4',
+        // ],
     ];
 
     return hooks()->apply_filters('get_dashboard_widgets', $widgets);

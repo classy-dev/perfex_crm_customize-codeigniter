@@ -388,11 +388,11 @@ class Staff_model extends App_Model
             unset($data['fakepasswordremembered']);
         }
         // First check for all cases if the email exists.
-        // $this->db->where('email', $data['email']);
-        // $email = $this->db->get(db_prefix() . 'staff')->row();
-        // if ($email) {
-        //     die('Email already exists');
-        // }
+        $this->db->where('email', $data['email']);
+        $email = $this->db->get(db_prefix() . 'staff')->row();
+        if ($email) {
+            die('Email already exists');
+        }
         $data['admin'] = 0;
         if (is_admin()) {
             if (isset($data['administrator'])) {
@@ -433,9 +433,13 @@ class Staff_model extends App_Model
         if (isset($data['role'])){
             $data['role'] = $data['role'];
         }
-        // print_r($data); exit();
+        if(isset($data['plans_type'])){
+            $data['plans_type']= $data['plans_type'];
+        }
+        
         $this->db->insert(db_prefix() . 'staff', $data);
-
+        // print_r($this->db->last_query());
+        // exit;
         $staffid = $this->db->insert_id();
         if ($staffid) {
 
@@ -546,6 +550,9 @@ class Staff_model extends App_Model
         if (isset($data['role'])){
             $data['role'] = $data['role'];
         }
+        if (isset($data['register_bottom'])){
+            unset($data['register_bottom']);
+        }
         // print_r($data); exit();
         $this->db->insert(db_prefix() . 'staff', $data);
 
@@ -631,10 +638,10 @@ class Staff_model extends App_Model
 
         if($afftectedRows || $insert_id > 0)
         {
-            $password = rand();
-            $dat['stripe_email'] = $data['stripe_email'];
-            $dat['stripe_password'] = app_hash_password($password);
-
+            // $password = rand();
+            // $dat['stripe_email'] = $data['stripe_email'];
+            // $dat['stripe_password'] = app_hash_password($password);
+            $dat['profile_complete']=1;
             $this->db->where('staffid', $data['staff_id']);
             $this->db->update(db_prefix() . 'staff', $dat);
         }
@@ -1113,6 +1120,30 @@ class Staff_model extends App_Model
         return $query->row();
     }
 
+    public function get_agent_percentage_by_id($staff_id){
+        $agent_percentage = '';
+        $query = $this->db->query("SELECT plans_type FROM tblstaff WHERE staffid=".$staff_id);
+        if($query->num_rows()>0){
+            $result = $query->row();
+            $plans_type_id =  $result->plans_type;
+            $plan_details = $this->get_user_group_value($plans_type_id);
+            $plan_value = $plan_details->value;
+            $agent_percentage = 100-$plan_value;
+
+        }
+        return $agent_percentage;
+    }
+
+    public function get_user_group_value($user_plan_id){
+        $row = array();
+        $query = $this->db->query('select value from tbluser_plan where plan_id="'.$user_plan_id.'"');
+        //$query = $this->db->query('select value from tbluser_plan where plan_id="2"');
+        if($query->num_rows()>0){
+            return $row = $query->row();
+        }
+        return $row;
+    }
+
     public function add_user_relation($data){
         $insert_id = 0;
         if(!empty($data)){
@@ -1142,13 +1173,41 @@ class Staff_model extends App_Model
     public function check_subagent_percentage($staff_id){
         $percentage = 0;
         $row = array();
-
-        $query = $this->db->query('select percentage,created_by,create_id from tbluser_relation where create_id="'.$staff_id.'"');
+        $sql = 'select percentage,created_by,create_id from tbluser_relation where create_id="'.$staff_id.'"';
+        $query = $this->db->query($sql);
         if($query->num_rows()>0){
             return $row = $query->row();
         }
         
         return $row;
+    }
+
+    public function get_plans_name($id){
+        $row = array();
+        $sql = 'select plan_name from tbluser_plan where plan_id="'.$id.'"';
+        $query = $this->db->query($sql);
+        if($query->num_rows()>0){
+            return $row = $query->row();
+        }
+        
+        return $row;
+    }
+
+
+    public function get_plans_ammount($email){
+        $row = array();
+        $amount = 0;
+        $this->db->select(db_prefix().'user_plan.amount');
+        $this->db->from(db_prefix().'staff');
+        $this->db->join(db_prefix().'user_plan',db_prefix().'user_plan.plan_id='.db_prefix().'staff.plans_type');
+        $this->db->where(db_prefix().'staff.email',$email);
+        $query = $this->db->get();
+        
+        if($query->num_rows()>0){
+            return $amount = $query->row()->amount;
+        }
+        
+        return $amount;
     }
     //end code matainja
 }

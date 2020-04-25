@@ -263,7 +263,7 @@ class Invoices_model extends App_Model
     {
         
         
-        $data['prefix'] = get_option('invoice_prefix');
+        // $data['prefix'] = get_option('invoice_prefix');
 
         $data['number_format'] = get_option('invoice_number_format');
 
@@ -327,20 +327,30 @@ class Invoices_model extends App_Model
 
         $data['billing_street'] = trim($data['billing_street']);
         $data['billing_street'] = nl2br($data['billing_street']);
-        if(isset($data['sub_tax'])) {
 
-            $data['total_tax'] = $data['sub_tax']*$data['subtotal']/100;
-            unset($data['sub_tax']); 
-            // print_r($data['total_tax']); exit();
-        }
+        // if(isset($data['contract_tax'])) {
+
+        //     $data['total_tax'] = $data['contract_tax']*$data['subtotal']/100;
+                unset($data['contract_tax']); 
+        //     // print_r($data['total_tax']); exit();
+        // }
 
         $hook = hooks()->apply_filters('before_invoice_added', [
             'data'  => $data,
             'items' => $items,
         ]);
-
+        
+        
         $data  = $hook['data'];
         $items = $hook['items'];
+
+        if($data['recurring'] == 1){
+            $data['prefix'] = 'RE-'.'#' . $data['accordingContract'].'-';
+        }
+        else{
+            $data['prefix'] = 'INV-'.'#' . $data['accordingContract'].'-';
+        }
+        // print_r($data); exit();
         $dbRet = $this->db->insert(db_prefix() . 'invoices', $data);
 
         if( !$dbRet )

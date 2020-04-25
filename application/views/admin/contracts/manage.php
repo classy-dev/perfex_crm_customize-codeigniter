@@ -103,7 +103,9 @@
                         <?php $minus_7_days = date('Y-m-d', strtotime("-7 days")); ?>
                         <?php $plus_7_days = date('Y-m-d', strtotime("+7 days"));
                         $where_own = array();
-                        if(!has_permission('contracts','','view')){
+                        // default before
+                        // if(!has_permission('contracts','','view')){
+                        if(has_permission('contracts','','view')){
                             $where_own = array('addedfrom'=>get_staff_user_id());
                         }
                         ?>
@@ -114,23 +116,25 @@
                             <h3 class="bold">
                             <?php echo total_rows(db_prefix().'contracts','(DATE(dateend) >"'.date('Y-m-d').'" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom='.get_staff_user_id() : '').') OR (DATE(dateend) IS NULL AND trash=0'.(count($where_own) > 0 ? ' AND addedfrom='.get_staff_user_id() : '').')'); ?>
                             </h3>
-                            <span class="text-info"><?php echo _l('contract_summary_active'); ?></span>
+                            <span class="text-info"><?php echo _l('contract_summary_total'); ?></span>
                         </div>
                         <div class="col-md-2 col-xs-6 border-right">
-                            <h3 class="bold"><?php echo total_rows(db_prefix().'contracts',array_merge(array('DATE(dateend) <'=>date('Y-m-d'),'trash'=>0),$where_own)); ?></h3>
-                            <span class="text-danger"><?php echo _l('contract_summary_expired'); ?></span>
+                            <h3 class="bold"><?php echo total_rows(db_prefix().'contracts',array_merge(array('signed'=>1,'trash'=>0),$where_own)); ?></h3>
+                            <span class="text-success"><?php echo _l('contract_summary_signed'); ?></span>
                         </div>
                         <div class="col-md-2 col-xs-6 border-right">
-                            <h3 class="bold"><?php
+                           <!--  <h3 class="bold"><?php
                                 echo total_rows(
-                                db_prefix().'contracts','dateend BETWEEN "'.$minus_7_days.'" AND "'.$plus_7_days.'" AND trash=0 AND dateend is NOT NULL AND dateend >"'.date('Y-m-d').'"' . (count($where_own) > 0 ? ' AND addedfrom='.get_staff_user_id() : '')); ?></h3>
-                                <span class="text-warning"><?php echo _l('contract_summary_about_to_expire'); ?></span>
+                                db_prefix().'contracts','dateend BETWEEN "'.$minus_7_days.'" AND "'.$plus_7_days.'" AND trash=0 AND dateend is NOT NULL AND dateend >"'.date('Y-m-d').'"' . (count($where_own) > 0 ? ' AND addedfrom='.get_staff_user_id() : '')); ?></h3> -->
+
+                                <h3 class="bold"><?php echo total_rows(db_prefix().'contracts',array_merge(array('signed'=>0,'trash'=>0),$where_own)); ?></h3>
+                                <span class="text-warning"><?php echo _l('contract_summary_unsigned'); ?></span>
                             </div>
                             <div class="col-md-2 col-xs-6 border-right">
-                                <h3 class="bold"><?php
+                               <!--  <h3 class="bold"><?php
                                     echo total_rows(db_prefix().'contracts','dateadded BETWEEN "'.$minus_7_days.'" AND "'.$plus_7_days.'" AND trash=0' . (count($where_own) > 0 ? ' AND addedfrom='.get_staff_user_id() : '')); ?></h3>
                                     <span class="text-success"><?php echo _l('contract_summary_recently_added'); ?></span>
-                                </div>
+                                </div> -->
                                 <div class="col-md-2 col-xs-6">
                                     <h3 class="bold"><?php echo total_rows(db_prefix().'contracts',array_merge(array('trash'=>1),$where_own)); ?></h3>
                                     <span class="text-muted"><?php echo _l('contract_summary_trash'); ?></span>

@@ -3,7 +3,9 @@
       <div class="widget-dragger"></div>
       <div class="row">
       <?php
-         $initial_column = 'col-lg-3';
+         // $initial_column = 'col-lg-3';
+         $initial_column = 'col-lg-4';
+
          if(!is_staff_member() && ((!has_permission('invoices','','view') && !has_permission('invoices','','view_own') && (get_option('allow_staff_view_invoices_assigned') == 0
            || (get_option('allow_staff_view_invoices_assigned') == 1 && !staff_has_assigned_invoices()))))) {
             $initial_column = 'col-lg-6';
@@ -30,7 +32,7 @@
             </div>
          </div>
          <?php } ?>
-         <?php if(is_staff_member()){ ?>
+         <!-- <?php if(is_staff_member()){ ?>
          <div class="quick-stats-leads col-xs-12 col-md-6 col-sm-6 <?php echo $initial_column; ?>">
             <div class="top_stats_wrapper">
                <?php
@@ -58,7 +60,7 @@
                </div>
             </div>
          </div>
-         <?php } ?>
+         <?php } ?> -->
          <div class="quick-stats-projects col-xs-12 col-md-6 col-sm-6 <?php echo $initial_column; ?>">
             <div class="top_stats_wrapper">
                <?php
@@ -72,7 +74,7 @@
                   $total_projects_in_progress = total_rows(db_prefix().'projects',$where);
                   $percent_in_progress_projects = ($total_projects > 0 ? number_format(($total_projects_in_progress * 100) / $total_projects,2) : 0);
                   ?>
-               <p class="text-uppercase mtop5"><i class="hidden-sm fa fa-cubes"></i> <?php echo _l('projects') . ' ' . $project_status['name']; ?><span class="pull-right"><?php echo $total_projects_in_progress; ?> / <?php echo $total_projects; ?></span></p>
+               <p class="text-uppercase mtop5"><i class="hidden-sm fa fa-cubes"></i> <?php echo _l('timetracking') . ' ' . $project_status['name']; ?><span class="pull-right"><?php echo $total_projects_in_progress; ?> / <?php echo $total_projects; ?></span></p>
                <div class="clearfix"></div>
                <div class="progress no-margin progress-bar-mini">
                   <div class="progress-bar no-percent-text not-dynamic" style="background:<?php echo $project_status['color']; ?>" role="progressbar" aria-valuenow="<?php echo $percent_in_progress_projects; ?>" aria-valuemin="0" aria-valuemax="100" style="width: 0%" data-percent="<?php echo $percent_in_progress_projects; ?>">

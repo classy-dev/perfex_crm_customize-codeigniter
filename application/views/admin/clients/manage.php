@@ -235,7 +235,7 @@
                   </div>
                   <?php } ?>
                   <hr class="hr-panel-heading" />
-                  <a href="#" data-toggle="modal" data-target="#customers_bulk_action" class="bulk-actions-btn table-btn hide" data-table=".table-clients"><?php echo _l('bulk_actions'); ?></a>
+                  <!-- <a href="#" data-toggle="modal" data-target="#customers_bulk_action" class="bulk-actions-btn table-btn hide" data-table=".table-clients"><?php echo _l('bulk_actions'); ?></a> -->
                   <div class="modal fade bulk_actions" id="customers_bulk_action" tabindex="-1" role="dialog">
                      <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -268,7 +268,7 @@
                   <!-- /.modal -->
                   <div class="checkbox">
                      <input type="checkbox" checked id="exclude_inactive" name="exclude_inactive">
-                     <label for="exclude_inactive"><?php echo _l('exclude_inactive'); ?> <?php echo _l('clients'); ?></label>
+                     <label for="exclude_inactive"><?php echo _l('exclude_inactive'); ?> <?php //echo _l('clients'); ?></label>
                   </div>
                   <div class="clearfix mtop20"></div>
                   <?php
@@ -303,10 +303,10 @@
                          'name'=>_l('customer_active'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-active')
                         ),
-                        array(
-                         'name'=>_l('customer_groups'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
-                        ),
+                        // array(
+                        //  'name'=>_l('customer_groups'),
+                        //  'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-groups')
+                        // ),
                         array(
                          'name'=>_l('date_created'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-date-created')

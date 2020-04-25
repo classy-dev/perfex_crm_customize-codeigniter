@@ -18,7 +18,7 @@ $percent_not_paid_completely = ($total_invoices > 0 ? number_format(($total_not_
 
 ?>
 <div class="row text-left invoice-quick-info invoices-stats">
-    <div class="col-md-3 invoices-stats-unpaid">
+    <div class="col-md-4 invoices-stats-unpaid">
         <div class="row">
             <div class="col-md-8 stats-status">
                 <a href="<?php echo site_url('clients/invoices/1'); ?>"><h5 class="bold no-margin">
@@ -35,7 +35,7 @@ $percent_not_paid_completely = ($total_invoices > 0 ? number_format(($total_not_
                 </div>
             </div>
         </div>
-        <div class="col-md-3 invoices-stats-paid">
+        <div class="col-md-4 invoices-stats-paid">
             <div class="row">
                 <div class="col-md-8 stats-status">
                     <a href="<?php echo site_url('clients/invoices/2'); ?>"><h5 class="bold no-margin"><?php echo _l('invoice_status_paid'); ?></h5></a>
@@ -51,7 +51,7 @@ $percent_not_paid_completely = ($total_invoices > 0 ? number_format(($total_not_
                 </div>
             </div>
         </div>
-        <div class="col-md-3 invoices-stats-overdue">
+        <div class="col-md-4 invoices-stats-overdue">
             <div class="row">
                 <div class="col-md-8 stats-status">
                     <a href="<?php echo site_url('clients/invoices/4'); ?>"><h5 class="bold no-margin"><?php echo _l('invoice_status_overdue'); ?></h5></a>
@@ -67,7 +67,7 @@ $percent_not_paid_completely = ($total_invoices > 0 ? number_format(($total_not_
                 </div>
             </div>
         </div>
-        <div class="col-md-3 invoices-stats-partially-paid">
+        <!-- <div class="col-md-3 invoices-stats-partially-paid">
             <div class="row">
                 <div class="col-md-8 stats-status">
                     <a href="<?php echo site_url('clients/invoices/3'); ?>"><h5 class="bold no-margin"><?php echo _l('invoice_status_not_paid_completely'); ?></h5></a>
@@ -82,5 +82,5 @@ $percent_not_paid_completely = ($total_invoices > 0 ? number_format(($total_not_
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>

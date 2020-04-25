@@ -1178,6 +1178,10 @@ function get_sql_select_client_company()
 {
     return 'CASE company WHEN "" THEN (SELECT CONCAT(firstname, " ", lastname) FROM ' . db_prefix() . 'contacts WHERE userid = ' . db_prefix() . 'clients.userid and is_primary = 1) ELSE company END as company';
 }
+function get_sql_select_client_fullname()
+{
+    return 'CASE fullname WHEN "" THEN (SELECT CONCAT(firstname, " ", lastname) FROM ' . db_prefix() . 'contacts WHERE userid = ' . db_prefix() . 'clients.userid and is_primary = 1) ELSE fullname END as fullname';
+}
 
 function can_logged_in_contact_change_language()
 {

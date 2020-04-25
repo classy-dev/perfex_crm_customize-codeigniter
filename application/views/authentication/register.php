@@ -130,14 +130,14 @@
           <p class="">
               Terms and Conditions
               <br />
-              <a href="<?php echo terms_url(); ?>" target="_blank"><?php echo terms_url(); ?></a>
+              <!-- <a href="<?php echo terms_url(); ?>" target="_blank"><?php echo terms_url(); ?></a> -->
           </p>
           <?php echo get_option('terms_and_conditions'); ?>
           <hr class="hr-panel-heading" />
           <p class="">
               <i class="fa fa-question-circle" data-toggle="tooltip" data-title="You may want to include the privacy policy in your terms and condtions content."></i> Privacy Policy
               <br />
-              <a href="<?php echo privacy_policy_url(); ?>" target="_blank"><?php echo privacy_policy_url(); ?></a>
+              <!-- <a href="<?php echo privacy_policy_url(); ?>" target="_blank"><?php echo privacy_policy_url(); ?></a> -->
           </p>
           <?php echo get_option('terms_and_conditions'); ?>
         </div>

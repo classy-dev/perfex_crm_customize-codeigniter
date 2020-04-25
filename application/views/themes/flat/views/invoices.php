@@ -2,9 +2,9 @@
 <div class="panel_s section-heading section-invoices">
     <div class="panel-body">
         <h4 class="no-margin section-text"><?php echo _l('clients_my_invoices'); ?></h4>
-        <?php if(has_contact_permission('invoices')){ ?>
+        <!-- <?php if(has_contact_permission('invoices')){ ?>
             <a href="<?php echo site_url('clients/statement'); ?>" class="view-account-statement"><?php echo _l('view_account_statement'); ?></a>
-        <?php } ?>
+        <?php } ?> -->
     </div>
 </div>
 <div class="panel_s">

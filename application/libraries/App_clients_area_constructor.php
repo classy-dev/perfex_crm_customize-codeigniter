@@ -60,7 +60,6 @@ class App_clients_area_constructor
         }
 
         $vars = hooks()->apply_filters('customers_area_autoloaded_vars', $vars);
-
         $this->ci->load->vars($vars);
     }
 }

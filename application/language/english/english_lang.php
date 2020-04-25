@@ -1511,7 +1511,8 @@ $lang['kb_group_color'] = 'Color';
 $lang['kb_group_order'] = 'Order';
 
 # Utilities - BULK PDF Exporter
-$lang['bulk_pdf_exporter']             = 'Bulk PDF Export';
+// $lang['bulk_pdf_exporter']             = 'Bulk PDF Export';
+$lang['bulk_pdf_exporter']             = 'PDF Export';
 $lang['bulk_export_pdf_payments']      = 'Payments';
 $lang['bulk_export_pdf_estimates']     = 'Estimates';
 $lang['bulk_export_pdf_invoices']      = 'Invoices';
@@ -1936,7 +1937,7 @@ $lang['home_invoice_overview']        = 'Invoice overview';
 $lang['home_estimate_overview']       = 'Estimate overview';
 $lang['home_proposal_overview']       = 'Proposal overview';
 $lang['home_lead_overview']           = 'Leads Overview';
-$lang['home_my_projects']             = 'My Projects';
+$lang['home_my_projects']             = 'My TimeTracking';
 $lang['home_announcements']           = 'Announcements';
 
 # Settings
@@ -3822,6 +3823,7 @@ $lang['client_person_lastname']   = 'Last Name';
 $lang['client_person_street']   = 'Street';
 $lang['client_person_city']   = 'PLZ/City';
 $lang['client_person_email']   = 'Mail Address';
+$lang['client_person_phone']   = 'Phone';
 
 $lang['staff_add_edit_company']   = 'Company';
 
@@ -3846,3 +3848,16 @@ $lang['upload'] = 'Upload';
 
 $lang['staff_report'] = 'Staff Reports';
 $lang['client_report'] = 'Customers Reports';
+
+$lang['rate_per_hour'] = 'Rate Per Hour';
+$lang['contract_end_date_netto'] = 'End Date for Payment';
+
+$lang['contract_summary_total'] = 'Total';
+$lang['contract_summary_signed'] = 'Signed';
+$lang['contract_summary_unsigned'] = 'UnSigned';
+
+
+$lang['question_from_customer'] = 'Question From Customer';
+
+$lang['company'] = 'Company';
+$lang['person'] = 'Person';

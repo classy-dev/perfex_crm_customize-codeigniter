@@ -706,19 +706,23 @@ class Invoices extends AdminController
         $contract = $this->db->select('*')->where('id', $contractid)->get('tblcontracts')->row_array();
         $invoice_data = [];
         $invoice_data['clientid'] = $contract['client'];
-        $invoice_number = $this->invoices_model->get_last_invoice_num();
-        $invoice_data['number'] = $invoice_number->number + 1;
+        // $invoice_number = $this->invoices_model->get_last_invoice_num();
+        // $invoice_data['number'] = $invoice_number->number + 1;
         $invoice_data['show_shipping_on_invoice'] = 1;
         $invoice_data['date'] = date("d-m-Y",strtotime($contract['datestart']));
         $invoice_data['allowed_payment_modes'] = array(5, 'stripe');
         $invoice_data['currency'] = 2;
         $invoice_data['accordingContract'] = $contractid;
 
+        if($contract['contract_tax']){
+           $invoice_data['contract_tax'] = $contract['contract_tax']; 
+        }
+
         if($contract['contract_type'] == 2){
 
-            $invoice_data['subtotal'] = $contract['customer_payment_value'];
-            $invoice_data['total'] = $contract['customer_payment_value'] * ( 1 + $contract['sub_tax']/100);
-            $invoice_data['sub_tax'] = $contract['sub_tax'];
+            $invoice_data['total'] = $contract['customer_payment_value'];
+
+            $invoice_data['total_tax'] = $contract['customer_payment_value']/(100+$contract['contract_tax'])*$contract['contract_tax'];
             $invoice_data['subscription_id'] = $contract['subscription'];
 
             
@@ -747,13 +751,25 @@ class Invoices extends AdminController
         }
 
         else if ($contract['contract_type'] == 3){
-            $invoice_data['subtotal'] = $contract['customer_payment_value'];
-            $invoice_data['total'] = $contract['customer_payment_value'] * ( 1 + 19/100);
+
+            $invoice_data['total'] = $contract['customer_payment_value'];
+            if($contract['contract_tax'])
+                $invoice_data['total_tax'] = $contract['customer_payment_value']/(100+$contract['contract_tax'])*$contract['contract_tax'];
+
         }
 
         else if($contract['contract_type'] == 1) {
+
             $invoice_data['total'] = $contract['customer_payment_value'];
+            if(isset($contract['produkt_p']) && $contract['produkt_p'] != 'One Time Payment'){
+
+                $invoice_data['recurring'] = 'custom';
+                $invoice_data['repeat_every_custom'] = 1;
+                $invoice_data['repeat_type_custom'] = 'month';
+
+            }
         }
+
 
         $invoice_id = $this->invoices_model->add($invoice_data);
         if ($invoice_id) {

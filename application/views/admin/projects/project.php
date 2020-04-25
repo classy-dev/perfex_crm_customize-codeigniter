@@ -26,7 +26,7 @@
                         ?>
                         <?php $value = (isset($project) ? $project->name : ''); ?>
                         <?php echo render_input('name','time_tracking_name',$value); ?>
-                        <div class="form-group select-placeholder">
+                       <!--  <div class="form-group select-placeholder">
                             <label for="clientid" class="control-label"><?php echo _l('project_customer'); ?></label>
                             <select id="clientid" name="clientid" data-live-search="true" data-width="100%" class="ajax-search" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                              <?php $selected = (isset($project) ? $project->clientid : '');
@@ -39,7 +39,17 @@
                                 echo '<option value="'.$rel_val['id'].'" selected>'.$rel_val['name'].'</option>';
                             } ?>
                             </select>
-                        </div>
+                        </div> -->
+
+                        <?php
+                            $selected = (isset($project) ? $project->clientid : '');
+                            if(isset($my_customers)){
+                                
+                               echo render_select('clientid',$my_customers,array('userid','fullname'),'project_customer',$selected);
+                               
+                             }
+                            ?>
+
                         <div class="form-group">
                             <div class="checkbox checkbox-success">
                                 <input type="checkbox" <?php if((isset($project) && $project->progress_from_tasks == 1) || !isset($project)){echo 'checked';} ?> name="progress_from_tasks" id="progress_from_tasks">
@@ -152,19 +162,24 @@
                             <div class="col-md-6">
                                 <?php echo render_input('estimated_hours','estimated_hours',isset($project) ? $project->estimated_hours : '','number'); ?>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                              <?php
                              $selected = array();
-                             if(isset($project_members)){
+                             if(isset($project_members) && is_admin()){
                                 foreach($project_members as $member){
                                     array_push($selected,$member['staff_id']);
                                 }
                             } else {
                                 array_push($selected,get_staff_user_id());
                             }
-                            // echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                            if(is_admin()){
+                                echo render_select('project_members[]',$staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                            }
+                            else
+                                echo render_select('project_members[]',$my_staff,array('staffid',array('firstname','lastname')),'project_members',$selected,array('multiple'=>true,'data-actions-box'=>true),array(),'','',false);
+                            
                             ?>
-                        </div>
+                            </div> -->
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -254,6 +269,10 @@
 </div>
 <?php init_tail(); ?>
 <script>
+
+    $('.menu-item-time_tracking').addClass('active');
+    $('.sub-menu-item-tracking').addClass('active');
+
     <?php if(isset($project)){ ?>
         var original_project_status = '<?php echo $project->status; ?>';
     <?php } ?>

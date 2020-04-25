@@ -20,20 +20,20 @@
         <?php hooks()->do_action('customers_navigation_start'); ?>
         <!-- Standard menu items start -->
         <?php if(has_contact_permission('contracts')){ ?>
-        <li class="customers-nav-item-contracts"><a class="<?php if($this->uri->segment(2)=="contracts"){echo "active";}?>" href="<?php echo site_url('clients/contracts'); ?>"><i class="fe fe-money" data-toggle="tooltip" title="<?php echo _l('contracts')?>"></i><?php if ($this->agent->is_mobile()) { echo '<span class="textmenu">'._l('contracts').'</span>'; } ?></a></li>
+        <li class="customers-nav-item-contracts"><a class="<?php if($this->uri->segment(2)=="contracts"){echo "active";}?>" href="<?php echo site_url('clients/contracts'); ?>"><i class="fe fe-document" data-toggle="tooltip" title="<?php echo _l('contracts')?>"></i><?php if ($this->agent->is_mobile()) { echo '<span class="textmenu">'._l('contracts').'</span>'; } ?></a></li>
         <?php } ?>
 
         <?php if(has_contact_permission('invoices')){ ?>
-        <li class="customers-nav-item-invoices"><a class="<?php if($this->uri->segment(2)=="invoices"){echo "active";}?>" href="<?php echo site_url('clients/invoices'); ?>"><i class="fe fe-document" data-toggle="tooltip" title="<?php echo _l('invoices')?>"></i><?php if ($this->agent->is_mobile()) { echo '<span class="textmenu">'._l('invoices').'</span>'; } ?></a></li>
+        <li class="customers-nav-item-invoices"><a class="<?php if($this->uri->segment(2)=="invoices"){echo "active";}?>" href="<?php echo site_url('clients/invoices'); ?>"><i class="fe fe-money" data-toggle="tooltip" title="<?php echo _l('invoices')?>"></i><?php if ($this->agent->is_mobile()) { echo '<span class="textmenu">'._l('invoices').'</span>'; } ?></a></li>
         <?php } ?>
         
         <?php if(has_contact_permission('projects')){ ?>
         <li class="customers-nav-item-projects"><a class="<?php if($this->uri->segment(2)=="projects"){echo "active";}?><?php if($this->uri->segment(2)=="project"){echo "active";}?>" href="<?php echo site_url('clients/projects'); ?>"><i class="fe fe-layer" data-toggle="tooltip" title="<?php echo _l('time_tracking_overview')?>"></i><?php if ($this->agent->is_mobile()) { echo '<span class="textmenu">'._l('time_tracking_overview').'</span>'; } ?></a></li>
         <?php } ?>
 
-        <?php if(has_contact_permission('support')){ ?>
+        <!-- <?php if(has_contact_permission('support')){ ?>
         <li class="customers-nav-item-tickets"><a class="<?php if($this->uri->segment(2)=="tickets"){echo "active";}?><?php if($this->uri->segment(2)=="open_ticket"){echo "active";}?>" href="<?php echo site_url('clients/tickets'); ?>"><i class="fe fe-commenting" data-toggle="tooltip" title="<?php echo _l('support_tickets')?>"></i><?php if ($this->agent->is_mobile()) { echo '<span class="textmenu">'._l('support_tickets').'</span>'; } ?></a></li>
-        <?php } ?>
+        <?php } ?> -->
 
         <?php if((get_option('use_knowledge_base') == 1 )) { ?>
 		<li class="customers-nav-item-kb"><a class="<?php if($this->uri->segment(2)=="knowledge-base"){echo "active";}?><?php if($this->uri->segment(2)=="knowledge-base"){echo "active";}?>" href="<?php echo site_url('knowledge-base'); ?>"><i class="fe fe-question" data-toggle="tooltip" title="<?php echo _l('als_kb')?>"></i><?php if ($this->agent->is_mobile()) { echo '<span class="textmenu">'._l('als_kb').'</span>'; } ?></a></li>

@@ -213,7 +213,9 @@
                         <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                            <option value=""></option>
                            <option value="project"
-                              <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('timetracking'); ?></option>
+                              <?php echo 'selected'; ?>><?php echo _l('timetracking'); ?></option>
+                           <!-- <option value="project"
+                              <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('timetracking'); ?></option> -->
                            <!-- <option value="customer"
                               <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
                               <?php echo _l('client'); ?>
@@ -225,7 +227,7 @@
                      </div>
                   </div>
                   <div class="col-md-6">
-                     <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
+                     <!-- <div class="form-group<?php if($rel_id == ''){echo ' hide';} ?>" id="rel_id_wrapper">
                         <label for="rel_id" class="control-label"><span class="rel_id_label"></span></label>
                        
                         <div id="rel_id_select">
@@ -238,7 +240,13 @@
                               } ?>
                            </select>
                         </div>
-                     </div>
+                     </div> -->
+                     <?php
+                    $selected = (isset($task->rel_id) ? $task->rel_id : '');
+                    if(isset($my_timetracking)){
+                       echo render_select('rel_id',$my_timetracking,array('id','name'),'time_tracking',$selected);
+                     }
+                     ?>
                   </div>
                </div>
                <?php

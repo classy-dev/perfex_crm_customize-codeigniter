@@ -319,7 +319,6 @@ class Tasks extends AdminController
                     $_id           = $id;
                     $message       = _l('added_successfully', _l('task'));
                     $uploadedFiles = handle_task_attachments_array($id);
-                    // print_r($uploadedFiles); exit();
                     if ($uploadedFiles && is_array($uploadedFiles)) {
                         foreach ($uploadedFiles as $file) {
                             $this->misc_model->add_attachment_to_database($id, 'task', [$file]);
@@ -375,6 +374,7 @@ class Tasks extends AdminController
             }
         }
         $data['id']    = $id;
+        $data['my_timetracking'] = $this->projects_model->get('',[db_prefix().'projects.addedfrom' => get_staff_user_id()]);
         $data['title'] = $title;
         $this->load->view('admin/tasks/task', $data);
     }

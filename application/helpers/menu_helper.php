@@ -85,6 +85,15 @@ function app_init_admin_sidebar_menu_items()
         ]);
     }
 
+    if (has_permission('bulk_pdf_exporter', '', 'view')) {
+        $CI->app_menu->add_sidebar_children_item('sales', [
+                'slug'     => 'bulk-pdf-exporter',
+                'name'     => _l('bulk_pdf_exporter'),
+                'href'     => admin_url('utilities/bulk_pdf_exporter'),
+                'position' => 10,
+        ]);
+    }
+
 
     if (has_permission('subscriptions', '', 'view') || has_permission('subscriptions', '', 'view_own')) {
         $CI->app_menu->add_sidebar_menu_item('subscriptions', [
@@ -148,7 +157,7 @@ function app_init_admin_sidebar_menu_items()
                 'position' => 30,
         ]);
 
-    if (has_permission('projects', '', 'view') && has_permission('projects', '', 'edit')) {
+    if (has_permission('projects', '', 'create')) {
 
        $CI->app_menu->add_sidebar_children_item('time_tracking', [
                 'slug'     => 'tracking',
@@ -201,28 +210,28 @@ function app_init_admin_sidebar_menu_items()
     }
 
     // Utilities
-    $CI->app_menu->add_sidebar_menu_item('utilities', [
-            'collapse' => true,
-            'name'     => _l('als_utilities'),
-            'position' => 55,
-            'icon'     => 'fa fa-cogs',
-        ]);
+    // $CI->app_menu->add_sidebar_menu_item('utilities', [
+    //         'collapse' => true,
+    //         'name'     => _l('als_utilities'),
+    //         'position' => 55,
+    //         'icon'     => 'fa fa-cogs',
+    //     ]);
 
-    $CI->app_menu->add_sidebar_children_item('utilities', [
-                'slug'     => 'media',
-                'name'     => _l('als_media'),
-                'href'     => admin_url('utilities/media'),
-                'position' => 5,
-        ]);
+    // $CI->app_menu->add_sidebar_children_item('utilities', [
+    //             'slug'     => 'media',
+    //             'name'     => _l('als_media'),
+    //             'href'     => admin_url('utilities/media'),
+    //             'position' => 5,
+    //     ]);
 
-    if (has_permission('bulk_pdf_exporter', '', 'view')) {
-        $CI->app_menu->add_sidebar_children_item('utilities', [
-                'slug'     => 'bulk-pdf-exporter',
-                'name'     => _l('bulk_pdf_exporter'),
-                'href'     => admin_url('utilities/bulk_pdf_exporter'),
-                'position' => 10,
-        ]);
-    }
+    // if (has_permission('bulk_pdf_exporter', '', 'view')) {
+    //     $CI->app_menu->add_sidebar_children_item('utilities', [
+    //             'slug'     => 'bulk-pdf-exporter',
+    //             'name'     => _l('bulk_pdf_exporter'),
+    //             'href'     => admin_url('utilities/bulk_pdf_exporter'),
+    //             'position' => 10,
+    //     ]);
+    // }
 
     $CI->app_menu->add_sidebar_children_item('utilities', [
                 'slug'     => 'calendar',
@@ -306,7 +315,7 @@ function app_init_admin_sidebar_menu_items()
     }
 
     // Setup menu
-    if (has_permission('staff', '', 'view')) {
+    if (has_permission('staff', '', 'view')|| has_permission('staff', '', 'view_own')) {
         $CI->app_menu->add_setup_menu_item('staff', [
                     'name'     => _l('als_staff'),
                     'href'     => admin_url('staff'),

@@ -1134,7 +1134,7 @@ class Projects_model extends App_Model
     }
 
     public function update($data, $id)
-    {
+    {       
         $this->db->select('status');
         $this->db->where('id', $id);
         $old_status = $this->db->get(db_prefix() . 'projects')->row()->status;
@@ -2427,6 +2427,49 @@ class Projects_model extends App_Model
         return $activities;
     }
 
+    public function get_activity_by_staff($id = '', $limit = '', $only_project_members_activity = false)
+    {
+        if (!is_client_logged_in()) {
+            $has_permission = has_permission('projects', '', 'view');
+            if (!$has_permission) {
+                $this->db->where('project_id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')');
+            }
+        }
+        if (is_client_logged_in()) {
+            $this->db->where('visible_to_customer', 1);
+        }
+        if (is_numeric($id)) {
+            $this->db->where('project_id', $id);
+        }
+        if (is_numeric($limit)) {
+            $this->db->limit($limit);
+        }
+        $this->db->order_by('dateadded', 'desc');
+        $this->db->where('staff_id',get_staff_user_id());
+        $activities = $this->db->get(db_prefix() . 'project_activity')->result_array();
+        $i          = 0;
+        foreach ($activities as $activity) {
+            $seconds          = get_string_between($activity['additional_data'], '<seconds>', '</seconds>');
+            $other_lang_keys  = get_string_between($activity['additional_data'], '<lang>', '</lang>');
+            $_additional_data = $activity['additional_data'];
+            if ($seconds != '') {
+                $_additional_data = str_replace('<seconds>' . $seconds . '</seconds>', seconds_to_time_format($seconds), $_additional_data);
+            }
+            if ($other_lang_keys != '') {
+                $_additional_data = str_replace('<lang>' . $other_lang_keys . '</lang>', _l($other_lang_keys), $_additional_data);
+            }
+            if (strpos($_additional_data, 'project_status_') !== false) {
+                $_additional_data = get_project_status_by_id(strafter($_additional_data, 'project_status_'));
+            }
+            $activities[$i]['description']     = _l($activities[$i]['description_key']);
+            $activities[$i]['additional_data'] = $_additional_data;
+            $activities[$i]['project_name']    = get_project_name_by_id($activity['project_id']);
+            unset($activities[$i]['description_key']);
+            $i++;
+        }
+
+        return $activities;
+    }
     public function log_activity($project_id, $description_key, $additional_data = '', $visible_to_customer = 1)
     {
         if (!DEFINED('CRON')) {
