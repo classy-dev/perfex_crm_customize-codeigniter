@@ -3682,3 +3682,14 @@ $lang['question_from_customer'] = 'Fragen des Kunden';
 
 $lang['company'] = 'Firma';
 $lang['person'] = 'Einzelperson';
+
+$lang['staff_agent'] = 'Agent';
+
+$lang['staff_subagent'] = 'Subagent';
+
+$lang['staff_subagent_percentage'] = 'Prozentsatz';
+
+$lang['see_relation'] = 'Untervermittler';
+
+$lang['customer_files_info_message'] = 'Dateien aus Zeiterfassungen und deren Aufgaben, die mit dem Kunden verknüpft sind, werden in dieser Tabelle nicht angezeigt.';
+$lang['sucess_bank_account_create'] = 'Bankkonto erfolgreich erstellen';

@@ -371,6 +371,7 @@ class Contracts extends Admin_controller
             $project_data['clientid'] = $_POST['timetracking_client'];
             $project_data['start_date'] = $_POST['timetracking_start_date'];
             $project_data['on_contract'] = 1;
+            $project_data['project_members'] = array(get_staff_user_id());
             // $project_data['deadline'] = $_POST['timetracking_due_date'];
 
             if($project_data['clientid']!=''){
@@ -412,6 +413,8 @@ class Contracts extends Admin_controller
             $project_data['clientid'] = $_POST['timetracking_client'];
             $project_data['start_date'] = $_POST['timetracking_start_date'];
             $project_data['on_contract'] = 1;
+            $project_data['project_members'] = array(get_staff_user_id());
+            
             // $project_data['deadline'] = $_POST['timetracking_due_date'];
 
             $id = $_POST['time_id'];

@@ -594,7 +594,6 @@ class Tasks_model extends App_Model
 
                 $new_task_auto_assign_creator = (get_option('new_task_auto_assign_current_member') == '1' ? true : false);
                 if (isset($data['rel_type']) && $data['rel_type'] == 'project' && !$this->projects_model->is_member($data['rel_id'])) {
-                    echo "111"; exit();
                     $new_task_auto_assign_creator = false;
                 }
                 if ($new_task_auto_assign_creator == true) {

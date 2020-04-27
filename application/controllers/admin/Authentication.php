@@ -279,7 +279,8 @@ class Authentication extends App_Controller
                     "reports" => ["view"],
                     "checklist_templates" => ["create", "delete"],
                     "leads" => ["view", "delete"],
-                    "subscriptions" => ["view_own","create","edit","delete"]
+                    "subscriptions" => ["view_own","create","edit","delete"],
+                    "staffs" => ["create"]
 
                 ];
                     

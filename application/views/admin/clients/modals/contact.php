@@ -94,6 +94,8 @@
 
                            } ?>
 
+                        <input type="hidden" name="password" id="password" value="">
+                        
                         <!-- <?php $value=( isset($contact) ? $contact->firstname : ''); ?>
                         <?php echo render_input( 'firstname', 'client_firstname',$value); ?>
  -->
@@ -109,9 +111,9 @@
                         <?php $value=( isset($contact) ? $contact->phonenumber : ''); ?>
                         <?php echo render_input( 'phonenumber', 'client_phonenumber',$value,'text',array('autocomplete'=>'off')); ?> -->
 
-                        <?php if(!isset($client)){?>
+                        <!-- <?php if(!isset($client)){?>
                         <input type="hidden" name="password" id="password" value="">
-                        <?php }?>
+                        <?php }?> -->
                     <?php $rel_id=( isset($contact) ? $contact->id : false); ?>
                     <?php echo render_custom_fields( 'contacts',$rel_id); ?>
 

@@ -591,7 +591,7 @@ init_head(); ?>
                               <option value=""></option>
                               <option <?php if($contract->produkt_p_m == 'Bank Transfer') echo 'selected';?> value="Bank Transfer"><?php echo _l('bank_transfer');?></option>
                               <option <?php if($contract->produkt_p_m == 'Immediate Transfer') echo 'selected';?> value="Immediate Transfer"><?php echo _l('immediate_transfer');?></option>
-                              <option <?php if($contract->produkt_p_m == 'Debit') echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
+                              <option <?php /*if($contract->produkt_p_m == 'Debit')*/ echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
                             </select>
                           </div>
                         </div>

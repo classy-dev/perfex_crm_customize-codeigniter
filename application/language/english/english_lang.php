@@ -3861,3 +3861,15 @@ $lang['question_from_customer'] = 'Question From Customer';
 
 $lang['company'] = 'Company';
 $lang['person'] = 'Person';
+
+$lang['user_plan'] = 'User Plan';
+
+$lang['staff_agent'] = 'Agent';
+
+$lang['staff_subagent'] = 'Subagent';
+
+$lang['staff_subagent_percentage'] = 'Percentage';
+
+$lang['see_relation'] = 'Subagent Relations';
+
+$lang['sucess_bank_account_create'] = 'Bank Account Create Successfully';

@@ -94,8 +94,8 @@
                
                <div class="panel-body" style="background-color: #0099cc">
                  <div class="col-md-4" style="float: right">
-                   <button class="btn btn-success" type="submit" value="Submit" name="submit" style="float: right; width:150px;margin-left: 20px;">save changes</button>
-                   <button class="btn btn-primary" type ="button" style="float: right; width: 150px;margin-left: 20px;" value="Refresh Page" onClick="window.location.reload();">reset options</button>
+                   <button class="btn btn-success" type="submit" value="Submit" name="submit" style="float: right; width:150px;margin-left: 20px;"><?php echo _l('save')?></button>
+                   <button class="btn btn-primary" type ="button" style="float: right; width: 150px;margin-left: 20px;" value="Refresh Page" onClick="window.location.reload();"><?php echo _l('reset')?></button>
                  </div>
                </div>
             </div>
@@ -104,13 +104,13 @@
                 <!--  begin  profile content -->
                 <!-- showroom -->
                 <div class="col-md-6">
-                  <h2 style="margin-left: 30px">Placeholder Profile</h2>
+                  <h2 style="margin-left: 30px"><?php echo _l('placeholder_profile')?></h2>
                   <div class="col-md-12" >
                     <hr class="hr_1">
                     <div class="col-md-12"  >
                     
                     <div class="col-md-6">
-                      <h4>Showrooom active</h4> 
+                      <h4><?php echo _l('showroom_active')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <label class="switch" style="margin-left: 40px">
@@ -123,7 +123,7 @@
                   <!-- Headline -->
                   <div class="col-md-12" style="margin-top: 20px;">
                     <div class="col-md-4">
-                      <h4>Headline</h4> 
+                      <h4><?php echo _l('headline')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="headline" id="headline" value="" class="edit_input">
@@ -133,7 +133,7 @@
                   <!-- Name -->
                   <div class="col-md-12" style="margin-top: 20px;">
                     <div class="col-md-4">
-                      <h4>Name</h4> 
+                      <h4><?php echo _l('placeholder_name')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="name" id="name" value="" class="edit_input">
@@ -143,7 +143,7 @@
                   <!-- Subtitle -->
                   <div class="col-md-12" style="margin-top: 20px;">
                     <div class="col-md-4">
-                      <h4>Subtitle</h4> 
+                      <h4><?php echo _l('placeholder_subtitle')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="subtitle" id="subtitle" value="" class="edit_input">
@@ -153,7 +153,7 @@
                   <!-- Email -->
                   <div class="col-md-12" style="margin-top: 20px;">
                     <div class="col-md-4">
-                      <h4>My Email</h4> 
+                      <h4><?php echo _l('placeholder_email')?></h4> 
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="email" id="email" value="" class="edit_input">
@@ -164,13 +164,13 @@
                   <div class="col-md-12">
                     <hr class="hr_1">
                     <div class="col-md-6">
-                      <h4>Logo Image</h4> 
+                      <h4><?php echo _l('placeholder_logo')?></h4> 
                     </div>
                     <div class="col-md-3">
                       <img id="logo_preview" src="<?php echo site_url('/assets/images/noimage.jpg');?>" class="edit_img"/><br/>
                       <br>
                       <input type="file" id="logo_image" name="logo" class="input-image-file" style="display: none;"/>
-                      <button type="button" class="btn btn-primary " onclick="changeImage('#logo_image')">Select a Image</button>
+                      <button type="button" class="btn btn-primary " onclick="changeImage('#logo_image')"><?php echo _l('placeholder_select_image')?></button>
                     </div>
                   </div>
                   <br>
@@ -180,19 +180,19 @@
                     <!-- Video Picture -->
                     <div class="col-md-12" style="margin-bottom: 10px;">
                       <div class="col-md-6" style="padding-left: 0px;">
-                        <h4>Video BG-Picture</h4> 
+                        <h4><?php echo _l('placeholder_video_bg')?></h4> 
                       </div>
                       <div class="col-md-3" >
                       <img id="video_preview" src="<?php echo site_url('/assets/images/noimage.jpg');?>" class="edit_img"/><br/>
                       <br>
                        <input type="file" id="video_image" name="video" class="input-image-file" style="display: none;"/>
-                       <button type="button" class="btn btn-primary" onclick="changeImage('#video_image')">Select a Image</button>
+                       <button type="button" class="btn btn-primary" onclick="changeImage('#video_image')"><?php echo _l('placeholder_select_image')?></button>
                       </div>
                     </div>
                     <!-- Video URL -->
                     <div class="col-md-12" style="padding-left: 0px;">
                       <div class="col-md-7">
-                        <h4>Video URL(https://www.youtube.com/embed/)</h4>
+                        <h4><?php echo _l('placeholder_video_url')?></h4>
                       </div>
                       <div class="col-md-4">
                         <input type="text" name="title_video" id="title_video" value="" class="edit_input">
@@ -201,7 +201,7 @@
                   </div>
                   <br>
                   <!-- Profile -->
-                  <div class="col-md-12">
+                  <!-- <div class="col-md-12">
                     <hr class="hr_1">
                     <div class="col-md-6">
                       <h4>Profile Picture</h4> 
@@ -210,20 +210,20 @@
                       <img id="profile_preview" src="<?php echo site_url('/assets/images/noimage.jpg');?>" class="edit_img"/><br/>
                       <br>
                          <input type="file" id="profile_image" name="profile" class="input-image-file" style="display: none;" />
-                         <button type="button" class="btn btn-primary" onclick="changeImage('#profile_image')" >Select a Image</button>      
+                         <button type="button" class="btn btn-primary" onclick="changeImage('#profile_image')" ><?php echo _l('placeholder_select_image')?></button>      
                     </div>
-                  </div>
+                  </div> -->
                   <!-- title picture -->
                   <div class="col-md-12">
                     <hr class="hr_1">
                     <div class="col-md-6">
-                      <h4>Title Image</h4> 
+                      <h4><?php echo _l('placeholder_title_img')?></h4> 
                     </div>
                     <div class="col-md-3">
                       <img id="title_preview" src="<?php echo site_url('/assets/images/noimage.jpg');?>" class="edit_img"/><br/>
                       <br>
                          <input type="file" id="title_image" name="title" class="input-image-file" style="display: none;" />
-                         <button type="button" class="btn btn-primary" onclick="changeImage('#title_image')" >Select a Image</button>      
+                         <button type="button" class="btn btn-primary" onclick="changeImage('#title_image')" ><?php echo _l('placeholder_select_image')?></button>      
                     </div>
                   </div>
                 </div> 
@@ -231,7 +231,7 @@
                <!--  end  profile content --> 
                <!--  begin blog content -->
                 <div class="col-md-6" id="Blogs">
-                   <h2 style="margin-left: 30px">Placeholder Blogs</h2>
+                   <h2 style="margin-left: 30px"><?php echo _l('placeholder_blogs')?></h2>
                  
                   <div class="col-md-12"  id="blog_content">
                      <hr class="hr_1"> 
@@ -252,7 +252,7 @@
                 <!-- start contact -->
                 <div class="col-md-12" style="display: flex;justify-content: center;margin-top: 40px">
                   <div class="col-md-8" id="contacts">
-                    <h2 style="text-align: center;">Placeholder Contacts</h2> 
+                    <h2 style="text-align: center;"><?php echo _l('placeholder_contacts')?></h2> 
                     <hr class="hr_1">
                     <div class="col-md-12" id="contact_content">
 
@@ -323,7 +323,7 @@ $(document).ready(function(){
     var new_contact_no = 0;
 
       $('#add_blog').click(function(){
-        $('#blog_content').append('<div class="col-md-12 blo-new-container" style="margin-bottom:60px"><div class="col-md-12" ><div class="col-md-6"><h4>Blog Picture</h4></div><div class="col-md-3"style="margin-bottom:10px"><img id="blog_new_preview' + new_blog_no + '" src="<?php echo site_url('/assets/images/noimage.jpg')?>" class="edit_img "/><br/><br><input type="file" id="blog_new_image' + new_blog_no + '" name="blog_new_image[]" class="input-image-file" style="display: none;"/><button type="button" class="btn btn-primary" onclick="changeImage('+'\'#blog_new_image'+ new_blog_no +'\')">Select a Image</button></div></div><div class="col-md-12"><div class="col-md-4"><h4>Blog Headline</h4></div><div class="col-md-6"><input type="text" name="blog_new_h[]' + new_blog_no + '" value="" class="edit_input"></div></div><div class="col-md-12"><div class="col-md-4"><h4>Blog Text</h4></div><div class="col-md-6" style="padding-left:47px"><textarea rows="4" cols="48" name="blog_new_t[]' + new_blog_no + '"></textarea></div></div><div class="col-md-12"><div class="col-md-4"><h4>Blog URL</h4></div><div class="col-md-6"><input type="text" name="blog_new_u[]" value="" class="edit_input"></div><div class="col-md-2"><button type="button" class="btn btn-danger blog-remove"  style="float: right;"><i class="fa fa-minus"></i></button></div></div><hr style="border:1px solid #bfcbd9"><div>');
+        $('#blog_content').append('<div class="col-md-12 blo-new-container" style="margin-bottom:60px"><div class="col-md-12" ><div class="col-md-6"><h4><?php echo _l('blog_pic')?></h4></div><div class="col-md-3"style="margin-bottom:10px"><img id="blog_new_preview' + new_blog_no + '" src="<?php echo site_url('/assets/images/noimage.jpg')?>" class="edit_img "/><br/><br><input type="file" id="blog_new_image' + new_blog_no + '" name="blog_new_image[]" class="input-image-file" style="display: none;"/><button type="button" class="btn btn-primary" onclick="changeImage('+'\'#blog_new_image'+ new_blog_no +'\')"><?php echo _l('placeholder_select_image')?></button></div></div><div class="col-md-12"><div class="col-md-4"><h4><?php echo _l('blog_headline')?></h4></div><div class="col-md-6"><input type="text" name="blog_new_h[]' + new_blog_no + '" value="" class="edit_input"></div></div><div class="col-md-12"><div class="col-md-4"><h4><?php echo _l('blog_text')?></h4></div><div class="col-md-6" style="padding-left:47px"><textarea rows="4" cols="48" name="blog_new_t[]' + new_blog_no + '"></textarea></div></div><div class="col-md-12"><div class="col-md-4"><h4><?php echo _l('blog_url')?></h4></div><div class="col-md-6"><input type="text" name="blog_new_u[]" value="" class="edit_input"></div><div class="col-md-2"><button type="button" class="btn btn-danger blog-remove"  style="float: right;"><i class="fa fa-minus"></i></button></div></div><hr style="border:1px solid #bfcbd9"><div>');
         new_blog_no++;
     });
 
@@ -340,7 +340,7 @@ $(document).ready(function(){
       });
 
       $('#add_contact').click(function(){
-        $('#contact_content').append('<div class="col-md-12 contact-new-container"><div class="col-md-12" ><div class="col-md-6"><h4>Contact Picture</h4></div><div class="col-md-3"style="margin-bottom:10px"><img id="contact_new_preview' + new_contact_no + '" src="<?php echo site_url('/assets/images/noimage.jpg')?>" class="edit_img "/><br/><br><input type="file" id="contact_new_image' + new_contact_no + '" name="contact_new_image[]" class="input-image-file" style="display: none;"/><button type="button" class="btn btn-primary" onclick="changeImage('+'\'#contact_new_image'+ new_contact_no +'\')">Select a Image</button></div></div><div class="col-md-12"><div class="col-md-4"><h4>Contact Name</h4></div><div class="col-md-6"><input type="text" name="contact_new_n[]' + new_contact_no + '" value="" class="edit_input"></div></div><div class="col-md-12"><div class="col-md-4"><h4>Contact Phone</h4></div><div class="col-md-6"><input type="text" name="contact_new_p[]'+ new_contact_no +'" value="" class="edit_input" ></div></div><div class="col-md-12"><div class="col-md-4"><h4>Contact Email</h4></div><div class="col-md-6"><input type="email" name="contact_new_e[]" value="" class="edit_input"></div><div class="col-md-2"><button type="button" class="btn btn-danger contact-remove"  style="float: right;"><i class="fa fa-minus"></i></button></div></div><hr style="border:1px solid #bfcbd9"><div>');
+        $('#contact_content').append('<div class="col-md-12 contact-new-container"><div class="col-md-12" ><div class="col-md-6"><h4><?php echo _l('contact_pic')?></h4></div><div class="col-md-3"style="margin-bottom:10px"><img id="contact_new_preview' + new_contact_no + '" src="<?php echo site_url('/assets/images/noimage.jpg')?>" class="edit_img "/><br/><br><input type="file" id="contact_new_image' + new_contact_no + '" name="contact_new_image[]" class="input-image-file" style="display: none;"/><button type="button" class="btn btn-primary" onclick="changeImage('+'\'#contact_new_image'+ new_contact_no +'\')"><?php echo _l('placeholder_select_image')?></button></div></div><div class="col-md-12"><div class="col-md-4"><h4><?php echo _l('contact_name')?></h4></div><div class="col-md-6"><input type="text" name="contact_new_n[]' + new_contact_no + '" value="" class="edit_input"></div></div><div class="col-md-12"><div class="col-md-4"><h4><?php echo _l('contact_phone')?></h4></div><div class="col-md-6"><input type="text" name="contact_new_p[]'+ new_contact_no +'" value="" class="edit_input" ></div></div><div class="col-md-12"><div class="col-md-4"><h4><?php echo _l('contact_email')?></h4></div><div class="col-md-6"><input type="email" name="contact_new_e[]" value="" class="edit_input"></div><div class="col-md-2"><button type="button" class="btn btn-danger contact-remove"  style="float: right;"><i class="fa fa-minus"></i></button></div></div><hr style="border:1px solid #bfcbd9"><div>');
 
           new_contact_no++;
     });
