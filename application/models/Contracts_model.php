@@ -108,7 +108,6 @@ class Contracts_model extends App_Model
      */
     public function add($data)
     {  
-        
         $data['client'] = $data['client'];
         $staff_name = $data['staff_name'];
         $staff_info = $data['staff_info'];
@@ -128,6 +127,7 @@ class Contracts_model extends App_Model
         $data['service_p_t'] = $data['custom_fields']['contracts_ser']['timeframe'];
 
         $data['beratung_remuneration'] = $data['custom_fields']['contracts_beratung']['remuneration'];
+        $data['beratung_p'] = $data['custom_fields']['contracts_beratung']['payment'];
         $data['beratung_p_m'] = $data['custom_fields']['contracts_beratung']['method'];
         $data['beratung_p_t'] = $data['custom_fields']['contracts_beratung']['timeframe'];
 
@@ -162,6 +162,19 @@ class Contracts_model extends App_Model
             $data['dynamic_percent_check'] = 0;
             $data['dynamic_percentage_per_year_value'] = 0;
         }
+
+        if($data['contract_type'] == 1){
+            $data['real_payment_term'] = $data['real_payment_term_produkt'];
+            $data['dateend'] = $data['dateend_produkt'];
+        }
+        if($data['contract_type'] == 3){
+            $data['real_payment_term'] = $data['real_payment_term_beratung'];
+            $data['dateend'] = $data['dateend_beratung'];
+        }
+        unset($data['dateend_produkt']);
+        unset($data['dateend_beratung']);
+        unset($data['real_payment_term_produkt']);
+        unset($data['real_payment_term_beratung']);
 
         if($data['contract_type']!=null)
         {
@@ -206,8 +219,8 @@ class Contracts_model extends App_Model
             if ($data['contract_type'] == 2) {
                 $data['contract_tax'] = $data['tax_id'];
                 unset($data['tax_id']);
-                $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['contract_value'], $data['content']);
-                $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '.$data['service_p_t'].' ) ', $data['content']);
+                $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['customer_payment_value'], $data['content']);
+                $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '._l($data['service_p_t']).' ) ', $data['content']);
 
                 if($data['service_p_m'] =="Bank Transfer" ) {
                 
@@ -467,6 +480,7 @@ class Contracts_model extends App_Model
      */
     public function update($data, $id)
     {
+
         $affectedRows = 0;
         $data['client'] = $data['client'];
         $staff_name = $data['staff_name'];
@@ -478,6 +492,7 @@ class Contracts_model extends App_Model
         if($data['timetracking_id'])
             $data['hourly_rate'] = $this->get_timetracking_hourly_rate($data['timetracking_id'])[0]['project_rate_per_hour'];
         $data['contract_type'] = $data['contract_type'];
+
         unset($data['timetracking_rel']);
         // Service-abo
         if ($data['contract_type'] == 2) {
@@ -488,7 +503,12 @@ class Contracts_model extends App_Model
 
             $data['consulting_client_point'] = null;
             $data['beratung_remuneration'] = null;
+            $data['beratung_customer_payment_value_excl_tax'] = null;
+            $data['beratung_remuneration_value'] = null;
+            $data['beratung_p'] = null;
             $data['beratung_p_m'] = null;
+            $data['beratung_opening_payment_on_one_time_value'] = null;
+
 
             $data['produkt_remuneration'] = null;
             $data['produkt_p'] = null;
@@ -523,6 +543,7 @@ class Contracts_model extends App_Model
             // $data['consulting_client_point'] = $data['consulting_client_point'];
             $data['consulting_client_point'] = null;
             $data['beratung_remuneration'] = $data['custom_fields']['contracts_beratung']['remuneration'];
+            $data['beratung_p'] = $data['custom_fields']['contracts_beratung']['payment'];
             $data['beratung_p_m'] = $data['custom_fields']['contracts_beratung']['method'];
             $data['beratung_p_t'] = $data['custom_fields']['contracts_beratung']['timeframe'];
 
@@ -548,6 +569,8 @@ class Contracts_model extends App_Model
                 $data['timetracking_id'] = null;
                 $data['tasks_ids'] = null;
             }
+            $data['dateend'] = $data['dateend_beratung'];
+            $data['real_payment_term'] = $data['real_payment_term_beratung'];
 
         }
         //  Product
@@ -561,7 +584,11 @@ class Contracts_model extends App_Model
 
             // $data['consulting_client_point'] = null;
             $data['beratung_remuneration'] = null;
+            $data['beratung_customer_payment_value_excl_tax'] = null;
+            $data['beratung_remuneration_value'] = null;
+            $data['beratung_p'] = null;
             $data['beratung_p_m'] = null;
+            $data['beratung_opening_payment_on_one_time_value'] = null;
 
             $data['produkt_remuneration'] = $data['custom_fields']['contracts_produkt']['remuneration'];
             
@@ -601,6 +628,8 @@ class Contracts_model extends App_Model
 
             $data['timetracking_id'] = null;
             $data['tasks_ids'] = null;
+            $data['dateend'] = $data['dateend_produkt'];
+            $data['real_payment_term'] = $data['real_payment_term_produkt'];
         }
         if (isset($data['trash'])) {
             $data['trash'] = 1;
@@ -625,7 +654,11 @@ class Contracts_model extends App_Model
             $data['dynamic_percent_check'] = 0;
             $data['dynamic_percentage_per_year_value'] = 0;
         }
-    
+        
+        unset($data['real_payment_term_beratung']);
+        unset($data['real_payment_term_produkt']);
+        unset($data['dateend_produkt']);
+        unset($data['dateend_beratung']);
 
         if($data['contract_type']!=null)
         {
@@ -669,8 +702,8 @@ class Contracts_model extends App_Model
             if ($data['contract_type'] == 2) {
                 $data['contract_tax'] = $data['tax_id'];
                 unset($data['tax_id']);
-                $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['contract_value'], $data['content']);
-                $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '.$data['service_p_t'].' ) ', $data['content']);
+                $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['customer_payment_value'], $data['content']);
+                $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '._l($data['service_p_t']).' ) ', $data['content']);
 
                 if($data['service_p_m'] =="Bank Transfer" ) {
                 

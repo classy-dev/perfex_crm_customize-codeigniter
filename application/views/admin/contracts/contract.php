@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php   
-// print_r($subscriptions); exit();
+// print_r($staff); exit();
 init_head(); ?>
 <style>
    .form-group[app-field-wrapper=subject], #contractmergefields, #tasks, #renewals{
@@ -270,10 +270,10 @@ init_head(); ?>
                             <select data-fieldto="contracts_ser" data-fieldid="timeframe" name="custom_fields[contracts_ser][timeframe]" id="custom_fields_contracts_ser_timeframe" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               
                               <!-- <option <?php //if($contract0['session']['custom_fields']['contracts_ser']['13'] == 'Daily') echo 'selected';?> value="Daily"><?php //echo _l('daily');?></option> -->
-                              <option <?php if($contract->service_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('annually');?></option>
-                              <option <?php if($contract->service_p_t == 'Monthly') echo 'selected';?> value="Monthly"><?php echo _l('monthly');?></option>
+                              <option <?php if($contract->service_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('Annually');?></option>
+                              <option <?php if($contract->service_p_t == 'Monthly') echo 'selected';?> value="Monthly"><?php echo _l('Monthly');?></option>
                               <option <?php if($contract->service_p_t == 'Quarterly') echo 'selected';?> value="Quarterly"><?php echo _l('Quarterly');?></option>
-                              <option <?php if($contract->service_p_t == 'Half-Yearly') echo 'selected';?> value="Half-Yearly"><?php echo _l('half_yearly');?></option>
+                              <option <?php if($contract->service_p_t == 'Half-Yearly') echo 'selected';?> value="Half-Yearly"><?php echo _l('Half-Yearly');?></option>
                               
                             </select>
                           </div>
@@ -288,6 +288,7 @@ init_head(); ?>
                   <?php if(!isset($contract->contract_type)||$contract->contract_type!=3) { ?> <div id="contracts_beratung" style="display: none;"><?php } ?>
                   <?php if(isset($contract->contract_type)&&$contract->contract_type==3) { ?><div id="contracts_beratung"><?php } ?>
                     <!-- Remuneration -->
+                    <hr class="hr-panel-heading">
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6">
                         <div class="form-group"><label for="custom_fields[contracts_beratung][remuneration]" class="control-label" style="margin-bottom:9px;"><?php echo _l('remuneration');?></label>
@@ -301,19 +302,7 @@ init_head(); ?>
                         </div>
                       </div>
 
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="custom_fields[contracts_beratung][method]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
-                          <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
-                            <select data-fieldto="contracts_beratung" data-fieldid="method" name="custom_fields[contracts_beratung][method]" id="custom_fields_contracts_beratung_method" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
-                              <option value=""></option>
-                              <option <?php if($contract->beratung_p_m == 'Bank Transfer') echo 'selected';?> value="Bank Transfer"><?php echo _l('bank_transfer');?></option>
-                              <option <?php if($contract->beratung_p_m == 'Immediate Transfer') echo 'selected';?> value="Immediate Transfer"><?php echo _l('immediate_transfer');?></option>
-                              <option <?php if($contract->beratung_p_m == 'Debit'|| !isset($contract->id) ) echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
+
 
                     </div>
 
@@ -355,13 +344,61 @@ init_head(); ?>
                         </div>
                       </div>
                     </div>
-                  
+                    
+                    <div class="row custom-fields-form-row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                         <label for="customer_payment_value"><?php echo _l('beratung_remuneration_value'); ?></label>
+                         <div class="input-group" data-toggle="tooltip" title="<?php echo _l('beratung_remuneration_value_tooltip'); ?>">
+                            <input type="number" class="form-control" name="beratung_remuneration_value" id="beratung_remuneration_value" value="<?php if(isset($contract)){echo $contract->beratung_remuneration_value; } else echo 0; ?>" readonly>
+                            <div class="input-group-addon">
+                               <?php echo $base_currency->symbol; ?>
+                            </div>
+                         </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr class="hr-panel-heading">
+                    <!-- Payment Part -->
+
+                    <div class="row custom-fields-form-row">
+                      <div class="col-md-6" id="beratung_payment">
+                          <div class="form-group"><label for="custom_fields[contracts_beratung][payment]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment');?></label>
+                            <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
+                              <select data-fieldto="contracts_beratung" data-fieldid="payment" name="custom_fields[contracts_beratung][payment]" id="custom_fields_contracts_beratung_payment" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                                <option value=""></option>
+                                <option <?php if($contract->beratung_p == 'One Time Payment') echo 'selected';?> value="One Time Payment"><?php echo _l('one_time_payment');?></option>
+                                <option <?php if($contract->beratung_p == 'Partial Payment') echo 'selected';?> value="Partial Payment"><?php echo _l('partial_payment');?></option>
+                                <option <?php if($contract->beratung_p == 'Partial Payment With Increased Starting Payment') echo 'selected';?> value="Partial Payment With Increased Starting Payment"><?php echo _l('partial_payment_with_increased_starting_payment');?></option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="custom_fields[contracts_beratung][method]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment_method');?></label>
+                          <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
+                            <select data-fieldto="contracts_beratung" data-fieldid="method" name="custom_fields[contracts_beratung][method]" id="custom_fields_contracts_beratung_method" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
+                              <option value=""></option>
+                              <option <?php if($contract->beratung_p_m == 'Bank Transfer') echo 'selected';?> value="Bank Transfer"><?php echo _l('bank_transfer');?></option>
+                              <option <?php if($contract->beratung_p_m == 'Immediate Transfer') echo 'selected';?> value="Immediate Transfer"><?php echo _l('immediate_transfer');?></option>
+                              <option <?php if($contract->beratung_p_m == 'Debit'|| !isset($contract->id) ) echo 'selected';?> value="Debit"><?php echo _l('debit');?></option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
                    <!-- <?php if (!isset($contract->beratung_remuneration)||$contract->beratung_remuneration == 'Payment According To Time Spent'){?>
                     <div class="row custom-fields-form-row" id="beratung_remuneration" style="display: none;"><?php }?>
                     <?php if (isset($contract->beratung_remuneration)&&($contract->beratung_remuneration == 'One Time Payment')){?>
                     <div class="row custom-fields-form-row" id="beratung_remuneration"><?php }?> -->
                     
-                    <div class="row custom-fields-form-row" id="beratung_remuneration" style="display: none;">
+                    <!-- <div class="row custom-fields-form-row" id="beratung_remuneration" style="display: none;">
                       <div class="col-md-6">
                         <div class="form-group">
                           <label for="beratung_one_time_payment_value"><?php echo _l('beratung_one_time_payment_value'); ?></label>
@@ -388,6 +425,46 @@ init_head(); ?>
                         </div>
                       </div>
                     </div>
+ -->
+                    <div class="row custom-fields-form-row">
+                      <?php if(isset($contract) && ($contract->beratung_p == 'Partial Payment With Increased Starting Payment')){ ?>
+                      <div class="col-md-6" id="beratung_opening_payment_on_one_time"  ><?php }?>
+                      <?php if(!isset($contract) || ($contract->beratung_p != 'Partial Payment With Increased Starting Payment')){?>
+                          <div class="col-md-6" id="beratung_opening_payment_on_one_time" style="display: none;" ><?php }?>
+                            <div class="form-group">
+                              <label for="beratung_opening_payment_on_one_time_value"><?php echo _l('beratung_opening_payment_value'); ?></label>
+                              <div class="input-group" data-toggle="tooltip" title="<?php echo _l('beratung_opening_payment_value'); ?>">
+                                <input type="number" class="form-control" name="beratung_opening_payment_on_one_time_value" id="beratung_opening_payment_on_one_time_value" value="<?php if(isset($contract->beratung_opening_payment_on_one_time_value)){echo $contract->beratung_opening_payment_on_one_time_value; }?>">
+                                <div class="input-group-addon">
+                                   <?php echo $base_currency->symbol; ?>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                    <!-- last adding for cron job -->
+                      <?php if(isset($contract)&&!empty($contract->real_payment_term)){?>
+                      <div id="real_payment_beratung">
+                      <?php }?>
+                      <?php if(!isset($contract)||empty($contract->real_payment_term)){?>
+                      <div id="real_payment_beratung" style="display: none;">
+                      <?php }?>
+                      <div class="row custom-fields-form-row">
+                        <div class="col-md-6">
+                          <?php $value = (isset($contract->dateend) ? _d($contract->dateend) : ''); ?>
+                          <?php echo render_date_input('dateend_beratung','contract_end_date_beratung',$value); ?>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="real_payment_term_beratung"><?php echo _l('real_payment_term'); ?></label>
+                            <input type="number" class="form-control" name="real_payment_term_beratung" id="real_payment_term_beratung" value="<?php if(isset($contract)&&!empty($contract->real_payment_term)) echo $contract->real_payment_term; else null;?>" readonly>
+                          </div>
+                        </div>  
+                      </div>
+                    </div>
+
+                    
 
                     <!-- Timeframe and Method -->
                     <!-- <div class="row custom-fields-form-row">
@@ -426,6 +503,7 @@ init_head(); ?>
                   <!-- Nettoprodukt -->
                   <?php if(!isset($contract->contract_type)||$contract->contract_type!=1) { ?> <div id="contracts_produkt" style="display: none;"><?php } ?>
                   <?php if(isset($contract->contract_type)&&$contract->contract_type==1) { ?><div id="contracts_produkt"><?php } ?>
+                    <hr class="hr-panel-heading">
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6" id="remuneration">
                         <div class="form-group"><label for="custom_fields[contracts_produkt][remuneration]" class="control-label" style="margin-bottom:9px;"><?php echo _l('remuneration');?></label>
@@ -569,7 +647,7 @@ init_head(); ?>
                         </div>
                       </div>
                     </div>
-
+                    <hr class="hr-panel-heading">
                     <div class="row custom-fields-form-row">
                       <div class="col-md-6" id="payment">
                         <div class="form-group"><label for="custom_fields[contracts_produkt][payment]" class="control-label" style="margin-bottom:9px;"><?php echo _l('payment');?></label>
@@ -607,18 +685,18 @@ init_head(); ?>
                           <div class="dropdown bootstrap-select form-control bs3" style="width: 100%;">
                             <select data-fieldto="contracts_produkt" data-fieldid="timeframe" name="custom_fields[contracts_produkt][timeframe]" id="custom_fields_contracts_produkt_timeframe" class="selectpicker form-control" data-width="100%" data-none-selected-text="Nothing selected" data-live-search="true" tabindex="-98">
                               <option value=""></option>
-                              <option <?php if($contract->produkt_p_t == 'Monthly') echo 'selected';?> value="Monthly"><?php echo _l('monthly');?></option>
+                              <option <?php if($contract->produkt_p_t == 'Monthly') echo 'selected';?> value="Monthly"><?php echo _l('Monthly');?></option>
                               <option <?php if($contract->produkt_p_t == 'Quarterly') echo 'selected';?> value="Quarterly"><?php echo _l('Quarterly');?></option>
-                              <option <?php if($contract->produkt_p_t == 'Half-Yearly') echo 'selected';?> value="Half-Yearly"><?php echo _l('half_yearly');?></option>
-                              <option <?php if($contract->produkt_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('annually');?></option>
+                              <option <?php if($contract->produkt_p_t == 'Half-Yearly') echo 'selected';?> value="Half-Yearly"><?php echo _l('Half-Yearly');?></option>
+                              <option <?php if($contract->produkt_p_t == 'Annually') echo 'selected';?> value="Annually"><?php echo _l('Annually');?></option>
                             </select>
                           </div>
                         </div>
                       </div>
                       
-                      <?php if(isset($contract)&&($contract->produkt_remuneration == 'One Time Payment') && ($contract->produkt_p == 'Partial Payment With Increased Starting Payment')){ ?>
+                      <?php if(isset($contract) && ($contract->produkt_p == 'Partial Payment With Increased Starting Payment')){ ?>
                       <div class="col-md-6" id="opening_payment_on_one_time"  ><?php }?>
-                      <?php if(!isset($contract)||($contract->produkt_remuneration != 'One Time Payment') || ($contract->produkt_p != 'Partial Payment With Increased Starting Payment')){?>
+                      <?php if(!isset($contract)|| ($contract->produkt_p != 'Partial Payment With Increased Starting Payment')){?>
                       <div class="col-md-6" id="opening_payment_on_one_time" style="display: none;" ><?php }?>
 
                         <div class="form-group">
@@ -641,12 +719,12 @@ init_head(); ?>
                       <?php }?>
                         <div class="col-md-6">
                           <?php $value = (isset($contract->dateend) ? _d($contract->dateend) : ''); ?>
-                          <?php echo render_date_input('dateend','contract_end_date_netto',$value); ?>
+                          <?php echo render_date_input('dateend_produkt','contract_end_date_netto',$value); ?>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
-                            <label for="real_payment_term"><?php echo _l('real_payment_term'); ?></label>
-                            <input type="number" class="form-control" name="real_payment_term" id="real_payment_term" value="<?php if(isset($contract)&&!empty($contract->real_payment_term)) echo $contract->real_payment_term; else null;?>" readonly>
+                            <label for="real_payment_term_produkt"><?php echo _l('real_payment_term'); ?></label>
+                            <input type="number" class="form-control" name="real_payment_term_produkt" id="real_payment_term_produkt" value="<?php if(isset($contract)&&!empty($contract->real_payment_term)) echo $contract->real_payment_term; else null;?>" readonly>
                           </div>
                         </div>  
                       </div>
@@ -791,7 +869,7 @@ init_head(); ?>
                             <div class="col-md-6">
                                 <div class="form-group" app-field-wrapper="timetracking[estimated_hours]">
                                   <label for="timetracking_estimated_hours" class="control-label"><?php echo _l('estimated_hours')?></label>
-                                  <input type="number" id="timetracking_estimated_hours" name="timetracking[estimated_hours]" class="form-control " value="<?php echo isset($project) ? $project->estimated_hours : 0;?>" aria-invalid="false"></div>
+                                  <input type="number" id="timetracking_estimated_hours" name="timetracking[estimated_hours]" class="form-control time_hour" value="<?php echo isset($project) ? $project->estimated_hours : 0;?>" aria-invalid="false"></div>
                             </div>
 
                             <div class="col-md-6">
@@ -810,7 +888,7 @@ init_head(); ?>
                       <div id="project_rate_per_hour" class="<?php echo $input_field_hide_class_rate_per_hour; ?>">
                           <div class="form-group" app-field-wrapper="timetracking[project_rate_per_hour]">
                             <label for="timetracking_project_rate_per_hour" class="control-label"><?php echo _l('rate_per_hour');?></label>
-                            <input type="number" id="timetracking_project_rate_per_hour" name="timetracking[project_rate_per_hour]" class="form-control" value="<?php if(isset($project)) echo $project->project_rate_per_hour; else echo 0; ?>" aria-invalid="false">
+                            <input type="number" id="timetracking_project_rate_per_hour" name="timetracking[project_rate_per_hour]" class="form-control time_hour" value="<?php if(isset($project)) echo $project->project_rate_per_hour; else echo 0; ?>" aria-invalid="false">
                           </div>
                       </div>
                       <!-- <div class="row">
@@ -1692,6 +1770,18 @@ init_head(); ?>
 
    $(document).ready(function(){
 
+        var r1 = 'One Time Payment';
+        var r2 = 'Partial Payment Of Total Amount';
+
+        var r1b = 'One Time Payment';
+        var r2b = 'Payment According To Time Spent';
+
+        var p1 = 'One Time Payment';
+        var p2 = 'Partial Payment';
+        var p3 = 'Partial Payment With Increased Starting Payment';
+
+
+
       /* Right Side Staff and Customer Information Start */  
 
           var staff0 = '<?php echo json_encode($staff)?>';
@@ -1951,10 +2041,35 @@ init_head(); ?>
               let customerValueExcl = $('#beratung_customer_payment_value_excl_tax').val();
               let tax = $('select[name="tax_id"] option:selected').val();
               let final = parseInt(customerValueExcl)+parseInt(customerValueExcl)*parseInt(tax)/100;
-              $('#customer_payment_value').val(final);
+              $('#beratung_remuneration_value').val(final);
+
+              let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+              let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+              let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+              let real_payment_term = $('#real_payment_term_beratung').val();
+              if(selected_payment == p2)
+                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+              else if(selected_payment == p3){
+                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                }
             }
             else if (selected == 'Payment According To Time Spent'){
               $('#beratung_remuneration_one').hide();
+
+              var hours = $('#timetracking_estimated_hours').val();
+              var rate = $('#timetracking_project_rate_per_hour').val();
+              $('#beratung_remuneration_value').val((hours*rate));
+
+              let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+              let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+              let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+              let real_payment_term = $('#real_payment_term_beratung').val();
+              if(selected_payment == p2)
+                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+              else if(selected_payment == p3){
+                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                }
+
               $('input[name="timetracking[name]"]').attr('required',true);
               $('#timetracking_and_task').css('display','block');
               $('#save').prop('disabled',true);
@@ -1970,7 +2085,17 @@ init_head(); ?>
               let customerValueExcl = $(this).val();
               let tax = $('select[name="tax_id"] option:selected').val();
               let final = parseInt(customerValueExcl)+parseInt(customerValueExcl)*parseInt(tax)/100;
-              $('#customer_payment_value').val(final);
+              $('#beratung_remuneration_value').val(final);
+
+              let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+              let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+              let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+              let real_payment_term = $('#real_payment_term_beratung').val();
+              if(selected_payment == p2)
+                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+              else if(selected_payment == p3){
+                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                }
             }
 
           });
@@ -1980,7 +2105,17 @@ init_head(); ?>
               let customerValueExcl = $('#beratung_customer_payment_value_excl_tax').val();
               let tax = $('select[name="tax_id"] option:selected').val();
               let final = parseInt(customerValueExcl)+parseInt(customerValueExcl)*parseInt(tax)/100;
-              $('#customer_payment_value').val(final);
+              $('#beratung_remuneration_value').val(final);
+
+              let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+              let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+              let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+              let real_payment_term = $('#real_payment_term_beratung').val();
+              if(selected_payment == p2)
+                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+              else if(selected_payment == p3){
+                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                }
             }
 
           });
@@ -1992,13 +2127,32 @@ init_head(); ?>
           $('#timetracking_estimated_hours').change(function(){
             var hours = $(this).val();
             var rate = $('#timetracking_project_rate_per_hour').val();
-            $('#customer_payment_value').val((hours*rate));
+            $('#beratung_remuneration_value').val((hours*rate));
+
+            let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+            let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+            let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+            let real_payment_term = $('#real_payment_term_beratung').val();
+            if(selected_payment == p2)
+                $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+            else if(selected_payment == p3){
+                $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+              }
           });
 
           $('#timetracking_project_rate_per_hour').change(function(){
             var hours = $('#timetracking_estimated_hours').val();
             var rate = $(this).val();
-            $('#customer_payment_value').val((hours*rate));
+            $('#beratung_remuneration_value').val((hours*rate));
+            let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+            let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+            let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+            let real_payment_term = $('#real_payment_term_beratung').val();
+            if(selected_payment == p2)
+                $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+            else if(selected_payment == p3){
+                $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+              }
           });
 
           $('#contract-timetracking-form').submit(function(e){
@@ -2186,17 +2340,60 @@ init_head(); ?>
         
         // task end
 
+
+        // Real Payment
+        $('#custom_fields_contracts_beratung_payment').change(function(){
+
+            let payment = $(this).val();
+            let remuneration = $('#custom_fields_contracts_beratung_remuneration').val();
+            let remuneration_value = $('#beratung_remuneration_value').val();
+            let real_payment_term_beratung = $('#real_payment_term_beratung').val();
+            let opening_payment_beratung = $('#beratung_opening_payment_on_one_time_value').val();
+
+
+            if(payment == p1)
+            {
+              $('#real_payment_beratung').hide();
+              $('#customer_payment_value').val(remuneration_value);
+              $('#beratung_opening_payment_on_one_time').hide();
+            }
+
+            else if(payment == p2)
+              {
+                $('#real_payment_beratung').show();
+                $('#beratung_opening_payment_on_one_time').hide();
+                $('#customer_payment_value').val(remuneration_value/real_payment_term_beratung);
+
+              }
+            else if(payment == p3)
+              {
+                $('#real_payment_beratung').show();
+                $('#beratung_opening_payment_on_one_time').show();
+                $('#customer_payment_value').val((remuneration_value - opening_payment_beratung)/real_payment_term_beratung);
+              }
+
+          });
+
+          //Opening Payment Value Change
+            $('#beratung_opening_payment_on_one_time_value').change(function(){
+
+              let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+              let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+              let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+              let real_payment_term = $('#real_payment_term_beratung').val();
+
+              if(selected_payment == p2)
+                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+              else if(selected_payment == p3){
+                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                }
+
+            });
+
       /* Vergütungsvereinbarung Calculation End */
 
 
       /* Vergütungsvereinbarung Nettoprodukt Start */
-
-        var r1 = 'One Time Payment';
-        var r2 = 'Partial Payment Of Total Amount';
-
-        var p1 = 'One Time Payment';
-        var p2 = 'Partial Payment';
-        var p3 = 'Partial Payment With Increased Starting Payment';
 
         // Remuneration Select Change
         $('#custom_fields_contracts_produkt_remuneration').change(function(){
@@ -2206,6 +2403,7 @@ init_head(); ?>
             if(remuneration == r1){
 
               $('#one_time_payment').css('display','block');
+              $('#produkt_one_time_payment_value').prop('required', true);
               $('#savings_amount_per_month').css('display','none');
               $('#savings_amount_per_month').attr('required', false);
               $('#term').css('display','none');
@@ -2216,13 +2414,15 @@ init_head(); ?>
               $('#total_amount').css('display','none');
               $('#agent_remuneration_percent').css('display','none');
               $('#agent_remuneration_price').css('display','none');
+              $('.produkt_calc_values').val(" ");
+              $('#total_amount_value').val(" ");
               // $('#timeframe').css('display','block');
             }
             else if (remuneration == r2){
               
               $('#one_time_payment').css('display','none');
               $('#savings_amount_per_month').css('display','block');
-              $('#savings_amount_per_month').attr('required', true);
+              $('#savings_amount_per_month_value').attr('required', true);
               $('#term').css('display','block');
               $('#term_value').prop('required',true);
               $('#amount').css('display','block');
@@ -2230,7 +2430,10 @@ init_head(); ?>
               $('#dynamic_percentage_per_year').css('display','block');
               $('#total_amount').css('display','block');
               $('#agent_remuneration_percent').css('display','block');
+              $('#agent_remuneration_percent_value').prop('required');
               $('#agent_remuneration_price').css('display','block');
+
+              $('#produkt_one_time_payment_value').val(" ");
 
             }
 
@@ -2243,7 +2446,7 @@ init_head(); ?>
                 let remuneration = $('#custom_fields_contracts_produkt_remuneration').val();
                 let payment = $('#custom_fields_contracts_produkt_payment').val();
 
-                let real_payment_term = $('#real_payment_term').val();
+                let real_payment_term = $('#real_payment_term_produkt').val();
                 let opening_payment = $('#produkt_opening_payment_on_one_time_value').val();
 
                 if(remuneration == r1)
@@ -2273,8 +2476,8 @@ init_head(); ?>
               let payment = $(this).val();
               let remuneration = $('#custom_fields_contracts_produkt_remuneration').val();
               let agent_remuneration_price_value = $('#agent_remuneration_price_value').val();
-              let real_payment_term = $('#real_payment_term').val();
-              let opening_payment = $(produkt_opening_payment_on_one_time_value).val();
+              let real_payment_term = $('#real_payment_term_produkt').val();
+              let opening_payment = $('#produkt_opening_payment_on_one_time_value').val();
 
               if(payment == p1)
               {
@@ -2313,51 +2516,12 @@ init_head(); ?>
 
             });
 
-          // End Date Datapicker Change
-            $('.datepicker').change(function(){
-              
-              let month1 = $('#datestart').val().substring(3,5);
-              let year1 = $('#datestart').val().substring(6);
-
-              let month2 = $('#dateend').val().substring(3,5);
-              let year2 = $('#dateend').val().substring(6);
-
-              let real_payment_term = 12*(year2-year1)+parseInt(month2)-parseInt(month1);
-              $('#real_payment_term').val(real_payment_term);
-              
-
-              let selected_remuneration = $('#custom_fields_contracts_produkt_remuneration').val();
-              let selected_payment = $('#custom_fields_contracts_produkt_payment').val();
-              let one_time_payment = $('#produkt_one_time_payment_value').val();
-              let agent_remuneration_price_value = $('#agent_remuneration_price_value').val();
-              let opening_payment = $('#produkt_opening_payment_on_one_time_value').val();
-
-              if(selected_remuneration == r1)
-              {
-
-                if(selected_payment == p2)
-                  $('#customer_payment_value').val(one_time_payment/real_payment_term);
-                else if(selected_payment == p3){
-                  $('#customer_payment_value').val((one_time_payment - opening_payment)/real_payment_term);
-                }
-
-              }
-
-              if(selected_remuneration == r2){
-                if(selected_payment == p2)
-                  $('#customer_payment_value').val(agent_remuneration_price_value/real_payment_term);
-                else if(selected_payment == p3){
-                  $('#customer_payment_value').val((agent_remuneration_price_value - opening_payment)/real_payment_term);
-                }
-              }             
-
-            });
-
+          
           // One time Opening Payment Value Change
             $('#produkt_opening_payment_on_one_time_value').change(function(){
 
               let remuneration = $('#custom_fields_contracts_produkt_remuneration').val();
-              let real_payment_term = $('#real_payment_term').val();
+              let real_payment_term = $('#real_payment_term_produkt').val();
               let opening_payment = $(this).val();
               let one_time_payment = $('#produkt_one_time_payment_value').val();
               let agent_remuneration_price_value = $('#agent_remuneration_price_value').val();
@@ -2473,6 +2637,70 @@ init_head(); ?>
         /* End 2*/  
 
       /* Vergütungsvereinbarung Nettoprodukt End */
+
+
+      // Same function in both of Beratung and Nettoproduct End Date Datapicker Change
+       
+            $('.datepicker').change(function(){
+              let month1 = $('#datestart').val().substring(3,5);
+              let year1 = $('#datestart').val().substring(6);
+
+              let contract_type = $('#contract_type').val();
+
+              if(contract_type == 1){
+
+                let month2 = $('#dateend_produkt').val().substring(3,5);
+                let year2 = $('#dateend_produkt').val().substring(6);
+                let real_payment_term = 12*(year2-year1)+parseInt(month2)-parseInt(month1);
+                $('#real_payment_term_produkt').val(real_payment_term);
+                
+                let selected_remuneration = $('#custom_fields_contracts_produkt_remuneration').val();
+                let selected_payment = $('#custom_fields_contracts_produkt_payment').val();
+                let one_time_payment = $('#produkt_one_time_payment_value').val();
+                let agent_remuneration_price_value = $('#agent_remuneration_price_value').val();
+                let opening_payment = $('#produkt_opening_payment_on_one_time_value').val();
+
+                if(selected_remuneration == r1)
+                {
+
+                  if(selected_payment == p2)
+                    $('#customer_payment_value').val(one_time_payment/real_payment_term);
+                  else if(selected_payment == p3){
+                    $('#customer_payment_value').val((one_time_payment - opening_payment)/real_payment_term);
+                  }
+
+                }
+
+                if(selected_remuneration == r2){
+                  if(selected_payment == p2)
+                    $('#customer_payment_value').val(agent_remuneration_price_value/real_payment_term);
+                  else if(selected_payment == p3){
+                    $('#customer_payment_value').val((agent_remuneration_price_value - opening_payment)/real_payment_term);
+                  }
+                }             
+              }
+              
+            else if(contract_type == 3){
+
+              let month2 = $('#dateend_beratung').val().substring(3,5);
+              let year2 = $('#dateend_beratung').val().substring(6);
+              let real_payment_term = 12*(year2-year1)+parseInt(month2)-parseInt(month1);
+              $('#real_payment_term_beratung').val(real_payment_term);
+
+              let selected_remuneration = $('#custom_fields_contracts_beratung_remuneration').val();
+              let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+              let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+              let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+
+              if(selected_payment == p2)
+                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+              else if(selected_payment == p3){
+                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                }
+            }
+
+        });
+
 
    });
 </script>

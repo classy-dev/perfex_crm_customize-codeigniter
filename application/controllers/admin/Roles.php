@@ -33,7 +33,7 @@ class Roles extends AdminController
             }
             else{
                 $data['common_letter'] = $_POST['name'];
-                $data['number'] = Null;
+                $data['number'] = 0;
             }
 
             $data['name'] = $_POST['name'];

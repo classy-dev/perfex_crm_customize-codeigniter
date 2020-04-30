@@ -273,7 +273,7 @@
                           
                            <label for="lastname" class="control-label"> <small class="req text-danger">* </small>Sub Agent Percentage</label>
                           <input type="number" class="form-control subagentpercentage" name="subagentpercentage" autocomplete="off" required="required"
-                          value="<?php if($member->subagentpercentage) echo $member->subagentpercentage; else echo '';?>">
+                          value="<?php if(isset($member) && $member->subagentpercentage) echo $member->subagentpercentage; else echo '';?>">
                <?php }?>
 
 

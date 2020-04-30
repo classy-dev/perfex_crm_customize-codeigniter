@@ -119,7 +119,7 @@ foreach ($rResult as $aRow) {
     $row[] = $aRow['id'];
 
     // $subjectOutput = '<a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
-    $subjectOutput = '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) .'" target="_blank">' . $aRow['subject'] . '</a>';
+    $subjectOutput = '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) .'" target="_blank">' . $aRow['type_name'] . '</a>';
 
     if ($aRow['trash'] == 1) {
         $subjectOutput .= '<span class="label label-danger pull-right">' . _l('contract_trash') . '</span>';

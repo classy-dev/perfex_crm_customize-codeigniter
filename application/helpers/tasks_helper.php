@@ -530,3 +530,22 @@ function get_tasks_where_string($table = true)
 
     return $_tasks_where;
 }
+
+function get_tasks_percent_by_status($status){
+
+    $has_permission_view = has_permission('tasks', '', 'view');
+    $total_tasks = total_rows(db_prefix() . 'tasks', 'id IN(SELECT taskid FROM tbltask_assigned' . (!$has_permission_view ? ' where staffid=' . get_staff_user_id() . ')' : ')'));
+
+    $data            = [];
+    $total_by_status = 0;
+
+    if (is_numeric($status)) {
+        $total_by_status = total_rows(db_prefix() . 'tasks', 'id IN(SELECT taskid FROM tbltask_assigned' . (!$has_permission_view ? ' where staffid=' . get_staff_user_id() . ') and status='.$status : ') and status='.$status));
+    }
+    $percent                 = ($total_tasks > 0 ? number_format(($total_by_status * 100) / $total_tasks, 2) : 0);
+    $data['total_by_status'] = $total_by_status;
+    $data['percent']         = $percent;
+    $data['total']           = $total_tasks;
+
+    return $data;
+}

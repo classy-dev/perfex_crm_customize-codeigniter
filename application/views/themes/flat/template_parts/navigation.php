@@ -55,13 +55,13 @@
                               <?php echo _l('clients_nav_profile'); ?>
                            </a>
                         </li>
-                        <?php if($contact->is_primary == 1){ ?>
+                        <!-- <?php if($contact->is_primary == 1){ ?>
                            <li class="customers-nav-item-company-info">
                               <a href="<?php echo site_url('clients/company'); ?>">
                                  <?php echo _l('client_company_info'); ?>
                               </a>
                            </li>
-                        <?php } ?>
+                        <?php } ?> -->
                         <?php if(can_logged_in_contact_update_credit_card()){ ?>
                            <li class="customers-nav-item-stripe-card">
                               <a href="<?php echo site_url('clients/credit_card'); ?>">

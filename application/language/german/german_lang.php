@@ -3527,9 +3527,9 @@ $lang['debit'] = 'Lastschrift';
 $lang['payment_timeframe'] = 'Zahlungsintervall';
 $lang['daily'] = 'Täglich';
 $lang['Quarterly'] = 'Vierteljährlich';
-$lang['monthly'] = 'Monatlich';
-$lang['half_yearly'] = 'Halbjährlich';
-$lang['annually'] = 'Jährlich';
+$lang['Monthly'] = 'Monatlich';
+$lang['Half_yearly'] = 'Halbjährlich';
+$lang['Annually'] = 'Jährlich';
 
 $lang['notice_for_agent'] = 'Gegenstand der Verelnbarung - Bedarf';
 
@@ -3693,3 +3693,14 @@ $lang['see_relation'] = 'Untervermittler';
 
 $lang['customer_files_info_message'] = 'Dateien aus Zeiterfassungen und deren Aufgaben, die mit dem Kunden verknüpft sind, werden in dieser Tabelle nicht angezeigt.';
 $lang['sucess_bank_account_create'] = 'Bankkonto erfolgreich erstellen';
+
+$lang['home_contracts_overview'] = 'Verträge';
+$lang['contracts_sent_overview'] = 'Versendet';
+$lang['contracts_signed_overview'] = 'Unterschrieben';
+$lang['contracts_unsigned_overview'] = 'Noch nicht unterschrieben';
+
+$lang['home_timetracking_overview'] = 'Zeiterfassung';
+$lang['timetrack_running'] = 'Zeiterfassung laufend';
+$lang['timetrack_ready'] = 'Zeiterfassung abgeschlossen';
+$lang['task_to_do_overview'] = 'Zu erledigende Aufgaben';
+$lang['task_finished_overview'] = 'Abgeschlossene Aufgaben';

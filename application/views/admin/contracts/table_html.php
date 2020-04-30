@@ -2,7 +2,8 @@
 
 $table_data = array(
  _l('the_number_sign'),
- _l('contract_list_subject'),
+ // _l('contract_list_subject'),
+ _l('contract_types_list_name'),
  array(
    'name'=>_l('contract_list_client'),
    'th_attrs'=>array('class'=> (isset($client) ? 'not_visible' : ''))

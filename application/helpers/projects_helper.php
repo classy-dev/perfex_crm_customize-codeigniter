@@ -449,3 +449,23 @@ function total_project_finished_tasks_by_milestone($milestone_id, $project_id)
              'milestone' => $milestone_id,
              ]);
 }
+
+function get_timetracking_percent_by_status($status){
+
+    $has_permission_view = has_permission('projects', '', 'view');
+    $total_timetrackings = total_rows(db_prefix() . 'projects', 'id IN(SELECT project_id FROM tblproject_members' . (!$has_permission_view ? ' where staff_id=' . get_staff_user_id() . ')' : ')'));
+
+    $data            = [];
+    $total_by_status = 0;
+
+    if (is_numeric($status)) {
+        $total_by_status = total_rows(db_prefix() . 'projects', 'id IN(SELECT project_id FROM tblproject_members' . (!$has_permission_view ? ' where staff_id=' . get_staff_user_id() . ') and status='.$status : ') and status='.$status));
+    }
+    $percent                 = ($total_timetrackings > 0 ? number_format(($total_by_status * 100) / $total_timetrackings, 2) : 0);
+    $data['total_by_status'] = $total_by_status;
+    $data['percent']         = $percent;
+    $data['total']           = $total_timetrackings;
+
+    return $data;
+}
+

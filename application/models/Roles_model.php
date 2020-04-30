@@ -18,6 +18,7 @@ class Roles_model extends App_Model
         $data['permissions'] = serialize($permissions);
         // print_r($data['permissions']); exit();
 
+        unset($data['update_staff_permissions']);
         $this->db->insert(db_prefix() . 'roles', $data);
         $insert_id = $this->db->insert_id();
 

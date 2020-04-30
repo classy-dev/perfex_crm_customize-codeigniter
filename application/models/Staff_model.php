@@ -379,7 +379,6 @@ class Staff_model extends App_Model
      */
     public function add($data)
     {
-        // /print_r($data); exit();
 
         if (isset($data['fakeusernameremembered'])) {
             unset($data['fakeusernameremembered']);
@@ -420,6 +419,12 @@ class Staff_model extends App_Model
         if (isset($data['permissions'])) {
             $permissions = $data['permissions'];
             unset($data['permissions']);
+        }
+
+        if($data['plans_type'] == 1){
+            if(isset($permissions['staff'])){
+                unset($permissions['staff']);
+            }
         }
 
         if (isset($data['custom_fields'])) {

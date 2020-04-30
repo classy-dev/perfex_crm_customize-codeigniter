@@ -3689,9 +3689,9 @@ $lang['debit'] = 'Debit';
 $lang['payment_timeframe'] = 'Payment Timeframe';
 $lang['daily'] = 'Daily';
 $lang['Quarterly'] = 'Quarterly';
-$lang['monthly'] = 'Monthly';
-$lang['half_yearly'] = 'Half-Yearly';
-$lang['annually'] = 'Annually';
+$lang['Monthly'] = 'Monthly';
+$lang['Half-Yearly'] = 'Half-Yearly';
+$lang['Annually'] = 'Annually';
 
 $lang['notice_for_agent'] = 'Notice for agent';
 $lang['create_invoice'] = 'Create Invoice';
@@ -3873,3 +3873,15 @@ $lang['staff_subagent_percentage'] = 'Percentage';
 $lang['see_relation'] = 'Subagent Relations';
 
 $lang['sucess_bank_account_create'] = 'Bank Account Create Successfully';
+
+$lang['home_contracts_overview'] = 'Contracts Overview';
+$lang['contracts_sent_overview'] = 'Sent';
+$lang['contracts_signed_overview'] = 'Signed';
+$lang['contracts_unsigned_overview'] = 'UnSigned';
+
+$lang['home_timetracking_overview'] = 'TimeTracking Overview';
+$lang['timetrack_running'] = 'Timetrack Running';
+$lang['timetrack_ready'] = 'Timetrack Ready';
+$lang['task_to_do_overview'] = 'Task to do';
+$lang['task_finished_overview'] = 'Task finished';
+

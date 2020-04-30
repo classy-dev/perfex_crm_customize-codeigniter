@@ -86,3 +86,32 @@ function send_contract_signed_notification_to_staff($contract_id)
 
     pusher_trigger_notification($notifiedUsers);
 }
+
+function get_contracts_percent_by_status($signed)
+{
+    $CI = &get_instance();
+    $has_permission_view = has_permission('contracts', '', 'view');
+
+    $sql = 'SELECT COUNT(id) as total_rows From '. db_prefix().'contracts LEFT JOIN '. db_prefix().'clients ON '. db_prefix().'contracts.client ='. db_prefix().'clients.userid '.(!$has_permission_view ? 'where '.db_prefix().'clients.addedfrom='.get_staff_user_id():'');
+    $total_contracts  = $CI->db->query($sql)->row()->total_rows;
+    
+    $data            = [];
+    $total_by_status = 0;
+    if($signed){
+
+        $sql = 'SELECT COUNT(id) as total_status_row From '. db_prefix().'contracts LEFT JOIN '. db_prefix().'clients ON '. db_prefix().'contracts.client ='. db_prefix().'clients.userid '.(!$has_permission_view ? 'where '.db_prefix().'clients.addedfrom='.get_staff_user_id().' and '.db_prefix().'contracts.signed = 1':''.' where '.db_prefix().'contracts.signed = 1');
+        $total_by_status  = $CI->db->query($sql)->row()->total_status_row;
+    }
+    else {
+
+        $sql = 'SELECT COUNT(id) as total_status_row From '. db_prefix().'contracts LEFT JOIN '. db_prefix().'clients ON '. db_prefix().'contracts.client ='. db_prefix().'clients.userid '.(!$has_permission_view ? 'where '.db_prefix().'clients.addedfrom='.get_staff_user_id().' and '.db_prefix().'contracts.signed = 0':''.' where '.db_prefix().'contracts.signed = 0');
+        $total_by_status  = $CI->db->query($sql)->row()->total_status_row;
+    }
+    
+    $percent                 = ($total_contracts > 0 ? number_format(($total_by_status * 100) / $total_contracts, 2) : 0);
+    $data['total_by_status'] = $total_by_status;
+    $data['percent']         = $percent;
+    $data['total']           = $total_contracts;
+
+    return $data;
+}

@@ -23,7 +23,7 @@ $sIndexColumn = 'staffid';
 $sTable       = db_prefix().'staff';
 $join         = [
                     'LEFT JOIN '.db_prefix().'roles ON '.db_prefix().'roles.roleid = '.db_prefix().'staff.role',
-                    'RIGHT JOIN '.db_prefix().'user_relation ON '.db_prefix().'user_relation.`create_id`='.db_prefix().'staff.`staffid` WHERE '.db_prefix().'user_relation.`created_by`='.get_staff_user_id()                    
+                    // 'RIGHT JOIN '.db_prefix().'user_relation ON '.db_prefix().'user_relation.`create_id`='.db_prefix().'staff.`staffid` WHERE '.db_prefix().'user_relation.`created_by`='.get_staff_user_id()                    
                 ];
 $i            = 0;
 
@@ -47,6 +47,10 @@ $where = hooks()->apply_filters('staff_table_sql_where', []);
 
 if (has_permission('staff', '', 'view_own') and !is_admin()) {
     array_push($where, 'AND ' . db_prefix() . 'contracts.addedfrom IN (' .$whereIn.')');
+}
+
+if(has_permission('staff', '', 'create') and !is_admin()){
+    array_push($join,  'RIGHT JOIN '.db_prefix().'user_relation ON '.db_prefix().'user_relation.`create_id`='.db_prefix().'staff.`staffid` WHERE '.db_prefix().'user_relation.`created_by`='.get_staff_user_id() );
 }
 
 $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
