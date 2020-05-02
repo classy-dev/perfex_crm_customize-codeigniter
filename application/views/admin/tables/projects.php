@@ -33,13 +33,13 @@ if ($clientid != '') {
     array_push($where, ' AND clientid=' . $clientid);
 }
 
-if (!has_permission('projects', '', 'view')) {
-    array_push($where, ' AND ' . db_prefix() . 'projects.addedfrom =' . get_staff_user_id());
-}
-
-// if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {
-//     array_push($where, ' AND ' . db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')');
+// if (!has_permission('projects', '', 'view')) {
+//     array_push($where, ' AND ' . db_prefix() . 'projects.addedfrom =' . get_staff_user_id());
 // }
+
+if (!has_permission('projects', '', 'view') || $this->ci->input->post('my_projects')) {
+    array_push($where, ' AND ' . db_prefix() . 'projects.id IN (SELECT project_id FROM ' . db_prefix() . 'project_members WHERE staff_id=' . get_staff_user_id() . ')');
+}
 
 $statusIds = [];
 
