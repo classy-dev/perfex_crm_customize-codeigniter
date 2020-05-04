@@ -144,8 +144,29 @@ class Clients extends AdminController
                         access_denied('customers');
                     }
                 }
+                
+                $contact_id = $this->clients_model->get_contacts($id)[0]['id'];
+                $contact = $this->clients_model->get_contacts($id)[0];
+                // print_r($contact); exit();
+                if($_POST['profile_title'] == 'company')
+                    $contact = [
+                        'firstname' => $_POST['company'],
+                        'lastname' => $_POST['company_form'],
+                        'email' => $_POST['company_email'],
+                        'phonenumber' => $_POST['company_phonenumber']
+                    ];
+
+                else if($_POST['profile_title'] == 'person')
+                    $contact = [
+                        'firstname' => $_POST['person_firstname'],
+                        'lastname' => $_POST['person_lastname'],
+                        'email' => $_POST['person_email'],
+                        'phonenumber' => $_POST['person_phone']
+                    ];
+
+                // print_r($contact_id); exit();
                 $success = $this->clients_model->update($this->input->post(), $id);
-                $this->clients_model->update_contact($data, $id);
+                $this->clients_model->update_contact_by_customer($contact, $contact_id);
                 if ($success == true) {
                     set_alert('success', _l('updated_successfully', _l('client')));
                 }

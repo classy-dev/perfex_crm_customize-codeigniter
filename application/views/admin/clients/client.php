@@ -31,9 +31,11 @@
          </div>
          <?php if($group == 'profile'){ ?>
          <div class="btn-bottom-toolbar btn-toolbar-container-out text-right">
+            <?php if($client->userid){?>
             <button class="btn btn-info only-save customer-form-submiter">
             <?php echo _l( 'submit'); ?>
             </button>
+            <?php }?>
             <?php if(!isset($client)){ ?>
             <button class="btn btn-info save-and-add-contact customer-form-submiter">
             <?php echo _l( 'save_customer_and_add_contact'); ?>

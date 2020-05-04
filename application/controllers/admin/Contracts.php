@@ -213,7 +213,10 @@ class Contracts extends Admin_controller
 
         //timetracking part
         $data['statuses'] = $this->projects_model->get_project_statuses();
-        $this->load->view('admin/contracts/contract', $data);
+        if(empty($data['contract']->imported_contract))
+                $this->load->view('admin/contracts/contract', $data);
+        else
+            $this->load->view('admin/contracts/contract_import', $data);
     }
 
     public function contract_import($id = '')
@@ -236,13 +239,11 @@ class Contracts extends Admin_controller
                     ]);
                     die;
                 }
-                
-                
                 $data = $this->input->post();
                 $id = $this->contracts_model->add($data);
                 if($id){
                     set_alert('success', _l('added_successfully', _l('contract')));
-                    redirect(admin_url('contracts/contract/' . $id));
+                    redirect(admin_url('contracts/contract_import/' . $id));
                 }
             } 
             // update post
@@ -255,7 +256,7 @@ class Contracts extends Admin_controller
                 if ($success) {
                     set_alert('success', _l('updated_successfully', _l('contract')));
                 }
-                redirect(admin_url('contracts/contract/' . $id));
+                redirect(admin_url('contracts/contract_import/' . $id));
             }
         }
         // new
@@ -343,12 +344,14 @@ class Contracts extends Admin_controller
         // }
         
         $data['my_customers'] = $this->clients_model->get_client_by_staff(get_staff_user_id());
+        $data['my_subscriptions'] = $this->subscriptions_model->get_my_subscription(get_staff_user_id());
 
         $staffid = get_staff_user_id();
         $data['staff'] = $this->staff_model->get_staff_with_country($staffid);
 
         //timetracking part
         $data['statuses'] = $this->projects_model->get_project_statuses();
+        // print_r($data); exit();
         $this->load->view('admin/contracts/contract_import', $data);
     }
 
@@ -894,9 +897,10 @@ class Contracts extends Admin_controller
         $folderPath = "uploads/";
         if (move_uploaded_file($_FILES["contract_pdf"]["tmp_name"], $folderPath . $_FILES["contract_pdf"]["name"])) {
             $path = $folderPath . $_FILES["contract_pdf"]["name"];
-            $data = '<embed src="'.site_url($path).'" typp="application/pdf" width="100%" height="800px"></embed>';
+            $data['embed'] = '<embed src="'.site_url($path).'" typp="application/pdf" width="100%" height="800px"></embed>';
+            $data['path'] = $path;
         }
-        echo $data;
+        echo json_encode($data);
     }   
     
 }

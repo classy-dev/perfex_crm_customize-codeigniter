@@ -576,7 +576,7 @@ $lang['staff_dt_last_Login']                                                  = 
 $lang['staff_dt_active']                                                      = 'Aktiv';
 $lang['staff_add_edit_firstname']                                             = 'Vorname';
 $lang['staff_add_edit_lastname']                                              = 'Nachnname';
-$lang['staff_add_edit_email']                                                 = 'E-Mail zu Abrechnungszwecken';
+$lang['staff_add_edit_email']                                                 = 'E-Mail';
 
 $lang['staff_add_edit_address']                       						  = 'Adresse';
 $lang['staff_add_edit_city']                       							  = 'Stadt';

@@ -17,7 +17,7 @@
             <div class="clearfix"></div>
 
             <div class="col-md-12 mtop30" data-container="top-12">
-                <?php render_dashboard_widgets('top-12'); ?>
+                <?php //render_dashboard_widgets('top-12'); ?>
             </div>
 
             <?php hooks()->do_action('after_dashboard_top_container'); ?>

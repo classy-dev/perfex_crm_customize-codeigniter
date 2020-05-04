@@ -345,10 +345,10 @@ class Invoices_model extends App_Model
         $items = $hook['items'];
 
         if($data['recurring'] == 1){
-            $data['prefix'] = 'RE-'.'#' . $data['accordingContract'].'-';
+            $data['prefix'] = 'RE-'.'#' . $data['addedfrom'].'-';
         }
         else{
-            $data['prefix'] = 'INV-'.'#' . $data['accordingContract'].'-';
+            $data['prefix'] = 'INV-'.'#' . $data['addedfrom'].'-';
         }
         // print_r($data); exit();
         $dbRet = $this->db->insert(db_prefix() . 'invoices', $data);

@@ -160,8 +160,12 @@ if (count($filter) > 0) {
     array_push($where, 'AND (' . prepare_dt_filter($filter) . ')');
 }
 // inside view
-if (!has_permission('customers', '', 'view') and !is_admin()) {
-    array_push($where, 'AND '.db_prefix().'clients.userid IN (SELECT customer_id FROM '.db_prefix().'customer_admins WHERE staff_id in ('.$whereIn.'))');
+// if (!has_permission('customers', '', 'view') and !is_admin()) {
+//     array_push($where, 'AND '.db_prefix().'clients.userid IN (SELECT customer_id FROM '.db_prefix().'customer_admins WHERE staff_id in ('.$whereIn.'))');
+// }
+
+if (!has_permission('customers', '', 'view')) {
+    array_push($where, 'AND '.db_prefix().'clients.userid IN (SELECT customer_id FROM '.db_prefix().'customer_admins WHERE staff_id=' . get_staff_user_id() . ')');
 }
 
 

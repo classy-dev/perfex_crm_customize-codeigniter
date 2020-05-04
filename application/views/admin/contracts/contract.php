@@ -124,12 +124,12 @@ init_head(); ?>
                   <input type="hidden" id="staf_info" name="staff_info" value="<?php if(isset($contract->staff_info)) echo $contractcontract->staff_info; else echo "";?>">
 
                   <!-- subject -->
-                   <?php $value = (isset($contract->subject) ? $contract->subject : ''); ?>
+                  <!--  <?php $value = (isset($contract->subject) ? $contract->subject : ''); ?>
                   <i class="fa fa-question-circle pull-left" data-toggle="tooltip" title="<?php echo _l('contract_subject_tooltip'); ?>"></i>
                   <div class="form-group" app-field-wrapper="subject">
                     <label for="subject" class="control-label"><?php echo _l('contract_subject')?></label>
                     <input type="text" id="subject" name="subject" class="form-control" value="<?php echo $value?>" required>
-                  </div>
+                  </div> -->
 
                   <!-- customer -->
                   <!-- div class="form-group select-placeholder">
@@ -237,11 +237,11 @@ init_head(); ?>
                     <?php
                     $selected = (isset($contract->consulting_client_point) ? $contract->consulting_client_point : '');
                     if(isset($products)){
-                       //  if(is_admin()){
-                       //  echo render_select_with_input_group('consulting_client_point',$products,array('id','contract_product'),'consulting_client_point',$selected,'<a href="#" onclick="new_product();return false;"><i class="fa fa-plus"></i></a>&nbsp;<a href="#" onclick="delete_product()"><i class="fa fa-minus"></i></a>');
-                       // } else {
+                        if(is_admin()){
+                        echo render_select_with_input_group('consulting_client_point',$products,array('id','contract_product'),'consulting_client_point',$selected,'<a href="#" onclick="new_product();return false;"><i class="fa fa-plus"></i></a>&nbsp;<a href="#" onclick="delete_product()"><i class="fa fa-minus"></i></a>');
+                       } else {
                        echo render_select('consulting_client_point',$products,array('id','contract_product'),'consulting_client_point',$selected);
-                       // }
+                       }
                      }
                      ?>
                      
@@ -336,7 +336,7 @@ init_head(); ?>
                                 <?php }?>
 
                                 <?php if(isset($contract)) foreach($taxes as $tax){ ?>
-                                <option value="<?php echo $tax['taxrate']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if(isset($subscription) && $subscription->tax_id == $tax['id']){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
+                                <option value="<?php echo $tax['taxrate']; ?>" data-subtext="<?php echo $tax['name']; ?>"<?php if($contract->contract_tax == $tax['taxrate']){echo ' selected';} ?>><?php echo $tax['taxrate']; ?>%</option>
                                 <?php } ?>
 
                              </select>
@@ -985,7 +985,7 @@ init_head(); ?>
                              </div> -->
                              
                              <div class="row">
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                    <div class="form-group">
                                       <label for="task_<?php echo $count;?>_priority" class="control-label"><?php echo _l('task_add_edit_priority'); ?></label>
                                       <select name="task[<?php echo $count;?>][priority]" class="selectpicker" id="task_<?php echo $count;?>_priority" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -995,8 +995,8 @@ init_head(); ?>
                                          <?php hooks()->do_action('task_priorities_select', (isset($task) ? $task : 0)); ?>
                                       </select>
                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                </div> -->
+                                <div class="col-md-12">
                                    <div class="form-group">
                                       <label for="task[<?php echo $count;?>][repeat_every]" class="control-label"><?php echo _l('task_repeat_every'); ?></label>
                                       <select name="task[<?php echo $count;?>][repeat_every]" id="task_<?php echo $count;?>_repeat_every" class="selectpicker repeat_every_task" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
@@ -1060,9 +1060,9 @@ init_head(); ?>
                                       </select>
                                    </div>
                                 </div> -->
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                    <div class="form-group" id="task_<?php echo $count;?>_rel_id_wrapper">
-                                      <label for="rel_id" class="control-label"><?php echo _l('timetracking')?></label>
+                                      <label for="rel_id" class="control-label"><?php echo _l('time_tracking')?></label>
                                       <div id="task_<?php echo $count;?>_rel_id_select">
                                          <select name="task[<?php echo $count;?>][rel_id]" id="task_<?php echo $count;?>_rel_id" class="ajax-sesarch" data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>" required>
                                          <?php if($rel_id != '' && $rel_type != ''){
@@ -1974,15 +1974,15 @@ init_head(); ?>
               }
               $('#contract_value').val(contract_value);
               $('#contract_tax').val(contract_tax);
-
+              
               if($('#custom_fields_contracts_ser_timeframe').val() == 'Annually')
-                $('#customer_payment_value').val(contract_value*12);
+                $('#customer_payment_value').val((contract_value*12));
               else if($('#custom_fields_contracts_ser_timeframe').val() == 'Monthly')
-                $('#customer_payment_value').val(contract_value);
+                $('#customer_payment_value').val((contract_value));
               else if($('#custom_fields_contracts_ser_timeframe').val() == 'Quarterly')
-                $('#customer_payment_value').val(contract_value*4);
+                $('#customer_payment_value').val((contract_value*4));
               else if($('#custom_fields_contracts_ser_timeframe').val() == 'Half-Yearly')
-                $('#customer_payment_value').val(contract_value*6);
+                $('#customer_payment_value').val((contract_value*6));
           });
 
           var subscription0 = '<?php echo json_encode($subscriptions) ?>';
@@ -2013,14 +2013,16 @@ init_head(); ?>
         // Payment Timeframe Change
           $('#custom_fields_contracts_ser_timeframe').change(function(){
               var seleted_time = $('#custom_fields_contracts_ser_timeframe option:selected').val();
+              var contract_value = $('#contract_value').val();
+              console.log(contract_value)
               if (seleted_time == 'Monthly')
-                $('#customer_payment_value').val($('#contract_value').val());
+                $('#customer_payment_value').val(contract_value);
               else if (seleted_time == 'Quarterly')
-                $('#customer_payment_value').val($('#contract_value').val()*4);
+                $('#customer_payment_value').val((contract_value*4));
               else if (seleted_time == 'Half-Yearly')
-                $('#customer_payment_value').val($('#contract_value').val()*6);
+                $('#customer_payment_value').val((contract_value*6));
               else if (seleted_time == 'Annually')
-                $('#customer_payment_value').val($('#contract_value').val()*12);
+                $('#customer_payment_value').val((contract_value*12));
               
           }); 
 
@@ -2047,10 +2049,13 @@ init_head(); ?>
               let beratung_remuneration_value = $('#beratung_remuneration_value').val();
               let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
               let real_payment_term = $('#real_payment_term_beratung').val();
+
+              if(selected_payment == p1)
+                $('#customer_payment_value').val(beratung_remuneration_value);
               if(selected_payment == p2)
-                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+                  $('#customer_payment_value').val((beratung_remuneration_value/real_payment_term).toFixed(2));
               else if(selected_payment == p3){
-                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                  $('#customer_payment_value').val(((beratung_remuneration_value - opening_payment)/real_payment_term).toFixed(2));
                 }
             }
             else if (selected == 'Payment According To Time Spent'){
@@ -2064,10 +2069,14 @@ init_head(); ?>
               let beratung_remuneration_value = $('#beratung_remuneration_value').val();
               let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
               let real_payment_term = $('#real_payment_term_beratung').val();
+
+              if(selected_payment == p1)
+                $('#customer_payment_value').val(beratung_remuneration_value);
+
               if(selected_payment == p2)
-                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+                  $('#customer_payment_value').val((beratung_remuneration_value/real_payment_term).toFixed(2));
               else if(selected_payment == p3){
-                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                  $('#customer_payment_value').val(((beratung_remuneration_value - opening_payment)/real_payment_term).toFixed(2));
                 }
 
               $('input[name="timetracking[name]"]').attr('required',true);
@@ -2091,10 +2100,13 @@ init_head(); ?>
               let beratung_remuneration_value = $('#beratung_remuneration_value').val();
               let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
               let real_payment_term = $('#real_payment_term_beratung').val();
+
+              if(selected_payment == p1)
+                $('#customer_payment_value').val(beratung_remuneration_value);
               if(selected_payment == p2)
-                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+                  $('#customer_payment_value').val((beratung_remuneration_value/real_payment_term).toFixed(2));
               else if(selected_payment == p3){
-                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                  $('#customer_payment_value').val(((beratung_remuneration_value - opening_payment)/real_payment_term).toFixed(2));
                 }
             }
 
@@ -2111,10 +2123,12 @@ init_head(); ?>
               let beratung_remuneration_value = $('#beratung_remuneration_value').val();
               let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
               let real_payment_term = $('#real_payment_term_beratung').val();
+              if(selected_payment == p1)
+                $('#customer_payment_value').val(beratung_remuneration_value);
               if(selected_payment == p2)
-                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+                  $('#customer_payment_value').val((beratung_remuneration_value/real_payment_term).toFixed(2));
               else if(selected_payment == p3){
-                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                  $('#customer_payment_value').val(((beratung_remuneration_value - opening_payment)/real_payment_term).toFixed(2));
                 }
             }
 
@@ -2124,35 +2138,37 @@ init_head(); ?>
           // timetracking start
           var rel_timetracking;
           
-          $('#timetracking_estimated_hours').change(function(){
-            var hours = $(this).val();
+          // $('#timetracking_estimated_hours').change(function(){
+          //   var hours = $(this).val();
+          //   var rate = $('#timetracking_project_rate_per_hour').val();
+          //   $('#beratung_remuneration_value').val((hours*rate));
+
+          //   let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
+          //   let beratung_remuneration_value = $('#beratung_remuneration_value').val();
+          //   let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
+          //   let real_payment_term = $('#real_payment_term_beratung').val();
+          //   if(selected_payment == p2)
+          //         $('#customer_payment_value').val((beratung_remuneration_value/real_payment_term).toFixed(2));
+          //     else if(selected_payment == p3){
+          //         $('#customer_payment_value').val(((beratung_remuneration_value - opening_payment)/real_payment_term).toFixed(2));
+          //       }
+          // });
+
+          $('.time_hour').change(function(){
+            var hours = $('#timetracking_estimated_hours').val();
             var rate = $('#timetracking_project_rate_per_hour').val();
             $('#beratung_remuneration_value').val((hours*rate));
-
             let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
             let beratung_remuneration_value = $('#beratung_remuneration_value').val();
             let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
             let real_payment_term = $('#real_payment_term_beratung').val();
+            if(selected_payment == p1)
+              $('#customer_payment_value').val(beratung_remuneration_value);
             if(selected_payment == p2)
-                $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
-            else if(selected_payment == p3){
-                $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
-              }
-          });
-
-          $('#timetracking_project_rate_per_hour').change(function(){
-            var hours = $('#timetracking_estimated_hours').val();
-            var rate = $(this).val();
-            $('#beratung_remuneration_value').val((hours*rate));
-            let selected_payment = $('#custom_fields_contracts_beratung_payment').val();
-            let beratung_remuneration_value = $('#beratung_remuneration_value').val();
-            let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
-            let real_payment_term = $('#real_payment_term_beratung').val();
-            if(selected_payment == p2)
-                $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
-            else if(selected_payment == p3){
-                $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
-              }
+                  $('#customer_payment_value').val((beratung_remuneration_value/real_payment_term).toFixed(2));
+              else if(selected_payment == p3){
+                  $('#customer_payment_value').val(((beratung_remuneration_value - opening_payment)/real_payment_term).toFixed(2));
+                }
           });
 
           $('#contract-timetracking-form').submit(function(e){
@@ -2255,7 +2271,7 @@ init_head(); ?>
           var taskCnt = index_arr.length ;
           $('#add_task').click(function(){
             $('#total_tasks_creation').append(
-            '<div id="task_creation'+taskCnt+'"><hr class="hr-panel-heading"><div class="row"><div class="col-md-12"><button type="button" style="float:right" class="btn btn-danger btn-remove" id="remove_task_'+taskCnt+'"><i class="fa fa-minus"></i></button><hr/>  <div class="form-group" app-field-wrapper="task['+taskCnt+'][name]"><label for="task_'+taskCnt+'_name" class="control-label"><?php echo _l('task_add_edit_subject')?></label><input type="text" id="task_'+taskCnt+'_name" name="task['+taskCnt+'][name]" class="form-control" value="" required></div><div class="row"><div class="col-md-6"><div class="form-group"><label for="task_'+taskCnt+'_priority" class="control-label"><?php echo _l('task_add_edit_priority'); ?></label><select name="task['+taskCnt+'][priority]" class="selectpicker" id="task_'+taskCnt+'_priority" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"><?php foreach(get_tasks_priorities() as $priority) { ?><option value="<?php echo $priority['id']; ?>"><?php echo $priority['name']; ?></option><?php } ?><?php hooks()->do_action('task_priorities_select', (isset($task) ? $task : 0)); ?></select></div></div><div class="col-md-6"><div class="form-group"><label for="task_'+taskCnt+'_repeat_every" class="control-label"><?php echo _l('task_repeat_every'); ?></label><select name="task['+taskCnt+'][repeat_every]" id="task_'+taskCnt+'_repeat_every" class="selectpicker repeat_every_task" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"><option value="no-repeat"><?php echo _l('task_no_repeat'); ?></option><option value="1-week"><?php echo _l('week'); ?></option><option value="2-week">2 <?php echo _l('weeks'); ?></option><option value="1-month" >1 <?php echo _l('month'); ?></option><option value="2-month" >2 <?php echo _l('months'); ?></option><option value="3-month" >3 <?php echo _l('months'); ?></option><option value="6-month" >6 <?php echo _l('months'); ?></option><option value="1-year" >1 <?php echo _l('year'); ?></option><option value="custom" ><?php echo _l('recurring_custom'); ?></option></select></div></div></div> <div class="recurring_custom_'+taskCnt+' <?php if((isset($task) && $task->custom_recurring != 1) || (!isset($task))){echo 'hide';} ?>"><div class="row"><div class="col-md-6"><div class="form-group" app-field-wrapper="task['+taskCnt+'][repeat_every_custom]"><input type="number" id="task_'+taskCnt+'_repeat_every_custom" name="task['+taskCnt+'][repeat_every_custom]" class="form-control" min="1" value="" aria-invalid="false"></div></div><div class="col-md-6"><select name="task['+taskCnt+'][repeat_type_custom]" id="task_'+taskCnt+'_repeat_type_custom" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"><option value="day" ><?php echo _l('task_recurring_days'); ?></option><option value="week" ><?php echo _l('task_recurring_weeks'); ?></option><option value="month" ><?php echo _l('task_recurring_months'); ?></option><option value="year" ><?php echo _l('task_recurring_years'); ?></option></select></div></div></div><div id="cycles_wrapper_'+taskCnt+'" class="<?php if(!isset($task) || (isset($task) && $task->recurring == 0)){echo ' hide';}?>"><?php $value =  0; ?><div class="form-group recurring-cycles"><label for="task_'+taskCnt+'_cycles"><?php echo _l('recurring_total_cycles'); ?><?php if(isset($task) && $task->total_cycles > 0){ echo '<small>' . _l('cycles_passed', $task->total_cycles) . '</small>';}?></label><div class="input-group"><input type="number" class="form-control"<?php if($value == 0){echo ' disabled'; } ?> name="task['+taskCnt+'][cycles]" id="task_'+taskCnt+'_cycles" value="<?php echo $value; ?>" <?php if(isset($task) && $task->total_cycles > 0){echo 'min="'.($task->total_cycles).'"';} ?>><div class="input-group-addon"><div class="checkbox"><input type="checkbox"<?php if($value == 0){echo ' checked';} ?> id="task_'+taskCnt+'_unlimited_cycles" class="task_cycle"><label for="task_'+taskCnt+'_unlimited_cycles"><?php echo _l('cycles_infinity'); ?></label></div></div></div></div></div><div class="row"><div class="col-md-6"><div class="form-group" id="task_'+taskCnt+'_rel_id_wrapper"><label for="rel_id" class="control-label"><?php echo _l('timetracking')?></label><div id="task_'+taskCnt+'_rel_id_select"><select name="task['+taskCnt+'][rel_id]" id="task_'+taskCnt+'_rel_id"  data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"><option value="'+rel_timetracking.id+'" selected>'+rel_timetracking.name+'</option></select></div></div></div></div>    </div>   </div></div></div>'
+            '<div id="task_creation'+taskCnt+'"><hr class="hr-panel-heading"><div class="row"><div class="col-md-12"><button type="button" style="float:right" class="btn btn-danger btn-remove" id="remove_task_'+taskCnt+'"><i class="fa fa-minus"></i></button><hr/>  <div class="form-group" app-field-wrapper="task['+taskCnt+'][name]"><label for="task_'+taskCnt+'_name" class="control-label"><?php echo _l('task_add_edit_subject')?></label><input type="text" id="task_'+taskCnt+'_name" name="task['+taskCnt+'][name]" class="form-control" value="" required></div><div class="row"><div class="col-md-12"><div class="form-group"><label for="task_'+taskCnt+'_repeat_every" class="control-label"><?php echo _l('task_repeat_every'); ?></label><select name="task['+taskCnt+'][repeat_every]" id="task_'+taskCnt+'_repeat_every" class="selectpicker repeat_every_task" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"><option value="no-repeat"><?php echo _l('task_no_repeat'); ?></option><option value="1-week"><?php echo _l('week'); ?></option><option value="2-week">2 <?php echo _l('weeks'); ?></option><option value="1-month" >1 <?php echo _l('month'); ?></option><option value="2-month" >2 <?php echo _l('months'); ?></option><option value="3-month" >3 <?php echo _l('months'); ?></option><option value="6-month" >6 <?php echo _l('months'); ?></option><option value="1-year" >1 <?php echo _l('year'); ?></option><option value="custom" ><?php echo _l('recurring_custom'); ?></option></select></div></div></div> <div class="recurring_custom_'+taskCnt+' <?php if((isset($task) && $task->custom_recurring != 1) || (!isset($task))){echo 'hide';} ?>"><div class="row"><div class="col-md-6"><div class="form-group" app-field-wrapper="task['+taskCnt+'][repeat_every_custom]"><input type="number" id="task_'+taskCnt+'_repeat_every_custom" name="task['+taskCnt+'][repeat_every_custom]" class="form-control" min="1" value="" aria-invalid="false"></div></div><div class="col-md-6"><select name="task['+taskCnt+'][repeat_type_custom]" id="task_'+taskCnt+'_repeat_type_custom" class="selectpicker" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"><option value="day" ><?php echo _l('task_recurring_days'); ?></option><option value="week" ><?php echo _l('task_recurring_weeks'); ?></option><option value="month" ><?php echo _l('task_recurring_months'); ?></option><option value="year" ><?php echo _l('task_recurring_years'); ?></option></select></div></div></div><div id="cycles_wrapper_'+taskCnt+'" class="<?php if(!isset($task) || (isset($task) && $task->recurring == 0)){echo ' hide';}?>"><?php $value =  0; ?><div class="form-group recurring-cycles"><label for="task_'+taskCnt+'_cycles"><?php echo _l('recurring_total_cycles'); ?><?php if(isset($task) && $task->total_cycles > 0){ echo '<small>' . _l('cycles_passed', $task->total_cycles) . '</small>';}?></label><div class="input-group"><input type="number" class="form-control"<?php if($value == 0){echo ' disabled'; } ?> name="task['+taskCnt+'][cycles]" id="task_'+taskCnt+'_cycles" value="<?php echo $value; ?>" <?php if(isset($task) && $task->total_cycles > 0){echo 'min="'.($task->total_cycles).'"';} ?>><div class="input-group-addon"><div class="checkbox"><input type="checkbox"<?php if($value == 0){echo ' checked';} ?> id="task_'+taskCnt+'_unlimited_cycles" class="task_cycle"><label for="task_'+taskCnt+'_unlimited_cycles"><?php echo _l('cycles_infinity'); ?></label></div></div></div></div></div><div class="row"><div class="col-md-12"><div class="form-group" id="task_'+taskCnt+'_rel_id_wrapper"><label for="rel_id" class="control-label"><?php echo _l('time_tracking')?></label><div id="task_'+taskCnt+'_rel_id_select"><select name="task['+taskCnt+'][rel_id]" id="task_'+taskCnt+'_rel_id"  data-width="100%" data-live-search="true" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>"><option value="'+rel_timetracking.id+'" selected>'+rel_timetracking.name+'</option></select></div></div></div></div>    </div>   </div></div></div>'
               );
 
             appDatepicker();
@@ -2362,14 +2378,14 @@ init_head(); ?>
               {
                 $('#real_payment_beratung').show();
                 $('#beratung_opening_payment_on_one_time').hide();
-                $('#customer_payment_value').val(remuneration_value/real_payment_term_beratung);
+                $('#customer_payment_value').val((remuneration_value/real_payment_term_beratung).toFixed(2));
 
               }
             else if(payment == p3)
               {
                 $('#real_payment_beratung').show();
                 $('#beratung_opening_payment_on_one_time').show();
-                $('#customer_payment_value').val((remuneration_value - opening_payment_beratung)/real_payment_term_beratung);
+                $('#customer_payment_value').val(((remuneration_value - opening_payment_beratung)/real_payment_term_beratung).toFixed(2));
               }
 
           });
@@ -2382,10 +2398,12 @@ init_head(); ?>
               let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
               let real_payment_term = $('#real_payment_term_beratung').val();
 
+              if(selected_payment == p1)
+                $('#customer_payment_value').val(beratung_remuneration_value);
               if(selected_payment == p2)
-                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+                  $('#customer_payment_value').val((beratung_remuneration_value/real_payment_term).toFixed(2));
               else if(selected_payment == p3){
-                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                  $('#customer_payment_value').val(((beratung_remuneration_value - opening_payment)/real_payment_term).toFixed(2));
                 }
 
             });
@@ -2459,13 +2477,13 @@ init_head(); ?>
                   else if(payment == p2)
                   {
                     // $('#real_payment').show();
-                    $('#customer_payment_value').val($(this).val()/real_payment_term);
+                    $('#customer_payment_value').val(($(this).val()/real_payment_term).toFixed(2));
                   }
 
                   else if(payment == p3)
                   {
                     // $('#real_payment').show();
-                    $('#customer_payment_value').val(($(this).val()-opening_payment)/real_payment_term);
+                    $('#customer_payment_value').val((($(this).val()-opening_payment)/real_payment_term).toFixed(2));
                   }
                 }
             });
@@ -2497,9 +2515,9 @@ init_head(); ?>
                 $('#opening_payment_on_one_time').hide();
 
                 if(remuneration == r1)
-                  $('#customer_payment_value').val($('#produkt_one_time_payment_value').val()/real_payment_term);
+                  $('#customer_payment_value').val(($('#produkt_one_time_payment_value').val()/real_payment_term).toFixed(2));
                 else if(remuneration == r2)
-                  $('#customer_payment_value').val(agent_remuneration_price_value/real_payment_term);
+                  $('#customer_payment_value').val((agent_remuneration_price_value/real_payment_term).toFixed(2));
 
               }
 
@@ -2509,9 +2527,9 @@ init_head(); ?>
                 $('#opening_payment_on_one_time').show();
 
                 if(remuneration == r1)
-                  $('#customer_payment_value').val(($('#produkt_one_time_payment_value').val()-opening_payment)/real_payment_term);
+                  $('#customer_payment_value').val((($('#produkt_one_time_payment_value').val()-opening_payment)/real_payment_term).toFixed(2));
                 else if(remuneration == r2)
-                  $('#customer_payment_value').val((agent_remuneration_price_value -opening_payment)/real_payment_term);
+                  $('#customer_payment_value').val(((agent_remuneration_price_value -opening_payment)/real_payment_term).toFixed(2));
               }
 
             });
@@ -2527,9 +2545,9 @@ init_head(); ?>
               let agent_remuneration_price_value = $('#agent_remuneration_price_value').val();
 
               if (remuneration == r1)
-                $('#customer_payment_value').val((one_time_payment - opening_payment)/real_payment_term);
+                $('#customer_payment_value').val(((one_time_payment - opening_payment)/real_payment_term).toFixed(2));
               else if(remuneration == r2)
-                $('#customer_payment_value').val((agent_remuneration_price_value - opening_payment)/real_payment_term);
+                $('#customer_payment_value').val(((agent_remuneration_price_value - opening_payment)/real_payment_term).toFixed(2));
 
             });
         /* End 1 */
@@ -2552,7 +2570,7 @@ init_head(); ?>
               $('#total_amount_value').val(totalAmount);
               $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent*0.01);
 
-              $('#customer_payment_value').val($('#agent_remuneration_price_value').val());
+              $('#customer_payment_value').val($('#agent_remuneration_price_value').val().toFixed(2));
               
           });
 
@@ -2662,20 +2680,23 @@ init_head(); ?>
 
                 if(selected_remuneration == r1)
                 {
-
+                  if(selected_payment == p1)
+                    $('#customer_payment_value').val(one_time_payment);
                   if(selected_payment == p2)
-                    $('#customer_payment_value').val(one_time_payment/real_payment_term);
+                    $('#customer_payment_value').val((one_time_payment/real_payment_term).toFixed(2));
                   else if(selected_payment == p3){
-                    $('#customer_payment_value').val((one_time_payment - opening_payment)/real_payment_term);
+                    $('#customer_payment_value').val(((one_time_payment - opening_payment)/real_payment_term).toFixed(2));
                   }
 
                 }
 
                 if(selected_remuneration == r2){
+                  if(selected_payment == p1)
+                    $('#customer_payment_value').val(agent_remuneration_price_value);
                   if(selected_payment == p2)
-                    $('#customer_payment_value').val(agent_remuneration_price_value/real_payment_term);
+                    $('#customer_payment_value').val((agent_remuneration_price_value/real_payment_term).toFixed(2));
                   else if(selected_payment == p3){
-                    $('#customer_payment_value').val((agent_remuneration_price_value - opening_payment)/real_payment_term);
+                    $('#customer_payment_value').val(((agent_remuneration_price_value - opening_payment)/real_payment_term).toFixed(2));
                   }
                 }             
               }
@@ -2692,10 +2713,12 @@ init_head(); ?>
               let beratung_remuneration_value = $('#beratung_remuneration_value').val();
               let opening_payment = $('#beratung_opening_payment_on_one_time_value').val();
 
+              if(selected_payment == p1)
+                    $('#customer_payment_value').val(beratung_remuneration_value);
               if(selected_payment == p2)
-                  $('#customer_payment_value').val(beratung_remuneration_value/real_payment_term);
+                  $('#customer_payment_value').val((beratung_remuneration_value/real_payment_term).toFixed(2));
               else if(selected_payment == p3){
-                  $('#customer_payment_value').val((beratung_remuneration_value - opening_payment)/real_payment_term);
+                  $('#customer_payment_value').val(((beratung_remuneration_value - opening_payment)/real_payment_term).toFixed(2));
                 }
             }
 

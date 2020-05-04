@@ -441,6 +441,30 @@ class Staff_model extends App_Model
         if(isset($data['plans_type'])){
             $data['plans_type']= $data['plans_type'];
         }
+        if(isset($data['index1']) && $data['index1'] == 'on')
+            $data['index1'] = 1;
+        else
+            $data['index1'] = null;
+
+        if(isset($data['index2']) && $data['index2'] == 'on')
+            $data['index2'] = 1;
+        else
+            $data['index2'] = null;
+
+        if(isset($data['index3']) && $data['index3'] == 'on')
+            $data['index3'] = 1;
+        else
+            $data['index3'] = null;
+
+        if(isset($data['index4']) && $data['index4'] == 'on')
+            $data['index4'] = 1;
+        else
+            $data['index4'] = null;
+
+        if(isset($data['index5']) && $data['index5'] == 'on')
+            $data['index5'] = 1;
+        else
+            $data['index5'] = null;
         
         $this->db->insert(db_prefix() . 'staff', $data);
         // print_r($this->db->last_query());
@@ -558,7 +582,31 @@ class Staff_model extends App_Model
         if (isset($data['register_bottom'])){
             unset($data['register_bottom']);
         }
-        // print_r($data); exit();
+
+        if(isset($data['index1']) && $data['index1'] == 'on')
+            $data['index1'] = 1;
+        else
+            $data['index1'] = null;
+
+        if(isset($data['index2']) && $data['index2'] == 'on')
+            $data['index2'] = 1;
+        else
+            $data['index2'] = null;
+
+        if(isset($data['index3']) && $data['index3'] == 'on')
+            $data['index3'] = 1;
+        else
+            $data['index3'] = null;
+
+        if(isset($data['index4']) && $data['index4'] == 'on')
+            $data['index4'] = 1;
+        else
+            $data['index4'] = null;
+
+        if(isset($data['index5']) && $data['index5'] == 'on')
+            $data['index5'] = 1;
+        else
+            $data['index5'] = null;
         $this->db->insert(db_prefix() . 'staff', $data);
 
         $staffid = $this->db->insert_id();
@@ -785,6 +833,30 @@ class Staff_model extends App_Model
             }
         }
 
+        if(isset($data['index1']) && $data['index1'] == 'on')
+            $data['index1'] = 1;
+        else
+            $data['index1'] = null;
+
+        if(isset($data['index2']) && $data['index2'] == 'on')
+            $data['index2'] = 1;
+        else
+            $data['index2'] = null;
+
+        if(isset($data['index3']) && $data['index3'] == 'on')
+            $data['index3'] = 1;
+        else
+            $data['index3'] = null;
+
+        if(isset($data['index4']) && $data['index4'] == 'on')
+            $data['index4'] = 1;
+        else
+            $data['index4'] = null;
+
+        if(isset($data['index5']) && $data['index5'] == 'on')
+            $data['index5'] = 1;
+        else
+            $data['index5'] = null;
 
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', $data);
@@ -891,7 +963,6 @@ class Staff_model extends App_Model
             $data['index5'] = 1;
         else
             $data['index5'] = null;
-        
         $data['profile_complete'] = 1;
         $this->db->where('staffid', $id);
         $this->db->update(db_prefix() . 'staff', $data);

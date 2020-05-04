@@ -195,15 +195,15 @@
                      </div>
                      <!-- where_summary-> where_include -->
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients',($where_include != '' ? substr($where_include,5) : '')); ?></h3>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients',($where_summary != '' ? substr($where_summary,5) : '')); ?></h3>
                         <span class="text-dark"><?php echo _l('customers_summary_total'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=1'.$where_include); ?></h3>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=1'.$where_summary); ?></h3>
                         <span class="text-success"><?php echo _l('active_customers'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">
-                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=0'.$where_include); ?></h3>
+                        <h3 class="bold"><?php echo total_rows(db_prefix().'clients','active=0'.$where_summary); ?></h3>
                         <span class="text-danger"><?php echo _l('inactive_active_customers'); ?></span>
                      </div>
                      <div class="col-md-2 col-xs-6 border-right">

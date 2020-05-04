@@ -152,7 +152,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = _d($aRow['datestart']);
 
-    // $row[] = _d($aRow['dateend']);
+    $row[] = _d($aRow['dateend']);
 
     if (!empty($aRow['signature'])) {
         if($aRow['invoice_created'] != 1)

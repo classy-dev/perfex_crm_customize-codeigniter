@@ -90,6 +90,12 @@ class Clients_model extends App_Model
         return $this->db->get(db_prefix() . 'contacts')->row();
     }
 
+    
+    public function update_contact_by_customer($data,$id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix().'contacts',$data);
+    }
     /**
      * @param array $_POST data
      * @param client_request is this request from the customer area

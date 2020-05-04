@@ -45,7 +45,11 @@
    <div class="col-md-8 contract-left">
       <div class="panel_s mtop20">
          <div class="panel-body tc-content padding-30 contract-html-content">
-            <?php echo $contract->content; ?>
+            <?php if(isset($contract->id) && empty($contract->imported_contract)) echo $contract->content ?>
+            <?php //echo $contract->content; ?>
+            <?php if(isset($contract->id) && !empty($contract->imported_contract)){?>
+               <embed src="<?php echo site_url($contract->imported_contract)?>" typp="application/pdf" width="100%" height="800px"></embed>
+            <?php }?>
          </div>
       </div>
    </div>
@@ -80,11 +84,11 @@
                   <div class="col-md-12 contract-value">
                      <h4 class="bold mbot30">
                         <?php echo _l('contract_value'); ?>:
-                        <?php echo app_format_money($contract->contract_value, get_base_currency()); ?>
+                           <?php echo app_format_money($contract->contract_value, get_base_currency()); ?>
                      </h4>
                   </div>
                   <?php } ?>
-                  <div class="col-md-5 text-muted contract-number">
+                     <div class="col-md-5 text-muted contract-number">
                      # <?php echo _l('contract_number'); ?>
                   </div>
                   <div class="col-md-7 contract-number">

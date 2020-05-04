@@ -473,13 +473,27 @@ margin-top : -16px;
   document.getElementById("phonenumber").placeholder = "491234567890";
 
   $('.profile_additional_item').change(function(){
+
     if($('#index1').prop("checked") || $('#index2').prop("checked") || $('#index3').prop("checked") || $('#index4').prop("checked")) {
       $('#vermittlernumdiv').show();
+      $('#vermittlernum').prop('required',true)
     }
     else{
       $('#vermittlernumdiv').hide();
     }
   });
+
+  $('#staff_profile_table').submit(function(e){
+    var checked = $('.profile_additional_item:checked').length;
+    if(checked == 0){
+      alert("You must check at least one checkbox");
+      e.preventDefault();
+
+    }
+
+  });
+
+
 
   $('.profile').prop('required',true);
   $('#address').prop('required', true);

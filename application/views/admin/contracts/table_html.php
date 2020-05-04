@@ -11,7 +11,7 @@ $table_data = array(
  _l('contract_types_list_name'),
  _l('contract_value'),
  _l('contract_list_start_date'),
- // _l('contract_list_end_date'),
+ _l('contract_list_end_date'),
  _l('signature'),
 );
 $custom_fields = get_custom_fields('contracts',array('show_on_table'=>1));
