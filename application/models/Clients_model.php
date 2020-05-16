@@ -225,6 +225,7 @@ class Clients_model extends App_Model
     {
 
         if($data['profile_title'] == 'company'){
+            $data['fullname'] = $data['company'].''.$data['company_form'];
             $data['person_firstname'] = null;
             $data['person_lastname'] = null;
             $data['person_street'] = null;
@@ -233,7 +234,7 @@ class Clients_model extends App_Model
             $data['person_phone'] = null;
         }
         else{
-
+            $data['fullname'] = $data['person_firstname'].' '.$data['person_lastname'];
             $data['company'] = null;
             $data['company_form'] = null;
             $data['company_address'] = null;

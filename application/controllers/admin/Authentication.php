@@ -269,19 +269,18 @@ class Authentication extends App_Controller
                 $id = $this->staff_model->add_staff($data);
                //Setting default role at the register moment
                 $role_permission = [
-                    "marketplace" => ["view", "edit"],
+                    "marketplace" => ["view"],
                     "bulk_pdf_exporter" => ["view"],
                     "contracts" => ["view_own", "create","edit","delete"],
                     "customers" => ["create","edit","delete"],
                     "invoices" => ["view_own", "create", "edit"],
                     "projects" => ["create","edit","delete"],
                     "tasks" => ["create","edit","delete"],
-                    "reports" => ["view"],
+                    "reports" => ["view_own"],
                     "checklist_templates" => ["create", "delete"],
                     "leads" => ["view", "delete"],
                     "subscriptions" => ["view_own","create","edit","delete"],
-                    "staffs" => ["create"]
-
+                    "staffs" => ["view_own","create","edit","delete"]
                 ];
                     
                 $success = $this->staff_model->insert_register_permissions($role_permission,$id);

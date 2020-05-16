@@ -220,7 +220,25 @@ class Contracts_model extends App_Model
                 $data['contract_tax'] = $data['tax_id'];
                 unset($data['tax_id']);
                 $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['customer_payment_value'], $data['content']);
-                $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '._l($data['service_p_t']).' ) ', $data['content']);
+
+                switch ($data['service_p_t']) {
+                        case "Monthly":
+                            $service_p_t_german = 'Monatlich';
+                            break;
+                        case "Quarterly":
+                            $service_p_t_german = 'Vierteljährlich';
+                            break;
+                        case "Half-Yearly":
+                            $service_p_t_german = 'Halbjährlich';
+                            break;
+                        case "Annually":
+                            $service_p_t_german = 'Jährlich';
+                            break;
+                    }
+
+
+
+                $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '.$service_p_t_german.' ) ', $data['content']);
 
                 if($data['service_p_m'] =="Bank Transfer" ) {
                 
@@ -703,7 +721,25 @@ class Contracts_model extends App_Model
                 $data['contract_tax'] = $data['tax_id'];
                 unset($data['tax_id']);
                 $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['customer_payment_value'], $data['content']);
-                $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '._l($data['service_p_t']).' ) ', $data['content']);
+
+                switch ($data['service_p_t']) {
+                        case "Monthly":
+                            $service_p_t_german = 'Monatlich';
+                            break;
+                        case "Quarterly":
+                            $service_p_t_german = 'Vierteljährlich';
+                            break;
+                        case "Half-Yearly":
+                            $service_p_t_german = 'Halbjährlich';
+                            break;
+                        case "Annually":
+                            $service_p_t_german = 'Jährlich';
+                            break;
+                    }
+
+
+
+                $data['content'] = preg_replace('#<span id="payment_time">(?s).*?</span>#', ' ( '.$service_p_t_german.' ) ', $data['content']);
 
                 if($data['service_p_m'] =="Bank Transfer" ) {
                 

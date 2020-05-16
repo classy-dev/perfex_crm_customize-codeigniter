@@ -379,7 +379,7 @@ class Staff_model extends App_Model
      */
     public function add($data)
     {
-
+        print_r($data); exit();
         if (isset($data['fakeusernameremembered'])) {
             unset($data['fakeusernameremembered']);
         }

@@ -80,11 +80,11 @@
                   <?php }?>
                </address>
                <div class="row mtop20">
-                  <?php if($contract->contract_value != 0){ ?>
+                  <?php if($contract->customer_payment_value != 0){ ?>
                   <div class="col-md-12 contract-value">
                      <h4 class="bold mbot30">
-                        <?php echo _l('contract_value'); ?>:
-                           <?php echo app_format_money($contract->contract_value, get_base_currency()); ?>
+                        <?php echo _l('customer_payment_value'); ?>:
+                           <?php echo app_format_money($contract->customer_payment_value, get_base_currency()); ?>
                      </h4>
                   </div>
                   <?php } ?>

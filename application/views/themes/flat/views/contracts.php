@@ -16,7 +16,7 @@
     <table class="table dt-table table-contracts" data-order-col="1" data-order-type="asc">
       <thead>
         <tr>
-          <th class="th-contracts-subject"><?php echo _l('clients_contracts_dt_subject'); ?></th>
+          <!-- <th class="th-contracts-subject"><?php echo _l('clients_contracts_dt_subject'); ?></th> -->
           <th class="th-contracts-type"><?php echo _l('clients_contracts_type'); ?></th>
           <th class="th-contracts-signature"><?php echo _l('signature'); ?></th>
           <th class="th-contracts-start-date"><?php echo _l('clients_contracts_dt_start_date'); ?></th>
