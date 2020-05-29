@@ -9,7 +9,7 @@ $aColumns = [
     'invoiceid',
     'paymentmode',
     'transactionid',
-    get_sql_select_client_company(),
+    get_sql_select_client_fullname(),
     'amount',
     db_prefix() . 'invoicepaymentrecords.date as date',
     ];
@@ -96,7 +96,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = $aRow['transactionid'];
 
-    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['company'] . '</a>';
+    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['clientid']) . '">' . $aRow['fullname'] . '</a>';
 
     $row[] = app_format_money($aRow['amount'], $aRow['currency_name']);
 

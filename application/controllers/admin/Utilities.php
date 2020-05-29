@@ -323,14 +323,14 @@ class Utilities extends AdminController
             ];
         }
 
-        if (has_permission('estimates', '', 'view')
-            || has_permission('estimates', '', 'view_own')
-            || get_option('allow_staff_view_estimates_assigned') == '1') {
-            $features[] = [
-                'feature' => 'estimates',
-                'name'    => _l('bulk_export_pdf_estimates'),
-            ];
-        }
+        // if (has_permission('estimates', '', 'view')
+        //     || has_permission('estimates', '', 'view_own')
+        //     || get_option('allow_staff_view_estimates_assigned') == '1') {
+        //     $features[] = [
+        //         'feature' => 'estimates',
+        //         'name'    => _l('bulk_export_pdf_estimates'),
+        //     ];
+        // }
 
         if (has_permission('payments', '', 'view') || has_permission('invoices', '', 'view_own')) {
             $features[] = [
@@ -346,20 +346,19 @@ class Utilities extends AdminController
             ];
         }
 
-        if (has_permission('proposals', '', 'view')
-            || has_permission('proposals', '', 'view_own')
-            || get_option('allow_staff_view_proposals_assigned') == '1') {
-            $features[] = [
-                'feature' => 'proposals',
-                'name'    => _l('bulk_export_pdf_proposals'),
-            ];
-        }
+        // if (has_permission('proposals', '', 'view')
+        //     || has_permission('proposals', '', 'view_own')
+        //     || get_option('allow_staff_view_proposals_assigned') == '1') {
+        //     $features[] = [
+        //         'feature' => 'proposals',
+        //         'name'    => _l('bulk_export_pdf_proposals'),
+        //     ];
+        // }
 
         $data['bulk_pdf_export_available_features'] = hooks()->apply_filters(
             'bulk_pdf_export_available_features',
             $features
         );
-
         $data['title'] = _l('bulk_pdf_exporter');
         $this->load->view('admin/utilities/bulk_pdf_exporter', $data);
     }

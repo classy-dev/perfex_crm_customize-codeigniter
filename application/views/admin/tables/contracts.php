@@ -113,11 +113,13 @@ $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [db
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
+$i = 1;
 foreach ($rResult as $aRow) {
+    
     $row = [];
 
-    $row[] = $aRow['id'];
-
+    // $row[] = $aRow['id'];
+    $row[] = $i;
     // $subjectOutput = '<a href="' . admin_url('contracts/contract/' . $aRow['id']) . '">' . $aRow['subject'] . '</a>';
     $subjectOutput = '<a href="' . site_url('contract/' . $aRow['id'] . '/' . $aRow['hash']) .'" target="_blank">' . $aRow['type_name'] . '</a>';
 
@@ -186,4 +188,6 @@ foreach ($rResult as $aRow) {
     $row = hooks()->apply_filters('contracts_table_row_data', $row, $aRow);
 
     $output['aaData'][] = $row;
+
+    $i++;
 }

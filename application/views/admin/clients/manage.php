@@ -336,6 +336,7 @@
 </div>
 <?php init_tail(); ?>
 <script>
+
    $(function(){
        var CustomersServerParams = {};
        $.each($('._hidden_inputs._filters input'),function(){
@@ -347,6 +348,7 @@
        $('input[name="exclude_inactive"]').on('change',function(){
            tAPI.ajax.reload();
        });
+
    });
    function customers_bulk_action(event) {
        var r = confirm(app.lang.confirm_action_prompt);
@@ -380,6 +382,10 @@
          },50);
        }
    }
+   $(document).ready(function(){
+      console.log($('.dt-buttons btn-group'));
+      // $('.dt-buttons btn-group').hide();
+   })
 </script>
 </body>
 </html>

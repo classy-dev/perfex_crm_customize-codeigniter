@@ -9,6 +9,7 @@ class Invoices extends AdminController
         parent::__construct();
         $this->load->model('invoices_model');
         $this->load->model('credit_notes_model');
+        $this->load->model('contracts_model');
     }
 
     /* Get all invoices in case user go on index page */
@@ -290,7 +291,6 @@ class Invoices extends AdminController
     /* Add new invoice or update existing */
     public function invoice($id = '')
     {
-        // print_r("invoice"); exit();
         if ($this->input->post()) {
             $invoice_data = $this->input->post();
             if ($id == '') {
@@ -369,6 +369,7 @@ class Invoices extends AdminController
         $data['staff']     = $this->staff_model->get('', ['active' => 1]);
         $data['title']     = $title;
         $data['bodyclass'] = 'invoice';
+        
         $this->load->view('admin/invoices/invoice', $data);
     }
 
@@ -440,7 +441,8 @@ class Invoices extends AdminController
             $data['record_payment'] = true;
             $this->session->unset_userdata('record_payment');
         }
-
+        $data['current_staff'] = $this->staff_model->get($invoice->addedfrom);
+        $data['contract'] = $this->contracts_model->get($invoice->accordingContract);
         $this->load->view('admin/invoices/invoice_preview_template', $data);
     }
 

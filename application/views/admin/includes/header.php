@@ -15,6 +15,9 @@ ob_start();
 $top_search_area = ob_get_contents();
 ob_end_clean();
 ?>
+<?php
+   $support_email = 'support@dipay.de';
+?>
 <div id="header">
    <div class="hide-menu"><i class="fa fa-bars"></i></div>
    <div id="logo">
@@ -99,6 +102,11 @@ ob_end_clean();
          <a href="#" class="open_newsfeed desktop" data-toggle="tooltip" title="<?php echo _l('whats_on_your_mind'); ?>" data-placement="bottom"><i class="fa fa-share fa-fw fa-lg" aria-hidden="true" style="color:  #85ba3b;"></i></a>
       </li>
    <?php } ?>
+   <li class="icon header-todo">
+      <a href="<?php echo 'mailto:'.$support_email;?>" data-toggle="tooltip" title="<?php echo _l('mail_to_support'); ?>" data-placement="bottom"><i class="fa fa-envelope-o fa-fw fa-lg" style="color:  #85ba3b;"></i>
+         <!-- <span class="label bg-warning icon-total-indicator nav-total-todos<?php if($current_user->total_unfinished_todos == 0){echo ' hide';} ?>"><?php echo $current_user->total_unfinished_todos; ?></span> -->
+      </a>
+   </li>
    <li class="icon header-todo">
       <a href="<?php echo admin_url('todo'); ?>" data-toggle="tooltip" title="<?php echo _l('nav_todo_items'); ?>" data-placement="bottom"><i class="fa fa-check-square-o fa-fw fa-lg" style="color:  #85ba3b;"></i>
          <span class="label bg-warning icon-total-indicator nav-total-todos<?php if($current_user->total_unfinished_todos == 0){echo ' hide';} ?>"><?php echo $current_user->total_unfinished_todos; ?></span>

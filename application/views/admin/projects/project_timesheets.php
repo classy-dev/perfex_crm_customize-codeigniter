@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<a href="#" onclick="new_timesheet();return false;" class="btn btn-info mbot25"><?php echo _l('record_timesheet'); ?></a>
+<!-- <a href="#" onclick="new_timesheet();return false;" class="btn btn-info mbot25"><?php echo _l('record_timesheet'); ?></a> -->
 <?php if(has_permission('projects','','create')){ ?>
     <div class="_filters _hidden_inputs timesheets_filters hidden">
         <?php
@@ -27,7 +27,7 @@
 <?php $table_data = array(
     _l('project_timesheet_user'),
     _l('project_timesheet_task'),
-    _l('timesheet_tags'),
+    // _l('timesheet_tags'),
     _l('project_timesheet_start_time'),
     _l('project_timesheet_end_time'),
     _l('note'),

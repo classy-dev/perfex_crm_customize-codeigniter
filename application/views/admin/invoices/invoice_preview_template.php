@@ -233,10 +233,10 @@
                         <?php } ?>
                      </ul>
                   </div>
-                  <?php if(has_permission('payments','','create') && abs($invoice->total) > 0){ ?>
+                  <!-- <?php if(has_permission('payments','','create') && abs($invoice->total) > 0){ ?>
                   <a href="#" onclick="record_payment(<?php echo $invoice->id; ?>); return false;"  class="mleft10 pull-right btn btn-success<?php if($invoice->status == Invoices_model::STATUS_PAID || $invoice->status == Invoices_model::STATUS_CANCELLED){echo ' disabled';} ?>">
                      <i class="fa fa-plus-square"></i> <?php echo _l('payment'); ?></a>
-                  <?php } ?>
+                  <?php } ?> -->
                </div>
             </div>
          </div>

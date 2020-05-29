@@ -11,7 +11,6 @@
    }
    }
    ?>
-<?php //print_r($sidebar_menu); ?>
 <aside id="menu" class="sidebar">
    <ul class="nav metis-menu" id="side-menu">
       <li class="dashboard_user<?php if($totalQuickActionsRemoved == count($quickActions)){echo ' dashboard-user-no-qa';}?>">
@@ -20,7 +19,8 @@
       <?php if($totalQuickActionsRemoved != count($quickActions)){ ?>
       <li class="quick-links">
          <div class="dropdown dropdown-quick-links">
-            <a href="#" class="dropdown-toggle" id="dropdownQuickLinks" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <!-- <a href="#" class="dropdown-toggle" id="dropdownQuickLinks" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> -->
+            <a href="#" class="dropdown-toggle" id="dropdownQuickLinks">
             <i class="fa fa-gavel" aria-hidden="true"></i>
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownQuickLinks">

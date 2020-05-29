@@ -25,9 +25,9 @@
                 <th width="50%">
                     <?php echo _l( 'clients_notes_table_description_heading'); ?>
                 </th>
-                <th>
+                <!-- <th>
                     <?php echo _l( 'clients_notes_table_addedfrom_heading'); ?>
-                </th>
+                </th> -->
                 <th>
                     <?php echo _l( 'clients_notes_table_dateadded_heading'); ?>
                 </th>
@@ -54,14 +54,14 @@
           <td>
             <?php echo '<a href="'.admin_url( 'profile/'.$note[ 'addedfrom']). '">'.$note[ 'firstname'] . ' ' . $note[ 'lastname'] . '</a>' ?>
         </td>
-        <td data-order="<?php echo $note['dateadded']; ?>">
+        <!-- <td data-order="<?php echo $note['dateadded']; ?>">
          <?php if(!empty($note['date_contacted'])){ ?>
            <span data-toggle="tooltip" data-title="<?php echo html_escape(_dt($note['date_contacted'])); ?>">
               <i class="fa fa-phone-square text-success font-medium valign" aria-hidden="true"></i>
           </span>
           <?php } ?>
           <?php echo _dt($note[ 'dateadded']); ?>
-        </td>
+        </td> -->
         <td>
             <?php if($note['addedfrom'] == get_staff_user_id() || is_admin()){ ?>
             <a href="#" class="btn btn-default btn-icon" onclick="toggle_edit_note(<?php echo $note['id']; ?>);return false;"><i class="fa fa-pencil-square-o"></i></a>

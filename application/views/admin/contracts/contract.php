@@ -792,7 +792,15 @@ init_head(); ?>
 
                 <!-- description -->
                 <?php $value = (isset($contract) ? $contract->description : ''); ?>
-                <?php echo render_textarea('description',_l('notice_for_agent'),$value,array('rows'=>10)); ?>
+
+                <?php if(isset($contract) && $contract->contract_type == 1) {?>
+                <div id="des_part" style="display: none;">
+                <?php }?>
+                <?php if(!isset($contract) || $contract->contract_type != 1){?>
+                <div id="des_part">
+                <?php }?>
+                  <?php echo render_textarea('description',_l('notice_for_agent'),$value,array('rows'=>10)); ?>
+                </div>
                 <!-- bottom -->
                 <div class="btn-bottom-toolbar text-right" >
                     <button type="submit" class="btn btn-info" id="save"><?php echo _l('save');?></button>
@@ -1149,14 +1157,14 @@ init_head(); ?>
                               <span class="badge comments-indicator<?php echo $totalComments == 0 ? ' hide' : ''; ?>"><?php echo $totalComments; ?></span>
                               </a>
                            </li>
-                           <li role="presentation" id="renewals" class="<?php if($this->input->get('tab') == 'renewals'){echo 'active';} ?>">
+                           <!-- <li role="presentation" id="renewals" class="<?php if($this->input->get('tab') == 'renewals'){echo 'active';} ?>">
                               <a href="#renewals" aria-controls="renewals" role="tab" data-toggle="tab">
                               <?php echo _l('no_contract_renewals_history_heading'); ?>
                               <?php if($totalRenewals = count($contract_renewal_history)) { ?>
                                  <span class="badge"><?php echo $totalRenewals; ?></span>
                               <?php } ?>
                               </a>
-                           </li>
+                           </li> -->
                            <li role="presentation" id="tasks" class="tab-separator">
                               <a href="#tab_tasks" aria-controls="tab_tasks" role="tab" data-toggle="tab" onclick="init_rel_tasks_table(<?php echo $contract->id; ?>,'contract'); return false;">
                               <?php echo _l('tasks'); ?>
@@ -1864,6 +1872,7 @@ init_head(); ?>
                   // $('#dateend').attr("required",true);
                   // $('#description').attr("required",true);
                   $('#timetracking_and_task').css('display','none');
+                  $('#des_part').show();
 
                 }
               // beratung
@@ -1901,6 +1910,7 @@ init_head(); ?>
                     $('#timetracking_and_task').css('display','none');
                   }
                   $('#timetracking_and_task').css('display','none');
+                  $('#des_part').show();
               }
               else if (create_test == 1){
                   $('#contract').css("display","none");
@@ -1932,12 +1942,14 @@ init_head(); ?>
                   
                   $('#timetracking_and_task').css('display','none');
                   $('#timeframe').hide();
+                  $('#des_part').hide();
               }
               else {
                   $('#contract').css("display","block");
                   $('#contract_opt').css("display","block");
                   $('#contract_ser').css("display","none");
                   $('#consulting').css("display","none");
+                  $('#des_part').show();
                 }
             });
 
@@ -1954,7 +1966,7 @@ init_head(); ?>
               for (var i = 0; i < subscription.length; i++)
               {
                   if(subscription[i].id == sub){
-                    contract_value = subscription[i].monthly_costs;
+                    contract_value = Number(subscription[i].monthly_costs) * (1+Number(subscription[i].taxrate)/100) ;
                     contract_tax = subscription[i].taxrate;
                     // $('#sub_tax').val(subscription[i].taxrate);
                     $('#sub_arr').val(subscription[i].block_array.split(","));
@@ -1976,13 +1988,13 @@ init_head(); ?>
               $('#contract_tax').val(contract_tax);
               
               if($('#custom_fields_contracts_ser_timeframe').val() == 'Annually')
-                $('#customer_payment_value').val((contract_value*12));
+                $('#customer_payment_value').val((contract_value*12).toFixed(2));
               else if($('#custom_fields_contracts_ser_timeframe').val() == 'Monthly')
-                $('#customer_payment_value').val((contract_value));
+                $('#customer_payment_value').val((contract_value).toFixed(2));
               else if($('#custom_fields_contracts_ser_timeframe').val() == 'Quarterly')
-                $('#customer_payment_value').val((contract_value*4));
+                $('#customer_payment_value').val((contract_value*4).toFixed(2));
               else if($('#custom_fields_contracts_ser_timeframe').val() == 'Half-Yearly')
-                $('#customer_payment_value').val((contract_value*6));
+                $('#customer_payment_value').val((contract_value*6).toFixed(2));
           });
 
           var subscription0 = '<?php echo json_encode($subscriptions) ?>';
@@ -2018,11 +2030,11 @@ init_head(); ?>
               if (seleted_time == 'Monthly')
                 $('#customer_payment_value').val(contract_value);
               else if (seleted_time == 'Quarterly')
-                $('#customer_payment_value').val((contract_value*4));
+                $('#customer_payment_value').val((contract_value*4).toFixed(2));
               else if (seleted_time == 'Half-Yearly')
-                $('#customer_payment_value').val((contract_value*6));
+                $('#customer_payment_value').val((contract_value*6).toFixed(2));
               else if (seleted_time == 'Annually')
-                $('#customer_payment_value').val((contract_value*12));
+                $('#customer_payment_value').val((contract_value*12).toFixed(2));
               
           }); 
 

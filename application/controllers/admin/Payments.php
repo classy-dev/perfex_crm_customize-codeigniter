@@ -8,6 +8,7 @@ class Payments extends AdminController
     {
         parent::__construct();
         $this->load->model('payments_model');
+        $this->load->model('staff_model');
     }
 
     /* In case if user go only on /payments */
@@ -92,6 +93,7 @@ class Payments extends AdminController
         }
 
         $data['title'] = _l('payment_receipt') . ' - ' . format_invoice_number($data['payment']->invoiceid);
+        $data['staff'] = $this->staff_model->get($payment->invoice->addedfrom);
         $this->load->view('admin/payments/payment', $data);
     }
 

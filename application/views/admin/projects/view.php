@@ -1,6 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); 
-// print_r("expression");exit(); ?>
+<?php init_head(); ?>
 <div id="wrapper">
    <?php echo form_hidden('project_id',$project->id) ?>
    <div class="content">
@@ -26,7 +25,7 @@
                         </div>
                         <?php echo '<div class="label pull-left mleft15 mtop8 p8 project-status-label-'.$project->status.'" style="background:'.$project_status['color'].'">'.$project_status['name'].'</div>'; ?>
                      </div>
-                     <div class="col-md-5 text-right">
+                     <!-- <div class="col-md-5 text-right">
                         <?php if(has_permission('tasks','','create')){ ?>
                         <a href="#" onclick="new_task_from_relation(undefined,'project',<?php echo $project->id; ?>); return false;" class="btn btn-info"><?php echo _l('new_task'); ?></a>
                         <?php } ?>
@@ -96,7 +95,7 @@
                               <?php } ?>
                            </ul>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
                </div>
             </div>

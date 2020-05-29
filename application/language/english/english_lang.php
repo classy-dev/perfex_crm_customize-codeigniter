@@ -3885,3 +3885,5 @@ $lang['timetrack_ready'] = 'Timetrack Ready';
 $lang['task_to_do_overview'] = 'Task to do';
 $lang['task_finished_overview'] = 'Task finished';
 
+$lang['mail_to_support'] = 'Contact to Dipay';
+

@@ -3704,3 +3704,5 @@ $lang['timetrack_running'] = 'Zeiterfassung laufend';
 $lang['timetrack_ready'] = 'Zeiterfassung abgeschlossen';
 $lang['task_to_do_overview'] = 'Zu erledigende Aufgaben';
 $lang['task_finished_overview'] = 'Abgeschlossene Aufgaben';
+
+$lang['mail_to_support'] = 'Kontakt to Dipay';

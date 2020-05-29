@@ -194,6 +194,8 @@ class Projects extends AdminController
             }
 
             $data['tabs'] = get_project_tabs_admin();
+            unset($data['tabs']['project_tickets']);
+            unset($data['tabs']['sales']);
             $data['tab']  = $this->app_tabs->filter_tab($data['tabs'], $group);
 
             if (!$data['tab']) {

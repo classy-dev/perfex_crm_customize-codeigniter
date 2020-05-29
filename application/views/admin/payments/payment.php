@@ -13,9 +13,10 @@
 								<hr class="hr-panel-heading" />
 								<?php echo render_input('amount','payment_edit_amount_received',$payment->amount,'number'); ?>
 								<?php echo render_date_input('date','payment_edit_date',_d($payment->date)); ?>
-								<?php echo render_select('paymentmode',$payment_modes,array('id','name'),'payment_mode',$payment->paymentmode); ?>
-								<i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('payment_method_info'); ?>"></i>
-								<?php echo render_input('paymentmethod','payment_method',$payment->paymentmethod); ?>
+								<?php echo render_select('paymentmode1',$payment_modes,array('id','name'),'payment_mode',$payment->paymentmode); ?>
+								<input type="hidden" name="paymentmode" id="paymentmode" value="">
+								<!-- <i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('payment_method_info'); ?>"></i> -->
+								<?php //echo render_input('paymentmethod','payment_method',$payment->paymentmethod); ?>
 								<?php echo render_input('transactionid','payment_transaction_id',$payment->transactionid); ?>
 								<?php echo render_textarea('note','note',$payment->note,array('rows'=>7)); ?>
 								<div class="btn-bottom-toolbar text-right">
@@ -78,7 +79,10 @@
 						<div class="row">
 							<div class="col-md-6 col-sm-6">
 								<address>
-									<?php echo format_organization_info(); ?>
+									<!-- <?php echo format_organization_info(); ?> -->
+									<h5><?php echo $staff->firstname .' '. $staff->lastname; ?></h5>
+									<p><?php echo $staff->address.' '. $staff->zip;?></p>
+									<p><?php echo $staff->city.' '.$staff->state;?></p>
 								</address>
 							</div>
 							<div class="col-sm-6 text-right">
@@ -166,6 +170,8 @@
 				$(function(){
 					appValidateForm($('form'),{ amount:'required', date:'required' });
 				});
+				$('#paymentmode1').prop('disabled',true);
+				$('#paymentmode').val($('#paymentmode1').val())
 			</script>
 		</body>
 		</html>

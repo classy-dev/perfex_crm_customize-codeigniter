@@ -93,7 +93,10 @@
             </a>
          </h4>
          <address>
-            <?php echo format_organization_info(); ?>
+            <!-- <?php echo format_organization_info(); ?> -->
+            <h5><?php echo $current_staff->firstname .' '. $current_staff->lastname; ?></h5>
+            <p><?php echo $current_staff->address.' '. $current_staff->zip;?></p>
+            <p><?php echo $current_staff->city.' '.$current_staff->state;?></p>
          </address>
       </div>
       <div class="col-sm-6 text-right">
@@ -147,22 +150,40 @@
    <div class="row">
       <div class="col-md-12">
          <div class="table-responsive">
-            <?php
+            <!-- <?php
                $items = get_items_table_data($invoice, 'invoice', 'html', true);
                echo $items->table();
-             ?>
+             ?> -->
+             <table class="table items items-preview invoice-items-preview" data-type="invoice">
+               <thead>
+                  <tr>
+                     <th align="center">#</th>
+                     <th class="description" width="50%" align="left">Contract Type</th>
+                     <th align="right">Tax</th>
+                     <th align="right">Amount</th>
+                  </tr>
+               </thead>
+               <tbody class="ui-sortable">
+                  <tr>
+                     <td align="center"><?php echo $invoice->accordingContract;?></td>
+                     <td class="description" width="50%" align="left"><?php echo $contract->type_name?></td>
+                     <td align="right"><?php echo $invoice->total_tax;?></td>
+                     <td align="right"><?php echo $invoice->total;?></td>
+                  </tr>
+               </tbody>
+            </table>
          </div>
       </div>
       <div class="col-md-5 col-md-offset-7">
          <table class="table text-right">
             <tbody>
-               <tr id="subtotal">
+               <!-- <tr id="subtotal">
                   <td><span class="bold"><?php echo _l('invoice_subtotal'); ?></span>
                   </td>
                   <td class="subtotal">
                      <?php echo app_format_money($invoice->subtotal, $invoice->currency_name); ?>
                   </td>
-               </tr>
+               </tr> -->
                <?php if(is_sale_discount_applied($invoice)){ ?>
                <tr>
                   <td>

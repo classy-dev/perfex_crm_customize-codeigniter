@@ -11,7 +11,7 @@
                   <div class="col-md-6 col-lg-4 col-sm-6">
                      <div class="row">
                         <div class="col-md-12">
-                           <p class="text-dark text-uppercase"><?php echo _l('home_invoice_overview'); ?></p>
+                           <p class="text-dark text-uppercase" style="font-weight: 500;"><?php echo _l('home_invoice_overview'); ?></p>
                            <hr class="mtop15" />
                         </div>
                         <!-- <?php $percent_data = get_invoices_percent_by_status(6); ?> -->
@@ -53,7 +53,7 @@
                               </div>
                            </div>
                         </div>
-                        <?php $percent_data = get_invoices_percent_by_status(3); ?>
+                        <!-- <?php $percent_data = get_invoices_percent_by_status(3); ?>
                         <div class="col-md-12 text-stats-wrapper">
                            <a href="<?php echo admin_url('invoices/list_invoices?status=3'); ?>" class="text-warning mbot15 inline-block">
                               <span class="_total bold"><?php echo $percent_data['total_by_status']; ?></span> <?php echo format_invoice_status(3,'',false); ?>
@@ -65,7 +65,7 @@
                               <div class="progress-bar progress-bar-danger no-percent-text not-dynamic" role="progressbar" aria-valuenow="<?php echo $percent_data['percent']; ?>" aria-valuemin="0" aria-valuemax="100" style="width: 0%" data-percent="<?php echo $percent_data['percent']; ?>">
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                         <?php $percent_data = get_invoices_percent_by_status(4); ?>
                         <div class="col-md-12 text-stats-wrapper">
                            <a href="<?php echo admin_url('invoices/list_invoices?status=4'); ?>" class="text-warning mbot15 inline-block">
@@ -101,7 +101,7 @@
                   <div class="col-md-6 col-lg-4 col-sm-6">
                      <div class="row">
                         <div class="col-md-12">
-                           <p class="text-dark text-uppercase"><?php echo _l('home_contracts_overview'); ?></p>
+                           <p class="text-dark text-uppercase" style="font-weight: 500;"><?php echo _l('home_contracts_overview'); ?></p>
                            <hr class="mtop15" />
                         </div>
                         <!-- not sent -->
@@ -171,7 +171,7 @@
                   <div class="col-md-6 col-lg-4 col-sm-6">
                      <div class="row">
                         <div class="col-md-12">
-                           <p class="text-dark text-uppercase"><?php echo _l('home_timetracking_overview'); ?></p>
+                           <p class="text-dark text-uppercase" style="font-weight: 500;"><?php echo _l('home_timetracking_overview'); ?></p>
                            <hr class="mtop15" />
                         </div>
                   
