@@ -74,7 +74,7 @@ foreach ($rResult as $aRow) {
     }
     $numberOutput .= '</div>';
 
-    $row[] = $numberOutput;
+    // $row[] = $numberOutput;
 
     $row[] = '<a href="' . admin_url('invoices/list_invoices/' . $aRow['invoiceid']) . '">' . format_invoice_number($aRow['invoiceid']) . '</a>';
 

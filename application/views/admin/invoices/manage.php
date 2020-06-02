@@ -16,6 +16,7 @@
 <script>
 	$(function(){
 		init_invoice();
+		$('.dt-buttons').hide();
 	});
 </script>
 </body>

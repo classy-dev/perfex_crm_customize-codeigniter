@@ -74,7 +74,7 @@ $rResult = $result['rResult'];
 foreach ($rResult as $aRow) {
     $row = [];
 
-    $row[] = $aRow['id'];
+    // $row[] = $aRow['id'];
 
     $link       = admin_url('subscriptions/edit/' . $aRow['id']);
     $outputName = '<a href="' . $link . '">' . $aRow['name'] . '</a>';

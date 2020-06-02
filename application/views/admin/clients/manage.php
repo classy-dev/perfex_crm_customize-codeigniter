@@ -275,10 +275,10 @@
                      $table_data = array();
                      $_table_data = array(
                       '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="clients"><label></label></div>',
-                       array(
-                         'name'=>_l('the_number_sign'),
-                         'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-number')
-                        ),
+                       // array(
+                       //   'name'=>_l('the_number_sign'),
+                       //   'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-number')
+                       //  ),
                          array(
                          'name'=>_l('clients_list_company'),
                          'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-company-person')
@@ -345,6 +345,7 @@
        CustomersServerParams['exclude_inactive'] = '[name="exclude_inactive"]:checked';
 
        var tAPI = initDataTable('.table-clients', admin_url+'clients/table', [0], [0], CustomersServerParams,<?php echo hooks()->apply_filters('customers_table_default_order', json_encode(array(2,'asc'))); ?>);
+       $('.dt-buttons').hide();
        $('input[name="exclude_inactive"]').on('change',function(){
            tAPI.ajax.reload();
        });
@@ -382,10 +383,7 @@
          },50);
        }
    }
-   $(document).ready(function(){
-      console.log($('.dt-buttons btn-group'));
-      // $('.dt-buttons btn-group').hide();
-   })
+   
 </script>
 </body>
 </html>

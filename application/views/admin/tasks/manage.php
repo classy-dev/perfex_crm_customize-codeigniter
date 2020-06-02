@@ -58,6 +58,7 @@
    taskid = '<?php echo $taskid; ?>';
    $(function(){
        tasks_kanban();
+       $('.dt-buttons').hide();
    });
 </script>
 </body>

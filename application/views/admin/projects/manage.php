@@ -100,7 +100,9 @@ $(function(){
      });
      initDataTable('.table-projects', admin_url+'projects/table', undefined, undefined, ProjectsServerParams, <?php echo hooks()->apply_filters('projects_table_default_order', json_encode(array(0,'asc'))); ?>);
      init_ajax_search('customer', '#clientid_copy_project.ajax-search');
+     $('.dt-buttons').hide();
 });
+
 </script>
 </body>
 </html>

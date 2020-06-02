@@ -3,7 +3,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $table_data = [
-    _l('the_number_sign'),
+    // _l('the_number_sign'),
     _l('tasks_dt_name'),
     _l('task_status'),
     _l('tasks_dt_datestart'),

@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 $table_data = array(
-  array(
-    'name'=>_l('the_number_sign'),
-    'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-id')
-  ),
+  // array(
+  //   'name'=>_l('the_number_sign'),
+  //   'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-id')
+  // ),
   array(
     'name'=>_l('subscription_name'),
     'th_attrs'=>array('class'=>'toggleable', 'id'=>'th-subscription-name')
@@ -39,8 +39,8 @@ hooks()->add_action('app_admin_footer', function(){
         SubscriptionsServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
       });
       var url = $('#table-subscriptions').data('url');
-      // console.log(SubscriptionsServerParams);
       initDataTable('.table-subscriptions', url, undefined, undefined, SubscriptionsServerParams, <?php //echo hooks()->apply_filters('subscriptions_table_default_order', json_encode(array(5,'desc'))); ?>);
+      $('.dt-buttons').hide();
     });
   </script>
   <?php

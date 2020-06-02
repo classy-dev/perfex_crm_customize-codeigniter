@@ -223,6 +223,7 @@ function initKnowledgeBaseTableArticles() {
   });
   $('._filter_data').toggleClass('hide');
   initDataTable('.table-articles', window.location.href, undefined, undefined, KB_Articles_ServerParams, [2, 'desc']);
+  $('.dt-buttons').hide();
 }
 </script>
 </body>
