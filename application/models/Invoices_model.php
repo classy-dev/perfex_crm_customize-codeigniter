@@ -1570,7 +1570,7 @@ class Invoices_model extends App_Model
     }
 
     public function get_contract_for_invoice($id){
-        $query = $this->db->query("SELECT `id`,`hash`,`subject`,`acceptance_date` FROM tblcontracts WHERE `id`=$id");
+        $query = $this->db->query("SELECT tblcontracts.`id`,`hash`,`name`,`subject`,`acceptance_date` FROM tblcontracts LEFT JOIN tblcontracts_types ON tblcontracts.`contract_type` = tblcontracts_types.`id` WHERE tblcontracts.`id`=$id");
         $res = $query->row();
         return $res;
     }

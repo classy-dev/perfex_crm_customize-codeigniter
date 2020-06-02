@@ -178,7 +178,6 @@ foreach ($rResult as $aRow) {
 
     // $row[] = render_tags($aRow['tags']);
     $contract = $this->ci->invoices_model->get_contract_for_invoice($aRow['accordingContract']);
-    
     if($contract){
         $aRow['contract_id'] = $contract->id;
         $aRow['contract_hash'] = $contract->hash;
@@ -192,7 +191,7 @@ foreach ($rResult as $aRow) {
         $aRow['contract_sign'] = '';
     }
 
-    $row[] = '<a href="' . site_url('contract/' . $aRow['contract_id'] . '/' . $aRow['contract_hash']) . '" target="_blank">' . $aRow['contract_subject'] . '</a>';
+    $row[] = '<a href="' . site_url('contract/' . $aRow['contract_id'] . '/' . $aRow['contract_hash']) . '" target="_blank">' .$contract->name . '</a>';
     $row[] = _d($aRow['contract_sign']);
 
     $row[] = _d($aRow['duedate']);

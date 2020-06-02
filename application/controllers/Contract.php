@@ -8,7 +8,6 @@ class Contract extends ClientsController
     {
         check_contract_restrictions($id, $hash);
         $contract = $this->contracts_model->get($id);
-
         $this->db->select('password');
         $this->db->where('userid',$contract->client);
         $contact = $this->db->get(db_prefix().'contacts')->row();

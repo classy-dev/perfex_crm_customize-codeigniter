@@ -79,19 +79,7 @@
       </div>
       <?php } ?>
       <div class="col-md-6 col-sm-6">
-         <h4 class="bold">
-            <?php
-               $tags = get_tags_in($invoice->id,'invoice');
-               if(count($tags) > 0){
-                echo '<i class="fa fa-tag" aria-hidden="true" data-toggle="tooltip" data-title="'.html_escape(implode(', ',$tags)).'"></i>';
-               }
-               ?>
-            <a href="<?php echo admin_url('invoices/invoice/'.$invoice->id); ?>">
-            <span id="invoice-number">
-            <?php echo format_invoice_number($invoice->id); ?>
-            </span>
-            </a>
-         </h4>
+         
          <address>
             <!-- <?php echo format_organization_info(); ?> -->
             <h5><?php echo $current_staff->firstname .' '. $current_staff->lastname; ?></h5>
@@ -116,6 +104,19 @@
             </span>
             <?php echo $invoice->date; ?>
          </p>
+         <h4 class="bold">
+            <?php
+               $tags = get_tags_in($invoice->id,'invoice');
+               if(count($tags) > 0){
+                echo '<i class="fa fa-tag" aria-hidden="true" data-toggle="tooltip" data-title="'.html_escape(implode(', ',$tags)).'"></i>';
+               }
+               ?>
+            <a href="<?php echo admin_url('invoices/invoice/'.$invoice->id); ?>">
+            <span id="invoice-number">
+            <?php echo format_invoice_number($invoice->id); ?>
+            </span>
+            </a>
+         </h4>
          <?php if(!empty($invoice->duedate)){ ?>
          <p class="no-mbot">
             <span class="bold">
@@ -155,20 +156,25 @@
                echo $items->table();
              ?> -->
              <table class="table items items-preview invoice-items-preview" data-type="invoice">
-               <thead>
+               <thead style="background:linear-gradient(to left, #86e259, #0dbddc, #0099ff) !important;">
                   <tr>
-                     <th align="center">#</th>
-                     <th class="description" width="50%" align="left">Contract Type</th>
-                     <th align="right">Tax</th>
-                     <th align="right">Amount</th>
+                     <!-- <th align="center">#</th> -->
+                     <th class="description" width="50%" align="left"><?php echo _l('contracts'); ?></th>
+                     <!-- <th align="right">Tax</th> -->
+                     <th align="right"><?php echo _l('amount_without_tax'); ?></th>
                   </tr>
                </thead>
                <tbody class="ui-sortable">
                   <tr>
-                     <td align="center"><?php echo $invoice->accordingContract;?></td>
-                     <td class="description" width="50%" align="left"><?php echo $contract->type_name?></td>
-                     <td align="right"><?php echo $invoice->total_tax;?></td>
-                     <td align="right"><?php echo $invoice->total;?></td>
+                     <!-- <td align="center"><?php echo $invoice->accordingContract;?></td> -->
+                     <td class="description" width="50%" align="left">
+                        <?php echo $contract->type_name?>
+                        <?php if($contract->contract_type == 2) echo '('. $contract->subscription_name . ')';  ?>
+                        <?php if($contract->contract_type == 1) echo '('. $contract->contract_product . ')';?>
+                        <?php if($contract->contract_type == 3) echo '('. $contract->description . ')';?>
+                     </td>
+                     <!-- <td align="right"><?php echo $invoice->total_tax;?></td> -->
+                     <td align="right"><?php echo ((float)$invoice->total-(float)$invoice->total_tax);?></td>
                   </tr>
                </tbody>
             </table>
@@ -184,6 +190,13 @@
                      <?php echo app_format_money($invoice->subtotal, $invoice->currency_name); ?>
                   </td>
                </tr> -->
+               <tr id="total_tax">
+                  <td><span class="bold"><?php if(isset($tax) && $tax[0]['id'] != null) echo $tax[0]['name'].' | '.$tax[0]['taxrate'].'%'; else echo _l('tax')  ?></span>
+                  </td>
+                  <td class="total_tax">
+                     <?php echo app_format_money($invoice->total_tax, $invoice->currency_name); ?>
+                  </td>
+               </tr>
                <?php if(is_sale_discount_applied($invoice)){ ?>
                <tr>
                   <td>
@@ -219,7 +232,7 @@
                      <?php echo app_format_money($invoice->total, $invoice->currency_name); ?>
                   </td>
                </tr>
-               <?php if(count($invoice->payments) > 0 && get_option('show_total_paid_on_invoice') == 1) { ?>
+               <!-- <?php if(count($invoice->payments) > 0 && get_option('show_total_paid_on_invoice') == 1) { ?>
                <tr>
                   <td><span class="bold"><?php echo _l('invoice_total_paid'); ?></span></td>
                   <td>
@@ -244,7 +257,7 @@
                      </span>
                   </td>
                </tr>
-               <?php } ?>
+               <?php } ?> -->
             </tbody>
          </table>
       </div>

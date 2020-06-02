@@ -2585,6 +2585,10 @@ function initDataTableInline(dt_table) {
 
 // General function for all datatables serverside
 function initDataTable(selector, url, notsearchable, notsortable, fnserverparams, defaultorder) {
+    if(selector == ".table-projects-single-client")
+    {
+        defaultorder = [0,"asc"]
+    }
     var table = typeof(selector) == 'string' ? $("body").find('table' + selector) : selector;
 
     if (table.length === 0) {
@@ -2732,7 +2736,6 @@ function initDataTable(selector, url, notsearchable, notsortable, fnserverparams
     if (table.hasClass('scroll-responsive') || app.options.scroll_responsive_tables == 1) {
         dtSettings.responsive = false;
     }
-
     table = table.dataTable(dtSettings);
     var tableApi = table.DataTable();
 

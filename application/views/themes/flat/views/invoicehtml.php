@@ -56,13 +56,13 @@
       <div class="col-md-10 col-md-offset-1">
          <div class="row mtop20">
             <div class="col-md-6 col-sm-6 transaction-html-info-col-left">
-               <h4 class="bold invoice-html-number"><?php echo format_invoice_number($invoice->id); ?></h4>
+               
                <address class="invoice-html-company-info">
                   <?php //echo format_organization_info(); ?>
-                  <?php if(isset($contract) && $contract != null){?>
-                     <h3><?php echo $contract[0]['staff_name']; ?></h3>
+                  <?php if(isset($staff_client) && $staff_client != null){?>
+                     <h3><?php echo $staff_client[0]['staff_name']; ?></h3>
                      <div>
-                       <h4><?php echo $contract[0]['staff_info']; ?></h> 
+                       <h4><?php echo $staff_client[0]['staff_info']; ?></h> 
                      </div>
                   <?php }?>
                </address>
@@ -71,10 +71,10 @@
                <span class="bold invoice-html-bill-to"><?php echo _l('invoice_bill_to'); ?>:</span>
                <address class="invoice-html-customer-billing-info">
                   <?php //echo format_customer_info($invoice, 'invoice', 'billing'); ?>
-                   <?php if(isset($contract) && $contract != null){?>
-                     <h4><?php echo $contract[0]['cus_value']; ?></h4>
+                   <?php if(isset($staff_client) && $staff_client != null){?>
+                     <h4><?php echo $staff_client[0]['cus_value']; ?></h4>
                      <div>
-                       <h5><?php echo $contract[0]['cus_addr_value']; ?></h5> 
+                       <h5><?php echo $staff_client[0]['cus_addr_value']; ?></h5> 
                      </div>
                   <?php }?>
                </address>
@@ -91,6 +91,7 @@
                   </span>
                   <?php echo _d($invoice->date); ?>
                </p>
+               <h4 class="bold invoice-html-number"><?php echo format_invoice_number($invoice->id); ?></h4>
                <?php //if(!empty($invoice->duedate)){ ?>
                <!-- <p class="no-mbot invoice-html-duedate">
                   <span class="bold"><?php //echo _l('invoice_data_duedate'); ?></span>
@@ -129,55 +130,65 @@
                      // echo $items->table();
                      ?>
                   <table class="table items items-preview invoice-items-preview" data-type="invoice">
-                     <thead>
+                     <thead style="background:linear-gradient(to left, #86e259, #0dbddc, #0099ff) !important;">
                         <tr>
-                           <th align="center" style="padding-top: 6px;">
+                           <!-- <th align="center" style="padding-top: 6px;">
                               <font style="vertical-align: inherit;">
                                  <font style="vertical-align: inherit;">#</font>
                               </font>
-                           </th>
+                           </th> -->
                            <th class="description" width="50%" align="center">
                               <font style="vertical-align: inherit;">
                                  <font style="vertical-align: inherit;"><?php echo _l('contracts'); ?></font>
                               </font>
                            </th>
-                           <th align="right">
+                           <!-- <th align="right">
                               <font style="vertical-align: inherit;">
                                  <font style="vertical-align: inherit;"><?php echo _l('tax'); ?>
                                  </font>
                               </font>
-                           </th>
+                           </th> -->
                            <th align="right">
                               <font style="vertical-align: inherit;">
-                                 <font style="vertical-align: inherit;"><?php echo _l('total'); ?></font>
+                                 <font style="vertical-align: inherit;"><?php echo _l('amount_without_tax'); ?></font>
                               </font>
                            </th>
                         </tr>
                      </thead>
+                     <?php //print_r($contract)?>
                      <tbody>
                         <tr nobr="true">
-                           <td align="center">
+                           <!-- <td align="center">
                               <font style="vertical-align: inherit;">
                                  <font style="vertical-align: inherit;"><?php
                                  if(isset($invoice) && $invoice != null) echo $invoice->id;  ?></font>
                               </font>
-                           </td>
+                           </td> -->
                            <td align="center">
                               <font style="vertical-align: inherit;">
-                                 <font style="vertical-align: inherit;"><?php if(isset($contract) && $contract != null) echo $contract[0]['description'];  ?></font>
+                                 <font style="vertical-align: inherit;"><?php if(isset($contract) && $contract != null) echo $contract->type_name;  ?></font>
+                                 <?php if($contract->contract_type == 2){?>
+                                    <font style="vertical-align: inherit;"><?php if(isset($contract) && $contract != null) echo '('. $contract->subscription_name . ')';  ?></font>
+                                 <?php } ?>
+                                 <?php if($contract->contract_type == 1){?>
+                                    <font style="vertical-align: inherit;"><?php if(isset($contract) && $contract != null) echo '('. $contract->contract_product . ')';  ?></font>
+                                 <?php } ?>
+                                 <?php if($contract->contract_type == 3){?>
+                                    <font style="vertical-align: inherit;"><?php if(isset($contract) && $contract != null) echo '('. $contract->description . ')';  ?></font>
+                                 <?php } ?>
                               </font>
                            </td>
-                           <td align="right">
+                           <!-- <td align="right">
                               <font style="vertical-align: inherit;">
                                  <font style="vertical-align: inherit;"><?php 
                                  // print_r($tax); exit();
                                  if(isset($tax) && $tax[0]['id'] != null) echo $tax[0]['name'].' | '.$tax[0]['taxrate'].'%';  ?></font>
                               </font>
-                           </td>
+                           </td> -->
                            <td align="right">
                               <font style="vertical-align: inherit;">
                                  <font style="vertical-align: inherit;"><?php
-                                 if(isset($invoice) && $invoice != null) echo $invoice->subtotal;  ?></font>
+                                 if(isset($invoice) && $invoice != null) echo ((float)$invoice->total-(float)$invoice->total_tax);  ?></font>
                               </font>
                            </td>
                         </tr>
@@ -188,11 +199,13 @@
             <div class="col-md-6 col-md-offset-6">
                <table class="table text-right">
                   <tbody>
-                     <tr id="subtotal">
-                        <td><span class="bold"><?php //echo _l('invoice_subtotal'); ?><?php echo _l('amount_without_tax'); ?></span>
+                     <tr id="total_tax">
+                        <!-- <td><span class="bold"><?php //echo _l('invoice_subtotal'); ?><?php echo _l('amount_without_tax'); ?></span>
+                        </td> -->
+                        <td><span class="bold"><?php if(isset($tax) && $tax[0]['id'] != null) echo $tax[0]['name'].' | '.$tax[0]['taxrate'].'%';  ?></span>
                         </td>
-                        <td class="subtotal">
-                           <?php echo app_format_money($invoice->subtotal, $invoice->currency_name); ?>
+                        <td class="total_tax">
+                           <?php echo app_format_money($invoice->total_tax, $invoice->currency_name); ?>
                         </td>
                      </tr>
                      <?php if(is_sale_discount_applied($invoice)){ ?>
@@ -230,7 +243,7 @@
                            <?php echo app_format_money($invoice->total, $invoice->currency_name); ?>
                         </td>
                      </tr>
-                     <?php if(count($invoice->payments) > 0 && get_option('show_total_paid_on_invoice') == 1){ ?>
+                     <!-- <?php if(count($invoice->payments) > 0 && get_option('show_total_paid_on_invoice') == 1){ ?>
                      <tr>
                         <td><span class="bold"><?php echo _l('invoice_total_paid'); ?></span></td>
                         <td>
@@ -255,7 +268,7 @@
                            </span>
                         </td>
                      </tr>
-                     <?php } ?>
+                     <?php } ?> -->
                   </tbody>
                </table>
             </div>
@@ -352,7 +365,7 @@
                        $found_online_mode = true;
                        ?>
                   <div class="col-md-6 text-left">
-                     <p class="bold mbot15 font-medium"><?php echo _l('invoice_html_online_payment'); ?></p>
+                     <!-- <p class="bold mbot15 font-medium"><?php echo _l('invoice_html_online_payment'); ?></p> -->
                      <?php echo form_open($this->uri->uri_string(),array('id'=>'online_payment_form','novalidate'=>true)); ?>
                      <?php foreach($payment_modes as $mode){
                         if(!is_numeric($mode['id']) && !empty($mode['id'])) {
@@ -360,10 +373,10 @@
                             continue;
                          }
                          ?>
-                     <div class="radio radio-success online-payment-radio">
+                     <!-- <div class="radio radio-success online-payment-radio">
                         <input type="radio" value="<?php echo $mode['id']; ?>" id="pm_<?php echo $mode['id']; ?>" name="paymentmode">
                         <label for="pm_<?php echo $mode['id']; ?>"><?php echo $mode['name']; ?></label>
-                     </div>
+                     </div> -->
                      <?php if(!empty($mode['description'])){ ?>
                      <div class="mbot15">
                         <?php echo $mode['description']; ?>
@@ -398,7 +411,7 @@
                   </div>
                   <?php } ?>
                   <?php if(found_invoice_mode($payment_modes,$invoice->id)) { ?>
-                  <div class="invoice-html-offline-payments <?php if($found_online_mode == true){echo 'col-md-6 text-right';}else{echo 'col-md-12';};?>">
+                  <!-- <div class="invoice-html-offline-payments <?php if($found_online_mode == true){echo 'col-md-6 text-right';}else{echo 'col-md-12';};?>">
                      <p class="bold mbot15 font-medium"><?php echo _l('invoice_html_offline_payment'); ?></p>
                      <?php foreach($payment_modes as $mode){
                         if(is_numeric($mode['id'])) {
@@ -414,7 +427,7 @@
                      <?php }
                         }
                         } ?>
-                  </div>
+                  </div> -->
                   <?php } ?>
                </div>
             </div>

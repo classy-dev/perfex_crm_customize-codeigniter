@@ -9,7 +9,9 @@ class Invoice extends ClientsController
         check_invoice_restrictions($id, $hash);
         $invoice = $this->invoices_model->get($id);
         $invoice = hooks()->apply_filters('before_client_view_invoice', $invoice);
-        $contract = $this->contracts_model->get_staff_client($invoice->clientid,$invoice->addedfrom);
+        $staff_client = $this->contracts_model->get_staff_client($invoice->clientid,$invoice->addedfrom);
+        $contract = $this->contracts_model->get_extra_info($invoice->accordingContract);
+        
         $this->load->model('taxes_model');
         $tax = $this->taxes_model->get_tax_by_subscription($invoice->subscription_id);
         if (!is_client_logged_in()) {
@@ -66,8 +68,10 @@ class Invoice extends ClientsController
         $data['hash']          = $hash;
         $data['invoice']       = hooks()->apply_filters('invoice_html_pdf_data', $invoice);
         $data['bodyclass']     = 'viewinvoice';
-        $data['contract'] = $contract;
+        $data['staff_client'] = $staff_client;
         $data['tax'] = $tax;
+        $data['contract'] = $contract;
+        // print_r($contract); exit();
         $this->data($data);
         $this->view('invoicehtml');
         add_views_tracking('invoice', $id);

@@ -376,7 +376,7 @@ class Contracts extends Admin_controller
             $project_data['on_contract'] = 1;
             $project_data['project_members'] = array(get_staff_user_id());
             // $project_data['deadline'] = $_POST['timetracking_due_date'];
-
+            $project_data['progress_from_tasks'] = 1;
             if($project_data['clientid']!=''){
                 $timetracking_id = $this->projects_model->add($project_data);
                 if($timetracking_id){
@@ -419,7 +419,7 @@ class Contracts extends Admin_controller
             $project_data['project_members'] = array(get_staff_user_id());
             
             // $project_data['deadline'] = $_POST['timetracking_due_date'];
-
+            $project_data['progress_from_tasks'] = 1;
             $id = $_POST['time_id'];
             
             $success = $this->projects_model->update($project_data, $id);

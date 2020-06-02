@@ -340,6 +340,8 @@ class Projects extends AdminController
             $data['percent'] = $percent;
 
             $this->app_scripts->add('circle-progress-js', 'assets/plugins/jquery-circle-progress/circle-progress.min.js');
+            $data['total_expense'] = ($data['project_total_logged_time']/60) * ($project->project_rate_per_hour / 60);
+            // print_r($data['total_expense']); exit();
 
             $other_projects       = [];
             $other_projects_where = 'id != ' . $id;

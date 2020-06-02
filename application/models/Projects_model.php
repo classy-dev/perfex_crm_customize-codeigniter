@@ -151,7 +151,6 @@ class Projects_model extends App_Model
         $this->db->select('progress_from_tasks,progress,status');
         $this->db->where('id', $id);
         $project = $this->db->get(db_prefix() . 'projects')->row();
-
         if ($project->status == 4) {
             return 100;
         }
@@ -169,6 +168,7 @@ class Projects_model extends App_Model
             'rel_type' => 'project',
             'rel_id'   => $id,
         ]);
+
         $total_finished_tasks = total_rows(db_prefix() . 'tasks', [
             'rel_type' => 'project',
             'rel_id'   => $id,

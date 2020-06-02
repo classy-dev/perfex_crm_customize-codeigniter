@@ -223,7 +223,8 @@
    <div class="col-md-12 project-overview-expenses-finance">
       <div class="col-md-3">
          <p class="text-uppercase text-muted"><?php echo _l('project_overview_expenses'); ?></p>
-         <p class="bold font-medium"><?php echo app_format_money(sum_from_table(db_prefix().'expenses',array('where'=>array('project_id'=>$project->id),'field'=>'amount')), $currency); ?></p>
+         <!-- <p class="bold font-medium"><?php echo app_format_money(sum_from_table(db_prefix().'expenses',array('where'=>array('project_id'=>$project->id),'field'=>'amount')), $currency); ?></p> -->
+         <p class="bold font-medium"><?php echo app_format_money($total_expense, $currency); ?></p>
       </div>
       <div class="col-md-3">
          <p class="text-uppercase text-info"><?php echo _l('project_overview_expenses_billable'); ?></p>

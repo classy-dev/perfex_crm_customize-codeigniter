@@ -28,6 +28,7 @@ class Contracts_model extends App_Model
             
             $this->db->where(db_prefix() . 'contracts.id', $id);
             $contract = $this->db->get(db_prefix() . 'contracts')->row();
+
             if ($contract) {
                 $contract->attachments = $this->get_contract_attachments('', $contract->id);
                 if ($for_editor == false) {
@@ -48,7 +49,6 @@ class Contracts_model extends App_Model
                     }
                 }
             }
-
             return $contract;
         }
         $contracts = $this->db->get(db_prefix() . 'contracts')->result_array();
@@ -58,7 +58,6 @@ class Contracts_model extends App_Model
             $contracts[$i]['attachments'] = $this->get_contract_attachments('', $contract['id']);
             $i++;
         }
-
         return $contracts;
     }
 
@@ -1552,4 +1551,9 @@ class Contracts_model extends App_Model
         return $last_data->result_array();
     }
 
+    public function get_extra_info($id){
+        $query = $this->db->query("SELECT tblcontracts.`contract_type`, tblcontracts.`description`,tblsubscriptions.`name` AS subscription_name, tblcontracts_products.`contract_product`,tblcontracts_types.`name` AS type_name FROM tblcontracts LEFT JOIN tblcontracts_types ON tblcontracts.`contract_type` = tblcontracts_types.`id` LEFT JOIN tblsubscriptions ON tblcontracts.`subscription`=tblsubscriptions.`id` LEFT JOIN tblcontracts_products ON tblcontracts_products.`id`= tblcontracts.`consulting_client_point` WHERE tblcontracts.`id`=$id");
+        $res = $query->row();
+        return $res;
+    }
 }

@@ -1807,9 +1807,9 @@ init_head(); ?>
                   $('#cus_value').val(customer_array[i].fullname);
 
                   if(customer_array[i].profile_title == 'company')
-                    $('#cus_addr_value').val(customer_array[i].company_form + '</br>'+ customer_array[i].company_address);
+                    $('#cus_addr_value').val(customer_array[i].company_form + '</br>'+ customer_array[i].company_address + '&nbsp;'+customer_array[i].company_phonenumber + '</br>'+customer_array[i].company_commercial_register_number + '&nbsp;'+customer_array[i].short_name);
                   else
-                    $('#cus_addr_value').val(customer_array[i].person_street + '</br>'+ customer_array[i].person_city);
+                    $('#cus_addr_value').val(customer_array[i].person_street + '</br>'+ customer_array[i].person_city + '</br>'+customer_array[i].short_name);
                   }
 
              }
@@ -1825,9 +1825,9 @@ init_head(); ?>
                 $('#cus_value').val(customer_array[p].fullname);
 
                 if(customer_array[p].profile_title == 'company')
-                    $('#cus_addr_value').val(customer_array[p].company_form + '</br>'+ customer_array[p].company_address);
+                    $('#cus_addr_value').val(customer_array[p].company_form + '</br>'+ customer_array[p].company_address + '&nbsp;'+customer_array[p].company_phonenumber + '</br>'+customer_array[p].company_commercial_register_number + '&nbsp;'+customer_array[p].short_name);
                   else
-                    $('#cus_addr_value').val(customer_array[p].person_street + '</br>'+ customer_array[p].person_city);
+                    $('#cus_addr_value').val(customer_array[p].person_street + '</br>'+ customer_array[p].person_city + '</br>'+customer_array[p].short_name);
               }
             }
               
@@ -2582,7 +2582,7 @@ init_head(); ?>
               $('#total_amount_value').val(totalAmount);
               $('#agent_remuneration_price_value').val(totalAmount*remunerationPercent*0.01);
 
-              $('#customer_payment_value').val($('#agent_remuneration_price_value').val());
+              $('#customer_payment_value').val($('#agent_remuneration_price_value').val().toFixed(2));
               
           });
 
