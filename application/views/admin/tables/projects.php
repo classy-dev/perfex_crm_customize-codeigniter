@@ -85,7 +85,7 @@ foreach ($rResult as $aRow) {
 
     $link = admin_url('projects/view/' . $aRow['id']);
 
-    $row[] = '<a href="' . $link . '">' . $aRow['id'] . '</a>';
+    // $row[] = '<a href="' . $link . '">' . $aRow['id'] . '</a>';
 
     $name = '<a href="' . $link . '">' . $aRow['name'] . '</a>';
 

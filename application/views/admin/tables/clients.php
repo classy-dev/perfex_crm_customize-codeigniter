@@ -200,7 +200,7 @@ foreach ($rResult as $aRow) {
     // Bulk actions
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['userid'] . '"><label></label></div>';
     // User id
-    $row[] = $aRow['userid'];
+    // $row[] = $aRow['userid'];
 
     // Company
     if($aRow['profile_title'] == 'company')

@@ -1,8 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php 
- // if(isset($project)) {echo "setted"; exit;}
- // if(!isset($project)) {echo "unsetted"; exit;}
- init_head(); ?>
+<?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
         <div class="row">

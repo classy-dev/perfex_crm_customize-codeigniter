@@ -104,6 +104,7 @@ $(function() {
 
     /* Customer profile contracts table */
     initDataTable('.table-contracts-single-client', admin_url + 'contracts/table/' + customer_id, undefined,undefined, 'undefined', [6, 'desc']);
+    // initDataTable('.table-contracts-single-client', admin_url + 'contracts/table/' + customer_id, undefined,undefined, 'undefined', [0, 'desc']);
 
     /* Custome profile contacts table */
     var contactsNotSortable = [];

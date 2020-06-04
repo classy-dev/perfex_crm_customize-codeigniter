@@ -2587,8 +2587,10 @@ function initDataTableInline(dt_table) {
 function initDataTable(selector, url, notsearchable, notsortable, fnserverparams, defaultorder) {
     if(selector == ".table-projects-single-client")
     {
-        defaultorder = [0,"asc"]
+        defaultorder = [1,"asc"]
     }
+    // console.log(defaultorder)
+    // defaultorder = [1,"asc"]
     var table = typeof(selector) == 'string' ? $("body").find('table' + selector) : selector;
 
     if (table.length === 0) {

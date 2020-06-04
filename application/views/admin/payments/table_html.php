@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 render_datatable([
-    _l('payments_table_number_heading'),
+    // _l('payments_table_number_heading'),
     _l('payments_table_invoicenumber_heading'),
     _l('payments_table_mode_heading'),
     _l('payment_transaction_id'),

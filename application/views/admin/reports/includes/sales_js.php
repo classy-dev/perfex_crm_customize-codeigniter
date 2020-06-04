@@ -272,6 +272,7 @@
        $('.table-customers-report').DataTable().destroy();
      }
      initDataTable('.table-customers-report', admin_url + 'reports/customers_report', false, false, fnServerParams, [0, 'asc']);
+     $('.dt-buttons').hide();
    }
 
    function report_by_customer_groups() {
@@ -315,6 +316,7 @@
        [2, 'desc'],
        [0, 'desc']
        ]).column(2).visible(false, false).columns.adjust();
+     $('.dt-buttons').hide();
    }
 
    function credit_notes_report(){
@@ -323,7 +325,7 @@
        $('.table-credit-notes-report').DataTable().destroy();
      }
      initDataTable('.table-credit-notes-report', admin_url + 'reports/credit_notes', false, false, fnServerParams,[1, 'desc']);
-
+     $('.dt-buttons').hide();
    }
 
    function estimates_report() {
@@ -334,6 +336,7 @@
        [3, 'desc'],
        [0, 'desc']
        ]).column(3).visible(false, false).columns.adjust();
+     $('.dt-buttons').hide();
    }
 
    function payments_received_reports() {
@@ -341,6 +344,7 @@
        $('.table-payments-received-report').DataTable().destroy();
      }
      initDataTable('.table-payments-received-report', admin_url + 'reports/payments_received', false, false, fnServerParams, [1, 'desc']);
+     $('.dt-buttons').hide();
    }
 
    function proposals_report(){
@@ -349,6 +353,7 @@
    }
 
    initDataTable('.table-proposals-report', admin_url + 'reports/proposals_report', false, false, fnServerParams, [0, 'desc']);
+   $('.dt-buttons').hide();
  }
 
  function items_report(){
@@ -356,6 +361,7 @@
      $('.table-items-report').DataTable().destroy();
    }
    initDataTable('.table-items-report', admin_url + 'reports/items', false, false, fnServerParams, [0, 'asc']);
+   $('.dt-buttons').hide();
  }
 
    // Main generate report function

@@ -13,6 +13,7 @@
 <script>
 	$(function(){
 		initDataTable('.table-payments', admin_url+'payments/table', undefined, undefined,'undefined',<?php echo hooks()->apply_filters('payments_table_default_order', json_encode(array(0,'desc'))); ?>);
+		$('.dt-buttons').hide();
 	});
 </script>
 </body>

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 $table_data = [
-   _l('the_number_sign'),
+   // _l('the_number_sign'),
    _l('time_tracking_name'),
     [
          'name'     => _l('project_customer'),
