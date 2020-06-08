@@ -36,6 +36,7 @@ class Invoice extends ClientsController
         }
         // Handle $_POST payment
         if ($this->input->post('make_payment')) {
+            print_r($_POST); exit();
             $this->load->model('payments_model');
             if (!$this->input->post('paymentmode')) {
                 set_alert('warning', _l('invoice_html_payment_modes_not_selected'));

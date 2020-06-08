@@ -260,7 +260,7 @@ class Contracts_model extends App_Model
             
 
             if ($data['contract_type'] == 3){
-
+                // print_r($data); exit();
                 if($data['beratung_remuneration'] == 'One Time Payment')
                     $data['contract_tax'] = $data['tax_id'];
                 unset($data['tax_id']);
@@ -276,20 +276,122 @@ class Contracts_model extends App_Model
                 }
                 $task_subject_string = implode(",", $task_subject_array);
                 
-                if($data['beratung_remuneration'] == 'One Time Payment')
-                    $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['description'], $data['content']);
-                else 
-                    $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $task_subject_string, $data['content']);
+                // if($data['beratung_remuneration'] == 'One Time Payment')
+                //     $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['description'], $data['content']);
+                // else 
+                //     $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $task_subject_string, $data['content']);
 
+                // if($data['custom_fields']['contracts_beratung']['remuneration'] == 'One Time Payment'){
+                //     $data['content'] = preg_replace('#<div id="payment_time_spent_beratung">(?s).*?</div>#', "", $data['content']);
+                //     // $data['content'] = preg_replace('#<span id="one_time_payment_value_beratung">(?s).*?</span>#', "<span>".$data['beratung_customer_payment_value_excl_tax']."</span>", $data['content']);
+                //     $data['content'] = preg_replace('#<span id="one_time_payment_value_beratung">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                // } else if($data['custom_fields']['contracts_beratung']['remuneration'] == 'Payment According To Time Spent'){
+                //     $data['content'] = preg_replace('#<div id="one_time_beratung">(?s).*?</div>#', "", $data['content']);
+                //     $data['content'] = preg_replace('#<span id="payment_time_spent_value_beratung">(?s).*?</span>#', "<span>".$data['hourly_rate']."</span>", $data['content']);
+                // }
+
+                
                 if($data['custom_fields']['contracts_beratung']['remuneration'] == 'One Time Payment'){
+
+                    // By Remuneration
+
+                    $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['description'], $data['content']);
                     $data['content'] = preg_replace('#<div id="payment_time_spent_beratung">(?s).*?</div>#', "", $data['content']);
-                    // $data['content'] = preg_replace('#<span id="one_time_payment_value_beratung">(?s).*?</span>#', "<span>".$data['beratung_customer_payment_value_excl_tax']."</span>", $data['content']);
                     $data['content'] = preg_replace('#<span id="one_time_payment_value_beratung">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
-                } else if($data['custom_fields']['contracts_beratung']['remuneration'] == 'Payment According To Time Spent'){
-                    $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
-                    $data['content'] = preg_replace('#<span id="payment_time_spent_value_beratung">(?s).*?</span>#', "<span>".$data['hourly_rate']."</span>", $data['content']);
+                    // By Payment
+
+                    if($data['custom_fields']['contracts_beratung']['payment'] == 'One Time Payment'){
+
+                        $data['content'] = preg_replace('#<div id="partial_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        
+
+                    }
+                    else if($data['custom_fields']['contracts_beratung']['payment'] == 'Partial Payment'){
+
+                        $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="one_time_payment_beratung_content_value">(?s).*?</span>#', "<span>".$data['beratung_one_time_payment_value']."</span>", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month0">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="saving_beratung_content_value0">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="start_date0">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
+
+
+                     }
+
+                     else if($data['custom_fields']['contracts_beratung']['payment'] == 'Partial Payment With Increased Starting Payment'){
+                        $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="opening_payment_beratung_content_value1">(?s).*?</span>#', "<span>".$data['beratung_opening_payment_on_one_time_value']."</span>", $data['content']);
+                        // $data['content'] = preg_replace('#<span id="opening_payment_beratung_content_value1">(?s).*?</span>#', "<span>".$data['beratung_one_time_payment_value']."</span>", $data['content']);
+                        
+                        $delta1 = $data['beratung_remuneration_value']-$data['beratung_opening_payment_on_one_time_value'];
+                        $data['content'] = preg_replace('#<span id="percentage_payment_beratung_content_value">(?s).*?</span>#', "<span>".$delta1."</span>", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month1">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="saving_beratung_content_value1">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="start_date1">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
+
+
+                     }
+
                 }
-                // print_r($data['content']); exit();
+
+                if($data['custom_fields']['contracts_beratung']['remuneration'] == 'Payment According To Time Spent'){
+
+                    // By Remuneration
+
+                    $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $task_subject_string, $data['content']);
+                     $data['content'] = preg_replace('#<div id="one_time_beratung">(?s).*?</div>#', "", $data['content']);
+                    $data['content'] = preg_replace('#<span id="payment_time_spent_value_beratung">(?s).*?</span>#', "<span>".$data['hourly_rate']."</span>", $data['content']);
+                    // By Payment
+
+                    if($data['custom_fields']['contracts_beratung']['payment'] == 'One Time Payment'){
+
+                        $data['content'] = preg_replace('#<div id="partial_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        
+
+                    }
+                    else if($data['custom_fields']['contracts_beratung']['payment'] == 'Partial Payment'){
+
+                        $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="one_time_payment_beratung_content_value">(?s).*?</span>#', "<span>".$data['beratung_one_time_payment_value']."</span>", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month0">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="saving_beratung_content_value0">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="start_date0">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
+
+
+                     }
+
+                     else if($data['custom_fields']['contracts_beratung']['payment'] == 'Partial Payment With Increased Starting Payment'){
+                        $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="opening_payment_beratung_content_value1">(?s).*?</span>#', "<span>".$data['beratung_opening_payment_on_one_time_value']."</span>", $data['content']);
+                        // $data['content'] = preg_replace('#<span id="opening_payment_beratung_content_value1">(?s).*?</span>#', "<span>".$data['beratung_one_time_payment_value']."</span>", $data['content']);
+                        
+                        $delta1 = $data['beratung_remuneration_value']-$data['beratung_opening_payment_on_one_time_value'];
+                        $data['content'] = preg_replace('#<span id="percentage_payment_beratung_content_value">(?s).*?</span>#', "<span>".$delta1."</span>", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month1">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="saving_beratung_content_value1">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="start_date1">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
+
+
+                     }
+
+                }
+
+
                 if($data['custom_fields']['contracts_beratung']['method'] == 'Bank Transfer'){
 
                     $data['content'] = preg_replace('#<div id="immediate_beratung">(?s).*?</div>#', "", $data['content']);
@@ -317,21 +419,21 @@ class Contracts_model extends App_Model
 
                 if($data['custom_fields']['contracts_produkt']['remuneration'] == 'One Time Payment'){
                     
-                    switch ($data['produkt_p_t']) {
-                        case "Monthly":
-                            $term_one_time = 12;
-                            break;
-                        case "Quarterly":
-                            $term_one_time = 4;
-                            break;
-                        case "Half-Yearly":
-                            $term_one_time = 2;
-                            break;
-                        case "Annually":
-                            $term_one_time = 1;
-                            break;
+                    // switch ($data['produkt_p_t']) {
+                    //     case "Monthly":
+                    //         $term_one_time = 12;
+                    //         break;
+                    //     case "Quarterly":
+                    //         $term_one_time = 4;
+                    //         break;
+                    //     case "Half-Yearly":
+                    //         $term_one_time = 2;
+                    //         break;
+                    //     case "Annually":
+                    //         $term_one_time = 1;
+                    //         break;
                         
-                    }
+                    // }
                     // By Remuneration
                     $data['content'] = preg_replace('#<div id="partial_time_produkt">(?s).*?</div>#', "", $data['content']);
 
@@ -351,7 +453,7 @@ class Contracts_model extends App_Model
                         $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_produkt">(?s).*?</div>#', "", $data['content']);
                         $data['content'] = preg_replace('#<span id="one_time_payment_produkt_content_value">(?s).*?</span>#', "<span>".$data['produkt_one_time_payment_value']."</span>", $data['content']);
 
-                        $data['content'] = preg_replace('#<span id="day_diff_in_month0">(?s).*?</span>#', "<span>".$term_one_time."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month0">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
                         $data['content'] = preg_replace('#<span id="saving_produkt_content_value0">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
                         $data['content'] = preg_replace('#<span id="start_date0">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
 
@@ -367,7 +469,7 @@ class Contracts_model extends App_Model
                         $delta1 = $data['produkt_one_time_payment_value']-$data['produkt_opening_payment_on_one_time_value'];
                         $data['content'] = preg_replace('#<span id="percentage_payment_produkt_content_value">(?s).*?</span>#', "<span>".$delta1."</span>", $data['content']);
 
-                        $data['content'] = preg_replace('#<span id="day_diff_in_month1">(?s).*?</span>#', "<span>".$term_one_time."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month1">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
                         $data['content'] = preg_replace('#<span id="saving_produkt_content_value1">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
                         $data['content'] = preg_replace('#<span id="start_date1">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
 
@@ -776,20 +878,105 @@ class Contracts_model extends App_Model
                 }
                 $task_subject_string = implode(",", $task_subject_array);
 
-                if($data['beratung_remuneration'] == 'One Time Payment')
-                    $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['description'], $data['content']);
-                else 
-                    $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $task_subject_string, $data['content']);
-
                 if($data['custom_fields']['contracts_beratung']['remuneration'] == 'One Time Payment'){
+
+                    // By Remuneration
+
+                    $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $data['description'], $data['content']);
                     $data['content'] = preg_replace('#<div id="payment_time_spent_beratung">(?s).*?</div>#', "", $data['content']);
-                    // $data['content'] = preg_replace('#<span id="one_time_payment_value_beratung">(?s).*?</span>#', "<span>".$data['beratung_customer_payment_value_excl_tax']."</span>", $data['content']);
                     $data['content'] = preg_replace('#<span id="one_time_payment_value_beratung">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
-                } else if($data['custom_fields']['contracts_beratung']['remuneration'] == 'Payment According To Time Spent'){
-                    $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
-                    $data['content'] = preg_replace('#<span id="payment_time_spent_value_beratung">(?s).*?</span>#', "<span>".$data['hourly_rate']."</span>", $data['content']);
+                    // By Payment
+
+                    if($data['custom_fields']['contracts_beratung']['payment'] == 'One Time Payment'){
+
+                        $data['content'] = preg_replace('#<div id="partial_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        
+
+                    }
+                    else if($data['custom_fields']['contracts_beratung']['payment'] == 'Partial Payment'){
+
+                        $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="one_time_payment_beratung_content_value">(?s).*?</span>#', "<span>".$data['beratung_one_time_payment_value']."</span>", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month0">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="saving_beratung_content_value0">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="start_date0">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
+
+
+                     }
+
+                     else if($data['custom_fields']['contracts_beratung']['payment'] == 'Partial Payment With Increased Starting Payment'){
+                        $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="opening_payment_beratung_content_value1">(?s).*?</span>#', "<span>".$data['beratung_opening_payment_on_one_time_value']."</span>", $data['content']);
+                        // $data['content'] = preg_replace('#<span id="opening_payment_beratung_content_value1">(?s).*?</span>#', "<span>".$data['beratung_one_time_payment_value']."</span>", $data['content']);
+                        
+                        $delta1 = $data['beratung_remuneration_value']-$data['beratung_opening_payment_on_one_time_value'];
+                        $data['content'] = preg_replace('#<span id="percentage_payment_beratung_content_value">(?s).*?</span>#', "<span>".$delta1."</span>", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month1">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="saving_beratung_content_value1">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="start_date1">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
+
+
+                     }
+
                 }
-                // print_r($data['content']); exit();
+
+                if($data['custom_fields']['contracts_beratung']['remuneration'] == 'Payment According To Time Spent'){
+
+                    // By Remuneration
+
+                    $data['content'] = preg_replace('#<span id="consulting_beratung">(?s).*?</span>#', $task_subject_string, $data['content']);
+                     $data['content'] = preg_replace('#<div id="one_time_beratung">(?s).*?</div>#', "", $data['content']);
+                    $data['content'] = preg_replace('#<span id="payment_time_spent_value_beratung">(?s).*?</span>#', "<span>".$data['hourly_rate']."</span>", $data['content']);
+                    // By Payment
+
+                    if($data['custom_fields']['contracts_beratung']['payment'] == 'One Time Payment'){
+
+                        $data['content'] = preg_replace('#<div id="partial_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        
+
+                    }
+                    else if($data['custom_fields']['contracts_beratung']['payment'] == 'Partial Payment'){
+
+                        $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_with_increased_starting_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="one_time_payment_beratung_content_value">(?s).*?</span>#', "<span>".$data['beratung_one_time_payment_value']."</span>", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month0">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="saving_beratung_content_value0">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="start_date0">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
+
+
+                     }
+
+                     else if($data['custom_fields']['contracts_beratung']['payment'] == 'Partial Payment With Increased Starting Payment'){
+                        $data['content'] = preg_replace('#<div id="one_time_payment_beratung">(?s).*?</div>#', "", $data['content']);
+                        $data['content'] = preg_replace('#<div id="partial_payment_beratung">(?s).*?</div>#', "", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="opening_payment_beratung_content_value1">(?s).*?</span>#', "<span>".$data['beratung_opening_payment_on_one_time_value']."</span>", $data['content']);
+                        // $data['content'] = preg_replace('#<span id="opening_payment_beratung_content_value1">(?s).*?</span>#', "<span>".$data['beratung_one_time_payment_value']."</span>", $data['content']);
+                        
+                        $delta1 = $data['beratung_remuneration_value']-$data['beratung_opening_payment_on_one_time_value'];
+                        $data['content'] = preg_replace('#<span id="percentage_payment_beratung_content_value">(?s).*?</span>#', "<span>".$delta1."</span>", $data['content']);
+
+                        $data['content'] = preg_replace('#<span id="day_diff_in_month1">(?s).*?</span>#', "<span>".$data['real_payment_term']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="saving_beratung_content_value1">(?s).*?</span>#', "<span>".$data['customer_payment_value']."</span>", $data['content']);
+                        $data['content'] = preg_replace('#<span id="start_date1">(?s).*?</span>#', "<span>".$data['datestart']."</span>", $data['content']);
+
+
+                     }
+
+                }
                 if($data['custom_fields']['contracts_beratung']['method'] == 'Bank Transfer'){
 
                     $data['content'] = preg_replace('#<div id="immediate_beratung">(?s).*?</div>#', "", $data['content']);

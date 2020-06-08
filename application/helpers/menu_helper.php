@@ -315,7 +315,7 @@ function app_init_admin_sidebar_menu_items()
     }
 
     // Setup menu
-    if (has_permission('staff', '', 'view')|| has_permission('staff', '', 'view_own')) {
+    if (has_permission('staff', '', 'view') || has_permission('staff', '', 'view_own')) {
         $CI->app_menu->add_setup_menu_item('staff', [
                     'name'     => _l('als_staff'),
                     'href'     => admin_url('staff'),

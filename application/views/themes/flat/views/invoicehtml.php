@@ -377,6 +377,7 @@
                         <input type="radio" value="<?php echo $mode['id']; ?>" id="pm_<?php echo $mode['id']; ?>" name="paymentmode">
                         <label for="pm_<?php echo $mode['id']; ?>"><?php echo $mode['name']; ?></label>
                      </div> -->
+                     <input type="hidden" value="<?php echo $mode['id']; ?>" id="pm_<?php echo $mode['id']; ?>" name="paymentmode">
                      <?php if(!empty($mode['description'])){ ?>
                      <div class="mbot15">
                         <?php echo $mode['description']; ?>

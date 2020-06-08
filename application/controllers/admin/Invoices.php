@@ -708,7 +708,7 @@ class Invoices extends AdminController
         $contract = $this->db->select('*')->where('id', $contractid)->get('tblcontracts')->row_array();
         $invoice_data = [];
         $invoice_data['clientid'] = $contract['client'];
-        $invoice_number = $this->invoices_model->get_last_invoice_num();
+        $invoice_number = $this->invoices_model->get_last_invoice_num($contractid);
         $invoice_data['number'] = $invoice_number->number + 1;
         $invoice_data['show_shipping_on_invoice'] = 1;
         $invoice_data['date'] = date("d-m-Y",strtotime($contract['datestart']));

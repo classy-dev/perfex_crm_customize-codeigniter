@@ -490,61 +490,84 @@ class Contracts extends Admin_controller
 
             $last_ids = explode(",", $this->contracts_model->get($_POST['contract_id_on_task'])->tasks_ids);
             $task_datas = $_POST['task'];
-            $task_ids = explode(",", $_POST['t_ids']);
-            // print_r($task_datas); exit;
-            if(count($last_ids) == count($task_datas)){
-                $index = 0;
-
-                foreach ($task_datas as $task_data) {
-                    $task_data['startdate'] = $_POST['tasks_start_date'];
-                    // $task_data['duedate'] = $_POST['tasks_due_date'];
-                    $task_data['rel_type'] = 'project';
-
-                    $id = $task_ids[$index];
-                    $success = $this->tasks_model->update($task_data, $id);
-
-                    $message = '';
-                    if ($success) {
-                        $message = _l('updated_successfully', _l('task'));
-                    }
-
-                    $index = $index + 1;
-                }
-                
-                echo json_encode([
-                    'msg' => $message,
-                    'flag'=> $success,
-                    'ids' => $task_ids
-
-                ]);
-            }
-
-            else if(count($last_ids)!=count($task_datas)){
-                foreach ($last_ids as $key => $id) {
+            // $task_ids = explode(",", $_POST['t_ids']);
+           
+            foreach ($last_ids as $key => $id) {
                     $this->tasks_model->delete_task($id);
-                }
-                $task_ids=[];
-                // print_r($task_datas); exit();
-                foreach ($task_datas as $key => $task_data) {
-                    $task_data['startdate'] = $_POST['tasks_start_date'];
-                    // $task_data['duedate'] = $_POST['tasks_due_date'];
-                    $task_data['rel_type'] = 'project';
-
-                    if($task_data['name']!=''){
-                        $task_id = $this->tasks_model->add($task_data);
-                        array_push($task_ids, $task_id);
-                    }
-                }
-                $this->db->where('id',$_POST['contract_id_on_task']);
-                $task_ids_string = implode(",", $task_ids);
-                $success = $this->db->update(db_prefix().'contracts',['tasks_ids' => $task_ids_string]);
-                // print_r($success);
-                echo json_encode([
-                    'msg' => _l('updated_successfully', _l('task')),
-                    'flag' => $success,
-                    'ids' => $task_ids
-                ]);
             }
+            $task_ids=[];
+            foreach ($task_datas as $key => $task_data) {
+                $task_data['startdate'] = $_POST['tasks_start_date'];
+                // $task_data['duedate'] = $_POST['tasks_due_date'];
+                $task_data['rel_type'] = 'project';
+
+                if($task_data['name']!=''){
+                    $task_id = $this->tasks_model->add($task_data);
+                    array_push($task_ids, $task_id);
+                }
+            }
+            $this->db->where('id',$_POST['contract_id_on_task']);
+            $task_ids_string = implode(",", $task_ids);
+            $success = $this->db->update(db_prefix().'contracts',['tasks_ids' => $task_ids_string]);
+            echo json_encode([
+                'msg' => _l('updated_successfully', _l('task')),
+                'flag' => $success,
+                'ids' => $task_ids
+            ]);
+
+            // if(count($last_ids) == count($task_datas)){
+            //     $index = 0;
+
+            //     foreach ($task_datas as $task_data) {
+            //         $task_data['startdate'] = $_POST['tasks_start_date'];
+            //         // $task_data['duedate'] = $_POST['tasks_due_date'];
+            //         $task_data['rel_type'] = 'project';
+
+            //         $id = $task_ids[$index];
+            //         $success = $this->tasks_model->update($task_data, $id);
+
+            //         $message = '';
+            //         if ($success) {
+            //             $message = _l('updated_successfully', _l('task'));
+            //         }
+
+            //         $index = $index + 1;
+            //     }
+                
+            //     echo json_encode([
+            //         'msg' => $message,
+            //         'flag'=> $success,
+            //         'ids' => $task_ids
+
+            //     ]);
+            // }
+
+            // else if(count($last_ids)!=count($task_datas)){
+            //     foreach ($last_ids as $key => $id) {
+            //         $this->tasks_model->delete_task($id);
+            //     }
+            //     $task_ids=[];
+            //     // print_r($task_datas); exit();
+            //     foreach ($task_datas as $key => $task_data) {
+            //         $task_data['startdate'] = $_POST['tasks_start_date'];
+            //         // $task_data['duedate'] = $_POST['tasks_due_date'];
+            //         $task_data['rel_type'] = 'project';
+
+            //         if($task_data['name']!=''){
+            //             $task_id = $this->tasks_model->add($task_data);
+            //             array_push($task_ids, $task_id);
+            //         }
+            //     }
+            //     $this->db->where('id',$_POST['contract_id_on_task']);
+            //     $task_ids_string = implode(",", $task_ids);
+            //     $success = $this->db->update(db_prefix().'contracts',['tasks_ids' => $task_ids_string]);
+            //     // print_r($success);
+            //     echo json_encode([
+            //         'msg' => _l('updated_successfully', _l('task')),
+            //         'flag' => $success,
+            //         'ids' => $task_ids
+            //     ]);
+            // }
             
 
         }

@@ -793,10 +793,10 @@ init_head(); ?>
                 <!-- description -->
                 <?php $value = (isset($contract) ? $contract->description : ''); ?>
 
-                <?php if(isset($contract) && $contract->contract_type == 2) {?>
+                <?php if(isset($contract) && $contract->contract_type == 3) {?>
                 <div id="des_part" >
                 <?php }?>
-                <?php if(!isset($contract) || $contract->contract_type != 2){?>
+                <?php if(!isset($contract) || $contract->contract_type != 3){?>
                 <div id="des_part" style="display: none;">
                 <?php }?>
                   <?php echo render_textarea('description',_l('notice_for_agent'),$value,array('rows'=>10)); ?>
@@ -1872,7 +1872,7 @@ init_head(); ?>
                   // $('#dateend').attr("required",true);
                   // $('#description').attr("required",true);
                   $('#timetracking_and_task').css('display','none');
-                  $('#des_part').show();
+                  $('#des_part').hide();
 
                 }
               // beratung
@@ -1949,7 +1949,7 @@ init_head(); ?>
                   $('#contract_opt').css("display","block");
                   $('#contract_ser').css("display","none");
                   $('#consulting').css("display","none");
-                  $('#des_part').show();
+                  // $('#des_part').show();
                 }
             });
 
@@ -2349,6 +2349,9 @@ init_head(); ?>
               processData:false,
               success:function(data){
                 $('#save').prop('disabled',false);
+                $('#add_task').hide();
+                $('.btn-remove').hide();
+                $('#tasks_save').prop('disabled',true);
                 var res = JSON.parse(data);
                 if(res.status && res.status == 'add'){
                   alert(res.msg)

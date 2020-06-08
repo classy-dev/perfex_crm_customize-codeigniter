@@ -1563,10 +1563,12 @@ class Invoices_model extends App_Model
         return $data;
     }
 
-    public function get_last_invoice_num(){
-       $query = $this->db->query("select number from tblinvoices ORDER BY id DESC LIMIT 1");
-       $res = $query->row();
-       return $res;
+    public function get_last_invoice_num($contract_id){
+       $this->db->select();
+       $this->db->where('accordingContract',$contract_id);
+       $this->db->from(db_prefix().'invoices');
+       $res = $this->db->get()->result();
+       return count($res);
     }
 
     public function get_contract_for_invoice($id){

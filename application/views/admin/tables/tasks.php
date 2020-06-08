@@ -65,7 +65,6 @@ $result = data_tables_init(
 
 $output  = $result['output'];
 $rResult = $result['rResult'];
-
 foreach ($rResult as $aRow) {
     $row = [];
 
