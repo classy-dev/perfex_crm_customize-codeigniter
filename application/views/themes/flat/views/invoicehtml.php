@@ -139,7 +139,7 @@
                            </th> -->
                            <th class="description" width="50%" align="center">
                               <font style="vertical-align: inherit;">
-                                 <font style="vertical-align: inherit;"><?php echo _l('contracts'); ?></font>
+                                 <font style="vertical-align: inherit;"><?php echo _l('contracts_on_invoice'); ?></font>
                               </font>
                            </th>
                            <!-- <th align="right">
@@ -150,12 +150,12 @@
                            </th> -->
                            <th align="right">
                               <font style="vertical-align: inherit;">
-                                 <font style="vertical-align: inherit;"><?php echo _l('amount_without_tax'); ?></font>
+                                 <font style="vertical-align: inherit;"><?php echo _l('amount_without_tax_on_invoice'); ?></font>
                               </font>
                            </th>
                         </tr>
                      </thead>
-                     <?php //print_r($contract)?>
+                     <?php print_r($contract)?>
                      <tbody>
                         <tr nobr="true">
                            <!-- <td align="center">
@@ -174,7 +174,7 @@
                                     <font style="vertical-align: inherit;"><?php if(isset($contract) && $contract != null) echo '('. $contract->contract_product . ')';  ?></font>
                                  <?php } ?>
                                  <?php if($contract->contract_type == 3){?>
-                                    <font style="vertical-align: inherit;"><?php if(isset($contract) && $contract != null) echo '('. $contract->description . ')';  ?></font>
+                                    <font style="vertical-align: inherit;"><?php if(!empty($contract->description)) echo '('. $contract->description . ')';  ?></font>
                                  <?php } ?>
                               </font>
                            </td>
@@ -187,8 +187,9 @@
                            </td> -->
                            <td align="right">
                               <font style="vertical-align: inherit;">
+                                 <font style="    vertical-align: inherit; margin-right: 15px;"><?php echo _l('excl_tax') ?></font>
                                  <font style="vertical-align: inherit;"><?php
-                                 if(isset($invoice) && $invoice != null) echo ((float)$invoice->total-(float)$invoice->total_tax);  ?></font>
+                                 if(isset($invoice) && $invoice != null) echo app_format_money(((float)$invoice->total-(float)$invoice->total_tax), $invoice->currency_name); ;  ?></font>
                               </font>
                            </td>
                         </tr>
@@ -202,8 +203,14 @@
                      <tr id="total_tax">
                         <!-- <td><span class="bold"><?php //echo _l('invoice_subtotal'); ?><?php echo _l('amount_without_tax'); ?></span>
                         </td> -->
+                        <?php if($contract->contract_type == 2){?>
                         <td><span class="bold"><?php if(isset($tax) && $tax[0]['id'] != null) echo $tax[0]['name'].' | '.$tax[0]['taxrate'].'%';  ?></span>
                         </td>
+                        <?php }?>
+                        <?php if($contract->contract_type == 3){?>
+                        <td><span class="bold"><?php echo $contract->contract_tax;  ?></span>
+                        </td>
+                        <?php }?>
                         <td class="total_tax">
                            <?php echo app_format_money($invoice->total_tax, $invoice->currency_name); ?>
                         </td>

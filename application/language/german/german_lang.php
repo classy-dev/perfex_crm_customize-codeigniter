@@ -870,7 +870,7 @@ $lang['invoice_html_online_payment_button_text']                              = 
 $lang['invoice_html_payment_modes_not_selected']                              = 'Bitte eine Zahlungsart wählen';
 $lang['invoice_html_amount_blank']                                            = 'Die Gesamtsumme kann nicht leer oder Null sein';
 $lang['invoice_html_offline_payment']                                         = 'Zahlungsmethode';
-$lang['invoice_html_amount']                                                  = 'Betrag';
+$lang['invoice_html_amount']                                                  = 'Zu zahlenderGesamtbetrag';
 
 # Version 1.0.2
 # Admin
@@ -3706,3 +3706,7 @@ $lang['task_to_do_overview'] = 'Zu erledigende Aufgaben';
 $lang['task_finished_overview'] = 'Abgeschlossene Aufgaben';
 
 $lang['mail_to_support'] = 'Kontakt to Dipay';
+
+$lang['contracts_on_invoice'] = 'Bezeichnung';
+$lang['amount_without_tax_on_invoice'] = 'Betrag';
+$lang['excl_tax'] = 'Betrag mit';

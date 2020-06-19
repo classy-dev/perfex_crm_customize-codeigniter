@@ -135,6 +135,9 @@ class Contracts_model extends App_Model
         $data['produkt_p_m'] = $data['custom_fields']['contracts_produkt']['method'];
         $data['produkt_p_t'] = $data['custom_fields']['contracts_produkt']['timeframe'];
 
+        $this->db->select('name');
+        $this->db->where('taxrate',$data['tax_id']);
+        $tax_name = $this->db->get(db_prefix().'taxes')->row()->name;
         unset($data['timetracking_rel']);
         if (isset($data['trash']) && ($data['trash'] == 1 || $data['trash'] === 'on')) {
             $data['trash'] = 1;
@@ -216,7 +219,7 @@ class Contracts_model extends App_Model
             }
 
             if ($data['contract_type'] == 2) {
-                $data['contract_tax'] = $data['tax_id'];
+                $data['contract_tax'] = $tax_name;
                 unset($data['tax_id']);
                 $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['customer_payment_value'], $data['content']);
 
@@ -260,9 +263,9 @@ class Contracts_model extends App_Model
             
 
             if ($data['contract_type'] == 3){
-                // print_r($data); exit();
+            
                 if($data['beratung_remuneration'] == 'One Time Payment')
-                    $data['contract_tax'] = $data['tax_id'];
+                    $data['contract_tax'] = $tax_name;
                 unset($data['tax_id']);
                 
                 $task_id_array = explode(",",$data['tasks_ids']);
@@ -613,6 +616,10 @@ class Contracts_model extends App_Model
             $data['hourly_rate'] = $this->get_timetracking_hourly_rate($data['timetracking_id'])[0]['project_rate_per_hour'];
         $data['contract_type'] = $data['contract_type'];
 
+        $this->db->select('name');
+        $this->db->where('taxrate',$data['tax_id']);
+        $tax_name = $this->db->get(db_prefix().'taxes')->row()->name;
+        
         unset($data['timetracking_rel']);
         // Service-abo
         if ($data['contract_type'] == 2) {
@@ -820,7 +827,7 @@ class Contracts_model extends App_Model
             }
 
             if ($data['contract_type'] == 2) {
-                $data['contract_tax'] = $data['tax_id'];
+                $data['contract_tax'] =  $tax_name;
                 unset($data['tax_id']);
                 $data['content'] = preg_replace('#<span id="contract_value" xss="removed">(?s).*?</span>#', '&nbsp;&nbsp;'.$data['customer_payment_value'], $data['content']);
 
@@ -864,7 +871,7 @@ class Contracts_model extends App_Model
             
 
             if ($data['contract_type'] == 3){
-                $data['contract_tax'] = $data['tax_id'];
+                $data['contract_tax'] =  $tax_name;
                 unset($data['tax_id']);
 
                 $task_id_array = explode(",",$data['tasks_ids']);
@@ -1739,7 +1746,7 @@ class Contracts_model extends App_Model
     }
 
     public function get_extra_info($id){
-        $query = $this->db->query("SELECT tblcontracts.`contract_type`, tblcontracts.`description`,tblsubscriptions.`name` AS subscription_name, tblcontracts_products.`contract_product`,tblcontracts_types.`name` AS type_name FROM tblcontracts LEFT JOIN tblcontracts_types ON tblcontracts.`contract_type` = tblcontracts_types.`id` LEFT JOIN tblsubscriptions ON tblcontracts.`subscription`=tblsubscriptions.`id` LEFT JOIN tblcontracts_products ON tblcontracts_products.`id`= tblcontracts.`consulting_client_point` WHERE tblcontracts.`id`=$id");
+        $query = $this->db->query("SELECT tblcontracts.`contract_type`,tblcontracts.`contract_tax`, tblcontracts.`description`,tblsubscriptions.`name` AS subscription_name, tblcontracts_products.`contract_product`,tblcontracts_types.`name` AS type_name FROM tblcontracts LEFT JOIN tblcontracts_types ON tblcontracts.`contract_type` = tblcontracts_types.`id` LEFT JOIN tblsubscriptions ON tblcontracts.`subscription`=tblsubscriptions.`id` LEFT JOIN tblcontracts_products ON tblcontracts_products.`id`= tblcontracts.`consulting_client_point` WHERE tblcontracts.`id`=$id");
         $res = $query->row();
         return $res;
     }
