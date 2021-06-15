@@ -2438,16 +2438,16 @@
         },
         {
             "name": "studio-42/elfinder",
-            "version": "2.1.49",
+            "version": "2.1.58",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "8669ee276693177e2c288d852923f4a0371d1b96"
+                "reference": "3802892cf32e999f08143107c5686e84ce837164"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/8669ee276693177e2c288d852923f4a0371d1b96",
-                "reference": "8669ee276693177e2c288d852923f4a0371d1b96",
+                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/3802892cf32e999f08143107c5686e84ce837164",
+                "reference": "3802892cf32e999f08143107c5686e84ce837164",
                 "shasum": ""
             },
             "require": {
@@ -2481,18 +2481,22 @@
                     "homepage": "http://std42.ru"
                 },
                 {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/Studio-42/elFinder/contributors"
-                },
-                {
                     "name": "Naoki Sawada",
                     "email": "hypweb+elfinder@gmail.com",
                     "homepage": "http://xoops.hypweb.net"
+                },
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/Studio-42/elFinder/contributors"
                 }
             ],
             "description": "File manager for web",
             "homepage": "http://elfinder.org",
-            "time": "2019-04-16T15:16:44+00:00"
+            "support": {
+                "issues": "https://github.com/Studio-42/elFinder/issues",
+                "source": "https://github.com/Studio-42/elFinder/tree/2.1.58"
+            },
+            "time": "2021-06-09T08:25:39+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -2951,5 +2955,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }
